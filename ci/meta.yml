@@ -16,9 +16,9 @@ meta:
             - -exc
             - |
               python bootstrap_terraform.py
-              sed -i '/^assume_role/ d' terraform/deploy/terraform.tfvars
-              cp terraform/deploy/terraform.tf ../terraform-config
-              cp terraform/deploy/terraform.tfvars ../terraform-config
+              sed -i '/^assume_role/ d' terraform.tfvars
+              cp terraform.tf ../terraform-config
+              cp terraform.tfvars ../terraform-config
           dir: aws-pdm-dataset-generation
         inputs:
           - name: aws-pdm-dataset-generation
