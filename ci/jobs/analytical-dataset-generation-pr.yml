@@ -1,0 +1,51 @@
+jobs:
+  - name: pdm-dataset-generation-pr
+    plan:
+      - get: aws-pdm-dataset-generation-pr
+        trigger: true
+        version: every
+      - put: aws-pdm-dataset-generation-pr
+        params:
+          context: $BUILD_JOB_NAME
+          path: aws-pdm-dataset-generation-pr
+          status: pending
+      - task: terraform-plan
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: ((terraform.repository))
+              version: ((terraform12.version))
+              tag: ((terraform12.version))
+          params:
+            AWS_ACCESS_KEY_ID: ((ci.aws_access_key_id))
+            AWS_SECRET_ACCESS_KEY: ((ci.aws_secret_access_key))
+            TF_INPUT: false
+            TF_CLI_ARGS_apply: -lock-timeout=300s
+            TF_CLI_ARGS_plan: -lock-timeout=300s
+            TF_VAR_slack_webhook_url: ((slack.webhook_url))
+          run:
+            path: sh
+            dir: aws-pdm-dataset-generation-pr
+            args:
+              - -exc
+              - |
+              # TODO: change to QA once we start deploying there
+                terraform workspace select default
+                terraform init
+                terraform plan
+          inputs:
+            - name: aws-pdm-dataset-generation-pr
+        on_failure:
+          put: aws-pdm-dataset-generation-pr
+          params:
+            context: $BUILD_JOB_NAME
+            path: aws-pdm-dataset-generation-pr
+            status: failure
+        on_success:
+          put: aws-pdm-dataset-generation-pr
+          params:
+            context: $BUILD_JOB_NAME
+            path: aws-pdm-dataset-generation-pr
+            status: success
