@@ -50,8 +50,8 @@ meta:
           args:
             - -exc
             - |
-              cp ../../../terraform-config/terraform.tf .
-              cp ../../../terraform-config/terraform.tfvars .
+              cp ../terraform-config/terraform.tf .
+              cp ../terraform-config/terraform.tfvars .
               terraform init
               terraform workspace show
               terraform plan -out terraform.plan
