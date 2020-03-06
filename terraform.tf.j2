@@ -84,7 +84,7 @@ locals {
 
 locals {
 
-  environment = terraform.workspace == "default" ? "management-dev" : terraform.workspace
+  environment = terraform.workspace == "default" ? "development" : terraform.workspace
 
   tags = {
   {% for key, value in common_tags.items() %}
