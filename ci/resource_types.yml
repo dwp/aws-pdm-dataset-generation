@@ -1,0 +1,13 @@
+resource_types:
+- name: pull-request
+  type: docker-image
+  source:
+    repository: jtarchie/pr
+- name: registry-image-resource
+  type: docker-image
+  source:
+    repository: dwpdigital/registry-image-resource
+- name: ami
+  type: docker-image
+  source:
+    repository: danhill2802/ami-resource

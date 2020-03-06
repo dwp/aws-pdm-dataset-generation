@@ -1,0 +1,7 @@
+groups:
+  - name: master
+    jobs:
+      - pdm-dataset-generation-dev
+  - name: pull-request
+    jobs:
+      - pdm-dataset-generation-pr

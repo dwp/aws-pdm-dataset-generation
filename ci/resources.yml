@@ -1,0 +1,16 @@
+resources:
+  - name: aws-pdm-dataset-generation-pr
+    type: pull-request
+    source:
+      access_token: ((github_com.token))
+      repo: dwp/aws-pdm-dataset-generation
+      uri: https://github.com/dwp/aws-pdm-dataset-generation.git
+    check_every: 15m
+  - name: aws-pdm-dataset-generation
+    type: git
+    source:
+      branch: master
+      username: ((github_com.username))
+      password: ((github_com.token))
+      uri: https://github.com/dwp/aws-pdm-dataset-generation.git
+    check_every: 15m
