@@ -105,12 +105,12 @@ resource "aws_iam_role_policy_attachment" "emr_for_ec2_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
 }
 
-resource "aws_iam_role_policy_attachment" "ec2_for_ssm_attachment" {
-  role       = aws_iam_role.pdm_dataset_generator.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
-}
-
 resource "aws_iam_role_policy_attachment" "emr_pdm_dataset_write_s3" {
   role       = aws_iam_role.pdm_dataset_generator.name
   policy_arn = aws_iam_policy.pdm_dataset_write_s3.arn
+}
+
+resource "aws_iam_role_policy_attachment" "ec2_for_ssm_attachment" {
+  role       = aws_iam_role.pdm_dataset_generator.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
