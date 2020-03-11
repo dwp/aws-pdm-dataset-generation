@@ -84,7 +84,7 @@ data "aws_iam_policy_document" "pdm_dataset_write_s3" {
 }
 
 resource "aws_iam_policy" "pdm_dataset_write_s3" {
-  name        = "DatasetGeneratorWriteS3"
+  name        = "PDMDatasetGeneratorWriteS3"
   description = "Allow Dataset Generator clusters to write to S3 buckets"
   policy      = data.aws_iam_policy_document.pdm_dataset_write_s3.json
 }
