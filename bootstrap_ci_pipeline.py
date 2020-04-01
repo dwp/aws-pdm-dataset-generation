@@ -31,15 +31,11 @@ def main():
         sys.exit(1)
 
     config_data = yaml.load(parameter["Parameter"]["Value"], Loader=yaml.FullLoader)
-    with open("terraform.tf.j2") as in_template:
+    with open("ci/jobs/synthetic-data-ingestion-dev.yml.j2") as in_template:
         template = jinja2.Template(in_template.read())
-    with open("terraform.tf", "w+") as terraform_tf:
-        terraform_tf.write(template.render(config_data))
-    with open("terraform.tfvars.j2") as in_template:
-        template = jinja2.Template(in_template.read())
-    with open("terraform.tfvars", "w+") as terraform_tfvars:
-        terraform_tfvars.write(template.render(config_data))
-    print("Terraform config successfully created")
+    with open("ci/jobs/synthetic-data-ingestion-dev.yml", "w+") as pipeline:
+        pipeline.write(template.render(config_data))
+    print("Concourse pipeline config successfully created")
 
 
 if __name__ == "__main__":

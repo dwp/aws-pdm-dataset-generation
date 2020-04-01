@@ -2,6 +2,8 @@ groups:
   - name: master
     jobs:
       - pdm-dataset-generation-dev
+      - synthetic-data-ingestion-dev
   - name: pull-request
     jobs:
       - pdm-dataset-generation-pr
+
