@@ -277,7 +277,7 @@ output "pdm_dataset_generation" {
 
 
 resource "aws_acm_certificate" "pdm_dataset_generation" {
-  certificate_authority_arn = data.terraform_remote_state.aws_certificate_authority.outputs.cert_authority.arn
+  certificate_authority_arn = data.terraform_remote_state.certificate_authority.outputs.root_ca.arn
   domain_name               = "pdm-dataset-generator.${local.env_prefix[local.environment]}${local.dataworks_domain_name}"
 
   options {

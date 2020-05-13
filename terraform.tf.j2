@@ -141,7 +141,7 @@ locals {
 
 }
 
-data "terraform_remote_state" "aws_certificate_authority" {
+data "terraform_remote_state" "certificate_authority" {
   backend = "s3"
   config = {
     bucket         = "{{state_file_bucket}}"
