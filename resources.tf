@@ -283,5 +283,12 @@ resource "aws_acm_certificate" "pdm_dataset_generation" {
   options {
     certificate_transparency_logging_preference = "DISABLED"
   }
+
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "pdm_dataset_generation"
+    }
+  )
 }
 
