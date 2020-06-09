@@ -24,12 +24,12 @@ bootstrap: ## Bootstrap local environment for first use
 
 .PHONY: git-hooks
 git-hooks: ## Set up hooks in .githooks
-    @if [[ ! -f .gitmodules ]]; then \
-        git rm -r .githooks ; \
-        git submodule add https://github.com/dwp/dataworks-githooks .githooks ; \
-        git submodule update --init .githooks ; \
-        git config core.hooksPath .githooks ; \
-    else \
-        git submodule update --remote .githooks ; \
-    fi \
+	@if [[ ! -f .gitmodules ]]; then \
+			git rm -r .githooks ; \
+			git submodule add https://github.com/dwp/dataworks-githooks .githooks ; \
+ 			git submodule update --init .githooks ; \
+			git config core.hooksPath .githooks ; \
+	else \
+			git submodule update --remote .githooks ; \
+	fi \
 
