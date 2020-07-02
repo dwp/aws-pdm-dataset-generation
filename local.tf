@@ -46,10 +46,10 @@ locals {
   }
 
   pdm_emr_lambda_schedule = {
-    development = "1 0 * * ? *"
-    qa          = "1 0 * * ? *"
-    integration = "15 17 1 Jul ? 2020" # trigger one off temp increase for DW-4437 testing
-    preprod     = "1 0 * * ? *"
+    development = "1 0 * * ? 2025"
+    qa          = "1 0 * * ? 2025"
+    integration = "15 17 1 Jul ? 2025" # trigger one off temp increase for DW-4437 testing
+    preprod     = "1 0 * * ? 2025"
     production  = "1 0 * * ? 2025"
   }
 
