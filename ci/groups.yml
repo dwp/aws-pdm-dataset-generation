@@ -9,8 +9,3 @@ groups:
   - name: pull-request
     jobs:
       - pdm-dataset-generation-pr
-  - name: dataload
-    jobs:
-      - synthetic-data-ingestion-dev
-      - synthetic-data-ingestion-integration
-      - synthetic-data-ingestion-qa

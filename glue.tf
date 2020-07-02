@@ -45,6 +45,6 @@ data "aws_iam_policy_document" "pdm_dataset_generator_gluetables_write" {
 
 resource "aws_iam_policy" "pdm_dataset_generator_gluetables_write" {
   name        = "PDMDatasetGeneratorGlueTablesWrite"
-  description = "Allow creation and deletion of ADG Glue tables"
+  description = "Allow creation and deletion of PDM Glue tables"
   policy      = data.aws_iam_policy_document.pdm_dataset_generator_gluetables_write.json
 }

@@ -215,7 +215,7 @@ data "aws_iam_policy_document" "pdm_dataset_generator_write_dynamodb" {
 
 resource "aws_iam_policy" "pdm_dataset_generator_write_dynamodb" {
   name        = "PDMDatasetGeneratorDynamoDB"
-  description = "Allows read and write access to ADG's EMRFS DynamoDB table"
+  description = "Allows read and write access to PDM's EMRFS DynamoDB table"
   policy      = data.aws_iam_policy_document.pdm_dataset_generator_write_dynamodb.json
 }
 

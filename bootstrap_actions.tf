@@ -3,8 +3,8 @@ resource "aws_s3_bucket_object" "emr_setup_sh" {
   key    = "component/pdm-dataset-generation/emr-setup.sh"
   content = templatefile("${path.module}/bootstrap_actions/emr-setup.sh",
     {
-      VERSION                         = local.adg_version[local.environment]
-      ADG_LOG_LEVEL                   = local.adg_log_level[local.environment]
+      VERSION                         = local.pdm_version[local.environment]
+      PDM_LOG_LEVEL                   = local.pdm_log_level[local.environment]
       ENVIRONMENT_NAME                = local.environment
       S3_COMMON_LOGGING_SHELL         = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, data.terraform_remote_state.common.outputs.application_logging_common_file.s3_id)
       S3_LOGGING_SHELL                = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.logging_script.key)
@@ -20,9 +20,9 @@ resource "aws_s3_bucket_object" "emr_setup_sh" {
       cwa_namespace                   = local.cw_agent_namespace
       cwa_log_group_name              = aws_cloudwatch_log_group.pdm_dataset_generator.name
       S3_CLOUDWATCH_SHELL             = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.cloudwatch_sh.key)
-      cwa_bootstrap_loggrp_name       = aws_cloudwatch_log_group.adg_cw_bootstrap_loggroup.name
-      cwa_steps_loggrp_name           = aws_cloudwatch_log_group.adg_cw_steps_loggroup.name
-      cwa_yarnspark_loggrp_name       = aws_cloudwatch_log_group.adg_cw_yarnspark_loggroup.name
+      cwa_bootstrap_loggrp_name       = aws_cloudwatch_log_group.pdm_cw_bootstrap_loggroup.name
+      cwa_steps_loggrp_name           = aws_cloudwatch_log_group.pdm_cw_steps_loggroup.name
+      cwa_yarnspark_loggrp_name       = aws_cloudwatch_log_group.pdm_cw_yarnspark_loggroup.name
   })
 }
 
@@ -49,19 +49,19 @@ resource "aws_cloudwatch_log_group" "pdm_dataset_generator" {
   tags              = local.common_tags
 }
 
-resource "aws_cloudwatch_log_group" "adg_cw_bootstrap_loggroup" {
+resource "aws_cloudwatch_log_group" "pdm_cw_bootstrap_loggroup" {
   name              = local.cw_agent_bootstrap_loggrp_name
   retention_in_days = 180
   tags              = local.common_tags
 }
 
-resource "aws_cloudwatch_log_group" "adg_cw_steps_loggroup" {
+resource "aws_cloudwatch_log_group" "pdm_cw_steps_loggroup" {
   name              = local.cw_agent_steps_loggrp_name
   retention_in_days = 180
   tags              = local.common_tags
 }
 
-resource "aws_cloudwatch_log_group" "adg_cw_yarnspark_loggroup" {
+resource "aws_cloudwatch_log_group" "pdm_cw_yarnspark_loggroup" {
   name              = local.cw_agent_yarnspark_loggrp_name
   retention_in_days = 180
   tags              = local.common_tags

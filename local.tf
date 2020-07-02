@@ -12,8 +12,7 @@ locals {
   autoscaling_max_capacity        = 5
   dks_port                        = 8443
   dynamo_meta_name                = "DataGen-metadata"
-  hbase_root_path                 = format("s3://%s", data.terraform_remote_state.ingest.outputs.s3_buckets.hbase_rootdir)
-  secret_name                     = "/concourse/dataworks/adg"
+  secret_name                     = "/concourse/dataworks/pdm"
   common_tags = {
     Environment  = local.environment
     Application  = local.emr_cluster_name
@@ -46,7 +45,7 @@ locals {
     production  = "dataworks.dwp.gov.uk"
   }
 
-  adg_emr_lambda_schedule = {
+  pdm_emr_lambda_schedule = {
     development = "1 0 * * ? *"
     qa          = "1 0 * * ? *"
     integration = "15 17 1 Jul ? 2020" # trigger one off temp increase for DW-4437 testing
@@ -54,7 +53,7 @@ locals {
     production  = "1 0 * * ? 2025"
   }
 
-  adg_log_level = {
+  pdm_log_level = {
     development = "DEBUG"
     qa          = "DEBUG"
     integration = "DEBUG"
@@ -62,7 +61,7 @@ locals {
     production  = "INFO"
   }
 
-  adg_version = {
+  pdm_version = {
     development = "0.0.1"
     qa          = "0.0.1"
     integration = "0.0.1"
@@ -88,7 +87,7 @@ locals {
         LocalDiskEncryptionConfiguration = {
           EnableEbsEncryption       = true
           EncryptionKeyProviderType = "AwsKms"
-          AwsKmsKey                 = aws_kms_key.adg_ebs_cmk.arn
+          AwsKmsKey                 = aws_kms_key.pdm_ebs_cmk.arn
         }
       }
     }

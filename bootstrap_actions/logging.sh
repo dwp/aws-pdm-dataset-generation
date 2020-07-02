@@ -1,41 +1,30 @@
 #!/bin/bash
-set -euo pipefail
-(
-    # Import the logging functions
-    source /opt/emr/logging.sh
-    
-    function log_wrapper_message() {
-        log_adg_message "$1" "hive-setup.sh" "$$" "Running as: $USER"
-    }
-    
-    log_wrapper_message "Copying create-hive-tables.py files from s3 to local"
-    
-    aws s3 cp "${hive-scripts-path}" /opt/emr/.
-    
-    log_wrapper_message "Configuring HBase shell to use ingest-hbase cluster"
-    hbase_quorum=$(grep -A1 hbase.zookeeper.quorum /etc/hive/conf/hive-site.xml | grep value)
-cat > hbase-site.xml << EOF
-<configuration>
-<property>
-      <name>hbase.zookeeper.quorum</name>
-      $hbase_quorum
-</property>
-</configuration>
-EOF
-    sudo mv hbase-site.xml /etc/hbase/conf/
-    
-    log_wrapper_message "Generating list of current HBase tables"
-    hbasetables=`echo 'list' | hbase shell > current_hbase_tables`
-    
-    aws s3 cp "${python_logger}" /opt/emr/.
-    aws s3 cp "${generate_pdm_dataset}" /opt/emr/.
-    
-    log_wrapper_message "Creating hive tables"
-    
-    /usr/bin/python3.6 /opt/emr/create-hive-tables.py >> /var/log/adg/create-hive-tables.log 2>&1
-    
-    log_wrapper_message "Completed the hive-setup.sh step of the EMR Cluster"
-    
-) >> /var/log/adg/nohup.log 2>&1
 
+source /opt/shared/common_logging.sh
 
+log_pdm_message() {
+    set +u
+    
+    message="${1}"
+    component="${2}"
+    process_id="${3}"
+    
+    application="pdm_dataset_generator"
+    
+    app_version="NOT_SET"
+    if [ -f "/opt/emr/version" ]; then
+        app_version=$(cat /opt/emr/version)
+    fi
+    
+    log_level="NOT_SET"
+    if [ -f "/opt/emr/log_level" ]; then
+        log_level=$(cat /opt/emr/log_level)
+    fi
+    
+    environment="NOT_SET"
+    if [ -f "/opt/emr/environment" ]; then
+        environment=$(cat /opt/emr/environment)
+    fi
+    
+    log_message "${message}" "${log_level}" "${app_version}" "${process_id}" "${application}" "${component}" "${environment}" "${@:4}"
+}

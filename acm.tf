@@ -22,7 +22,7 @@ data "aws_iam_policy_document" "pdm_dataset_acm" {
 }
 
 resource "aws_iam_policy" "pdm_dataset_acm" {
-  name        = "ACMExportDatasetGeneratorCert"
-  description = "Allow export of Dataset Generator certificate"
+  name        = "ACMExportPDMDatasetGeneratorCert"
+  description = "Allow export of PDM Dataset Generator certificate"
   policy      = data.aws_iam_policy_document.pdm_dataset_acm.json
 }
