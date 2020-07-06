@@ -11,7 +11,7 @@ locals {
   autoscaling_min_capacity        = 0
   autoscaling_max_capacity        = 5
   dks_port                        = 8443
-  dynamo_meta_name                = "DataGen-metadata"
+  dynamo_meta_name                = "PDMGen-metadata"
   secret_name                     = "/concourse/dataworks/pdm"
   common_tags = {
     Environment  = local.environment
