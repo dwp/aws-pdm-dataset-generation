@@ -2,8 +2,10 @@ groups:
   - name: master
     jobs:
       - pdm-dataset-generation-dev
-      - synthetic-data-ingestion-dev
+      - pdm-dataset-generation-qa
+      - pdm-dataset-generation-integration
+      - pdm-dataset-generation-preprod
+      - pdm-dataset-generation-production
   - name: pull-request
     jobs:
       - pdm-dataset-generation-pr
-

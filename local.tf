@@ -11,6 +11,8 @@ locals {
   autoscaling_min_capacity        = 0
   autoscaling_max_capacity        = 5
   dks_port                        = 8443
+  dynamo_meta_name                = "PDMGen-metadata"
+  secret_name                     = "/concourse/dataworks/pdm"
   common_tags = {
     Environment  = local.environment
     Application  = local.emr_cluster_name
@@ -20,7 +22,7 @@ locals {
     AutoShutdown = "False"
   }
   env_certificate_bucket = "dw-${local.environment}-public-certificates"
-  dks_endpoint           = data.terraform_remote_state.crypto.outputs.dks_endpoint.development
+  dks_endpoint           = data.terraform_remote_state.crypto.outputs.dks_endpoint[local.environment]
 
   crypto_workspace = {
     management-dev = "management-dev"
@@ -43,6 +45,69 @@ locals {
     production  = "dataworks.dwp.gov.uk"
   }
 
+  pdm_emr_lambda_schedule = {
+    development = "1 0 * * ? 2025"
+    qa          = "1 0 * * ? 2025"
+    integration = "15 17 1 Jul ? 2025" # trigger one off temp increase for DW-4437 testing
+    preprod     = "1 0 * * ? 2025"
+    production  = "1 0 * * ? 2025"
+  }
+
+  pdm_log_level = {
+    development = "DEBUG"
+    qa          = "DEBUG"
+    integration = "DEBUG"
+    preprod     = "INFO"
+    production  = "INFO"
+  }
+
+  pdm_version = {
+    development = "0.0.1"
+    qa          = "0.0.1"
+    integration = "0.0.1"
+    preprod     = "0.0.1"
+    production  = "0.0.1"
+  }
+
+  amazon_region_domain = "${data.aws_region.current.name}.amazonaws.com"
+  endpoint_services    = ["autoscaling", "dynamodb", "ec2", "ec2messages", "ecr.dkr", "glue", "kms", "logs", "monitoring", ".s3", "s3", "secretsmanager", "sns", "sqs", "ssm", "ssmmessages"]
+  no_proxy             = "169.254.169.254,${join(",", formatlist("%s.%s", local.endpoint_services, local.amazon_region_domain))}"
+
+  ebs_emrfs_em = {
+    EncryptionConfiguration = {
+      EnableInTransitEncryption = false
+      EnableAtRestEncryption    = true
+      AtRestEncryptionConfiguration = {
+
+        S3EncryptionConfiguration = {
+          EncryptionMode             = "CSE-Custom"
+          S3Object                   = "s3://${data.terraform_remote_state.management_artefact.outputs.artefact_bucket.id}/emr-encryption-materials-provider/encryption-materials-provider-all.jar"
+          EncryptionKeyProviderClass = "uk.gov.dwp.dataworks.dks.encryptionmaterialsprovider.DKSEncryptionMaterialsProvider"
+        }
+        LocalDiskEncryptionConfiguration = {
+          EnableEbsEncryption       = true
+          EncryptionKeyProviderType = "AwsKms"
+          AwsKmsKey                 = aws_kms_key.pdm_ebs_cmk.arn
+        }
+      }
+    }
+  }
+
+  keep_cluster_alive = {
+    development = true
+    qa          = false
+    integration = false
+    preprod     = false
+    production  = false
+  }
+
+  cw_agent_namespace                   = "/app/pdm_dataset_generator"
+  cw_agent_log_group_name              = "/app/pdm_dataset_generator"
+  cw_agent_bootstrap_loggrp_name       = "/app/pdm_dataset_generator/bootstrap_actions"
+  cw_agent_steps_loggrp_name           = "/app/pdm_dataset_generator/step_logs"
+  cw_agent_yarnspark_loggrp_name       = "/app/pdm_dataset_generator/yarn-spark_logs"
+  cw_agent_metrics_collection_interval = 60
+
+  s3_log_prefix            = "emr/pdm_dataset_generator"
+  emrfs_metadata_tablename = "pdm_Dataset_Generation_Metadata"
 }
-
-
