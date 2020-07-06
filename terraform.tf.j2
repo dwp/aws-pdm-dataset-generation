@@ -207,7 +207,7 @@ data "terraform_remote_state" "management_artefact" {
 
 data "terraform_remote_state" "adg" {
   backend   = "s3"
-  workspace = local.workspace
+  workspace = terraform.workspace
 
   config = {
     bucket         = "{{state_file_bucket}}"
