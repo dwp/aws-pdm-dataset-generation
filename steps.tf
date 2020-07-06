@@ -3,7 +3,7 @@ resource "aws_s3_bucket_object" "create-hive-tables" {
   key    = "component/pdm-dataset-generation/create-hive-tables.py"
   content = templatefile("${path.module}/steps/create-hive-tables.py",
     {
-      bucket      = aws_s3_bucket.published.id
+      bucket      = data.terraform_remote_state.adg.outputs.published_bucket.id
       secret_name = local.secret_name
       log_path    = "/var/log/pdm/hive-tables-creation.log"
     }
