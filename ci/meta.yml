@@ -130,14 +130,14 @@ meta:
         image_resource:
           type: docker-image
           source:
-            repository: dwpdigital/python3-pyspark-pytest
+            repository: dwpdigital/hiverunner
         run:
           path: sh
           dir: aws-pdm-dataset-generation/steps
           args:
             - -exc
             - |
-              pytest .
+              mvn test
         inputs:
           - name: aws-pdm-dataset-generation
       input_mapping:

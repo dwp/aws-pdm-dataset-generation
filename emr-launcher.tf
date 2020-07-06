@@ -3,7 +3,7 @@ variable "pdm_emr_launcher_zip" {
 
   default = {
     base_path = ""
-    version   = ""  
+    version   = ""
   }
 }
 

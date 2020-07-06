@@ -16,14 +16,14 @@ jobs:
       - .: (( inject meta.plan.terraform-bootstrap ))
         input_mapping:
           aws-pdm-dataset-generation: aws-pdm-dataset-generation-pr
-      - .: (( inject meta.plan.unit-tests ))
-        input_mapping:
-          aws-pdm-dataset-generation: aws-pdm-dataset-generation-pr
-        on_failure:
-          put: aws-pdm-dataset-generation-pr
-          params:
-            path: aws-pdm-dataset-generation-pr
-            status: failure
+      # - .: (( inject meta.plan.unit-tests ))
+      #   input_mapping:
+      #     aws-pdm-dataset-generation: aws-pdm-dataset-generation-pr
+      #   on_failure:
+      #     put: aws-pdm-dataset-generation-pr
+      #     params:
+      #       path: aws-pdm-dataset-generation-pr
+      #       status: failure
       - task: terraform-plan
         config:
           platform: linux
@@ -36,6 +36,7 @@ jobs:
             TF_INPUT: false
             TF_CLI_ARGS_apply: -lock-timeout=300s
             TF_CLI_ARGS_plan: -lock-timeout=300s
+            TF_IN_AUTOMATION: true
             TF_WORKSPACE: qa
           run:
             path: sh

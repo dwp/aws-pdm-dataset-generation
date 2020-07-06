@@ -3,7 +3,7 @@ resource "aws_s3_bucket_object" "create-hive-tables" {
   key    = "component/pdm-dataset-generation/create-hive-tables.py"
   content = templatefile("${path.module}/steps/create-hive-tables.py",
     {
-      bucket      = aws_s3_bucket.published.id
+      bucket      = data.aws_s3_bucket.published.id
       secret_name = local.secret_name
       log_path    = "/var/log/pdm/hive-tables-creation.log"
     }
@@ -31,8 +31,8 @@ resource "aws_s3_bucket_object" "hive_setup_sh" {
   key    = "component/pdm-dataset-generation/hive-setup.sh"
   content = templatefile("${path.module}/steps/hive-setup.sh",
     {
-      hive-scripts-path           = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.create-hive-tables.key)
-      python_logger               = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.logger.key)
+      hive-scripts-path    = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.create-hive-tables.key)
+      python_logger        = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.logger.key)
       generate_pdm_dataset = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.generate_pdm_dataset_script.key)
     }
   )

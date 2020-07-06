@@ -1,18 +1,5 @@
 data "aws_iam_policy_document" "pdm_ebs_cmk" {
   statement {
-    sid    = "EnableIAMPermissionsBreakglass"
-    effect = "Allow"
-
-    principals {
-      type        = "AWS"
-      identifiers = [data.aws_iam_user.breakglass.arn]
-    }
-
-    actions   = ["kms:*"]
-    resources = ["*"]
-  }
-
-  statement {
     sid    = "EnableIAMPermissionsCI"
     effect = "Allow"
 
