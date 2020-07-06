@@ -3,11 +3,11 @@ jobs:
     plan:
       - in_parallel:
           - get: aws-pdm-dataset-generation
-            trigger: false
+            trigger: true
           - get: emr-launcher-release
-            trigger: false
+            trigger: true
           - get: emr-ami
-            trigger: false
+            trigger: true
       - .: (( inject meta.plan.terraform-bootstrap ))
         config:
           params:
