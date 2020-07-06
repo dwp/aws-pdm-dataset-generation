@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "pdm_dataset_generator_write_parquet" {
     ]
 
     resources = [
-      "${aws_kms_key.published_bucket_cmk.arn}",
+      "${data.terraform_remote_state.adg.outputs.published_bucket.arn}",
     ]
   }
 }
@@ -97,7 +97,7 @@ data "aws_iam_policy_document" "pdm_dataset_read_only" {
     ]
 
     resources = [
-      "${aws_kms_key.published_bucket_cmk.arn}",
+      "${data.terraform_remote_state.adg.outputs.published_bucket.arn}",
     ]
   }
 }
@@ -153,7 +153,7 @@ data "aws_iam_policy_document" "pdm_dataset_crown_read_only" {
     ]
 
     resources = [
-      "${aws_kms_key.published_bucket_cmk.arn}",
+      "${data.terraform_remote_state.adg.outputs.published_bucket.arn}",
     ]
   }
 }
