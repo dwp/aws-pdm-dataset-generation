@@ -8,7 +8,7 @@ spruce:
       - with_in: ci/jobs/
     to: aviator_pipeline.yml
 fly:
-  name: aws-pdm-dataset-generation
+  name: pdm-dataset-generation
   target: aws-concourse
   expose: false
   config: aviator_pipeline.yml
