@@ -1,23 +1,21 @@
-resource "aws_glue_catalog_database" "pdm_dataset_generation" {
-  name        = "pdm_dataset_generation"
-  description = "Database for the PDM Dataset"
+resource "aws_glue_catalog_database" "uc_pdm_source" {
+  name        = "uc_pdm_source"
+  description = "Database for the PDM source data"
 }
 
-output "pdm_dataset_generation" {
-  value = {
-    job_name = aws_glue_catalog_database.pdm_dataset_generation.name
-  }
+resource "aws_glue_catalog_database" "uc_pdm_transform" {
+  name        = "uc_pdm_transform"
+  description = "Database for the PDM transform data"
 }
 
-resource "aws_glue_catalog_database" "pdm_dataset_generation_staging" {
-  name        = "pdm_dataset_generation_staging"
-  description = "Staging Database for PDM dataset generation"
+resource "aws_glue_catalog_database" "uc_pdm_transactional" {
+  name        = "uc_pdm_transactional"
+  description = "Database for the PDM transactional data"
 }
 
-output "pdm_dataset_generation_staging" {
-  value = {
-    job_name = aws_glue_catalog_database.pdm_dataset_generation_staging.name
-  }
+resource "aws_glue_catalog_database" "uc_pdm_model" {
+  name        = "uc_pdm_model"
+  description = "Database for the PDM model data"
 }
 
 data "aws_iam_policy_document" "pdm_dataset_generator_gluetables_write" {
