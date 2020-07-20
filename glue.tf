@@ -18,12 +18,6 @@ resource "aws_glue_catalog_database" "uc_pdm_model" {
   description = "Database for the PDM model data"
 }
 
-//output "pdm_dataset_generation_staging" {
-//  value = {
-//    job_name = aws_glue_catalog_database.pdm_dataset_generation_staging.name
-//  }
-//}
-
 data "aws_iam_policy_document" "pdm_dataset_generator_gluetables_write" {
   statement {
     effect = "Allow"
