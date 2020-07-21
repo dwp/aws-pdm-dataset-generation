@@ -15,10 +15,20 @@ aws s3 cp "${S3_COMMON_LOGGING_SHELL}"   /opt/shared/common_logging.sh
 aws s3 cp "${S3_LOGGING_SHELL}"          /opt/emr/logging.sh
 aws s3 cp "${S3_CLOUDWATCH_SHELL}"       /opt/emr/cloudwatch.sh
 
+aws s3 cp "${S3_SOURCE_PDM}"   /opt/emr/source_pdm.sql
+aws s3 cp "${S3_TRANSFORM_PDM}"          /opt/emr/transform_pdm.sql
+aws s3 cp "${S3_MODEL_PDM}"       /opt/emr/model_pdm.sql
+
 echo "Changing the Permissions"
 chmod u+x /opt/shared/common_logging.sh
 chmod u+x /opt/emr/logging.sh
 chmod u+x /opt/emr/cloudwatch.sh
+
+chmod u+x /opt/emr/source_pdm.sql
+chmod u+x /opt/emr/transform_pdm.sql
+chmod u+x /opt/emr/model_pdm.sql
+
+echo "Downloading "
 
 (
 # Import the logging functions
