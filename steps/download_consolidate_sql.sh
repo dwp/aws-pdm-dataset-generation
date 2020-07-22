@@ -38,4 +38,5 @@ done
 # Build Model Script
 ########################
 
+#copy source to S3
 aws s3 cp $SOURCE_DIR/source.sql ${s3_config_bucket}
