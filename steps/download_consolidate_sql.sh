@@ -60,10 +60,10 @@ do
 done
 
 #copy source to S3
-aws s3 cp $SOURCE_DIR/source.sql ${s3_config_bucket}
+aws s3 cp $SOURCE_DIR/source.sql ${s3_config_bucket}/pdm-dataset-generation/source.sql
 
 #copy tranform to S3
-aws s3 cp $TRANSFORM_DIR/transform.sql ${s3_config_bucket}
+aws s3 cp $TRANSFORM_DIR/transform.sql ${s3_config_bucket}/pdm-dataset-generation/tranform.sql
 
 #copy model to S3
-aws s3 cp $MODEL_DIR/model.sql ${s3_config_bucket}
+aws s3 cp $MODEL_DIR/model.sql ${s3_config_bucket}/pdm-dataset-generation/model.sql
