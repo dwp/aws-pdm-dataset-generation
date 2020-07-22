@@ -5,7 +5,7 @@ MODEL_DIR=$SCRIPT_DIR/model
 
 echo "Download & install latest pdm scripts service artifact"
 VERSION="${VERSION}"
-URL="s3://${s3_artefact_bucket_id}/pdm/*"
+URL="s3://${s3_artefact_bucket_id}/pdm-scripts/*"
 $(which aws) s3 cp $URL /opt/sql
 echo "PDM_VERSION: $VERSION"
 echo "SCRIPT_DOWNLOAD_URL: $URL"
@@ -37,3 +37,5 @@ done
 ########################
 # Build Model Script
 ########################
+
+aws s3 cp $SOURCE_DIR/source.sql ${s3_config_bucket}
