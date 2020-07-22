@@ -23,7 +23,6 @@ then
 	rm $SOURCE_DIR/source.sql
 fi
 
-
 for f in $SOURCE_DIR/*.sql
 do
     (cat "${f}"; echo '') >> $SOURCE_DIR/source.sql
@@ -38,7 +37,6 @@ then
 	rm $TRANSFORM_DIR/transform.sql
 fi
 
-
 for f in $TRANSFORM_DIR/*.sql
 do
     (cat "${f}"; echo '') >> $TRANSFORM_DIR/transform.sql
@@ -52,7 +50,6 @@ if [ -f $MODEL_DIR/model.sql ]
 then
 	rm $MODEL_DIR/model.sql
 fi
-
 
 for f in $MODEL_DIR/*.sql
 do
