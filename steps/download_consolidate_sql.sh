@@ -1,17 +1,20 @@
-SCRIPT_DIR=/opt/sql/dataworks-pdm/src/main/resources
+SCRIPT_DIR=/opt/sql/extracted
 SOURCE_DIR=$SCRIPT_DIR/source
 TRANSFORM_DIR=$SCRIPT_DIR/transform
 MODEL_DIR=$SCRIPT_DIR/model
 
-echo "Download & install latest pdm scripts service artifact"
+echo "Download & install latest pdm scripts"
 VERSION="${VERSION}"
-URL="s3://${s3_artefact_bucket_id}/pdm-scripts/*"
+URL="s3://${s3_artefact_bucket_id}/dataworks/pdm.zip"
 $(which aws) s3 cp $URL /opt/sql
 echo "PDM_VERSION: $VERSION"
 echo "SCRIPT_DOWNLOAD_URL: $URL"
 echo "$VERSION" > /opt/emr/version
 echo "${PDM_LOG_LEVEL}" > /opt/emr/log_level
 echo "${ENVIRONMENT_NAME}" > /opt/emr/environment
+
+#Extract files
+unzip /opt/sql/pdm.zip -d $SCRIPT_DIR
 
 echo "Consolidating SQL Scripts"
 #####################
