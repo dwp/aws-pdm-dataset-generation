@@ -7,7 +7,7 @@ echo "Download & install latest pdm scripts"
 VERSION="${version}"
 URL="s3://${s3_artefact_bucket_id}/dataworks/pdm.zip"
 $(which aws) s3 cp $URL /opt/emr/sql
-echo "PDM_VERSION: $version"
+echo "PDM_VERSION: $VERSION"
 echo "SCRIPT_DOWNLOAD_URL: $URL"
 echo "$version" > /opt/emr/version
 echo "${pdm_log_level}" > /opt/emr/log_level
