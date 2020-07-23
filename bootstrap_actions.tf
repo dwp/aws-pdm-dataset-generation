@@ -77,7 +77,7 @@ resource "aws_s3_bucket_object" "cloudwatch_sh" {
 resource "aws_s3_bucket_object" "download_consolidate_sql_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "component/pdm-dataset-generation/download_consolidate_sql.sh"
-  content = templatefile("${path.module}/steps/download_consolidate_sql.sh",
+  content = templatefile("${path.module}/bootstrap_actions/download_consolidate_sql.sh",
     {
       VERSION = local.pdm_version[local.environment]
       s3_artefact_bucket_id = data.terraform_remote_state.management_artefact.outputs.artefact_bucket.id
