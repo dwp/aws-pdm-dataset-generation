@@ -26,8 +26,6 @@ chmod u+x /opt/emr/logging.sh
 chmod u+x /opt/emr/cloudwatch.sh
 chmod u+x /opt/sql/download_consolidate_sql.sh 
 
-echo "Downloading "
-
 (
 # Import the logging functions
 source /opt/emr/logging.sh
