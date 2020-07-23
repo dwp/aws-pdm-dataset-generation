@@ -12,7 +12,7 @@ Steps:
     Args:
     - "hive"
     - "-f"
-    - "/opt/emr/source_pdm.sql"
+    - "/opt/emr/source.sql"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "CONTINUE"
 - Name: "transform"
@@ -20,7 +20,7 @@ Steps:
     Args:
     - "hive"
     - "-f"
-    - "/opt/emr/transform_pdm.sql"
+    - "/opt/emr/transform.sql"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "CONTINUE"
 - Name: "model"
@@ -28,7 +28,7 @@ Steps:
     Args:
     - "hive"
     - "-f"
-    - "/opt/emr/model_pdm.sql"
+    - "/opt/emr/model.sql"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "CONTINUE"
 
