@@ -1,0 +1,10 @@
+jobs:
+  - name: dataworks-mastered-data-preprod
+    plan:
+      - in_parallel:
+          - get: dataworks-mastered-data
+            trigger: true
+      - .: (( inject meta.plan.vcs-to-s3 ))
+        config:
+          params:
+            AWS_ACC: ((aws_account.preprod))
