@@ -13,7 +13,7 @@ Steps:
     - "hive"
     - "-f"
     - "/opt/emr/sql/source/source.sql"
-    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
+    Jar: "command-runner.jar"
   ActionOnFailure: "CONTINUE"
 - Name: "transform"
   HadoopJarStep:
@@ -21,7 +21,7 @@ Steps:
     - "hive"
     - "-f"
     - "/opt/emr/sql/transform/transform.sql"
-    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
+    Jar: "command-runner.jar"
   ActionOnFailure: "CONTINUE"
 - Name: "model"
   HadoopJarStep:
@@ -29,6 +29,6 @@ Steps:
     - "hive"
     - "-f"
     - "/opt/emr/sql/model/model.sql"
-    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
+    Jar: "command-runner.jar"
   ActionOnFailure: "CONTINUE"
 
