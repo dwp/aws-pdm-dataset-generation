@@ -40,7 +40,12 @@ resource "aws_s3_bucket_object" "steps" {
   key    = "emr/pdm/steps.yaml"
   content = templatefile("${path.module}/cluster_config/steps.yaml.tpl",
     {
-      s3_config_bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+      s3_config_bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
+      s3_publish_bucket = data.terraform_remote_state.adg.outputs.published_bucket.id
+      source_glue       = "uc_pdm_source"
+      transform_glue    = "uc_pdm_transform"
+      model_glue        = "uc_pdm_transform"
+
     }
   )
 }
