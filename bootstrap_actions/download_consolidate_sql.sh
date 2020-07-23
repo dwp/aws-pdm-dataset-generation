@@ -28,7 +28,7 @@ fi
 
 for f in $SOURCE_DIR/*.sql
 do
-    (cat "${f}"; echo '') >> $SOURCE_DIR/source.sql
+    (cat $f; echo '') >> $SOURCE_DIR/source.sql
 done
 
 #########################
@@ -42,7 +42,7 @@ fi
 
 for f in $TRANSFORM_DIR/*.sql
 do
-    (cat "${f}"; echo '') >> $TRANSFORM_DIR/transform.sql
+    (cat $f; echo '') >> $TRANSFORM_DIR/transform.sql
 done
 
 ########################
@@ -56,14 +56,14 @@ fi
 
 for f in $MODEL_DIR/*.sql
 do
-    (cat "${f}"; echo '') >> $MODEL_DIR/model.sql
+    (cat $f; echo '') >> $MODEL_DIR/model.sql
 done
 
 #copy source to S3
-aws s3 cp $SOURCE_DIR/source.sql ${s3_config_bucket}/pdm-dataset-generation/source.sql
+aws s3 cp $SOURCE_DIR/source.sql ${s3_config_bucket_id}/pdm-dataset-generation/source.sql
 
 #copy tranform to S3
-aws s3 cp $TRANSFORM_DIR/transform.sql ${s3_config_bucket}/pdm-dataset-generation/tranform.sql
+aws s3 cp $TRANSFORM_DIR/transform.sql ${s3_config_bucket_id}/pdm-dataset-generation/tranform.sql
 
 #copy model to S3
-aws s3 cp $MODEL_DIR/model.sql ${s3_config_bucket}/pdm-dataset-generation/model.sql
+aws s3 cp $MODEL_DIR/model.sql ${s3_config_bucket_id}/pdm-dataset-generation/model.sql
