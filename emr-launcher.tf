@@ -152,3 +152,4 @@ resource "aws_iam_role_policy_attachment" "pdm_emr_launcher_policy_execution" {
   role       = aws_iam_role.pdm_emr_launcher_lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
+

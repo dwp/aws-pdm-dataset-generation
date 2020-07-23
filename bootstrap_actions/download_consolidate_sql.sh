@@ -1,17 +1,17 @@
-SCRIPT_DIR=/opt/sql/extracted
+SCRIPT_DIR=/opt/emr/sql/extracted
 SOURCE_DIR=$SCRIPT_DIR/source
 TRANSFORM_DIR=$SCRIPT_DIR/transform
 MODEL_DIR=$SCRIPT_DIR/model
 
 echo "Download & install latest pdm scripts"
-VERSION="${VERSION}"
+VERSION="${version}"
 URL="s3://${s3_artefact_bucket_id}/dataworks/pdm.zip"
-$(which aws) s3 cp $URL /opt/sql
-echo "PDM_VERSION: $VERSION"
+$(which aws) s3 cp $URL /opt/emr/sql
+echo "PDM_VERSION: $version"
 echo "SCRIPT_DOWNLOAD_URL: $URL"
-echo "$VERSION" > /opt/emr/version
-echo "${PDM_LOG_LEVEL}" > /opt/emr/log_level
-echo "${ENVIRONMENT_NAME}" > /opt/emr/environment
+echo "$version" > /opt/emr/version
+echo "${pdm_log_level}" > /opt/emr/log_level
+echo "${environment_name}" > /opt/emr/environment
 
 #Extract files
 unzip /opt/sql/pdm.zip -d $SCRIPT_DIR
@@ -54,9 +54,12 @@ then
 	rm $MODEL_DIR/model.sql
 fi
 
-for f in $MODEL_DIR/*.sql
+for n in {1..9}
 do
-    (cat $f; echo '') >> $MODEL_DIR/model.sql
+    for f in $MODEL_DIR/model/*.$n.sql
+    do
+        (cat $f; echo '') >> $MODEL_DIR/model.sql
+    done
 done
 
 #copy source to S3

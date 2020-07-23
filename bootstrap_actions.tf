@@ -79,11 +79,12 @@ resource "aws_s3_bucket_object" "download_consolidate_sql_sh" {
   key    = "component/pdm-dataset-generation/download_consolidate_sql.sh"
   content = templatefile("${path.module}/bootstrap_actions/download_consolidate_sql.sh",
     {
-      VERSION = local.pdm_version[local.environment]
+      version               = local.pdm_version[local.environment]
       s3_artefact_bucket_id = data.terraform_remote_state.management_artefact.outputs.artefact_bucket.id
-      s3_config_bucket_id = data.terraform_remote_state.common.outputs.config_bucket.id
-      PDM_LOG_LEVEL = local.pdm_log_level[local.environment]
-      ENVIRONMENT_NAME = local.environment
+      s3_config_bucket_id   = data.terraform_remote_state.common.outputs.config_bucket.id
+      pdm_log_level         = local.pdm_log_level[local.environment]
+      environment_name      = local.environment
     }
   )
 }
+
