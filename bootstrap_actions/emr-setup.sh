@@ -3,11 +3,13 @@ echo "Creating shared directory"
 sudo mkdir -p /opt/shared
 sudo mkdir -p /opt/emr
 sudo mkdir -p /var/log/pdm
-sudo mkdir -p /opt/sql   #####
+sudo mkdir -p /opt/sql  
+sudo mkdir -p /opt/sql/extracted   
 sudo chown hadoop:hadoop /opt/emr
 sudo chown hadoop:hadoop /opt/shared
 sudo chown hadoop:hadoop /var/log/pdm
-sudo chown hadoop:hadoop /opt/sql   #####
+sudo chown hadoop:hadoop /opt/sql  
+sudo chown hadoop:hadoop /opt/sql/extracted  
 echo "${VERSION}" > /opt/emr/version
 echo "${PDM_LOG_LEVEL}" > /opt/emr/log_level
 echo "${ENVIRONMENT_NAME}" > /opt/emr/environment
@@ -22,7 +24,7 @@ echo "Changing the Permissions"
 chmod u+x /opt/shared/common_logging.sh
 chmod u+x /opt/emr/logging.sh
 chmod u+x /opt/emr/cloudwatch.sh
-chmod u+x /opt/sql/download_consolidate_sql.sh ####### 
+chmod u+x /opt/sql/download_consolidate_sql.sh 
 
 (
 # Import the logging functions
