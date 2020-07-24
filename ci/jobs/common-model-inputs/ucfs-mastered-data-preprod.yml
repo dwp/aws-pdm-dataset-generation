@@ -9,6 +9,7 @@ jobs:
           params:
             AWS_ROLE_ARN: ((aws_account.preprod))
             S3_BUCKET: ((dataworks.bucket-list.preprod.published))
+            RESOURCE_FILES: "*.json"
             RESOURCE_ROOT: organisation/src/main/resources/
             S3_ROOT: common-model-inputs/
           inputs:
