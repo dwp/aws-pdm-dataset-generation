@@ -7,7 +7,7 @@ jobs:
       - .: (( inject meta.plan.vcs-to-s3 ))
         config:
           params:
-            AWS_ROLE_ARN: ((aws_account.qa))
+            AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
             S3_BUCKET: ((dataworks.bucket-list.qa.published))
             RESOURCE_FILES: "*.csv"
             RESOURCE_ROOT: pdm/hive/data/

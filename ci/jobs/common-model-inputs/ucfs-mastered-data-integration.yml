@@ -7,7 +7,7 @@ jobs:
       - .: (( inject meta.plan.vcs-to-s3 ))
         config:
           params:
-            AWS_ROLE_ARN: ((aws_account.integration))
+            AWS_ROLE_ARN: arn:aws:iam::((aws_account.integration)):role/ci
             S3_BUCKET: ((dataworks.bucket-list.integration.published))
             RESOURCE_FILES: "*.json"
             RESOURCE_ROOT: organisation/src/main/resources/
