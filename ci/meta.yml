@@ -164,7 +164,7 @@ meta:
             - |
               export AWS_DEFAULT_REGION
               source /assume-role
-              set +x
+              set -x
               RESOURCE=$(ls)
               cd $RESOURCE/$RESOURCE_ROOT
-              aws s3 sync . s3://$S3_BUCKET/$S3_ROOT
+              aws s3 sync . s3://$S3_BUCKET/$S3_ROOT --exclude "*" --include "$RESOURCE_FILES"

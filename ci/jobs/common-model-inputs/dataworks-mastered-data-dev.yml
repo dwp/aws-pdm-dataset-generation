@@ -7,6 +7,7 @@ jobs:
       - .: (( inject meta.plan.vcs-to-s3 ))
         config:
           params:
+            RESOURCE_FILES: "*.csv"
             RESOURCE_ROOT: pdm/hive/data/
             S3_ROOT: common-model-inputs/
           inputs:
