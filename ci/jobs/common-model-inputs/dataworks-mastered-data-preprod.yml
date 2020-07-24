@@ -7,4 +7,9 @@ jobs:
       - .: (( inject meta.plan.vcs-to-s3 ))
         config:
           params:
-            AWS_ACC: ((aws_account.preprod))
+            AWS_ROLE_ARN: ((aws_account.preprod))
+            S3_BUCKET: ((dataworks.bucket-list.preprod.published))
+            RESOURCE_ROOT: pdm/hive/data/
+            S3_ROOT: common-model-inputs/
+          inputs:
+            - name: dataworks-mastered-data

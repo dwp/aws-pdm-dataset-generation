@@ -5,3 +5,9 @@ jobs:
           - get: dataworks-mastered-data
             trigger: true
       - .: (( inject meta.plan.vcs-to-s3 ))
+        config:
+          params:
+            RESOURCE_ROOT: pdm/hive/data/
+            S3_ROOT: common-model-inputs/
+          inputs:
+            - name: dataworks-mastered-data

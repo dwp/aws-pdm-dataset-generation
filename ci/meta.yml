@@ -203,7 +203,7 @@ meta:
         params:
           AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
           AWS_DEFAULT_REGION: ((dataworks.aws_region))
-          S3_BUCKET: ((bucket-list.published_development))
+          S3_BUCKET: ((dataworks.bucket-list.development.published))
         run:
           path: sh
           args:
@@ -211,9 +211,6 @@ meta:
             - |
               export AWS_DEFAULT_REGION
               source /assume-role
-              set +x
-              for FILES in $(ls)
-              do
-                # aws s3api put-object --bucket $S3_BUCKET --key common-model-inputs/${FILES} --body ${FILES}
-                echo ${FILES}
-              done
+              RESOURCE=$(ls)
+              cd $RESOURCE/$RESOURCE_ROOT
+              aws s3 sync . s3://$S3_BUCKET/$S3_ROOT
