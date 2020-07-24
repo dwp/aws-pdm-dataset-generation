@@ -1,16 +1,16 @@
 jobs:
-  - name: dataworks-mastered-data-qa
+  - name: ucfs-mastered-data-qa
     plan:
       - in_parallel:
-          - get: dataworks-mastered-data
+          - get: ucfs-mastered-data
             trigger: true
       - .: (( inject meta.plan.vcs-to-s3 ))
         config:
           params:
             AWS_ROLE_ARN: ((aws_account.qa))
             S3_BUCKET: ((dataworks.bucket-list.qa.published))
-            RESOURCE_FILES: "*.csv"
-            RESOURCE_ROOT: pdm/hive/data/
+            RESOURCE_FILES: "*.json"
+            RESOURCE_ROOT: organisation/src/main/resources/
             S3_ROOT: common-model-inputs/
           inputs:
-            - name: dataworks-mastered-data
+            - name: ucfs-mastered-data

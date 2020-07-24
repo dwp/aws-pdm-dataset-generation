@@ -16,3 +16,8 @@ groups:
       - dataworks-mastered-data-qa
       - dataworks-mastered-data-preprod
       - dataworks-mastered-data-production
+      - ucfs-mastered-data-dev
+      - ucfs-mastered-data-integration
+      - ucfs-mastered-data-qa
+      - ucfs-mastered-data-preprod
+      - ucfs-mastered-data-production
