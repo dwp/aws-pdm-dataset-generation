@@ -2,7 +2,7 @@ SCRIPT_DIR=/opt/emr/sql/extracted
 
 echo "Download & install latest pdm scripts"
 VERSION="${version}"
-URL="s3://${s3_artefact_bucket_id}/dataworks/dataworks-pdm-$VERSION.zip"
+URL="s3://${s3_artefact_bucket_id}/dataworks-pdm/dataworks-pdm-$VERSION.zip"
 $(which aws) s3 cp $URL /opt/emr/sql
 echo "PDM_VERSION: $VERSION"
 echo "SCRIPT_DOWNLOAD_URL: $URL"
