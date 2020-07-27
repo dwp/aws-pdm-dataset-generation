@@ -1,7 +1,4 @@
 SCRIPT_DIR=/opt/emr/sql/extracted
-SOURCE_DIR=$SCRIPT_DIR/source
-TRANSFORM_DIR=$SCRIPT_DIR/transform
-MODEL_DIR=$SCRIPT_DIR/model
 
 echo "Download & install latest pdm scripts"
 VERSION="${version}"
@@ -12,6 +9,10 @@ echo "SCRIPT_DOWNLOAD_URL: $URL"
 echo "$version" > /opt/emr/version
 echo "${pdm_log_level}" > /opt/emr/log_level
 echo "${environment_name}" > /opt/emr/environment
+
+SOURCE_DIR=$SCRIPT_DIR/dataworks-pdm-$VERSION/source
+TRANSFORM_DIR=$SCRIPT_DIR/dataworks-pdm-$VERSION/transform
+MODEL_DIR=$SCRIPT_DIR/dataworks-pdm-$VERSION/model
 
 #Extract files
 unzip /opt/emr/sql/dataworks-pdm-$VERSION.zip -d $SCRIPT_DIR
