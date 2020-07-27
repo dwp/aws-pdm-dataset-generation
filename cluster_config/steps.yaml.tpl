@@ -11,23 +11,35 @@ BootstrapActions:
     Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/download_consolidate_sql.sh"
 
 Steps:
-- Name: "hive-setup"
+- Name: "source"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/hive-setup.sh"
-    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
+    - "hive"
+    - "-f"
+    - "/opt/emr/sql/source/source.sql"
+    - "--hivevar source_database=uc_pdm_source"
+    - "--hivevar serde=org.openx.data.jsonserde.JsonSerDe"
+    - "--hivevar data_path=s3://${s3_publish_bucket}/analytical-dataset"
+    Jar: "command-runner.jar"
   ActionOnFailure: "CONTINUE"
-- Name: "submit-job"
+- Name: "transform"
   HadoopJarStep:
     Args:
-    - "spark-submit"
-    - "/opt/emr/generate_pdm_dataset.py"
-    - "--deploy-mode"
-    - "cluster"
-    - "--master"
-    - "yarn"
-    - "--conf"
-    - "spark.yarn.submit.waitAppCompletion=true"
+    - "hive"
+    - "-f"
+    - "/opt/emr/sql/transform/transform.sql"
+    - "--hivevar source_database=uc_pdm_source"
+    - "--hivevar transform_database=uc_pdm_transform"
+    Jar: "command-runner.jar"
+  ActionOnFailure: "CONTINUE"
+- Name: "model"
+  HadoopJarStep:
+    Args:
+    - "hive"
+    - "-f"
+    - "/opt/emr/sql/model/model.sql"
+    - "--hivevar model_database=uc_pdm_model"
+    - "--hivevar transform_database=uc_pdm_transform"
     Jar: "command-runner.jar"
   ActionOnFailure: "CONTINUE"
 
