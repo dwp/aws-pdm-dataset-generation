@@ -6,6 +6,10 @@ BootstrapActions:
 - Name: "installer"
   ScriptBootstrapAction:
     Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/installer.sh"
+- Name: "download-consolidate-pdm-sql"
+  ScriptBootstrapAction:
+    Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/download_consolidate_sql.sh"
+
 Steps:
 - Name: "source"
   HadoopJarStep:

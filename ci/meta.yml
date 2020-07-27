@@ -142,50 +142,29 @@ meta:
           - name: aws-pdm-dataset-generation
       input_mapping:
         aws-pdm-dataset-generation: aws-pdm-dataset-generation-pr
-#    create-aws-profiles:
-#      task: create-aws-profiles
-#      config:
-#        platform: linux
-#        image_resource:
-#          type: docker-image
-#          source:
-#            repository: ((dataworks.docker_awscli_repository))
-#            tag: ((dataworks.docker_awscli_version))
-#        outputs:
-#          - name: .aws
-#        params:
-#          AWS_ROLE_ARN: arn:aws:iam::((dataworks.aws_management_acc)):role/ci
-#          AWS_DEFAULT_REGION: ((dataworks.aws_region))
-#          AWS_ACC:
-#          AWS_ROLE: ci
-#        run:
-#          path: sh
-#          args:
-#            - -exc
-#            - |
-#              /assume-role
-#              cat <<EOF> .aws/credentials
-#              [default]
-#              aws_access_key_id = $AWS_ACCESS_KEY_ID
-#              aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
-#              EOF
-#              cat <<EOF> .aws/config
-#              [default]
-#              region = eu-west-2
-#              [profile output]
-#              role_arn = arn:aws:iam::$AWS_ACC:role/$AWS_ROLE
-#              source_profile = default
-#              region = eu-west-2
-#              s3 =
-#                max_concurrent_requests = 5
-#                signature_version = s3v4
-#                addressing_style = virtual
-#              [profile input]
-#              role_arn = arn:aws:iam::$SYNTHETIC_RAWDATA_AWS_ACC:role/$AWS_ROLE
-#              source_profile = default
-#              region = eu-west-2
-#              s3 =
-#                max_concurrent_requests = 5
-#                signature_version = s3v4
-#                addressing_style = virtual
-#              EOF
+
+    vcs-to-s3:
+      task: vcs-to-s3
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.docker_awscli_repository))
+            version: ((dataworks.docker_awscli_version))
+            tag: ((dataworks.docker_awscli_version))
+        params:
+          AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
+          AWS_DEFAULT_REGION: ((dataworks.aws_region))
+          S3_BUCKET: ((dataworks.bucket-list.development.published))
+        run:
+          path: sh
+          args:
+            - -exc
+            - |
+              export AWS_DEFAULT_REGION
+              source /assume-role
+              set -x
+              RESOURCE=$(ls)
+              cd $RESOURCE/$RESOURCE_ROOT
+              aws s3 sync . s3://$S3_BUCKET/$S3_ROOT --exclude "*" --include "$RESOURCE_FILES"

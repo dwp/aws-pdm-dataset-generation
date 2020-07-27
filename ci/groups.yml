@@ -9,3 +9,15 @@ groups:
   - name: pull-request
     jobs:
       - pdm-dataset-generation-pr
+  - name: common-model-inputs
+    jobs:
+      - dataworks-mastered-data-dev
+      - dataworks-mastered-data-integration
+      - dataworks-mastered-data-qa
+      - dataworks-mastered-data-preprod
+      - dataworks-mastered-data-production
+      - ucfs-mastered-data-dev
+      - ucfs-mastered-data-integration
+      - ucfs-mastered-data-qa
+      - ucfs-mastered-data-preprod
+      - ucfs-mastered-data-production
