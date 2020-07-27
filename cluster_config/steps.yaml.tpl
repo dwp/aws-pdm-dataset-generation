@@ -16,7 +16,7 @@ Steps:
     Args:
     - "hive"
     - "-f"
-    - "/opt/emr/sql/source/source.sql"
+    - "/opt/emr/sql/extracted/source/source.sql"
     - "--hivevar source_database=uc_pdm_source"
     - "--hivevar serde=org.openx.data.jsonserde.JsonSerDe"
     - "--hivevar data_path=s3://${s3_publish_bucket}/analytical-dataset"
@@ -27,7 +27,7 @@ Steps:
     Args:
     - "hive"
     - "-f"
-    - "/opt/emr/sql/transform/transform.sql"
+    - "/opt/emr/sql/extracted/transform/transform.sql"
     - "--hivevar source_database=uc_pdm_source"
     - "--hivevar transform_database=uc_pdm_transform"
     Jar: "command-runner.jar"
@@ -37,7 +37,7 @@ Steps:
     Args:
     - "hive"
     - "-f"
-    - "/opt/emr/sql/model/model.sql"
+    - "/opt/emr/sql/extracted/model/model.sql"
     - "--hivevar model_database=uc_pdm_model"
     - "--hivevar transform_database=uc_pdm_transform"
     Jar: "command-runner.jar"
