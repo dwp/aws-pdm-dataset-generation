@@ -10,9 +10,9 @@ echo "$version" > /opt/emr/version
 echo "${pdm_log_level}" > /opt/emr/log_level
 echo "${environment_name}" > /opt/emr/environment
 
-SOURCE_DIR=$SCRIPT_DIR/dataworks-pdm-$VERSION/source
-TRANSFORM_DIR=$SCRIPT_DIR/dataworks-pdm-$VERSION/transform
-MODEL_DIR=$SCRIPT_DIR/dataworks-pdm-$VERSION/model
+SOURCE_DIR=$SCRIPT_DIR/source
+TRANSFORM_DIR=$SCRIPT_DIR/transform
+MODEL_DIR=$SCRIPT_DIR/model
 
 #Extract files
 unzip /opt/emr/sql/dataworks-pdm-$VERSION.zip -d $SCRIPT_DIR
@@ -71,3 +71,4 @@ aws s3 cp $TRANSFORM_DIR/transform.sql ${s3_config_bucket_id}/pdm-dataset-genera
 
 #copy model to S3
 aws s3 cp $MODEL_DIR/model.sql ${s3_config_bucket_id}/pdm-dataset-generation/model.sql
+
