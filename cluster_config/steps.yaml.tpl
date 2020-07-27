@@ -19,7 +19,7 @@ Steps:
     - "/opt/emr/sql/source/source.sql"
     - "--hivevar source_database=uc_pdm_source"
     - "--hivevar serde=org.openx.data.jsonserde.JsonSerDe"
-    - "--hivevar data_path=s3://${s3_publish_bucket}/analytical-dataset/agent_core_youthobligationdetails/agent_core_youthobligationdetails.json/"
+    - "--hivevar data_path=s3://${s3_publish_bucket}/analytical-dataset"
     Jar: "command-runner.jar"
   ActionOnFailure: "CONTINUE"
 - Name: "transform"
