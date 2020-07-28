@@ -64,11 +64,11 @@ do
 done
 
 #copy source to S3
-aws s3 cp $SOURCE_DIR/source.sql ${s3_config_bucket_id}/pdm-dataset-generation/source.sql
+aws s3 cp $SOURCE_DIR/source.sql ${s3_config_bucket_id}/component/pdm-dataset-generation/source.sql
 
-#copy tranform to S3
-aws s3 cp $TRANSFORM_DIR/transform.sql ${s3_config_bucket_id}/pdm-dataset-generation/tranform.sql
+#copy transform to S3
+aws s3 cp $TRANSFORM_DIR/transform.sql ${s3_config_bucket_id}/component/pdm-dataset-generation/transform.sql
 
 #copy model to S3
-aws s3 cp $MODEL_DIR/model.sql ${s3_config_bucket_id}/pdm-dataset-generation/model.sql
+aws s3 cp $MODEL_DIR/model.sql ${s3_config_bucket_id}/component/pdm-dataset-generation/model.sql
 
