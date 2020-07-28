@@ -1,11 +1,8 @@
 SCRIPT_DIR=/opt/emr/sql/extracted
-SOURCE_DIR=$SCRIPT_DIR/source
-TRANSFORM_DIR=$SCRIPT_DIR/transform
-MODEL_DIR=$SCRIPT_DIR/model
 
 echo "Download & install latest pdm scripts"
 VERSION="${version}"
-URL="s3://${s3_artefact_bucket_id}/dataworks/pdm.zip"
+URL="s3://${s3_artefact_bucket_id}/dataworks-pdm/dataworks-pdm-$VERSION.zip"
 $(which aws) s3 cp $URL /opt/emr/sql
 echo "PDM_VERSION: $VERSION"
 echo "SCRIPT_DOWNLOAD_URL: $URL"
@@ -13,8 +10,12 @@ echo "$version" > /opt/emr/version
 echo "${pdm_log_level}" > /opt/emr/log_level
 echo "${environment_name}" > /opt/emr/environment
 
+SOURCE_DIR=$SCRIPT_DIR/source
+TRANSFORM_DIR=$SCRIPT_DIR/transform
+MODEL_DIR=$SCRIPT_DIR/model
+
 #Extract files
-unzip /opt/sql/pdm.zip -d $SCRIPT_DIR
+unzip /opt/emr/sql/dataworks-pdm-$VERSION.zip -d $SCRIPT_DIR
 
 echo "Consolidating SQL Scripts"
 #####################
@@ -63,10 +64,11 @@ do
 done
 
 #copy source to S3
-aws s3 cp $SOURCE_DIR/source.sql ${s3_config_bucket_id}/pdm-dataset-generation/source.sql
+aws s3 cp $SOURCE_DIR/source.sql ${s3_config_bucket_id}/component/pdm-dataset-generation/source.sql
 
-#copy tranform to S3
-aws s3 cp $TRANSFORM_DIR/transform.sql ${s3_config_bucket_id}/pdm-dataset-generation/tranform.sql
+#copy transform to S3
+aws s3 cp $TRANSFORM_DIR/transform.sql ${s3_config_bucket_id}/component/pdm-dataset-generation/transform.sql
 
 #copy model to S3
-aws s3 cp $MODEL_DIR/model.sql ${s3_config_bucket_id}/pdm-dataset-generation/model.sql
+aws s3 cp $MODEL_DIR/model.sql ${s3_config_bucket_id}/component/pdm-dataset-generation/model.sql
+

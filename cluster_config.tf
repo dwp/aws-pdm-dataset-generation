@@ -44,7 +44,7 @@ resource "aws_s3_bucket_object" "steps" {
       s3_publish_bucket = data.terraform_remote_state.adg.outputs.published_bucket.id
       source_glue       = "uc_pdm_source"
       transform_glue    = "uc_pdm_transform"
-      model_glue        = "uc_pdm_transform"
+      model_glue        = "uc_pdm_model"
 
     }
   )
