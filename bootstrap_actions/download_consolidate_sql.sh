@@ -57,9 +57,9 @@ fi
 
 for n in {1..9}
 do
-    for f in $MODEL_DIR/model/*.$n.sql
+    for f in "$MODEL_DIR"/*$n".sql"
     do
-        (cat $f; echo '') >> $MODEL_DIR/model.sql
+        (cat "$f"; echo '') >> $MODEL_DIR/model.sql
     done
 done
 
