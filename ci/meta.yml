@@ -190,7 +190,7 @@ meta:
               export AWS_DEFAULT_REGION
               source /assume-role
               set +x
-              aws lambda invoke --function-name adg_emr_launcher outfile
+              aws lambda invoke --function-name pdm_emr_launcher outfile
     stop-cluster:
       task: stop-cluster
       config:
