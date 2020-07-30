@@ -1,0 +1,26 @@
+jobs:
+- name: pdm-dataset-generation-preprod
+  plan:
+  - in_parallel:
+    - get: aws-pdm-dataset-generation
+      trigger: true
+      passed:
+      - pdm-dataset-generation-integration
+    - get: emr-launcher-release
+      trigger: true
+      passed:
+      - pdm-dataset-generation-integration
+    - get: emr-ami
+      trigger: true
+      passed:
+      - pdm-dataset-generation-integration
+  - .: (( inject meta.plan.terraform-bootstrap ))
+    config:
+      params:
+        AWS_ACC: ((aws_account.preprod))
+  - .: (( inject meta.plan.terraform-apply ))
+    params:
+      TF_WORKSPACE: preprod
+  - .: (( inject meta.plan.terraform-plan ))
+    params:
+      TF_WORKSPACE: preprod
