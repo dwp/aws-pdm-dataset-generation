@@ -21,3 +21,24 @@ groups:
       - ucfs-mastered-data-qa
       - ucfs-mastered-data-preprod
       - ucfs-mastered-data-production
+  - name: admin-dev
+    jobs:
+      - dev-start-cluster
+      - dev-stop-cluster
+  - name: admin-qa
+    jobs:
+      - qa-start-cluster
+      - qa-stop-cluster
+  - name: admin-int
+    jobs:
+      - int-start-cluster
+      - int-stop-cluster
+  - name: admin-preprod
+    jobs:
+      - preprod-start-cluster
+      - preprod-stop-cluster
+  - name: admin-prod
+    jobs:
+      - prod-start-cluster
+      - prod-stop-cluster
+

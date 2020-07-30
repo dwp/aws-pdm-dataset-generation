@@ -168,3 +168,51 @@ meta:
               RESOURCE=$(ls)
               cd $RESOURCE/$RESOURCE_ROOT
               aws s3 sync . s3://$S3_BUCKET/$S3_ROOT --exclude "*" --include "$RESOURCE_FILES"
+
+    start-cluster:
+      task: start-cluster
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.docker_awscli_repository))
+            version: ((dataworks.docker_awscli_version))
+            tag: ((dataworks.docker_awscli_version))
+        params:
+          AWS_ROLE_ARN: arn:aws:iam::((aws_account.management)):role/ci
+          AWS_DEFAULT_REGION: ((dataworks.aws_region))
+        run:
+          path: sh
+          args:
+            - -exc
+            - |
+              export AWS_DEFAULT_REGION
+              source /assume-role
+              set +x
+              aws lambda invoke --function-name pdm_emr_launcher outfile
+    stop-cluster:
+      task: stop-cluster
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.docker_awscli_repository))
+            version: ((dataworks.docker_awscli_version))
+            tag: ((dataworks.docker_awscli_version))
+        params:
+          AWS_ROLE_ARN: arn:aws:iam::((aws_account.management)):role/ci
+          AWS_DEFAULT_REGION: ((dataworks.aws_region))
+        run:
+          path: sh
+          args:
+            - -exc
+            - |
+              export AWS_DEFAULT_REGION
+              source /assume-role
+              set +x
+              for CLUSTER_ID in $(aws emr list-clusters --active | jq -r '.Clusters[] | select(.Name | test("pdm-dataset-generator")) | .Id');
+              do
+                aws emr terminate-clusters --cluster-ids $CLUSTER_ID
+              done
