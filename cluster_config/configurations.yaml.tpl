@@ -32,6 +32,10 @@ Configurations:
     "hive.metastore.schema.verification": "false"
     "hive.metastore.client.factory.class": "com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory"
     "hive.metastore.warehouse.dir": "s3://${s3_published_bucket}/pdm-dataset/hive/external"
+    "hive.metastore.metrics.enabled": "true"
+    "hive.server2.metrics.enabled": "true"
+    "hive.service.metrics.reporter": "JSON_FILE"
+    "hive.service.metrics.file.location": "/var/log/hive/metrics.json"
 - Classification: "emrfs-site"
   Properties:
     "fs.s3.consistent": "true"
