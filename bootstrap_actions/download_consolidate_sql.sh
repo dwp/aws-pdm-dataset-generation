@@ -1,4 +1,4 @@
-SCRIPT_DIR=/opt/emr/sql/extracted
+SCRIPT_DIR=/opt/emr/sql/extracted 
 
 echo "Download & install latest pdm scripts"
 VERSION="${version}"
@@ -10,12 +10,12 @@ echo "$version" > /opt/emr/version
 echo "${pdm_log_level}" > /opt/emr/log_level
 echo "${environment_name}" > /opt/emr/environment
 
-SOURCE_DIR=$SCRIPT_DIR/source
-TRANSFORM_DIR=$SCRIPT_DIR/transform
-MODEL_DIR=$SCRIPT_DIR/model
+SOURCE_DIR=$SCRIPT_DIR/src/main/resources/scripts/source
+TRANSFORM_DIR=$SCRIPT_DIR/src/main/resources/scripts/transform
+MODEL_DIR=$SCRIPT_DIR/src/main/resources/scripts/model
 
 #Extract files
-unzip /opt/emr/sql/dataworks-pdm-$VERSION.zip -d $SCRIPT_DIR
+unzip /opt/emr/sql/dataworks-pdm-$VERSION.zip -d $SCRIPT_DIR /opt/emr/sql/extracted/
 
 echo "Consolidating SQL Scripts"
 #####################
