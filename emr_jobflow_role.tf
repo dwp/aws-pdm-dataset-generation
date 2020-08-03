@@ -104,6 +104,7 @@ data "aws_iam_policy_document" "pdm_dataset_generator_read_config" {
     actions = [
       "s3:GetBucketLocation",
       "s3:ListBucket",
+
     ]
 
     resources = [
@@ -120,6 +121,17 @@ data "aws_iam_policy_document" "pdm_dataset_generator_read_config" {
 
     resources = [
       "${data.terraform_remote_state.common.outputs.config_bucket.arn}/*",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:PutObject*",
+    ]
+    resources = [
+      "${data.terraform_remote_state.common.outputs.config_bucket.arn}/${local.s3_config_scripts}",
     ]
   }
 
