@@ -127,6 +127,17 @@ data "aws_iam_policy_document" "pdm_dataset_generator_read_config" {
     effect = "Allow"
 
     actions = [
+      "s3:PutObject*",
+    ]
+    resources = [
+      "${data.terraform_remote_state.common.outputs.config_bucket.arn}/${local.s3_config_scripts}",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
       "kms:Decrypt",
       "kms:DescribeKey",
     ]
