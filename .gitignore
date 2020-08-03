@@ -1,5 +1,6 @@
 **/.idea/
 **/.terraform/
+**/.vscode/
 
 **/*.tfvars
 **/*.tfstate
@@ -7,3 +8,6 @@
 
 terraform.tf
 aviator_pipeline.yml
+.DS_Store
+**/__pycache__/
+*.pyc
