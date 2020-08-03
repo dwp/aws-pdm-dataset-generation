@@ -15,7 +15,7 @@ TRANSFORM_DIR=$SCRIPT_DIR/src/main/resources/scripts/transform
 MODEL_DIR=$SCRIPT_DIR/src/main/resources/scripts/model
 
 #Extract files
-unzip /opt/emr/sql/dataworks-pdm-$VERSION.zip -d $SCRIPT_DIR /opt/emr/sql/extracted/
+unzip /opt/emr/sql/dataworks-pdm-$VERSION.zip -d $SCRIPT_DIR
 
 echo "Consolidating SQL Scripts"
 #####################
