@@ -10,6 +10,12 @@ BootstrapActions:
   ScriptBootstrapAction:
     Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/download_consolidate_sql.sh"
 Steps:
+- Name: "metrics-setup"
+  HadoopJarStep:
+    Args:
+    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/metrics/metrics-setup.sh"
+    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
+  ActionOnFailure: "CONTINUE"
 - Name: "source"
   HadoopJarStep:
     Args:
