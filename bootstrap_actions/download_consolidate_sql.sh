@@ -1,4 +1,4 @@
-SCRIPT_DIR=/opt/emr/sql/extracted 
+SCRIPT_DIR=/opt/emr/sql/extracted
 
 echo "Download & install latest pdm scripts"
 VERSION="${version}"
