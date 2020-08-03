@@ -43,3 +43,23 @@ resource "aws_s3_bucket_object" "logger" {
   key     = "component/pdm-dataset-generation/logger.py"
   content = file("${path.module}/steps/logger.py")
 }
+
+resource "aws_s3_bucket_object" "metrics_setup_sh" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/metrics/metrics-setup.sh"
+  content = templatefile("${path.module}/steps/metrics-setup.sh",
+    {
+      metrics_export_to_s3 = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.export_to_s3_sh.key)
+    }
+  )
+}
+
+resource "aws_s3_bucket_object" "export_to_s3_sh" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/metrics/export-to-s3.sh"
+  content = templatefile("${path.module}/steps/export-to-s3.sh",
+    {
+      pdm_metrics_path    = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "metrics/pdm-metrics.json")
+    }
+  )
+}
