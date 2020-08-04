@@ -20,20 +20,18 @@ Steps:
   HadoopJarStep:
     Args:
     - "s3://${s3_config_bucket}/component/pdm-dataset-generation/source.sh"
-    Jar: "script-runner.jar"
+    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "CONTINUE"
 - Name: "transform"
   HadoopJarStep:
     Args:
     - "s3://${s3_config_bucket}/component/pdm-dataset-generation/transform.sh"
-    Jar: "script-runner.jar"
+    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "CONTINUE"
 - Name: "model"
   HadoopJarStep:
     Args:
     - "s3://${s3_config_bucket}/component/pdm-dataset-generation/model.sh"
-    Jar: "script-runner.jar"
+    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "CONTINUE"
-
-
 
