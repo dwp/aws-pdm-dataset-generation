@@ -245,9 +245,9 @@ start amazon-cloudwatch-agent
             "timezone": "UTC"
           },
           {
-            "file_path": "/var/log/pdm/transform_sql.log",
+            "file_path": "/var/log/pdm/source_sql.log",
             "log_group_name": "${cwa_steps_loggrp_name}",
-            "log_stream_name": "transform_sql.log",
+            "log_stream_name": "source_sql.log",
             "timezone": "UTC"
           }
         ]

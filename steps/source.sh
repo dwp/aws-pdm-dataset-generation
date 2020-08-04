@@ -33,4 +33,4 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/source
     echo "FINISHED_RUNNING_SOURCE......................"
     log_wrapper_message "finished running source......................."
 
-) >> /var/log/pdm/transform_sql.log 2>&1
+) >> /var/log/pdm/source_sql.log 2>&1
