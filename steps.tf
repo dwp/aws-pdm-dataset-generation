@@ -59,7 +59,44 @@ resource "aws_s3_bucket_object" "export_to_s3_sh" {
   key    = "component/pdm-dataset-generation/metrics/export-to-s3.sh"
   content = templatefile("${path.module}/steps/export-to-s3.sh",
     {
-      pdm_metrics_path    = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "metrics/pdm-metrics.json")
+      pdm_metrics_path = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "metrics/pdm-metrics.json")
+    }
+  )
+}
+
+resource "aws_s3_bucket_object" "source_sh" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/source.sh"
+  content = templatefile("${path.module}/steps/source.sh",
+    {
+      source_db           = data.terraform_remote_state.adg.outputs.uc_pdm_source.name
+      data_location       = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "analytical_dataset")
+      dictionary_location = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "common_model_inputs")
+      serde               = "org.openx.data.jsonserde.JsonSerDe"
+    }
+  )
+}
+
+resource "aws_s3_bucket_object" "transform_sh" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/transform.sh"
+  content = templatefile("${path.module}/steps/transform.sh",
+    {
+      source_db           = data.terraform_remote_state.adg.outputs.uc_pdm_source.name
+      transform_db        = data.terraform_remote_state.adg.outputs.uc_pdm_transform.name
+      dictionary_location = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "common_model_inputs")
+    }
+  )
+}
+
+resource "aws_s3_bucket_object" "model_sh" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/model.sh"
+  content = templatefile("${path.module}/steps/model.sh",
+    {
+      transform_db     = data.terraform_remote_state.adg.outputs.uc_pdm_transform.name
+      transactional_db = data.terraform_remote_state.adg.outputs.uc_pdm_transactional.name
+      model_db         = data.terraform_remote_state.adg.outputs.uc_pdm_model.name
     }
   )
 }

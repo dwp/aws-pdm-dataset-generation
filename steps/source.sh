@@ -3,12 +3,13 @@
 # Set Variables
 ###############
 
-SOURCE_DB=${source_db}
-DATA_LOCATION=${data_location}
-DICTIONARY_LOCATION=${dictionary_location}
+SOURCE_DB="${source_db}"
+DATA_LOCATION="${data_location}"
+DICTIONARY_LOCATION="${dictionary_location}"
+SERDE="${serde}"
 
 SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/source
-SERDE="org.openx.data.jsonserde.JsonSerDe"
+
 
 (
  # Import the logging functions
