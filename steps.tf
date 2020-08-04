@@ -69,10 +69,10 @@ resource "aws_s3_bucket_object" "source_sh" {
   key    = "component/pdm-dataset-generation/source.sh"
   content = templatefile("${path.module}/steps/source.sh",
     {
-      source_db           = data.terraform_remote_state.adg.outputs.uc_pdm_source.name
-      data_location       = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "analytical_dataset")
-      dictionary_location = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "common_model_inputs")
-      serde               = "org.openx.data.jsonserde.JsonSerDe"
+      source_db           = local.source_db
+      data_location       = local.data_location
+      dictionary_location = local.dictionary_location
+      serde               = local.serde
     }
   )
 }
@@ -82,9 +82,9 @@ resource "aws_s3_bucket_object" "transform_sh" {
   key    = "component/pdm-dataset-generation/transform.sh"
   content = templatefile("${path.module}/steps/transform.sh",
     {
-      source_db           = data.terraform_remote_state.adg.outputs.uc_pdm_source.name
-      transform_db        = data.terraform_remote_state.adg.outputs.uc_pdm_transform.name
-      dictionary_location = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "common_model_inputs")
+      source_db           = local.source_db
+      transform_db        = local.transform_db
+      dictionary_location = local.dictionary_location
     }
   )
 }
@@ -94,9 +94,9 @@ resource "aws_s3_bucket_object" "model_sh" {
   key    = "component/pdm-dataset-generation/model.sh"
   content = templatefile("${path.module}/steps/model.sh",
     {
-      transform_db     = data.terraform_remote_state.adg.outputs.uc_pdm_transform.name
-      transactional_db = data.terraform_remote_state.adg.outputs.uc_pdm_transactional.name
-      model_db         = data.terraform_remote_state.adg.outputs.uc_pdm_model.name
+      transform_db     = local.transform_db
+      transactional_db = local.transactional_db
+      model_db         = local.model_db
     }
   )
 }

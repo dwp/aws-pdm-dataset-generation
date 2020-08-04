@@ -110,4 +110,13 @@ locals {
 
   s3_log_prefix            = "emr/pdm_dataset_generator"
   emrfs_metadata_tablename = "pdm_Dataset_Generation_Metadata"
+
+  source_db           = "uc_pdm_source"
+  transform_db        = "uc_pdm_transform"
+  model_db            = "uc_pdm_model"
+  transactional_db    = "uc_pdm_transactional"
+  data_location       = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "analytical_dataset")
+  dictionary_location = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "common_model_inputs")
+  serde               = "org.openx.data.jsonserde.JsonSerDe"
 }
+
