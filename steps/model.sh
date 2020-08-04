@@ -3,9 +3,9 @@
 # Set Variables
 ###############
 
-TRANSFORM_DB=${transform_db}
-TRANSACTIONAL_DB=${transactional_db}
-MODEL_DB=${model_db}
+TRANSFORM_DB="${transform_db}"
+TRANSACTIONAL_DB="${transactional_db}"
+MODEL_DB="${model_db}"
 
 MODEL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/model
 
