@@ -3,9 +3,9 @@
 # Set Variables
 ###############
 
-SOURCE_DB=${source_db}
-TRANSFORM_DB=${transform_db}
-DICTIONARY_LOCATION=${dictionary_location}
+SOURCE_DB="${source_db}"
+TRANSFORM_DB="${transform_db}"
+DICTIONARY_LOCATION="${dictionary_location}"
 
 SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transform
 
