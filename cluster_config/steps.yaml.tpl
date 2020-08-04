@@ -35,5 +35,3 @@ Steps:
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "CONTINUE"
 
-
-
