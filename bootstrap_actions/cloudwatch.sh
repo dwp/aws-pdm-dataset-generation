@@ -214,6 +214,42 @@ start amazon-cloudwatch-agent
             "log_stream_name": "yarn_nodemanager.log",
             "timezone": "UTC"
           }
+          {
+            "file_path": "/var/log/pdm/download_unzip_sql.log",
+            "log_group_name": "${cwa_steps_loggrp_name}",
+            "log_stream_name": "generate-pdm-dataset.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/pdm/download_sql.log",
+            "log_group_name": "${cwa_steps_loggrp_name}",
+            "log_stream_name": "generate-pdm-dataset.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/pdm/missing_model_sql.log",
+            "log_group_name": "${cwa_steps_loggrp_name}",
+            "log_stream_name": "generate-pdm-dataset.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/pdm/model_sql.log",
+            "log_group_name": "${cwa_steps_loggrp_name}",
+            "log_stream_name": "generate-pdm-dataset.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/pdm/transform_sql.log",
+            "log_group_name": "${cwa_steps_loggrp_name}",
+            "log_stream_name": "generate-pdm-dataset.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/pdm/transform_sql.log",
+            "log_group_name": "${cwa_steps_loggrp_name}",
+            "log_stream_name": "generate-pdm-dataset.log",
+            "timezone": "UTC"
+          }
         ]
       }
     },
