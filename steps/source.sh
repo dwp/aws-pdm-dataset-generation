@@ -3,11 +3,12 @@
 # Set Variables
 ###############
 
-SOURCE_DB=$1
-DATA_DIR=$2
-SERDE=$3
-DICTIONARY_DIR=$4
-SOURCE_DIR=$5
+SOURCE_DB=${source_db}
+DATA_LOCATION=${data_location}
+DICTIONARY_LOCATION=${dictionary_location}
+
+SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/source
+SERDE="org.openx.data.jsonserde.JsonSerDe"
 
 (
  # Import the logging functions
@@ -25,7 +26,7 @@ SOURCE_DIR=$5
 
     for f in $SOURCE_DIR/*.sql
     do
-        hive -f $f --hivevar source_database=$SOURCE_DB --hivevar data_path=$DATA_DIR --hivevar serde=$SERDE --hivevar dictionary_path=$DICTIONARY_DIR
+        hive -f $f --hivevar source_database=$SOURCE_DB --hivevar data_path=$DATA_LOCATION --hivevar serde=$SERDE --hivevar dictionary_path=$DICTIONARY_LOCATION
     done
 
     echo "FINISHED_RUNNING_SOURCE......................"

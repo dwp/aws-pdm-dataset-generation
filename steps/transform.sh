@@ -3,10 +3,11 @@
 # Set Variables
 ###############
 
-SOURCE_DB=$1
-TRANSFORM_DB=$2
-DICTIONARY_DIR=$3
-SOURCE_DIR=$4
+SOURCE_DB=${source_db}
+TRANSFORM_DB=${transform_db}
+DICTIONARY_LOCATION=${dictionary_location}
+
+SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transform
 
 (
  # Import the logging functions
@@ -24,7 +25,7 @@ SOURCE_DIR=$4
 
     for f in $SOURCE_DIR/*.sql
     do
-        hive -f $f --hivevar source_database=$SOURCE_DB --hivevar transform_database=$TRANSFORM_DB --hivevar dictionary_path=$DICTIONARY_DIR
+        hive -f $f --hivevar source_database=$SOURCE_DB --hivevar transform_database=$TRANSFORM_DB --hivevar dictionary_path=$DICTIONARY_LOCATION
     done
 
     echo "FINISHED_RUNNING_TRANFORM ......................"

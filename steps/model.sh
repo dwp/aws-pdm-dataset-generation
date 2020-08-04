@@ -3,10 +3,12 @@
 # Set Variables
 ###############
 
-TRANSFORM_DB=$1
-TRANSACTIONAL_DB=$2
-MODEL_DB=$3
-MODEL_DIR=$4
+TRANSFORM_DB=${transform_db}
+TRANSACTIONAL_DB=${transactional_db}
+MODEL_DB=${model_db}
+
+MODEL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/model
+
 ########################
 # Run Model Script
 ########################
