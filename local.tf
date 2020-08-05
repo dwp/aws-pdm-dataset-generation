@@ -37,6 +37,11 @@ locals {
     production  = "management"
   }
 
+  management_workspace = {
+    management-dev = "default"
+    management     = "management"
+  }
+
   root_dns_name = {
     development = "dev.dataworks.dwp.gov.uk"
     qa          = "qa.dataworks.dwp.gov.uk"
