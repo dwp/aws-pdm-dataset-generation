@@ -33,4 +33,4 @@ VIEWS_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/views
     echo "FINISHED_RUNNING_VIEW......................"
     log_wrapper_message "finished running views......................"
 
-) >> /var/log/pdm/transactional_sql.log 2>&1
+) >> /var/log/pdm/views_sql.log 2>&1
