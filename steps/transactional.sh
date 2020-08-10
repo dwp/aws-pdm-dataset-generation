@@ -12,7 +12,7 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transactiona
     source /opt/emr/logging.sh
 
     function log_wrapper_message() {
-        log_pdm_message "$${1}" "source_sql.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
+        log_pdm_message "$${1}" "transactional_sql.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
     }
 
     echo "START_RUNNING_TRANSACTIONAL ......................"
