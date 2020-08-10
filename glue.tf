@@ -22,6 +22,12 @@ resource "aws_glue_catalog_database" "uc_pdm_model" {
   location_uri = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "pdm-dataset/hive/model")
 }
 
+resource "aws_glue_catalog_database" "uc" {
+  name         = local.uc_db
+  description  = "Database for the PDM views data"
+  location_uri = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "pdm-dataset/hive/uc_views")
+}
+
 data "aws_iam_policy_document" "pdm_dataset_generator_gluetables_write" {
   statement {
     effect = "Allow"
