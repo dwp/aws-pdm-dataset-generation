@@ -37,6 +37,11 @@ locals {
     production  = "management"
   }
 
+  management_workspace = {
+    management-dev = "default"
+    management     = "management"
+  }
+
   root_dns_name = {
     development = "dev.dataworks.dwp.gov.uk"
     qa          = "qa.dataworks.dwp.gov.uk"
@@ -62,11 +67,11 @@ locals {
   }
 
   pdm_version = {
-    development = "0.0.5"
-    qa          = "0.0.5"
-    integration = "0.0.5"
-    preprod     = "0.0.5"
-    production  = "0.0.5"
+    development = "0.0.6"
+    qa          = "0.0.6"
+    integration = "0.0.6"
+    preprod     = "0.0.6"
+    production  = "0.0.6"
   }
 
   amazon_region_domain = "${data.aws_region.current.name}.amazonaws.com"
@@ -110,4 +115,13 @@ locals {
 
   s3_log_prefix            = "emr/pdm_dataset_generator"
   emrfs_metadata_tablename = "pdm_Dataset_Generation_Metadata"
+
+  source_db           = "uc_pdm_source"
+  transform_db        = "uc_pdm_transform"
+  model_db            = "uc_pdm_model"
+  transactional_db    = "uc_pdm_transactional"
+  data_location       = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "analytical_dataset")
+  dictionary_location = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "common-model-inputs")
+  serde               = "org.openx.data.jsonserde.JsonSerDe"
 }
+
