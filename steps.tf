@@ -100,3 +100,13 @@ resource "aws_s3_bucket_object" "model_sh" {
     }
   )
 }
+
+resource "aws_s3_bucket_object" "transactional_sh" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/transactional.sh"
+  content = templatefile("${path.module}/steps/transactional.sh",
+    {
+      transactional_db = local.transactional_db
+    }
+  )
+}
