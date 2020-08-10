@@ -16,7 +16,7 @@ VIEWS_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/views
     source /opt/emr/logging.sh
 
     function log_wrapper_message() {
-        log_pdm_message "$${1}" "source_sql.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
+        log_pdm_message "$${1}" "views_sql.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
     }
 
     echo "START_RUNNING_VIEWS .............................."
