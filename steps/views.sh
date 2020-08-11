@@ -34,3 +34,4 @@ VIEWS_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/views
     log_wrapper_message "finished running views......................"
 
 ) >> /var/log/pdm/views_sql.log 2>&1
+
