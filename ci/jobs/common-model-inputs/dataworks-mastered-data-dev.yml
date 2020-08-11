@@ -7,8 +7,32 @@ jobs:
       - .: (( inject meta.plan.vcs-to-s3 ))
         config:
           params:
-            RESOURCE_FILES: "*.csv"
+            RESOURCE_FILES: "parameter_dim.csv"
             RESOURCE_ROOT: pdm/hive/data/
-            S3_ROOT: common-model-inputs/
+            S3_ROOT: common-model-inputs/data/parameter/
+          inputs:
+            - name: dataworks-mastered-data
+      - .: (( inject meta.plan.vcs-to-s3 ))
+        config:
+          params:
+            RESOURCE_FILES: "date_dim.csv"
+            RESOURCE_ROOT: pdm/hive/data/
+            S3_ROOT: common-model-inputs/data/date/
+          inputs:
+            - name: dataworks-mastered-data
+      - .: (( inject meta.plan.vcs-to-s3 ))
+        config:
+          params:
+            RESOURCE_FILES: "work_group_dim.csv"
+            RESOURCE_ROOT: pdm/hive/data/
+            S3_ROOT: common-model-inputs/data/work_group/
+          inputs:
+            - name: dataworks-mastered-data
+      - .: (( inject meta.plan.vcs-to-s3 ))
+        config:
+          params:
+            RESOURCE_FILES: "initialDeliveryUnitAdresses.json"
+            RESOURCE_ROOT: pdm/hive/data/
+            S3_ROOT: common-model-inputs/data/address/
           inputs:
             - name: dataworks-mastered-data
