@@ -156,7 +156,7 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
-            "file_path": "/var/log/pdm/views_sql.log.log",
+            "file_path": "/var/log/pdm/views_sql.log",
             "log_group_name": "${cwa_steps_loggrp_name}",
             "log_stream_name": "views_sql.log",
             "timezone": "UTC"
