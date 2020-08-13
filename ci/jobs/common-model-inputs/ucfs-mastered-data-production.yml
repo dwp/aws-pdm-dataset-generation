@@ -1,23 +1,26 @@
 jobs:
   - name: ucfs-mastered-data-production
     plan:
-        - in_parallel:
-          - get: ucfs-mastered-data
-            trigger: true
-          - .: (( inject meta.plan.vcs-to-s3 ))
-            config:
-              params:
-                RESOURCE_FILES: "initialDeliveryUnitAddresses.json"
-                RESOURCE_ROOT: organisation/src/main/resources/
-                S3_ROOT: common-model-inputs/data/address/
-              inputs:
-                - name: ucfs-mastered-data
-          - .: (( inject meta.plan.vcs-to-s3 ))
-            config:
-              params:
-                RESOURCE_FILES: "initialOrganisation*.json"
-                RESOURCE_ROOT: organisation/src/main/resources/
-                S3_ROOT: common-model-inputs/data/site/
-              inputs:
-                - name: ucfs-mastered-data
+      - get: ucfs-mastered-data
+        trigger: true
+      - .: (( inject meta.plan.vcs-to-s3 ))
+        config:
+          params:
+            RESOURCE_FILES: "initialDeliveryUnitAddresses.json"
+            RESOURCE_ROOT: organisation/src/main/resources/
+            S3_ROOT: common-model-inputs/data/address/
+            AWS_ROLE_ARN: arn:aws:iam::((aws_account.production)):role/ci
+            S3_BUCKET: ((dataworks.bucket-list.production.published))
+          inputs:
+            - name: ucfs-mastered-data
+      - .: (( inject meta.plan.vcs-to-s3 ))
+        config:
+          params:
+            RESOURCE_FILES: "initialOrganisation*.json"
+            RESOURCE_ROOT: organisation/src/main/resources/
+            S3_ROOT: common-model-inputs/data/site/
+            AWS_ROLE_ARN: arn:aws:iam::((aws_account.production)):role/ci
+            S3_BUCKET: ((dataworks.bucket-list.production.published))
+          inputs:
+            - name: ucfs-mastered-data
 
