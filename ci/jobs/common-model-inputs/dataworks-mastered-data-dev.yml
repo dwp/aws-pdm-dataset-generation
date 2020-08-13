@@ -1,15 +1,16 @@
 jobs:
   - name: dataworks-mastered-data-dev
     plan:
-      - in_parallel:
-          - get: dataworks-mastered-data
-            trigger: true
+      - get: dataworks-mastered-data
+        trigger: true
       - .: (( inject meta.plan.vcs-to-s3 ))
         config:
           params:
             RESOURCE_FILES: "parameter_dim.csv"
             RESOURCE_ROOT: pdm/hive/data/
             S3_ROOT: common-model-inputs/data/parameter/
+            AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
+            S3_BUCKET: ((dataworks.bucket-list.development.published))
           inputs:
             - name: dataworks-mastered-data
       - .: (( inject meta.plan.vcs-to-s3 ))
@@ -18,6 +19,8 @@ jobs:
             RESOURCE_FILES: "date_dim.csv"
             RESOURCE_ROOT: pdm/hive/data/
             S3_ROOT: common-model-inputs/data/date/
+            AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
+            S3_BUCKET: ((dataworks.bucket-list.development.published))
           inputs:
             - name: dataworks-mastered-data
       - .: (( inject meta.plan.vcs-to-s3 ))
@@ -26,13 +29,8 @@ jobs:
             RESOURCE_FILES: "work_group_dim.csv"
             RESOURCE_ROOT: pdm/hive/data/
             S3_ROOT: common-model-inputs/data/work_group/
+            AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
+            S3_BUCKET: ((dataworks.bucket-list.development.published))
           inputs:
             - name: dataworks-mastered-data
-      - .: (( inject meta.plan.vcs-to-s3 ))
-        config:
-          params:
-            RESOURCE_FILES: "initialDeliveryUnitAdresses.json"
-            RESOURCE_ROOT: pdm/hive/data/
-            S3_ROOT: common-model-inputs/data/address/
-          inputs:
-            - name: dataworks-mastered-data
+
