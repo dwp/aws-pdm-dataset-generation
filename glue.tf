@@ -28,6 +28,12 @@ resource "aws_glue_catalog_database" "uc" {
   location_uri = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "pdm-dataset/hive/uc_views")
 }
 
+resource "aws_glue_catalog_database" "uc_materialised" {
+  name         = local.materialised_views_db
+  description  = "Database for the materialised PDM views data"
+  location_uri = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "pdm-dataset/hive/uc_materialised_views")
+}
+
 data "aws_iam_policy_document" "pdm_dataset_generator_gluetables_write" {
   statement {
     effect = "Allow"

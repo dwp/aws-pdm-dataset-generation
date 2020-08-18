@@ -114,6 +114,20 @@ resource "aws_s3_bucket_object" "views_sh" {
   )
 }
 
+resource "aws_s3_bucket_object" "materialised_views_sh" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/materialised_views.sh"
+  content = templatefile("${path.module}/steps/materialised_views.sh",
+      {
+      transform_db     = local.transform_db
+      transactional_db = local.transactional_db
+      model_db         = local.model_db
+      views_db         = local.uc_db
+      materialised_views_db = local.materialised_views_db
+    }
+  )
+}
+
 resource "aws_s3_bucket_object" "transactional_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "component/pdm-dataset-generation/transactional.sh"
