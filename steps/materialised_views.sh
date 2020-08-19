@@ -28,7 +28,7 @@ MATERIALISED_VIEWS_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/materia
 
     for f in MATERIALISED_VIEWS_DIR/*.sql
     do
-        hive -f $f --hivevar materialised=$MATERIALISED_VIEWS_DB --hivevar views_database=$VIEWS_DB --hivevar model_database=$MODEL_DB --hivevar transactional_database=$TRANSACTIONAL_DB --hivevar transform_database=$TRANSFORM_DB
+        hive -f $f --hivevar mv_database=$MATERIALISED_VIEWS_DB --hivevar views_database=$VIEWS_DB --hivevar model_database=$MODEL_DB --hivevar transactional_database=$TRANSACTIONAL_DB --hivevar transform_database=$TRANSFORM_DB
     done
 
     echo "FINISHED_RUNNING_MATERIALISED_VIEWS......................"
