@@ -121,7 +121,7 @@ locals {
   model_db            = "uc_pdm_model"
   transactional_db    = "uc_pdm_transactional"
   uc_db               = "uc"
-  data_location       = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "analytical_dataset")
+  data_location       = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "analytical-dataset/2020-08-18_07-01-37/")
   dictionary_location = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "common-model-inputs")
   serde               = "org.openx.data.jsonserde.JsonSerDe"
 }
