@@ -37,7 +37,7 @@ Configurations:
     "hive.compactor.initiator.on": "true"
     "hive.compactor.worker.threads": "1"
     "hive.support.concurrency": "true"
-    "javax.jdo.option.ConnectionURL": "jdbc:mysql://hive-metastore.cluster-cg4gggiy7hda.eu-west-2.rds.amazonaws.com:3306/hive?createDatabaseIfNotExist=true"
+    "javax.jdo.option.ConnectionURL": "jdbc:mysql://${hive_metastore_fqdn}:3306/hive?createDatabaseIfNotExist=true"
     "javax.jdo.option.ConnectionDriverName": "org.mariadb.jdbc.Driver"
     "javax.jdo.option.ConnectionUserName": "hive"
     "javax.jdo.option.ConnectionPassword": "hivepassword"
