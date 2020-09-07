@@ -12,7 +12,7 @@ jobs:
             AWS_ROLE_ARN: arn:aws:iam::((aws_account.integration)):role/ci
             S3_BUCKET: ((dataworks.bucket-list.integration.published))
           inputs:
-            - name: ucfs-mastered-data    
+            - name: ucfs-mastered-data
       - .: (( inject meta.plan.vcs-to-s3 ))
         config:
           params:
