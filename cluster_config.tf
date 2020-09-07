@@ -64,6 +64,7 @@ resource "aws_s3_bucket_object" "configurations" {
       proxy_https_host         = data.terraform_remote_state.internal_compute.outputs.internet_proxy.host
       proxy_https_port         = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
       emrfs_metadata_tablename = local.emrfs_metadata_tablename
+      hive_metastore_fqdn      = data.terraform_remote_state.aws_analytical_dataset_generation.outputs.hive_metastore.rds_cluster.endpoint
     }
   )
 }
