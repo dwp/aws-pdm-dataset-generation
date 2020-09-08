@@ -119,6 +119,26 @@ resource "aws_security_group_rule" "ingress_to_dks" {
   security_group_id = data.terraform_remote_state.crypto.outputs.dks_sg_id[local.environment]
 }
 
+resource "aws_security_group_rule" "hive_metastore_allow_emr" {
+  description              = "Allow Hive Metastore access from PDM EMR"
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.pdm_common.id
+  security_group_id        = data.terraform_remote_state.aws_analytical_dataset_generation.outputs.hive_metastore.security_group.id
+}
+
+resource "aws_security_group_rule" "emr_allow_hive_metastore" {
+  description              = "Allow PDM EMR to reach Hive Metastore"
+  type                     = "egress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.pdm_common.id
+  source_security_group_id = data.terraform_remote_state.aws_analytical_dataset_generation.outputs.hive_metastore.security_group.id
+}
+
 # The EMR service will automatically add the ingress equivalent of this rule,
 # but doesn't inject this egress counterpart
 resource "aws_security_group_rule" "emr_master_to_core_egress_tcp" {
