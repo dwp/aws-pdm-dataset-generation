@@ -27,3 +27,5 @@ DICTIONARY_LOCATION="${dictionary_location}"
     log_wrapper_message "Finish_creating_addresses_tagged_json......................."
 
 ) >> /var/log/pdm/addresses_tagged.log 2>&1
+
+
