@@ -18,7 +18,7 @@ jobs:
           params:
             RESOURCE_FILES: "initialOrganisation*.json"
             RESOURCE_ROOT: organisation/src/main/resources/
-            S3_ROOT: common-model-inputs/data/site/
+            S3_ROOT: common-model-inputs/site/
             AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
             S3_BUCKET: ((dataworks.bucket-list.qa.published))
           inputs:

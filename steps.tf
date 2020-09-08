@@ -123,3 +123,13 @@ resource "aws_s3_bucket_object" "transactional_sh" {
     }
   )
 }
+
+resource "aws_s3_bucket_object" "addresses_tagged_sh" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/addresses_tagged.sh"
+  content = templatefile("${path.module}/steps/addresses_tagged.sh",
+    {
+      dictionary_location = local.dictionary_location
+    }
+  )
+}
