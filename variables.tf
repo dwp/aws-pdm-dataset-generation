@@ -40,3 +40,18 @@ variable "emr_instance_type" {
     production  = "m5.2xlarge"
   }
 }
+
+variable "metadata_store_master_username" {
+  description = "Username for metadata store master RDS user"
+  default     = "hive"
+}
+
+variable "metadata_store_pdm_reader_username" {
+  description = "Username for metadata store readonly RDS user"
+  default     = "pdm-reader"
+}
+
+variable "metadata_store_pdm_writer_username" {
+  description = "Username for metadata store writer RDS user"
+  default     = "pdm-writer"
+}

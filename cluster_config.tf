@@ -1,4 +1,4 @@
-resource "aws_emr_security_configuration" "ebs_emrfs_em" {
+resource "aws_emr_security_configuration" "ebs_emrfs_em" {glu
   name          = "pdm_ebs_emrfs"
   configuration = jsonencode(local.ebs_emrfs_em)
 }
@@ -42,12 +42,13 @@ resource "aws_s3_bucket_object" "steps" {
     {
       s3_config_bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
       s3_publish_bucket = data.terraform_remote_state.adg.outputs.published_bucket.id
-      source_glue       = "uc_pdm_source"
-      transform_glue    = "uc_pdm_transform"
-      model_glue        = "uc_pdm_model"
-
     }
   )
+}
+
+data "aws_secretsmanager_secret_version" "rds_aurora_secrets" {
+  provider  = aws
+  secret_id = "metadata-store-pdm-writer"
 }
 
 resource "aws_s3_bucket_object" "configurations" {
@@ -65,6 +66,9 @@ resource "aws_s3_bucket_object" "configurations" {
       proxy_https_port         = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
       emrfs_metadata_tablename = local.emrfs_metadata_tablename
       hive_metastore_fqdn      = data.terraform_remote_state.aws_analytical_dataset_generation.outputs.hive_metastore.rds_cluster.endpoint
+      hive_metsatore_username             = var.metadata_store_pdm_writer_username
+      hive_metastore_pwd                  = jsondecode(data.aws_secretsmanager_secret_version.rds_aurora_secrets.secret_string)["password"]
+      hive_metastore_endpoint             = aws_rds_cluster.hive_metastore.endpoint
     }
   )
 }
