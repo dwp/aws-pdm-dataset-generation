@@ -1,4 +1,4 @@
-resource "aws_emr_security_configuration" "ebs_emrfs_em" {glu
+resource "aws_emr_security_configuration" "ebs_emrfs_em" {
   name          = "pdm_ebs_emrfs"
   configuration = jsonencode(local.ebs_emrfs_em)
 }
@@ -66,9 +66,10 @@ resource "aws_s3_bucket_object" "configurations" {
       proxy_https_port         = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
       emrfs_metadata_tablename = local.emrfs_metadata_tablename
       hive_metastore_fqdn      = data.terraform_remote_state.aws_analytical_dataset_generation.outputs.hive_metastore.rds_cluster.endpoint
-      hive_metsatore_username             = var.metadata_store_pdm_writer_username
-      hive_metastore_pwd                  = jsondecode(data.aws_secretsmanager_secret_version.rds_aurora_secrets.secret_string)["password"]
-      hive_metastore_endpoint             = aws_rds_cluster.hive_metastore.endpoint
+      hive_metsatore_username  = var.metadata_store_pdm_writer_username
+      hive_metastore_pwd       = jsondecode(data.aws_secretsmanager_secret_version.rds_aurora_secrets.secret_string)["password"]
+      hive_metastore_endpoint  = aws_rds_cluster.hive_metastore.endpoint
     }
   )
 }
+
