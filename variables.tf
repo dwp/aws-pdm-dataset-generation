@@ -41,11 +41,6 @@ variable "emr_instance_type" {
   }
 }
 
-variable "metadata_store_master_username" {
-  description = "Username for metadata store master RDS user"
-  default     = "hive"
-}
-
 variable "metadata_store_pdm_writer_username" {
   description = "Username for metadata store writer RDS user"
   default     = "pdm-writer"
