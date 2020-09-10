@@ -21,7 +21,7 @@ DICTIONARY_LOCATION="${dictionary_location}"
 
     aws s3 cp $DICTIONARY_LOCATION/data/address/initialDeliveryUnitAddresses.json /opt/emr/sql
     tr -d '\n' < /opt/emr/sql/initialDeliveryUnitAddresses.json > /opt/emr/sql/initialDeliveryUnitAddresses_tagged.json
-    aws s3 cp /opt/emr/sql/initialDeliveryUnitAddresses_tagged.json $DICTIONARY_LOCATION/address_tagged
+    aws s3 cp /opt/emr/sql/initialDeliveryUnitAddresses_tagged.json $DICTIONARY_LOCATION/address_tagged/initialDeliveryUnitAddresses_tagged.json
     
     echo "FINISH_CREATING_ADDRESSES_TAGGED_JSON ......................"
     log_wrapper_message "Finish_creating_addresses_tagged_json......................."
