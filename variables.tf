@@ -40,3 +40,8 @@ variable "emr_instance_type" {
     production  = "m5.2xlarge"
   }
 }
+
+variable "metadata_store_pdm_writer_username" {
+  description = "Username for metadata store writer RDS user"
+  default     = "pdm-writer"
+}

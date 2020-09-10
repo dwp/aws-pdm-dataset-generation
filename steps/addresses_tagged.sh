@@ -1,7 +1,7 @@
 #!/bin/bash
-###############
+#################
 # Set Variables
-###############
+#################
 
 DICTIONARY_LOCATION="${dictionary_location}"
 
