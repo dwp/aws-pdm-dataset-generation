@@ -56,18 +56,19 @@ resource "aws_s3_bucket_object" "configurations" {
   key    = "emr/pdm/configurations.yaml"
   content = templatefile("${path.module}/cluster_config/configurations.yaml.tpl",
     {
-      s3_log_bucket            = data.terraform_remote_state.security-tools.outputs.logstore_bucket.id
-      s3_log_prefix            = local.s3_log_prefix
-      s3_published_bucket      = data.terraform_remote_state.adg.outputs.published_bucket.id
-      proxy_no_proxy           = replace(replace(local.no_proxy, ",", "|"), ".s3", "*.s3")
-      proxy_http_host          = data.terraform_remote_state.internal_compute.outputs.internet_proxy.host
-      proxy_http_port          = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
-      proxy_https_host         = data.terraform_remote_state.internal_compute.outputs.internet_proxy.host
-      proxy_https_port         = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
-      emrfs_metadata_tablename = local.emrfs_metadata_tablename
-      hive_metsatore_username  = var.metadata_store_pdm_writer_username
-      hive_metastore_pwd       = jsondecode(data.aws_secretsmanager_secret_version.rds_aurora_secrets.secret_string)["password"]
-      hive_metastore_endpoint  = data.terraform_remote_state.adg.outputs.hive_metastore.rds_cluster.endpoint
+      s3_log_bucket                = data.terraform_remote_state.security-tools.outputs.logstore_bucket.id
+      s3_log_prefix                = local.s3_log_prefix
+      s3_published_bucket          = data.terraform_remote_state.adg.outputs.published_bucket.id
+      proxy_no_proxy               = replace(replace(local.no_proxy, ",", "|"), ".s3", "*.s3")
+      proxy_http_host              = data.terraform_remote_state.internal_compute.outputs.internet_proxy.host
+      proxy_http_port              = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
+      proxy_https_host             = data.terraform_remote_state.internal_compute.outputs.internet_proxy.host
+      proxy_https_port             = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
+      emrfs_metadata_tablename     = local.emrfs_metadata_tablename
+      hive_metsatore_username      = var.metadata_store_pdm_writer_username
+      hive_metastore_pwd           = jsondecode(data.aws_secretsmanager_secret_version.rds_aurora_secrets.secret_string)["password"]
+      hive_metastore_endpoint      = data.terraform_remote_state.adg.outputs.hive_metastore.rds_cluster.endpoint
+      hive_metastore_database_name = data.terraform_remote_state.adg.outputs.hive_metastore.rds_cluster.database_name
     }
   )
 }
