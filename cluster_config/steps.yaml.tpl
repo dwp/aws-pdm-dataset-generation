@@ -22,6 +22,12 @@ Steps:
     - "s3://${s3_config_bucket}/component/pdm-dataset-generation/addresses_tagged.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "CONTINUE"
+- Name: "create-databases"
+  HadoopJarStep:
+    Args:
+    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/create_db.sh"
+    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
+  ActionOnFailure: "CONTINUE"
 - Name: "transactional"
   HadoopJarStep:
     Args:
