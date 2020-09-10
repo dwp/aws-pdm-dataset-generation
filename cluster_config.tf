@@ -67,7 +67,7 @@ resource "aws_s3_bucket_object" "configurations" {
       emrfs_metadata_tablename = local.emrfs_metadata_tablename
       hive_metsatore_username  = var.metadata_store_pdm_writer_username
       hive_metastore_pwd       = jsondecode(data.aws_secretsmanager_secret_version.rds_aurora_secrets.secret_string)["password"]
-      hive_metastore_endpoint  = data.terraform_remote_state.aws_analytical_dataset_generation.outputs.hive_metastore.rds_cluster.endpoint
+      hive_metastore_endpoint  = data.terraform_remote_state.adg.outputs.hive_metastore.rds_cluster.endpoint
     }
   )
 }

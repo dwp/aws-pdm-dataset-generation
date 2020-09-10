@@ -126,7 +126,7 @@ resource "aws_security_group_rule" "hive_metastore_allow_emr" {
   to_port                  = 3306
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.pdm_common.id
-  security_group_id        = data.terraform_remote_state.aws_analytical_dataset_generation.outputs.hive_metastore.security_group.id
+  security_group_id        = data.terraform_remote_state.adg.outputs.hive_metastore.security_group.id
 }
 
 resource "aws_security_group_rule" "emr_allow_hive_metastore" {
@@ -136,7 +136,7 @@ resource "aws_security_group_rule" "emr_allow_hive_metastore" {
   to_port                  = 3306
   protocol                 = "tcp"
   security_group_id        = aws_security_group.pdm_common.id
-  source_security_group_id = data.terraform_remote_state.aws_analytical_dataset_generation.outputs.hive_metastore.security_group.id
+  source_security_group_id = data.terraform_remote_state.adg.outputs.hive_metastore.security_group.id
 }
 
 # The EMR service will automatically add the ingress equivalent of this rule,
