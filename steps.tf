@@ -133,3 +133,12 @@ resource "aws_s3_bucket_object" "addresses_tagged_sh" {
     }
   )
 }
+
+resource "aws_s3_bucket_object" "create_db_sh" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/create_db.sh"
+  content = templatefile("${path.module}/steps/create_db.sh",
+    {
+    }
+  )
+}
