@@ -24,3 +24,4 @@
     log_wrapper_message "finished running create db ......................."
 
 ) >> /var/log/pdm/create_db_sql.log 2>&1
+
