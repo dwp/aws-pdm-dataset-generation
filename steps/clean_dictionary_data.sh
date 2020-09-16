@@ -10,7 +10,7 @@ DICTIONARY_LOCATION="${dictionary_location}"
     source /opt/emr/logging.sh
 
     function log_wrapper_message() {
-        log_pdm_message "$${1}" "addresses_tagged.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
+        log_pdm_message "$${1}" "clean_dictionary_data.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
     }
     ##############################
     # Create addresses_tagged.json
