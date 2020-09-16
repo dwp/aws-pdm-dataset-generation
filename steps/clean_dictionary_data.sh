@@ -13,7 +13,7 @@ DICTIONARY_LOCATION="${dictionary_location}"
         log_pdm_message "$${1}" "clean_dictionary_data.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
     }
     ##############################
-    # Create addresses_tagged.json
+    # Clean dictionary data
     ##############################
 
     echo "START_CLEANING_DICTIONARY_DATA ......................"
