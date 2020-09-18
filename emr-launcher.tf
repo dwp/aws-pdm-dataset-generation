@@ -154,7 +154,7 @@ resource "aws_iam_role_policy_attachment" "pdm_emr_launcher_policy_execution" {
 }
 
 resource "aws_iam_policy" "pdm_emr_launcher_getsecrets" {
-  name        = "ADGGetSecrets"
+  name        = "PDMGetSecrets"
   description = "Allow PDM Lambda function to get secrets"
   policy      = data.aws_iam_policy_document.pdm_emr_launcher_getsecrets.json
 }
