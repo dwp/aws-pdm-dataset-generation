@@ -153,3 +153,27 @@ resource "aws_iam_role_policy_attachment" "pdm_emr_launcher_policy_execution" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
 
+resource "aws_iam_policy" "pdm_emr_launcher_getsecrets" {
+  name        = "PDMGetSecrets"
+  description = "Allow PDM Lambda function to get secrets"
+  policy      = data.aws_iam_policy_document.pdm_emr_launcher_getsecrets.json
+}
+
+data "aws_iam_policy_document" "pdm_emr_launcher_getsecrets" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "secretsmanager:GetSecretValue",
+    ]
+
+    resources = [
+      data.aws_secretsmanager_secret_version.rds_aurora_secrets.arn,
+    ]
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "pdm_emr_launcher_getsecrets" {
+  role       = aws_iam_role.pdm_emr_launcher_lambda_role.name
+  policy_arn = aws_iam_policy.pdm_emr_launcher_getsecrets.arn
+}

@@ -16,10 +16,10 @@ Steps:
     - "s3://${s3_config_bucket}/component/pdm-dataset-generation/metrics/metrics-setup.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "CONTINUE"
-- Name: "addresses-tagged"
+- Name: "clean-dictionary-data"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/addresses_tagged.sh"
+    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/clean_dictionary_data.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "CONTINUE"
 - Name: "create-databases"
