@@ -6,7 +6,7 @@ set -euo pipefail
 source /opt/emr/logging.sh
 
 function log_wrapper_message() {
-    log_adg_message "$1" "create-hive-dynamo-table.sh" "$$" "Running as: $USER"
+    log_pdm_message "$1" "create-hive-dynamo-table.sh" "$$" "Running as: $USER"
 }
 
 
@@ -17,7 +17,6 @@ CREATE EXTERNAL TABLE IF NOT EXISTS AUDIT.data_pipeline_metadata_hive (Correlati
 STORED BY 'org.apache.hadoop.hive.dynamodb.DynamoDBStorageHandler' \
 TBLPROPERTIES ('dynamodb.table.name'='data_pipeline_metadata', \
 'dynamodb.column.mapping' = 'Correlation_Id:Correlation_Id,Run_Id:Run_Id,DataProduct:DataProduct,DateProductRun:Date,Status:Status','dynamodb.null.serialization' = 'true');"
-) >> /var/log/adg/nohup.log 2>&1
+) >> /var/log/pdm/create-hive-dynamo-table.log 2>&1
 
 log_wrapper_message "Finished creating external hive table"
-
