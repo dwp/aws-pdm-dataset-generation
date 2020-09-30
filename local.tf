@@ -13,6 +13,7 @@ locals {
   dks_port                        = 8443
   dynamo_meta_name                = "PDMGen-metadata"
   secret_name                     = "/concourse/dataworks/pdm"
+  data_pipeline_metadata          = data.terraform_remote_state.internal_compute.outputs.data_pipeline_metadata_dynamo.name
   common_tags = {
     Environment  = local.environment
     Application  = local.emr_cluster_name
@@ -125,4 +126,3 @@ locals {
   dictionary_location = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "common-model-inputs")
   serde               = "org.openx.data.jsonserde.JsonSerDe"
 }
-
