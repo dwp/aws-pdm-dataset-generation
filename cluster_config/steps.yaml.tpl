@@ -16,6 +16,12 @@ Steps:
     - "s3://${s3_config_bucket}/component/pdm-dataset-generation/metrics/metrics-setup.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "CONTINUE"
+- Name: "build-adg-metastore-tables"
+  HadoopJarStep:
+    Args:
+    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/adg_metastore_tables_creation.sh"
+    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
+  ActionOnFailure: "CONTINUE"
 - Name: "clean-dictionary-data"
   HadoopJarStep:
     Args:

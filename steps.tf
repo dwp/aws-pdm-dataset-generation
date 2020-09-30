@@ -64,6 +64,17 @@ resource "aws_s3_bucket_object" "export_to_s3_sh" {
   )
 }
 
+resource "aws_s3_bucket_object" "adg_metastore_tables_creation_sh" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/adg_metastore_tables_creation.sh"
+  content = templatefile("${path.module}/steps/adg_metastore_tables_creation.sh",
+  {
+    published_database_name     = local.published_db
+    adg_csv_file_location       = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "analytical-dataset/analytical-dataset-hive-tables-metadata/analytical-dataset-hive-tables-metadata.csv")
+  }
+  )
+}
+
 resource "aws_s3_bucket_object" "source_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "component/pdm-dataset-generation/source.sh"
