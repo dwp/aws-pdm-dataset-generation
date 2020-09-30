@@ -25,7 +25,7 @@ resource "aws_s3_bucket_object" "generate_pdm_dataset_script" {
     }
   )
 }
-
+//teasdgdfgdfg
 resource "aws_s3_bucket_object" "hive_setup_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "component/pdm-dataset-generation/hive-setup.sh"
