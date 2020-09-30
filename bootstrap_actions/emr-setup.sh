@@ -3,13 +3,13 @@ echo "Creating shared directory"
 sudo mkdir -p /opt/shared
 sudo mkdir -p /opt/emr
 sudo mkdir -p /var/log/pdm
-sudo mkdir -p /opt/emr/sql  
-sudo mkdir -p /opt/emr/sql/extracted   
+sudo mkdir -p /opt/emr/sql
+sudo mkdir -p /opt/emr/sql/extracted
 sudo chown hadoop:hadoop /opt/emr
 sudo chown hadoop:hadoop /opt/shared
 sudo chown hadoop:hadoop /var/log/pdm
-sudo chown hadoop:hadoop /opt/emr/sql  
-sudo chown hadoop:hadoop /opt/emr/sql/extracted  
+sudo chown hadoop:hadoop /opt/emr/sql
+sudo chown hadoop:hadoop /opt/emr/sql/extracted
 echo "${VERSION}" > /opt/emr/version
 echo "${PDM_LOG_LEVEL}" > /opt/emr/log_level
 echo "${ENVIRONMENT_NAME}" > /opt/emr/environment
@@ -82,7 +82,7 @@ EOF
 
 log_wrapper_message "Retrieving the ACM Certificate details"
 
-/usr/local/bin/acm-cert-retriever \
+acm-cert-retriever \
     --acm-cert-arn "${acm_cert_arn}" \
     --acm-key-passphrase "$ACM_KEY_PASSWORD" \
     --keystore-path "/opt/emr/keystore.jks" \
@@ -96,7 +96,7 @@ log_wrapper_message "Retrieving the ACM Certificate details"
     --jks-only true >> /var/log/pdm/acm-cert-retriever.log 2>&1
 
 
-sudo -E /usr/local/bin/acm-cert-retriever \
+sudo -E acm-cert-retriever \
     --acm-cert-arn "${acm_cert_arn}" \
     --acm-key-passphrase "$ACM_KEY_PASSWORD" \
     --private-key-alias "${private_key_alias}" \
