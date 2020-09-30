@@ -20,3 +20,4 @@ TBLPROPERTIES ('dynamodb.table.name'=${data_pipeline_metadata}, \
 ) >> /var/log/pdm/create-hive-dynamo-table.log 2>&1
 
 log_wrapper_message "Finished creating external hive table"
+
