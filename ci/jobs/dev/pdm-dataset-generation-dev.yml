@@ -6,7 +6,7 @@ jobs:
       trigger: true
     - get: emr-launcher-release
       trigger: true
-    - get: emr-ami
+    - get: emr-al2-ami
       trigger: true
   - .: (( inject meta.plan.terraform-bootstrap ))
     config:
