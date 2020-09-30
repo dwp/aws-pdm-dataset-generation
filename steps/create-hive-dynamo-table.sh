@@ -22,5 +22,3 @@ set -euo pipefail
 
 ) >> /var/log/pdm/create-hive-dynamo-table.log 2>&1
 
-
-
