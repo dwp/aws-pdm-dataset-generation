@@ -7,3 +7,5 @@ jobs:
         config:
           params:
             AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
+            S3_PREFIX: analytical-dataset/2020-08-13_22-16-58/
+            CORRELATION_ID: test

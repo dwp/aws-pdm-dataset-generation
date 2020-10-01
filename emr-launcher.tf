@@ -177,3 +177,17 @@ resource "aws_iam_role_policy_attachment" "pdm_emr_launcher_getsecrets" {
   role       = aws_iam_role.pdm_emr_launcher_lambda_role.name
   policy_arn = aws_iam_policy.pdm_emr_launcher_getsecrets.arn
 }
+
+resource "aws_sns_topic_subscription" "adg_completion_status_sns" {
+  topic_arn = data.terraform_remote_state.aws_analytical_dataset_generation.outputs.adg_completion_status_sns_topic.arnDW
+  protocol  = "lambda"
+  endpoint  = aws_lambda_function.pdm_emr_launcher.arn
+}
+
+resource "aws_lambda_permission" "pdm_emr_launcher_subscription_adg" {
+  statement_id  = "AdgCompletionStatusFromSns"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.pdm_emr_launcher.function_name
+  principal     = "sns.amazonaws.com"
+  source_arn    = data.terraform_remote_state.aws_analytical_dataset_generation.outputs.adg_completion_status_sns_topic.arn
+}
