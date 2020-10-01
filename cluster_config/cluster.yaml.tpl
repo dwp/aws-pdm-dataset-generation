@@ -6,7 +6,7 @@ CustomAmiId: "${ami_id}"
 EbsRootVolumeSize: 100
 LogUri: "s3://${s3_log_bucket}/${s3_log_prefix}"
 Name: "pdm-dataset-generator"
-ReleaseLabel: "${emr_release_label}"
+ReleaseLabel: "emr-${emr_release_label}"
 SecurityConfiguration: "${security_configuration}"
 ScaleDownBehavior: "TERMINATE_AT_TASK_COMPLETION"
 ServiceRole: "${service_role}"

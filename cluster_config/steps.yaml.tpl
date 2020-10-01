@@ -1,5 +1,8 @@
 ---
 BootstrapActions:
+- Name: "start_ssm"
+  ScriptBootstrapAction:
+    Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/start_ssm.sh"
 - Name: "get-dks-cert"
   ScriptBootstrapAction:
     Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/emr-setup.sh"
@@ -10,6 +13,12 @@ BootstrapActions:
   ScriptBootstrapAction:
     Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/download_sql.sh"
 Steps:
+- Name: "create-hive-table"
+  HadoopJarStep:
+    Args:
+    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/create-hive-dynamo-table.sh"
+    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
+  ActionOnFailure: "CONTINUE"
 - Name: "metrics-setup"
   HadoopJarStep:
     Args:
