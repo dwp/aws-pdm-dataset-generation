@@ -1,5 +1,5 @@
 jobs:
-  - name: production-start-cluster
+  - name: prod-start-cluster
     plan:
       - get: aws-pdm-dataset-generation
         trigger: false
