@@ -2,10 +2,10 @@ variable "emr_release" {
   description = "Version of AWS EMR to deploy with associated applications"
   default = {
     development = "5.30.1"
-    qa          = "5.29.0"
-    integration = "5.29.0"
-    preprod     = "5.29.0"
-    production  = "5.29.0"
+    qa          = "5.30.1"
+    integration = "5.30.1"
+    preprod     = "5.30.1"
+    production  = "5.30.1"
   }
 }
 
