@@ -25,11 +25,11 @@
       PIP=/usr/bin/pip-3.6
     fi
 
-    sudo -E $PIP install boto3 >> /var/log/adg/install-boto3.log 2>&1
-    sudo -E $PIP install requests >> /var/log/adg/install-requests.log 2>&1
-    sudo yum install -y python3-devel >> /var/log/adg/install-pycrypto.log 2>&1
-    sudo -E $PIP install pycrypto >> /var/log/adg/install-pycrypto.log 2>&1
-    sudo yum remove -y python3-devel >> /var/log/adg/install-pycrypto.log 2>&1
+    sudo -E $PIP install boto3 >> /var/log/pdm/install-boto3.log 2>&1
+    sudo -E $PIP install requests >> /var/log/pdm/install-requests.log 2>&1
+    sudo yum install -y python3-devel >> /var/log/pdm/install-pycrypto.log 2>&1
+    sudo -E $PIP install pycrypto >> /var/log/pdm/install-pycrypto.log 2>&1
+    sudo yum remove -y python3-devel >> /var/log/pdm/install-pycrypto.log 2>&1
     log_wrapper_message "Completed the installer.sh step of the EMR Cluster"
 
 ) >> /var/log/pdm/nohup.log 2>&1
