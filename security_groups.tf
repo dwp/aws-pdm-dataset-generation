@@ -107,16 +107,26 @@ resource "aws_security_group_rule" "egress_pdm_to_dks" {
 }
 
 resource "aws_security_group_rule" "ingress_to_dks" {
-  provider    = aws.crypto
-  description = "Allow inbound requests to DKS from pdm"
-  type        = "ingress"
-  protocol    = "tcp"
-  from_port   = 8443
-  to_port     = 8443
-
-  cidr_blocks = data.terraform_remote_state.internal_compute.outputs.pdm_subnet.cidr_blocks
-
+  provider          = aws.crypto
+  description       = "Allow inbound requests to DKS from pdm"
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = 8443
+  to_port           = 8443
+  cidr_blocks       = data.terraform_remote_state.internal_compute.outputs.pdm_subnet.cidr_blocks
   security_group_id = data.terraform_remote_state.crypto.outputs.dks_sg_id[local.environment]
+}
+
+
+# https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-man-sec-groups.html#emr-sg-elasticmapreduce-sa-private
+resource "aws_security_group_rule" "emr_service_ingress_master" {
+  description              = "Allow EMR master nodes to reach the EMR service"
+  type                     = "ingress"
+  from_port                = 9443
+  to_port                  = 9443
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.pdm_master.id
+  security_group_id        = aws_security_group.pdm_emr_service.id
 }
 
 resource "aws_security_group_rule" "hive_metastore_allow_emr" {

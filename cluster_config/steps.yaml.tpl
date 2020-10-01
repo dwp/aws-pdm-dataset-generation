@@ -1,5 +1,8 @@
 ---
 BootstrapActions:
+- Name: "start_ssm"
+  ScriptBootstrapAction:
+    Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/start_ssm.sh"
 - Name: "get-dks-cert"
   ScriptBootstrapAction:
     Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/emr-setup.sh"
