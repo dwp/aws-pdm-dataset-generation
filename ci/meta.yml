@@ -190,7 +190,17 @@ meta:
               export AWS_DEFAULT_REGION
               source /assume-role
               set +x
-              aws lambda invoke --function-name pdm_emr_launcher outfile
+              export topic_arn=arn:aws:sns:${AWS_DEFAULT_REGION}:${AWS_ACC}:adg_completion_status_sns
+              export message_json=$(cat <<EOF
+              {
+                "correlation_id": "$CORRELATION_ID",
+                "s3_prefix": "$S3_PREFIX"
+              }
+              EOF
+              )
+              echo $message_json
+              aws sns publish --topic-arn "$topic_arn" --message "$message_json"
+
     stop-cluster:
       task: stop-cluster
       config:
