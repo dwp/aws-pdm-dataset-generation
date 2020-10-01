@@ -1,5 +1,5 @@
 jobs:
-  - name: dev-start-cluster
+  - name: integration-start-cluster
     plan:
       - get: aws-pdm-dataset-generation
         trigger: false
