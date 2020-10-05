@@ -4,7 +4,7 @@
 ###############
 
 SOURCE_DB="${source_db}"
-DATA_LOCATION="${data_location}"
+DATA_LOCATION="${data_location}$4"
 DICTIONARY_LOCATION="${dictionary_location}"
 SERDE="${serde}"
 

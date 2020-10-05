@@ -178,7 +178,7 @@ resource "aws_iam_role_policy_attachment" "pdm_emr_launcher_getsecrets" {
   policy_arn = aws_iam_policy.pdm_emr_launcher_getsecrets.arn
 }
 
-resource "aws_sns_topic_subscription" "adg_completion_status_sns" {
+resource "aws_sns_topic_subscription" "pdm_completion_status_sns" {
   topic_arn = data.terraform_remote_state.aws_analytical_dataset_generation.outputs.adg_completion_status_sns_topic.arn
   protocol  = "lambda"
   endpoint  = aws_lambda_function.pdm_emr_launcher.arn
