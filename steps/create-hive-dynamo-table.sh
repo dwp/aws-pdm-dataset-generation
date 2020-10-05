@@ -20,4 +20,3 @@ TBLPROPERTIES ('dynamodb.table.name'='${dynamodb_table_name}', \
 ) >> /var/log/pdm/create-hive-dynamo-table.log 2>&1
 
 log_wrapper_message "Finished creating external hive table"
-git branch -d DW-4895-create-hive-external-table-dynamodb
