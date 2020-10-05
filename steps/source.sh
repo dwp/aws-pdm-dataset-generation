@@ -4,7 +4,7 @@
 ###############
 
 SOURCE_DB="${source_db}"
-DATA_LOCATION="${data_location}"
+DATA_LOCATION="${data_location}/$4" #reading s3_prefix as command line argument (4th argument)
 DICTIONARY_LOCATION="${dictionary_location}"
 SERDE="${serde}"
 
