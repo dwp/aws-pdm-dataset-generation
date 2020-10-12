@@ -155,8 +155,8 @@ resource "aws_s3_bucket_object" "create_hive_dynamo_table" {
 
 
 resource "aws_s3_bucket_object" "create_pii_csv_sh" {
-  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  key    = "component/pdm-dataset-generation/create_pii_csv_files.sh"
+  bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
+  key     = "component/pdm-dataset-generation/create_pii_csv_files.sh"
   content = templatefile("${path.module}/steps/create_pii_csv_files.sh",
   {
     views_db            = local.uc_db
