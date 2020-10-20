@@ -119,7 +119,8 @@ resource "aws_s3_bucket_object" "transactional_sh" {
   key    = "component/pdm-dataset-generation/transactional.sh"
   content = templatefile("${path.module}/steps/transactional.sh",
     {
-      transactional_db = local.transactional_db
+      transactional_db     = local.transactional_db
+      insert_dummy_records = local.insert_dummy_records[local.environment]
     }
   )
 }

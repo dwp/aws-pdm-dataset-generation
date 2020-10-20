@@ -23,7 +23,12 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transactiona
 
     for f in $TRANSACTIONAL_DIR/*.sql
     do
-        hive -f $f --hivevar transactional_database=$TRANSACTIONAL_DB
+        if ["${insert_dummy_records}" == "true"] &&  [ -f "$TRANSACTIONAL_DIR/insert_dummy_records.sql" ]
+        then
+            hive -f $f --hivevar transactional_database=$TRANSACTIONAL_DB
+        else
+            hive -f $f --hivevar transactional_database=$TRANSACTIONAL_DB
+        fi
     done
 
     echo "FINISHED_RUNNING_TRANSACTIONAL......................"
