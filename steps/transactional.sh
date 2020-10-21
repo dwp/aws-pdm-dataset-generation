@@ -23,6 +23,7 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transactiona
 
     for f in $TRANSACTIONAL_DIR/*.sql
     do
+        echo "Executing $f"
         hive -f $f --hivevar transactional_database=$TRANSACTIONAL_DB
     done
 
