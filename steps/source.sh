@@ -27,6 +27,7 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/source
 
     for f in $SOURCE_DIR/*.sql
     do
+        echo "Executing $f"
         hive -f $f --hivevar source_database=$SOURCE_DB --hivevar data_path=$DATA_LOCATION --hivevar serde=$SERDE --hivevar dictionary_path=$DICTIONARY_LOCATION
     done
 
