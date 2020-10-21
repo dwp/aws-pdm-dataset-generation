@@ -22,6 +22,8 @@ Configurations:
     "javax.jdo.option.ConnectionDriverName": "org.mariadb.jdbc.Driver"
     "javax.jdo.option.ConnectionUserName": ${hive_metsatore_username}
     "javax.jdo.option.ConnectionPassword": ${hive_metastore_pwd}
+    "hive.mapred.mode": "nonstrict"
+    "hive.strict.checks.cartesian.product": "false"
 - Classification: "emrfs-site"
   Properties:
     "fs.s3.consistent": "true"
