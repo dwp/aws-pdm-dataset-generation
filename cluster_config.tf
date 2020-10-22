@@ -15,6 +15,7 @@ resource "aws_s3_bucket_object" "cluster" {
       instance_profile       = aws_iam_instance_profile.pdm_dataset_generator.arn
       security_configuration = aws_emr_security_configuration.ebs_emrfs_em.id
       emr_release_label      = var.emr_release[local.environment]
+      core_instance_count    = var.emr_core_instance_count[local.environment]
     }
   )
 }
