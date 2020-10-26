@@ -4,6 +4,7 @@
 ###############
 
 TRANSACTIONAL_DB="${transactional_db}"
+DICTIONARY_LOCATION="${dictionary_location}"
 
 TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/intial_transactional_load
 
@@ -21,7 +22,7 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/intial_trans
     # Run SQL Scripts
     #####################
 
-    if ["${intial_transactioanl_load}" == "true"]
+    if [ "${intial_transactioanl_load}" == "true" ]
     then
          for n in {1..2}
          do
@@ -30,7 +31,7 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/intial_trans
                 if [ -e "$f" ]
                 then
                      echo "Executing $f"
-                     hive -f $f --hivevar transactional_database=$TRANSACTIONAL_DB
+                     hive -f $f --hivevar transactional_database=$TRANSACTIONAL_DB --hivevar dictionary_path=$DICTIONARY_LOCATION
                 else
                      echo "This file is missing: $f"   >> /var/log/pdm/intial_transactional_load_sql.log 2>&1
                 fi
@@ -38,6 +39,7 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/intial_trans
          done
     else
         echo "Skipping intial_transactioanl_load as flag is set to ${intial_transactioanl_load}"
+    fi
 
     echo "FINISHED_RUNNING INTIAL_TRANSACTIONAL_LOAD"
     log_wrapper_message "Finished intial_transactional_load_sql file "
