@@ -171,6 +171,7 @@ resource "aws_s3_bucket_object" "intial_transactional_load_sh" {
   content = templatefile("${path.module}/steps/intial_transactional_load.sh",
   {
     transactional_db          = local.transactional_db
+    dictionary_location       = local.dictionary_location
     intial_transactioanl_load = local.intial_transactioanl_load[local.environment]
   }
   )
