@@ -1,0 +1,18 @@
+spruce:
+  - base: ci/meta.yml
+    prune:
+      - meta
+    merge:
+      - with_in: ci/
+        regexp: ".*yml"
+        except:
+          - groups.yml
+  - with_in: ci/jobs/load_data/
+    to: aviator_pipeline.yml
+fly:
+  name: pdm-dataset-generation
+  target: concourse
+  expose: true
+  check_creds: true
+  config: aviator_pipeline.yml
+
