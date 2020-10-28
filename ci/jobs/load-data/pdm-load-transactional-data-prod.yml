@@ -1,20 +1,21 @@
 jobs:
-  - name: pdm-load-transactional-data-prod
-    serial: true
-    plan:
-      - .: (( inject meta.plan.terraform-output-adg ))
-        config:
-          params:
-            TF_WORKSPACE: production
-            AWS_ACC: ((aws_account.production))
-            AWS_ROLE_ARN: arn:aws:iam::((aws_account.production)):role/ci
-      - .: (( inject meta.plan.create-aws-profiles ))
-        config:
-          params:
-            AWS_ROLE: arn:aws:iam::((aws_account.production)):role/ci
-      - .: (( inject meta.plan.create-crown-credentials ))
-      - .: (( inject meta.plan.get-transactional-files ))
-        config:
-          params:
-            SOURCE_PATH: "/home/phanindravenkata/pdm_transactional_tables"
-      - .: (( inject meta.plan.load-s3 ))
+- name: pdm-load-transactional-data-prod
+  serial: true
+  plan:
+  - get: aws-pdm-dataset-generation
+  - .: (( inject meta.plan.terraform-output-adg ))
+    config:
+      params:
+        TF_WORKSPACE: production
+        AWS_ACC: ((aws_account.production))
+        AWS_ROLE_ARN: arn:aws:iam::((aws_account.production)):role/ci
+  - .: (( inject meta.plan.create-aws-profiles ))
+    config:
+      params:
+        AWS_ROLE: arn:aws:iam::((aws_account.production)):role/ci
+  - .: (( inject meta.plan.create-crown-credentials ))
+  - .: (( inject meta.plan.get-transactional-files ))
+    config:
+      params:
+        SOURCE_PATH: "/home/phanindravenkata/pdm_transactional_tables"
+  - .: (( inject meta.plan.load-s3 ))

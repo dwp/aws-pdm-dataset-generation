@@ -8,8 +8,7 @@ spruce:
         except:
           - groups.yml
           - resources.yml
-          - resource_types.yml
-      - with_in: ci/jobs/load_data/
+      - with_in: ci/jobs/load-data/
     to: aviator_pipeline.yml
 fly:
   name: pdm-dataset-generation
