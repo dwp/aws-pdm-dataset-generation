@@ -227,6 +227,35 @@ meta:
                 aws emr terminate-clusters --cluster-ids $CLUSTER_ID
               done
 
+    terraform-bootstrap-crown:
+      task: terraform-bootstrap-crown
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: dwpdigital/jinja-yaml-aws
+            version: 0.0.5
+            tag: 0.0.5
+        run:
+          path: sh
+          args:
+            - -exc
+            - |
+              python bootstrap_terraform.py
+              sed -i '/^assume_role/ d' terraform.tfvars
+              cp terraform.tf ../terraform-config-crown
+              cp terraform.tfvars ../terraform-config-crown
+          dir: aws-analytical-dataset-generation
+        inputs:
+          - name: aws-analytical-dataset-generation
+        outputs:
+          - name: terraform-config-crown
+      params:
+        AWS_ACCESS_KEY_ID: ((ci.aws_access_key_id))
+        AWS_SECRET_ACCESS_KEY: ((ci.aws_secret_access_key))
+        AWS_REGION: eu-west-2
+
     terraform-output-adg:
       task: terraform-output-adg
       config:
@@ -243,12 +272,15 @@ meta:
             - -exc
             - |
               pwd
+              cp ../terraform-config-crown/terraform.tf .
+              cp ../terraform-config-crown/terraform.tfvars .
               terraform workspace show
               terraform init
               terraform output --json > ../terraform-output-adg/outputs.json
           dir: aws-analytical-dataset-generation
         inputs:
           - name: aws-analytical-dataset-generation
+          - name: terraform-config-crown
         outputs:
           - name: terraform-output-adg
         params:
