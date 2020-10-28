@@ -3,6 +3,7 @@ jobs:
   serial: true
   plan:
   - get: aws-pdm-dataset-generation
+  - get: aws-analytical-dataset-generation
   - .: (( inject meta.plan.terraform-output-adg ))
     config:
       params:
