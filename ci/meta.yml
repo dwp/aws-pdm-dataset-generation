@@ -242,6 +242,7 @@ meta:
           args:
             - -exc
             - |
+              pwd
               terraform workspace show
               terraform init
               terraform output --json > ../terraform-output-adg/outputs.json
@@ -346,7 +347,9 @@ meta:
           args:
             - -exc
             - |
-              scp -r ${TARGET_SERVER}:${SOURCE_PATH}/* .
+              whoami
+              cp -R ssh-credentials ~/.ssh
+              scp -r -o StrictHostKeyChecking=no hdp-edge01.node.prd.dw:${SOURCE_PATH}/* pdm_transactional_tables/
 
     load-s3:
       task: load-s3
@@ -362,6 +365,7 @@ meta:
         inputs:
           - name: pdm_transactional_tables
           - name: .aws
+          - name: terraform-output-adg
         params:
           AWS_PROFILE: ci
           AWS_SHARED_CREDENTIALS_FILE: .aws/credentials
@@ -369,6 +373,6 @@ meta:
           path: sh
           args:
             - -exc
-              TF_ADG_OUTPUT_FILE = "../../../terraform-output-adg/outputs.json"
-              AWS_PUBLISHED_BUCKET="$(cat ${TF_ADG_OUTPUT_FILE} |  jq -r '.published_bucket.value.id')"
+            - |
+              AWS_PUBLISHED_BUCKET="$(cat terraform-output-adg/outputs.json |  jq -r '.published_bucket.value.id')"
               aws s3 --endpoint-url=https://s3-eu-west-1.amazonaws.com sync pdm_transactional_tables/ s3://${AWS_PUBLISHED_BUCKET}/common-model-inputs/transactional_data
