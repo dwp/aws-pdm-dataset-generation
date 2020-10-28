@@ -9,7 +9,7 @@ spruce:
           - groups.yml
           - resources.yml
           - resource_types.yml
-  - with_in: ci/jobs/load_data/
+      - with_in: ci/jobs/load_data/
     to: aviator_pipeline.yml
 fly:
   name: pdm-dataset-generation
@@ -17,4 +17,3 @@ fly:
   expose: true
   check_creds: true
   config: aviator_pipeline.yml
-

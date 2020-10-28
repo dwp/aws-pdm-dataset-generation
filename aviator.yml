@@ -5,8 +5,8 @@ spruce:
     merge:
       - with_in: ci/
         regexp: ".*yml"
-      except:
-        - groups_crown.yml
+        except:
+          - groups_crown.yml
       - with_in: ci/jobs/infra/
       - with_in: ci/jobs/common-model-inputs/
       - with_in: ci/jobs/
