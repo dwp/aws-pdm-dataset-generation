@@ -1,4 +1,4 @@
 groups:
   - name: load-data
     jobs:
-      - pdm-dataset-generation-production
+      - pdm-load-transactional-data-prod

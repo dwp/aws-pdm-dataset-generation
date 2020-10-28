@@ -1,5 +1,5 @@
 jobs:
-  - name: load-data-production
+  - name: pdm-load-transactional-data-prod
     serial: true
     plan:
       - .: (( inject meta.plan.terraform-output-adg ))
