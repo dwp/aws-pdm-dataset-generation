@@ -19,5 +19,5 @@ jobs:
   - .: (( inject meta.plan.get-transactional-files ))
     config:
       params:
-        SOURCE_PATH: "/home/test/"
+        SOURCE_PATH: "/home/pdm_transactional_tables/"
   - .: (( inject meta.plan.load-s3 ))
