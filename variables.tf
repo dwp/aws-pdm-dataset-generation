@@ -51,3 +51,13 @@ variable "metadata_store_pdm_writer_username" {
   description = "Username for metadata store writer RDS user"
   default     = "pdm-writer"
 }
+
+variable "emr_core_instance_count" {
+  default = {
+    development = "2"
+    qa          = "2"
+    integration = "2"
+    preprod     = "2"
+    production  = "8"
+  }
+}

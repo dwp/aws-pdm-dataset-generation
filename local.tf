@@ -132,6 +132,6 @@ locals {
     qa          = "false"
     integration = "false"
     preprod     = "false"
-    production  = "false"
+    production  = "true"
   }
 }

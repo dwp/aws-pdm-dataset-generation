@@ -24,14 +24,15 @@ resource "aws_s3_bucket_object" "instances" {
   key    = "emr/pdm/instances.yaml"
   content = templatefile("${path.module}/cluster_config/instances.yaml.tpl",
     {
-      keep_cluster_alive = local.keep_cluster_alive[local.environment]
-      add_master_sg      = aws_security_group.pdm_common.id
-      add_slave_sg       = aws_security_group.pdm_common.id
-      subnet_ids         = join(",", data.terraform_remote_state.internal_compute.outputs.pdm_subnet.ids)
-      master_sg          = aws_security_group.pdm_master.id
-      slave_sg           = aws_security_group.pdm_slave.id
-      service_access_sg  = aws_security_group.pdm_emr_service.id
-      instance_type      = var.emr_instance_type[local.environment]
+      keep_cluster_alive  = local.keep_cluster_alive[local.environment]
+      add_master_sg       = aws_security_group.pdm_common.id
+      add_slave_sg        = aws_security_group.pdm_common.id
+      subnet_ids          = join(",", data.terraform_remote_state.internal_compute.outputs.pdm_subnet.ids)
+      master_sg           = aws_security_group.pdm_master.id
+      slave_sg            = aws_security_group.pdm_slave.id
+      service_access_sg   = aws_security_group.pdm_emr_service.id
+      instance_type       = var.emr_instance_type[local.environment]
+      core_instance_count = var.emr_core_instance_count[local.environment]
     }
   )
 }
