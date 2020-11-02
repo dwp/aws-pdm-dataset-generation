@@ -104,7 +104,7 @@ locals {
     qa          = false
     integration = false
     preprod     = false
-    production  = true
+    production  = false
   }
 
   cw_agent_namespace                   = "/app/pdm_dataset_generator"
