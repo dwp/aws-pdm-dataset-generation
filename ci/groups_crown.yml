@@ -1,0 +1,4 @@
+groups:
+  - name: load-data
+    jobs:
+      - pdm-load-transactional-data-prod
