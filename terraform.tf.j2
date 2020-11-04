@@ -76,7 +76,7 @@ variable "region" {
 }
 
 provider "aws" {
-  version = "~> 2.51.0"
+  version = "~> 3.13.0"
   region  = var.region
 
   assume_role {
@@ -86,7 +86,7 @@ provider "aws" {
 
 provider "aws" {
   alias = "crypto"
-  version = "~> 2.51.0"
+  version = "~> 3.13.0"
   region  = var.region
 
   assume_role {
