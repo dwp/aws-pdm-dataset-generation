@@ -79,4 +79,9 @@ Steps:
     - "s3://${s3_config_bucket}/component/pdm-dataset-generation/create_pii_csv_files.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "CONTINUE"
-
+- Name: "log-tables-row-count"
+  HadoopJarStep:
+    Args:
+    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/log-tables-row-count.sh"
+    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
+  ActionOnFailure: "CONTINUE"

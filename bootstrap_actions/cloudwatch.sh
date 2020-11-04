@@ -184,6 +184,18 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "log_group_name": "$${cwa_steps_loggrp_name}",
             "log_stream_name": "intial_transactional_load_sql.log",
             "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/pdm/pdm_tables_row_count.log",
+            "log_group_name": "$${cwa_steps_loggrp_name}",
+            "log_stream_name": "pdm_tables_row_count.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/pdm/create-hive-dynamo-table.log",
+            "log_group_name": "$${cwa_steps_loggrp_name}",
+            "log_stream_name": "create-hive-dynamo-table.log",
+            "timezone": "UTC"
           }
         ]
       }
