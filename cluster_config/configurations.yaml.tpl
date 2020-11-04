@@ -34,9 +34,3 @@ Configurations:
     "fs.s3.consistent.retryPeriodSeconds": "2"
     "fs.s3.consistent.retryCount": "10"
     "fs.s3.consistent.metadata.tableName": "${emrfs_metadata_tablename}"
-- Classification: "spark-env"
-  Configurations:
-  - Classification: "export"
-    Properties:
-      "PYSPARK_PYTHON": "/usr/bin/python3"
-      "S3_PUBLISH_BUCKET": "${s3_published_bucket}"
