@@ -152,3 +152,27 @@ resource "aws_s3_bucket_object" "create_hive_dynamo_table" {
     }
   )
 }
+
+
+resource "aws_s3_bucket_object" "create_pii_csv_sh" {
+  bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
+  key     = "component/pdm-dataset-generation/create_pii_csv_files.sh"
+  content = templatefile("${path.module}/steps/create_pii_csv_files.sh",
+  {
+    views_db            = local.uc_db
+    pii_data_location   = local.pii_data_location
+  }
+  )
+}
+
+resource "aws_s3_bucket_object" "intial_transactional_load_sh" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/intial_transactional_load.sh"
+  content = templatefile("${path.module}/steps/intial_transactional_load.sh",
+  {
+    transactional_db          = local.transactional_db
+    dictionary_location       = local.dictionary_location
+    intial_transactioanl_load = local.intial_transactioanl_load[local.environment]
+  }
+  )
+}

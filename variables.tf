@@ -1,6 +1,12 @@
-variable "emr_release_label" {
-  description = "Version of AWS EMR to deploy with associated applicatoins"
-  default     = "emr-5.29.0"
+variable "emr_release" {
+  description = "Version of AWS EMR to deploy with associated applications"
+  default = {
+    development = "5.30.1"
+    qa          = "5.30.1"
+    integration = "5.30.1"
+    preprod     = "5.30.1"
+    production  = "5.30.1"
+  }
 }
 
 variable "emr_applications" {
@@ -44,4 +50,14 @@ variable "emr_instance_type" {
 variable "metadata_store_pdm_writer_username" {
   description = "Username for metadata store writer RDS user"
   default     = "pdm-writer"
+}
+
+variable "emr_core_instance_count" {
+  default = {
+    development = "2"
+    qa          = "2"
+    integration = "2"
+    preprod     = "2"
+    production  = "8"
+  }
 }

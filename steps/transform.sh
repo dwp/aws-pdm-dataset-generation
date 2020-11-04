@@ -25,6 +25,7 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transform
 
     for f in $SOURCE_DIR/*.sql
     do
+        echo "Executing $f"
         hive -f $f --hivevar source_database=$SOURCE_DB --hivevar transform_database=$TRANSFORM_DB --hivevar dictionary_path=$DICTIONARY_LOCATION
     done
 

@@ -68,11 +68,11 @@ locals {
   }
 
   pdm_version = {
-    development = "0.0.9"
-    qa          = "0.0.9"
-    integration = "0.0.9"
-    preprod     = "0.0.9"
-    production  = "0.0.9"
+    development = "0.0.17"
+    qa          = "0.0.17"
+    integration = "0.0.17"
+    preprod     = "0.0.17"
+    production  = "0.0.17"
   }
 
   amazon_region_domain = "${data.aws_region.current.name}.amazonaws.com"
@@ -122,7 +122,16 @@ locals {
   model_db            = "uc_pdm_model"
   transactional_db    = "uc_pdm_transactional"
   uc_db               = "uc"
-  data_location       = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "analytical-dataset/2020-08-18_07-01-37/")
+  data_location       = format("s3://%s", data.terraform_remote_state.adg.outputs.published_bucket.id)
   dictionary_location = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "common-model-inputs")
   serde               = "org.openx.data.jsonserde.JsonSerDe"
+  pii_data_location   = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id,"pdm-dataset/pii")
+
+  intial_transactioanl_load = {
+    development = "true"
+    qa          = "false"
+    integration = "false"
+    preprod     = "false"
+    production  = "true"
+  }
 }

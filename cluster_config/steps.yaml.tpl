@@ -1,5 +1,8 @@
 ---
 BootstrapActions:
+- Name: "start_ssm"
+  ScriptBootstrapAction:
+    Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/start_ssm.sh"
 - Name: "get-dks-cert"
   ScriptBootstrapAction:
     Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/emr-setup.sh"
@@ -34,6 +37,12 @@ Steps:
     - "s3://${s3_config_bucket}/component/pdm-dataset-generation/create_db.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "CONTINUE"
+- Name: "intial_transactional_load"
+  HadoopJarStep:
+    Args:
+    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/intial_transactional_load.sh"
+    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
+  ActionOnFailure: "CONTINUE"
 - Name: "transactional"
   HadoopJarStep:
     Args:
@@ -64,4 +73,11 @@ Steps:
     - "s3://${s3_config_bucket}/component/pdm-dataset-generation/views.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "CONTINUE"
+- Name: "create_pii_csv_files"
+  HadoopJarStep:
+    Args:
+    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/create_pii_csv_files.sh"
+    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
+  ActionOnFailure: "CONTINUE"
+
 

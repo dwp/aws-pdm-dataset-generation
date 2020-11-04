@@ -27,6 +27,7 @@ VIEWS_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/views
 
     for f in $VIEWS_DIR/*.sql
     do
+        echo "Executing $f"
         hive -f $f --hivevar views_database=$VIEWS_DB --hivevar model_database=$MODEL_DB --hivevar transactional_database=$TRANSACTIONAL_DB --hivevar transform_database=$TRANSFORM_DB
     done
 

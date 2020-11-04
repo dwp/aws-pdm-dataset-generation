@@ -26,6 +26,12 @@ resource "aws_s3_bucket_object" "emr_setup_sh" {
   })
 }
 
+resource "aws_s3_bucket_object" "ssm_script" {
+  bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
+  key     = "component/pdm-dataset-generation/start_ssm.sh"
+  content = file("${path.module}/bootstrap_actions/start_ssm.sh")
+}
+
 resource "aws_s3_bucket_object" "installer_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "component/pdm-dataset-generation/installer.sh"
@@ -68,9 +74,13 @@ resource "aws_cloudwatch_log_group" "pdm_cw_yarnspark_loggroup" {
 }
 
 resource "aws_s3_bucket_object" "cloudwatch_sh" {
-  bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
-  key     = "component/pdm-dataset-generation/cloudwatch.sh"
-  content = file("${path.module}/bootstrap_actions/cloudwatch.sh")
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/cloudwatch.sh"
+  content = templatefile("${path.module}/bootstrap_actions/cloudwatch.sh",
+    {
+      emr_release = var.emr_release[local.environment]
+    }
+  )
 }
 
 resource "aws_s3_bucket_object" "download_sql_sh" {

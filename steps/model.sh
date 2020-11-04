@@ -26,9 +26,10 @@ MODEL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/model
     for n in {1..9}
     do
         for f in "$MODEL_DIR"/*$n".sql"
-        do             
+        do
             if [ -e "$f" ]
             then
+                echo "Executing $f"
                 hive -f $f --hivevar model_database=$MODEL_DB --hivevar transform_database=$TRANSFORM_DB --hivevar transactional_database=$TRANSACTIONAL_DB
             else
                 echo "This file is missing: $f"   >> /var/log/pdm/missing_model_sql.log 2>&1
