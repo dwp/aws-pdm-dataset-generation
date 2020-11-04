@@ -2,12 +2,11 @@
 
 set -euo pipefail
 
-#VIEWS_DB="${views_db}"
-#MODEL_DB="${model_db}"
-#TRANSFORM_DB="${transform_db}"
-#TRANSACTIONAL_DB="${transactional_db}"
-TRANSFORM_DB="uc_pdm_transform"
-TRANSACTIONAL_DB="uc_pdm_transactional"
+VIEWS_DB="${views_db}"
+MODEL_DB="${model_db}"
+TRANSFORM_DB="${transform_db}"
+TRANSACTIONAL_DB="${transactional_db}"
+
 (
     # Import the logging functions
     source /opt/emr/logging.sh
