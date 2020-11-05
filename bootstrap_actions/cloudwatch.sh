@@ -60,51 +60,9 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
-            "file_path": "/var/log/pdm/install-pycrypto.log",
-            "log_group_name": "$${cwa_bootstrap_loggrp_name}",
-            "log_stream_name": "install-pycrypto.log",
-            "timezone": "UTC"
-          },
-          {
-            "file_path": "/var/log/pdm/install-requests.log",
-            "log_group_name": "$${cwa_bootstrap_loggrp_name}",
-            "log_stream_name": "install-requests.log",
-            "timezone": "UTC"
-          },
-          {
-            "file_path": "/var/log/pdm/install-boto3.log",
-            "log_group_name": "$${cwa_bootstrap_loggrp_name}",
-            "log_stream_name": "install-boto3.log",
-            "timezone": "UTC"
-          },
-          {
             "file_path": "/var/log/pdm/hive-tables-creation.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
             "log_stream_name": "hive-tables-creation.log",
-            "timezone": "UTC"
-          },
-          {
-            "file_path": "/var/log/pdm/create-hive-tables.log",
-            "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "create-hive-tables.log",
-            "timezone": "UTC"
-          },
-          {
-            "file_path": "/var/log/pdm/generate-pdm-dataset.log",
-            "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "generate-pdm-dataset.log",
-            "timezone": "UTC"
-          },
-          {
-            "file_path": "/var/log/hadoop-yarn/containers/application_*/container_*/stdout**",
-            "log_group_name": "$${cwa_yarnspark_loggrp_name}",
-            "log_stream_name": "spark-stdout.log",
-            "timezone": "UTC"
-          },
-          {
-            "file_path": "/var/log/hadoop-yarn/containers/application_*/container_*/stderr**",
-            "log_group_name": "$${cwa_yarnspark_loggrp_name}",
-            "log_stream_name": "spark-stderror.log",
             "timezone": "UTC"
           },
           {
