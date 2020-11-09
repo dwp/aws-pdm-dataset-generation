@@ -22,11 +22,6 @@ resource "aws_iam_instance_profile" "pdm_dataset_generator" {
   role = aws_iam_role.pdm_dataset_generator.id
 }
 
-resource "aws_iam_role_policy_attachment" "ec2_for_ssm_attachment" {
-  role       = aws_iam_role.pdm_dataset_generator.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
-}
-
 resource "aws_iam_role_policy_attachment" "amazon_ssm_managed_instance_core" {
   role       = aws_iam_role.pdm_dataset_generator.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
@@ -40,6 +35,11 @@ resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_ebs_cmk" {
 resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_write_parquet" {
   role       = aws_iam_role.pdm_dataset_generator.name
   policy_arn = aws_iam_policy.pdm_dataset_generator_write_parquet.arn
+}
+
+resource "aws_iam_role_policy_attachment" "pdm_dataset_crown_read_only" {
+  role       = aws_iam_role.pdm_dataset_generator.name
+  policy_arn = aws_iam_policy.pdm_dataset_crown_read_only.arn
 }
 
 resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_acm" {
