@@ -64,7 +64,6 @@ data "aws_iam_policy_document" "pdm_dataset_generator_write_logs" {
     actions = [
       "s3:GetBucketLocation",
       "s3:ListBucket",
-      "s3:*",
     ]
 
     resources = [
@@ -78,7 +77,6 @@ data "aws_iam_policy_document" "pdm_dataset_generator_write_logs" {
     actions = [
       "s3:GetObject*",
       "s3:PutObject*",
-      "s3:*",
 
     ]
 
@@ -100,11 +98,6 @@ resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_write_logs" {
   policy_arn = aws_iam_policy.pdm_dataset_generator_write_logs.arn
 }
 
-resource "aws_iam_role_policy_attachment" "pdm_dataset_read_only" {
-  role       = aws_iam_role.pdm_dataset_generator.name
-  policy_arn = aws_iam_policy.pdm_dataset_read_only.arn
-}
-
 data "aws_iam_policy_document" "pdm_dataset_generator_read_config" {
   statement {
     effect = "Allow"
@@ -124,7 +117,6 @@ data "aws_iam_policy_document" "pdm_dataset_generator_read_config" {
 
     actions = [
       "s3:GetObject*",
-      "*",
     ]
 
     resources = [
@@ -176,7 +168,6 @@ data "aws_iam_policy_document" "pdm_dataset_generator_read_artefacts" {
 
     actions = [
       "s3:GetObject*",
-      "s3:*",
     ]
 
     resources = [
@@ -317,3 +308,13 @@ resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_extra_ssm_prope
   role       = aws_iam_role.pdm_dataset_generator.name
   policy_arn = aws_iam_policy.pdm_dataset_generator_extra_ssm_properties.arn
 }
+
+//resource "aws_iam_role_policy_attachment" "pdm_write_dictionary" {
+//  role       = aws_iam_role.pdm_dataset_generator.name
+//  policy_arn = aws_iam_policy.pdm_write_dictionary.arn
+//}
+
+//resource "aws_iam_role_policy_attachment" "pdm_dataset_read_only" {
+//  role       = aws_iam_role.pdm_dataset_generator.name
+//  policy_arn = aws_iam_policy.pdm_dataset_read_only.arn
+//}
