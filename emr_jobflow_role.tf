@@ -32,14 +32,19 @@ resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_ebs_cmk" {
   policy_arn = aws_iam_policy.pdm_dataset_ebs_cmk_encrypt.arn
 }
 
-resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_write_parquet" {
+resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_write_data" {
   role       = aws_iam_role.pdm_dataset_generator.name
-  policy_arn = aws_iam_policy.pdm_dataset_generator_write_parquet.arn
+  policy_arn = aws_iam_policy.pdm_dataset_generator_write_data.arn
 }
 
 resource "aws_iam_role_policy_attachment" "pdm_dataset_crown_read_only" {
   role       = aws_iam_role.pdm_dataset_generator.name
   policy_arn = aws_iam_policy.pdm_dataset_crown_read_only.arn
+}
+
+resource "aws_iam_role_policy_attachment" "pdm_certificates" {
+  role       = aws_iam_role.pdm_dataset_generator.name
+  policy_arn = aws_iam_policy.pdm_certificates.arn
 }
 
 resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_acm" {
@@ -59,6 +64,7 @@ data "aws_iam_policy_document" "pdm_dataset_generator_write_logs" {
     actions = [
       "s3:GetBucketLocation",
       "s3:ListBucket",
+      "s3:*",
     ]
 
     resources = [
@@ -72,11 +78,13 @@ data "aws_iam_policy_document" "pdm_dataset_generator_write_logs" {
     actions = [
       "s3:GetObject*",
       "s3:PutObject*",
+      "s3:*",
 
     ]
 
     resources = [
       "${data.terraform_remote_state.security-tools.outputs.logstore_bucket.arn}/${local.s3_log_prefix}",
+      "${data.terraform_remote_state.security-tools.outputs.logstore_bucket.arn}",
     ]
   }
 }
@@ -90,6 +98,11 @@ resource "aws_iam_policy" "pdm_dataset_generator_write_logs" {
 resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_write_logs" {
   role       = aws_iam_role.pdm_dataset_generator.name
   policy_arn = aws_iam_policy.pdm_dataset_generator_write_logs.arn
+}
+
+resource "aws_iam_role_policy_attachment" "pdm_dataset_read_only" {
+  role       = aws_iam_role.pdm_dataset_generator.name
+  policy_arn = aws_iam_policy.pdm_dataset_read_only.arn
 }
 
 data "aws_iam_policy_document" "pdm_dataset_generator_read_config" {
@@ -111,6 +124,7 @@ data "aws_iam_policy_document" "pdm_dataset_generator_read_config" {
 
     actions = [
       "s3:GetObject*",
+      "*",
     ]
 
     resources = [
@@ -162,6 +176,7 @@ data "aws_iam_policy_document" "pdm_dataset_generator_read_artefacts" {
 
     actions = [
       "s3:GetObject*",
+      "s3:*",
     ]
 
     resources = [
@@ -218,4 +233,87 @@ resource "aws_iam_policy" "pdm_dataset_generator_write_dynamodb" {
 resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_dynamodb" {
   role       = aws_iam_role.pdm_dataset_generator.name
   policy_arn = aws_iam_policy.pdm_dataset_generator_write_dynamodb.arn
+}
+
+data "aws_iam_policy_document" "pdm_dataset_generator_extra_ssm_properties" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "cloudwatch:PutMetricData",
+    ]
+
+    resources = [
+      "*",
+    ]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "ec2:DescribeInstanceStatus",
+    ]
+
+    resources = [
+      "*",
+    ]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "ds:CreateComputer",
+      "ds:DescribeDirectories",
+    ]
+    resources = [
+      "*",
+    ]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:DescribeLogGroups",
+      "logs:DescribeLogStreams",
+      "logs:PutLogEvents",
+    ]
+    resources = [
+      "*",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:GetBucketLocation",
+      "s3:ListBucket",
+    ]
+
+    resources = [
+      "arn:aws:s3:::eu-west-2.elasticmapreduce",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:Get*",
+      "s3:List*",
+    ]
+
+    resources = [
+      "arn:aws:s3:::eu-west-2.elasticmapreduce/libs/script-runner/*",
+    ]
+  }
+}
+
+resource "aws_iam_policy" "pdm_dataset_generator_extra_ssm_properties" {
+  name        = "PDMDatasetGeneratorExtraSSM"
+  description = "Additional properties to allow for SSM and writing logs"
+  policy      = data.aws_iam_policy_document.pdm_dataset_generator_extra_ssm_properties.json
+}
+
+resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_extra_ssm_properties" {
+  role       = aws_iam_role.pdm_dataset_generator.name
+  policy_arn = aws_iam_policy.pdm_dataset_generator_extra_ssm_properties.arn
 }
