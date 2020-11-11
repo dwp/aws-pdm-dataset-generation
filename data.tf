@@ -32,14 +32,13 @@ data "aws_iam_policy_document" "pdm_dataset_generator_write_data" {
       "s3:List*",
       "s3:DeleteObject*",
       "s3:Put*",
-      "s3:*",
+
     ]
 
     resources = [
       "${data.terraform_remote_state.adg.outputs.published_bucket.arn}/pdm-dataset/*",
       "${data.terraform_remote_state.adg.outputs.published_bucket.arn}/metrics/*",
       "${data.terraform_remote_state.adg.outputs.published_bucket.arn}/common-model-inputs/*",
-      "${data.terraform_remote_state.adg.outputs.published_bucket.arn}/analytical-dataset/*",
     ]
   }
 

@@ -82,7 +82,6 @@ data "aws_iam_policy_document" "pdm_dataset_generator_write_logs" {
 
     resources = [
       "${data.terraform_remote_state.security-tools.outputs.logstore_bucket.arn}/${local.s3_log_prefix}",
-      "${data.terraform_remote_state.security-tools.outputs.logstore_bucket.arn}",
     ]
   }
 }
