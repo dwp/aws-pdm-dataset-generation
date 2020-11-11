@@ -307,13 +307,3 @@ resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_extra_ssm_prope
   role       = aws_iam_role.pdm_dataset_generator.name
   policy_arn = aws_iam_policy.pdm_dataset_generator_extra_ssm_properties.arn
 }
-
-//resource "aws_iam_role_policy_attachment" "pdm_write_dictionary" {
-//  role       = aws_iam_role.pdm_dataset_generator.name
-//  policy_arn = aws_iam_policy.pdm_write_dictionary.arn
-//}
-
-//resource "aws_iam_role_policy_attachment" "pdm_dataset_read_only" {
-//  role       = aws_iam_role.pdm_dataset_generator.name
-//  policy_arn = aws_iam_policy.pdm_dataset_read_only.arn
-//}
