@@ -32,20 +32,6 @@ data "aws_iam_policy_document" "pdm_certificates" {
     effect = "Allow"
 
     actions = [
-      "s3:GetBucketLocation",
-      "s3:ListBucket",
-    ]
-
-    resources = [
-      "arn:aws:s3:::${local.mgt_certificate_bucket}*",
-      "arn:aws:s3:::${local.env_certificate_bucket}/*",
-    ]
-  }
-
-  statement {
-    effect = "Allow"
-
-    actions = [
       "s3:Get*",
       "s3:List*",
     ]
@@ -58,7 +44,7 @@ data "aws_iam_policy_document" "pdm_certificates" {
 }
 
 resource "aws_iam_policy" "pdm_certificates" {
-  name        = "pdmTest"
+  name        = "PdmGetCertificates"
   description = "Allow read access to the Crown-specific subset of the pdm Dataset"
   policy      = data.aws_iam_policy_document.pdm_certificates.json
 }

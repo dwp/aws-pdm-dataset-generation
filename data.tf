@@ -32,7 +32,6 @@ data "aws_iam_policy_document" "pdm_dataset_generator_write_data" {
       "s3:List*",
       "s3:DeleteObject*",
       "s3:Put*",
-
     ]
 
     resources = [
