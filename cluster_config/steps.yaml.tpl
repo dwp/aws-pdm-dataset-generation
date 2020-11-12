@@ -13,7 +13,7 @@ BootstrapActions:
   ScriptBootstrapAction:
     Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/download_sql.sh"
 Steps:
-- Name: "create-hive-table"
+- Name: "create-hive-dynamo-table"
   HadoopJarStep:
     Args:
     - "s3://${s3_config_bucket}/component/pdm-dataset-generation/create-hive-dynamo-table.sh"

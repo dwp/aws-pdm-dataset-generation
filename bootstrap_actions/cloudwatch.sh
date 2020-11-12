@@ -60,12 +60,6 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
-            "file_path": "/var/log/pdm/hive-tables-creation.log",
-            "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "hive-tables-creation.log",
-            "timezone": "UTC"
-          },
-          {
             "file_path": "/var/log/hadoop-yarn/yarn-yarn-nodemanager**.log",
             "log_group_name": "$${cwa_yarnspark_loggrp_name}",
             "log_stream_name": "yarn_nodemanager.log",
