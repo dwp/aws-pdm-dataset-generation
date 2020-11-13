@@ -38,6 +38,7 @@ data "aws_iam_policy_document" "pdm_dataset_generator_write_data" {
       "${data.terraform_remote_state.adg.outputs.published_bucket.arn}/pdm-dataset/*",
       "${data.terraform_remote_state.adg.outputs.published_bucket.arn}/metrics/*",
       "${data.terraform_remote_state.adg.outputs.published_bucket.arn}/common-model-inputs/*",
+      "${data.terraform_remote_state.adg.outputs.published_bucket.arn}/analytical-dataset/*",
     ]
   }
 
@@ -62,54 +63,5 @@ resource "aws_iam_policy" "pdm_dataset_generator_write_data" {
   name        = "pdmDatasetGeneratorWriteData"
   description = "Allow writing of pdm Dataset files and metrics"
   policy      = data.aws_iam_policy_document.pdm_dataset_generator_write_data.json
-}
-
-data "aws_iam_policy_document" "pdm_dataset_read_write_adg" {
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "s3:GetBucketLocation",
-      "s3:ListBucket",
-    ]
-
-    resources = [
-      "${data.terraform_remote_state.adg.outputs.published_bucket.arn}",
-    ]
-  }
-
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "s3:Get*",
-      "s3:List*",
-      "s3:Put*",
-    ]
-
-    resources = [
-      "${data.terraform_remote_state.adg.outputs.published_bucket.arn}/analytical-dataset/*",
-    ]
-
-  }
-
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "kms:Decrypt",
-      "kms:DescribeKey",
-    ]
-
-    resources = [
-      "${data.terraform_remote_state.adg.outputs.published_bucket_cmk.arn}",
-    ]
-  }
-}
-
-resource "aws_iam_policy" "pdm_dataset_read_write_adg" {
-  name        = "pdmDatasetreadwriteadgfiles"
-  description = "Allow read and write access to the adg files. Write in case of an empty table creation"
-  policy      = data.aws_iam_policy_document.pdm_dataset_read_write_adg.json
 }
 
