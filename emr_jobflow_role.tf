@@ -37,9 +37,9 @@ resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_write_data" {
   policy_arn = aws_iam_policy.pdm_dataset_generator_write_data.arn
 }
 
-resource "aws_iam_role_policy_attachment" "pdm_dataset_crown_read_only" {
+resource "aws_iam_role_policy_attachment" "pdm_dataset_read_write_adg" {
   role       = aws_iam_role.pdm_dataset_generator.name
-  policy_arn = aws_iam_policy.pdm_dataset_crown_read_only.arn
+  policy_arn = aws_iam_policy.pdm_dataset_read_write_adg.arn
 }
 
 resource "aws_iam_role_policy_attachment" "pdm_certificates" {
