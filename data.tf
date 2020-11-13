@@ -64,7 +64,7 @@ resource "aws_iam_policy" "pdm_dataset_generator_write_data" {
   policy      = data.aws_iam_policy_document.pdm_dataset_generator_write_data.json
 }
 
-data "aws_iam_policy_document" "pdm_dataset_crown_read_only" {
+data "aws_iam_policy_document" "pdm_dataset_read_write_adg" {
   statement {
     effect = "Allow"
 
@@ -84,20 +84,13 @@ data "aws_iam_policy_document" "pdm_dataset_crown_read_only" {
     actions = [
       "s3:Get*",
       "s3:List*",
+      "s3:Put*",
     ]
 
     resources = [
       "${data.terraform_remote_state.adg.outputs.published_bucket.arn}/analytical-dataset/*",
     ]
 
-    condition {
-      test     = "StringEquals"
-      variable = "s3:ExistingObjectTag/collection_tag"
-
-      values = [
-        "crown"
-      ]
-    }
   }
 
   statement {
@@ -114,9 +107,9 @@ data "aws_iam_policy_document" "pdm_dataset_crown_read_only" {
   }
 }
 
-resource "aws_iam_policy" "pdm_dataset_crown_read_only" {
-  name        = "pdmDatasetCrownReadOnly"
-  description = "Allow read access to the Crown-specific subset of the pdm Dataset"
-  policy      = data.aws_iam_policy_document.pdm_dataset_crown_read_only.json
+resource "aws_iam_policy" "pdm_dataset_read_write_adg" {
+  name        = "pdmDatasetreadwriteadgfiles"
+  description = "Allow read and write access to the adg files. Write in case of an empty table creation"
+  policy      = data.aws_iam_policy_document.pdm_dataset_read_write_adg.json
 }
 
