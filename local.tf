@@ -103,7 +103,7 @@ locals {
   keep_cluster_alive = {
     development = true
     qa          = false
-    integration = false
+    integration = true
     preprod     = false
     production  = false
   }
