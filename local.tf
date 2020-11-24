@@ -135,4 +135,12 @@ locals {
     preprod     = "false"
     production  = "true"
   }
+
+  step_fail_action = {
+    development = "CONTINUE"
+    qa          = "TERMINATE_CLUSTER"
+    integration = "TERMINATE_CLUSTER"
+    preprod     = "TERMINATE_CLUSTER"
+    production  = "TERMINATE_CLUSTER"
+  }
 }
