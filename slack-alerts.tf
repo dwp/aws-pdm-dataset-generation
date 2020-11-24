@@ -74,7 +74,7 @@ resource "aws_cloudwatch_metric_alarm" "pdm_success" {
   period                    = "60"
   statistic                 = "Sum"
   threshold                 = "1"
-  alarm_description         = "Monitoring adg completion"
+  alarm_description         = "Monitoring pdm completion"
   insufficient_data_actions = []
   alarm_actions             = [data.terraform_remote_state.security-tools.outputs.sns_topic_london_monitoring.arn]
   dimensions = {
