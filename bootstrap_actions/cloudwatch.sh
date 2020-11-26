@@ -91,12 +91,6 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
-            "file_path": "/var/log/hive/metrics.json",
-            "log_group_name": "$${cwa_hive_loggrp_name}",
-            "log_stream_name": "metrics.log",
-            "timezone": "UTC"
-          },
-          {
             "file_path": "/var/log/pdm/download_unzip_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
             "log_stream_name": "download_unzip_sql.log",
