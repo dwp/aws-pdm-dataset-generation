@@ -8,6 +8,7 @@ cwa_log_group_name="$3"
 cwa_bootstrap_loggrp_name="$5"
 cwa_steps_loggrp_name="$6"
 cwa_yarnspark_loggrp_name="$7"
+cwa_hive_loggrp_name="$8"
 
 export AWS_DEFAULT_REGION="$${4}"
 
@@ -63,6 +64,30 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "file_path": "/var/log/hadoop-yarn/yarn-yarn-nodemanager**.log",
             "log_group_name": "$${cwa_yarnspark_loggrp_name}",
             "log_stream_name": "yarn_nodemanager.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/hive/hive-server2.log",
+            "log_group_name": "$${cwa_hive_loggrp_name}",
+            "log_stream_name": "hive_server2.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/hive/user/hive/hive.log",
+            "log_group_name": "$${cwa_hive_loggrp_name}",
+            "log_stream_name": "query_related_hive_user.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/hive/user/hadoop/hive.log",
+            "log_group_name": "$${cwa_hive_loggrp_name}",
+            "log_stream_name": "query_related_hadoop_user.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/hive/user/root/hive.log",
+            "log_group_name": "$${cwa_hive_loggrp_name}",
+            "log_stream_name": "query_related_root_user.log",
             "timezone": "UTC"
           },
           {
