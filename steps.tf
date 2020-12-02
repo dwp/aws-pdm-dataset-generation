@@ -14,6 +14,7 @@ resource "aws_s3_bucket_object" "export_to_s3_sh" {
   content = templatefile("${path.module}/steps/export-to-s3.sh",
     {
       pdm_metrics_path = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "metrics/pdm-metrics.json")
+      pdm_metrics_second_path = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "metrics/pdm-metrics-second.json")
     }
   )
 }
@@ -141,4 +142,10 @@ resource "aws_s3_bucket_object" "log_tables_row_count" {
       views_db         = local.uc_db
     }
   )
+}
+
+resource "aws_s3_bucket_object" "collect_metrics" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/collect-metrics.sh"
+  content = templatefile("${path.module}/steps/collect-metrics.sh")
 }
