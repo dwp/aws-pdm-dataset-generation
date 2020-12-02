@@ -10,7 +10,7 @@ function log_wrapper_message() {
 
 log_wrapper_message "Creating metrics file"
 
-METRICS_FILE_PATH=${pdm_metrics_path}
+METRICS_FILE_PATH=/var/log/hive/metrics.json
 STEP_DETAILS_DIR=/mnt/var/lib/info/steps/
 
 cd $STEP_DETAILS_DIR

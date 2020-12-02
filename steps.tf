@@ -14,7 +14,6 @@ resource "aws_s3_bucket_object" "export_to_s3_sh" {
   content = templatefile("${path.module}/steps/export-to-s3.sh",
     {
       pdm_metrics_path        = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "metrics/pdm-metrics.json")
-      pdm_metrics_second_path = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "metrics/pdm-metrics-second.json")
     }
   )
 }

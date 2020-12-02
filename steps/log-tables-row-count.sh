@@ -6,7 +6,7 @@ VIEWS_DB="${views_db}"
 MODEL_DB="${model_db}"
 TRANSFORM_DB="${transform_db}"
 TRANSACTIONAL_DB="${transactional_db}"
-METRICS_FILE_PATH=${pdm_metrics_path}
+METRICS_FILE_PATH=/var/log/hive/metrics.json
 
 (
     # Import the logging functions
