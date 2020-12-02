@@ -10,19 +10,8 @@ function log_wrapper_message() {
 
 log_wrapper_message "Creating metrics file"
 
-METRICS_FILE_PATH=/var/log/pdm/${metrics_filename}
+METRICS_FILE_PATH=${pdm_metrics_path}
 STEP_DETAILS_DIR=/mnt/var/lib/info/steps/
-
-cat >$METRICS_FILE_PATH <<EOF
-{
-  "version" : "3.0.0",
-  "gauges" : { },
-  "counters" : { },
-  "histograms" : { },
-  "meters" : { },
-  "timers" : { }
-}
-EOF
 
 cd $STEP_DETAILS_DIR
 
