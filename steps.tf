@@ -147,5 +147,8 @@ resource "aws_s3_bucket_object" "log_tables_row_count" {
 resource "aws_s3_bucket_object" "collect_metrics" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "component/pdm-dataset-generation/collect-metrics.sh"
-  content = templatefile("${path.module}/steps/collect-metrics.sh")
+  content = templatefile("${path.module}/steps/collect-metrics.sh",
+  {
+    metrics_filename    = local.metrics_filename
+  }
 }

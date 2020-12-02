@@ -10,7 +10,7 @@ function log_wrapper_message() {
 
 log_wrapper_message "Creating metrics file"
 
-METRICS_FILE_PATH=/var/log/pdm/metrics-second.json
+METRICS_FILE_PATH=/var/log/pdm/${metrics_filename}
 STEP_DETAILS_DIR=/mnt/var/lib/info/steps/
 
 cat >$METRICS_FILE_PATH <<EOF
