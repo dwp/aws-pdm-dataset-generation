@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 (
 # Import the logging functions
 source /opt/emr/logging.sh
@@ -23,7 +25,7 @@ for i in $STEP_DEATILS_DIR*.json; do
   completion_ms=$(( $end_time - $start_time ));
   completion_min=$((completion_ms / 60000));
   value_entry=$(jq -n --argjson value $completion_min '{value:$value}');
-  jq --argjson val $completion_min '.gauges += {"'"$gauge_name"'":{"value":$val}}' $METRICS_FILE_PATH > "tmp" && mv -f "tmp" $METRICS_FILE_PATH
+  jq --argjson val $completion_min '.gauges += {"'"$gauge_name"'":{"value":$val}}' $METRICS_FILE_PATH > "tmp" && sudo mv -f -b "tmp" $METRICS_FILE_PATH
   done
 
 log_wrapper_message "Finished creating metrics file"

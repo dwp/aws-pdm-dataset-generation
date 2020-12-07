@@ -124,7 +124,6 @@ locals {
   model_db            = "uc_pdm_model"
   transactional_db    = "uc_pdm_transactional"
   uc_db               = "uc"
-  metrics_filename    = "metrics-second.json"
   data_location       = format("s3://%s", data.terraform_remote_state.adg.outputs.published_bucket.id)
   dictionary_location = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "common-model-inputs")
   serde               = "org.openx.data.jsonserde.JsonSerDe"

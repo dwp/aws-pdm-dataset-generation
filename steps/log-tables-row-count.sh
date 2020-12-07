@@ -26,9 +26,10 @@ METRICS_FILE_PATH=/var/log/hive/metrics.json
         for table_name in $${table_names[@]}
         do
           row_count=$(hive -S -e "select count(*) from $db_name.$table_name")
+          row_count=$((row_count+0))
           echo "$db_name, $table_name, $row_count"
           gauge_name="rowcount_"$db_name"."$table_name
-          jq --argjson val $row_count '.gauges += {"'"$gauge_name"'":{"value":$val}}' $METRICS_FILE_PATH > "tmp" && mv -f "tmp" $METRICS_FILE_PATH
+          jq --argjson val $row_count '.gauges += {"'"$gauge_name"'":{"value":$val}}' $METRICS_FILE_PATH > "tmp_dir" && sudo mv -f "tmp_dir" $METRICS_FILE_PATH
         done
       done
     log_wrapper_message "Ending running log-tables-row-count.sh file"
