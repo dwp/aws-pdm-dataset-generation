@@ -132,13 +132,14 @@ resource "aws_s3_bucket_object" "intial_transactional_load_sh" {
 
 resource "aws_s3_bucket_object" "log_tables_row_count" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  key    = "component/pdm-dataset-generation/log-tables-row-count.sh"
-  content = templatefile("${path.module}/steps/log-tables-row-count.sh",
+  key    = "component/pdm-dataset-generation/row-count.sh"
+  content = templatefile("${path.module}/steps/row-count.sh",
     {
       transform_db     = local.transform_db
       transactional_db = local.transactional_db
       model_db         = local.model_db
       views_db         = local.uc_db
+      data_location    = local.data_location
     }
   )
 }
