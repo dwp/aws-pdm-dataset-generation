@@ -10,9 +10,9 @@ S3_LOCATION="${data_location}"
 (
     source /opt/emr/logging.sh
     function log_wrapper_message() {
-        log_pdm_message "$1" "log-tables-row-count.sh" "$$" "Running as: $USER"
+        log_pdm_message "$1" "row-count.sh" "$$" "Running as: $USER"
     }
-    log_wrapper_message "Running log-tables-row-count.sh file"
+    log_wrapper_message "Running row-count.sh file"
 
     db_names=($TRANSFORM_DB $TRANSACTIONAL_DB $MODEL_DB)
     res1=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/uc_pdm_model.db/)
@@ -73,6 +73,6 @@ S3_LOCATION="${data_location}"
     gauge_name="rowcount_"$VIEWS_DB
     jq --argjson val $row_count_tot '.gauges += {"'"$gauge_name"'":{"value":$val}}' $METRICS_FILE_PATH > "tmp_dir" && sudo mv -f "tmp_dir" $METRICS_FILE_PATH
 
-    log_wrapper_message "Ending running log-tables-row-count.sh file"
+    log_wrapper_message "Ending running row-count.sh file"
 
 ) >> /var/log/pdm/pdm_tables_row_count.log 2>&1
