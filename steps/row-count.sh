@@ -15,9 +15,9 @@ S3_LOCATION="${data_location}"
     log_wrapper_message "Running row-count.sh file"
 
     db_names=($TRANSFORM_DB $TRANSACTIONAL_DB $MODEL_DB)
-    res1=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/uc_pdm_model.db/)
-    res2=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/uc_pdm_transactional.db/)
-    res3=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/uc_pdm_transform.db/)
+    res1=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/$MODEL_DB.db/)
+    res2=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/$TRANSACTIONAL_DB.db/)
+    res3=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/$TRANSFORM_DB.db/)
     tables_string="$res1 $res2 $res3"
     query_string1=""
     query_string2=""
