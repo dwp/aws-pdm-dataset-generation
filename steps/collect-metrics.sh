@@ -31,11 +31,11 @@ for i in $STEP_DEATILS_DIR*.json; do
   elif [[ "$state" == "FAILED" ]]; then
      state=$((1))
   elif [[ "$state" == "RUNNING" ]]; then
-     state=$((-1))
+     state=$((2))
   elif [[ "$state" == "CANCELLED" ]]; then
-     state=$((-2))
+     state=$((3))
   else
-     state=$((-3))
+     state=$((4))
   fi
   gauge_name2=state_step_$step_id
   value_entry=$(jq -n --argjson value $completion_min '{value:$value}');
