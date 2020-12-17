@@ -24,8 +24,11 @@ for i in $STEP_DEATILS_DIR*.json; do
   end_time=$(jq -r '.endDateTime' $i);
   completion_ms=$(( $end_time - $start_time ));
   completion_min=$((completion_ms / 60000));
+  state=$(jq -r '.state' $i);
+  gauge_name2=state_step_$step_id
   value_entry=$(jq -n --argjson value $completion_min '{value:$value}');
   jq --argjson val $completion_min '.gauges += {"'"$gauge_name"'":{"value":$val}}' $METRICS_FILE_PATH > "tmp" && sudo mv -f -b "tmp" $METRICS_FILE_PATH
+  jq --arg val2 $state '.gauges += {"'"$gauge_name2"'":{"value":$val2}}' $METRICS_FILE_PATH > "tmp" && sudo mv -f -b "tmp" $METRICS_FILE_PATH
   done
 
 log_wrapper_message "Finished creating metrics file"
