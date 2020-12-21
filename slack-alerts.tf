@@ -36,6 +36,14 @@ resource "aws_cloudwatch_metric_alarm" "pdm_failed_with_errors" {
   dimensions = {
     RuleName = aws_cloudwatch_event_rule.pdm_terminated_with_errors_rule.name
   }
+  tags = merge(
+    local.common_tags,
+    {
+      Name              = "pdm_failed_with_errors",
+      notification_type = "Error",
+      severity          = "Critical"
+    },
+  )
 }
 
 resource "aws_cloudwatch_event_rule" "pdm_success" {
@@ -80,4 +88,12 @@ resource "aws_cloudwatch_metric_alarm" "pdm_success" {
   dimensions = {
     RuleName = aws_cloudwatch_event_rule.pdm_success.name
   }
+  tags = merge(
+    local.common_tags,
+    {
+      Name              = "pdm_completed_all_steps",
+      notification_type = "Information",
+      severity          = "Critical"
+    },
+  )
 }
