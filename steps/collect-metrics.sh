@@ -20,12 +20,13 @@ cd $STEP_DETAILS_DIR
 for i in $STEP_DEATILS_DIR*.json; do
   start_time=$(jq -r '.startDateTime' $i);
   step_id=$(jq -r '.id' $i)
-  gauge_name=completion_min_step_$step_id
+  step_script_name=$(jq -r '.args[0]' $i)
+  step_name=$(echo "$step_script_name" | sed 's:.*/::' | cut -f 1 -d '.')
+  gauge_name=runtime_step_$step_id$step_name
   end_time=$(jq -r '.endDateTime' $i);
   completion_ms=$(( $end_time - $start_time ));
   completion_min=$((completion_ms / 60000));
   state=$(jq -r '.state' $i);
-  #!/bin/bash
   if [[ "$state" == "COMPLETED" ]]; then
      state=$((0))
   elif [[ "$state" == "FAILED" ]]; then
@@ -37,7 +38,7 @@ for i in $STEP_DEATILS_DIR*.json; do
   else
      state=$((4))
   fi
-  gauge_name2=state_step_$step_id
+  gauge_name2=state_step_$step_id$step_name
   value_entry=$(jq -n --argjson value $completion_min '{value:$value}');
   jq --argjson val $completion_min '.gauges += {"'"$gauge_name"'":{"value":$val}}' $METRICS_FILE_PATH > "tmp" && sudo mv -f -b "tmp" $METRICS_FILE_PATH
   jq --argjson val2 $state '.gauges += {"'"$gauge_name2"'":{"value":$val2}}' $METRICS_FILE_PATH > "tmp" && sudo mv -f -b "tmp" $METRICS_FILE_PATH
