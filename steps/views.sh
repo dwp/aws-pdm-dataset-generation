@@ -8,7 +8,6 @@ MODEL_DB="${model_db}"
 TRANSFORM_DB="${transform_db}"
 TRANSACTIONAL_DB="${transactional_db}"
 
-
 VIEWS_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/views
 
 (

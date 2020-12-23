@@ -4,6 +4,7 @@ VIEWS_DB="${views_db}"
 MODEL_DB="${model_db}"
 TRANSFORM_DB="${transform_db}"
 TRANSACTIONAL_DB="${transactional_db}"
+VIEWS_TABLES_DB="${views_tables_db}"
 METRICS_FILE_PATH=/var/log/hive/metrics.json
 S3_LOCATION="${data_location}"
 
@@ -14,11 +15,13 @@ S3_LOCATION="${data_location}"
     }
     log_wrapper_message "Running row-count.sh file"
 
-    db_names=($TRANSFORM_DB $TRANSACTIONAL_DB $MODEL_DB)
+    db_names=($TRANSFORM_DB $TRANSACTIONAL_DB $MODEL_DB $VIEWS_TABLES_DB)
     res1=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/$MODEL_DB.db/)
     res2=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/$TRANSACTIONAL_DB.db/)
     res3=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/$TRANSFORM_DB.db/)
-    tables_string="$res1 $res2 $res3"
+    res4=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/$VIEWS_TABLES_DB.db/)
+
+    tables_string="$res1 $res2 $res3 $res4"
     query_string1=""
     query_string2=""
     new_line=$'\n'
@@ -57,21 +60,6 @@ S3_LOCATION="${data_location}"
         gauge_name="rowcount_"$db_name
         jq --argjson val $rows_in_db '.gauges += {"'"$gauge_name"'":{"value":$val}}' $METRICS_FILE_PATH > "tmp_dir" && sudo mv -f "tmp_dir" $METRICS_FILE_PATH
       done
-    table_names=$(hive -S -e "USE $VIEWS_DB; SHOW TABLES;")
-    row_count_tot=$((0))
-    declare -a $table_names
-    for table_name in $${table_names[@]}
-    do
-      row_count=$(hive -S -e "select count(*) from $VIEWS_DB.$table_name")
-      if ! [[ -z $row_count ]]; then
-      row_count=$((row_count+0))
-      row_count_tot=$((row_count+row_count_tot))
-      echo $VIEWS_DB.$table_name
-      echo $row_count
-      fi
-    done
-    gauge_name="rowcount_"$VIEWS_DB
-    jq --argjson val $row_count_tot '.gauges += {"'"$gauge_name"'":{"value":$val}}' $METRICS_FILE_PATH > "tmp_dir" && sudo mv -f "tmp_dir" $METRICS_FILE_PATH
 
     log_wrapper_message "Ending running row-count.sh file"
 
