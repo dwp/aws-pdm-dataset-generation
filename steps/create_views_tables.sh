@@ -23,7 +23,7 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts
     declare -a tb_names
     for i in $${tb_names[@]}
       do
-        echo "DROP TABLE "$VIEWS_TABLES_DB"."$i";"$'\n'"CREATE TABLE "$VIEWS_TABLES_DB"."$i" AS SELECT * FROM "$VIEWS_DB"."$i";" >> $statements_file
+        echo "DROP TABLE "$VIEWS_TABLES_DB"."$i";"$'\n'"CREATE TABLE "$VIEWS_TABLES_DB"."$i" AS SELECT * FROM "$VIEWS_DB"."$i";"$'\n'"DROP VIEW "$VIEWS_DB"."$i";" >> $statements_file
       done
     hive --hiveconf hive.cli.errors.ignore=true -f $statements_file
     echo "FINISHED_RUNNING_SOURCE......................"
