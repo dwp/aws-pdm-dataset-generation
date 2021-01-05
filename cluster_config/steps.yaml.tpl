@@ -73,10 +73,10 @@ Steps:
     - "s3://${s3_config_bucket}/component/pdm-dataset-generation/views.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
-- Name: "create_pii_csv_files"
+- Name: "create_views_tables"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/create_pii_csv_files.sh"
+    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/create-views-tables.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "row-count"

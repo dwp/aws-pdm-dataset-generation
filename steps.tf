@@ -109,8 +109,8 @@ resource "aws_s3_bucket_object" "create_hive_dynamo_table" {
 
 resource "aws_s3_bucket_object" "create_views_tables" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  key    = "component/pdm-dataset-generation/create_views_tables.sh"
-  content = templatefile("${path.module}/steps/create_views_tables.sh",
+  key    = "component/pdm-dataset-generation/create-views-tables.sh"
+  content = templatefile("${path.module}/steps/create-views-tables.sh",
     {
       views_db          = local.views_db
       views_tables_db   = local.views_tables_db
