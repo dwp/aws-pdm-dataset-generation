@@ -302,3 +302,29 @@ resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_extra_ssm_prope
   role       = aws_iam_role.pdm_dataset_generator.name
   policy_arn = aws_iam_policy.pdm_dataset_generator_extra_ssm_properties.arn
 }
+
+data "aws_iam_policy_document" "pdm_dataset_generator_metadata_change" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "ec2:ModifyInstanceMetadataOptions",
+      "ec2:*Tags",
+    ]
+
+    resources = [
+      "arn:aws:ec2:${var.region}:${local.account[local.environment]}:instance/*",
+    ]
+  }
+}
+
+resource "aws_iam_policy" "pdm_dataset_generator_metadata_change" {
+  name        = "PDMDatasetGeneratorMetadataOptions"
+  description = "Allow editing of Metadata Options"
+  policy      = data.aws_iam_policy_document.pdm_dataset_generator_metadata_change.json
+}
+
+resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_metadata_change" {
+  role       = aws_iam_role.pdm_dataset_generator.name
+  policy_arn = aws_iam_policy.pdm_dataset_generator_metadata_change.arn
+}
