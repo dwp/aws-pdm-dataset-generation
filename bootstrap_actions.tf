@@ -24,6 +24,7 @@ resource "aws_s3_bucket_object" "emr_setup_sh" {
       cwa_steps_loggrp_name           = aws_cloudwatch_log_group.pdm_cw_steps_loggroup.name
       cwa_yarnspark_loggrp_name       = aws_cloudwatch_log_group.pdm_cw_yarnspark_loggroup.name
       cwa_hive_loggrp_name            = aws_cloudwatch_log_group.pdm_cw_hive_loggroup.name
+      name                            = local.emr_cluster_name
   })
 }
 
@@ -102,4 +103,30 @@ resource "aws_s3_bucket_object" "download_sql_sh" {
       environment_name      = local.environment
     }
   )
+}
+
+resource "aws_s3_bucket_object" "application_metrics" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/application-metrics-setup.sh"
+  content = templatefile("${path.module}/bootstrap_actions/application-metrics-setup.sh",
+    {
+      proxy_url         = data.terraform_remote_state.internal_compute.outputs.internet_proxy.url
+      metrics_pom       = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.metrics_pom.key)
+      prometheus_config = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.prometheus_config.key)
+    }
+  )
+}
+
+resource "aws_s3_bucket_object" "metrics_pom" {
+  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
+  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
+  key        = "component/pdm-dataset-generation/metrics_config/pom.xml"
+  content    = file("${path.module}/bootstrap_actions/metrics_config/pom.xml")
+}
+
+resource "aws_s3_bucket_object" "prometheus_config" {
+  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
+  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
+  key        = "component/pdm-dataset-generation/metrics_config/prometheus_config.yml"
+  content    = file("${path.module}/bootstrap_actions/metrics_config/prometheus_config.yml")
 }

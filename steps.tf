@@ -112,8 +112,8 @@ resource "aws_s3_bucket_object" "create_views_tables" {
   key    = "component/pdm-dataset-generation/create-views-tables.sh"
   content = templatefile("${path.module}/steps/create-views-tables.sh",
     {
-      views_db          = local.views_db
-      views_tables_db   = local.views_tables_db
+      views_db        = local.views_db
+      views_tables_db = local.views_tables_db
     }
   )
 }
@@ -140,8 +140,7 @@ resource "aws_s3_bucket_object" "row_count" {
       model_db         = local.model_db
       views_db         = local.views_db
       data_location    = local.data_location
-      views_tables_db   = local.views_tables_db
-
+      views_tables_db  = local.views_tables_db
     }
   )
 }
