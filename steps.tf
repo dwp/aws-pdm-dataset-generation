@@ -141,7 +141,6 @@ resource "aws_s3_bucket_object" "row_count" {
       views_db         = local.views_db
       data_location    = local.data_location
       views_tables_db  = local.views_tables_db
-
     }
   )
 }
