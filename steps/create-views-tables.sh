@@ -29,6 +29,11 @@ TEMP_DIR=/opt/emr/sql/extracted/src/main/resources/scripts
       do
         echo "CREATE TABLE "$VIEWS_TABLES_DB"."$i" AS SELECT * FROM "$VIEWS_DB"."$i";" >> $statements_file
       done
+    # Clean up views database
+    for i in $${tb_names[@]}
+      do
+        echo "DROP VIEW "$VIEWS_DB"."$i";" >> $statements_file
+      done
     hive --hiveconf hive.cli.errors.ignore=true -f $statements_file
     tb_names_views_tables=$(hive -S -e "USE $VIEWS_TABLES_DB; SHOW TABLES;")
     sudo rm -f $statements_file
