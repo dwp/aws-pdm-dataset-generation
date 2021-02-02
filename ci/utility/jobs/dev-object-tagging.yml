@@ -1,5 +1,5 @@
 jobs:
-  - name: object-tagging
+  - name: object-tagging-dev
     serial: true
     plan:
       - aggregate:
