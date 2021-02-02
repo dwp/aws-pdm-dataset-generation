@@ -32,7 +32,8 @@ data "aws_iam_policy_document" "pdm_object_tagger" {
     effect = "Allow"
 
     actions = [
-      "s3:*",
+      "s3:GetObject",
+      "s3:*Tagging"
     ]
 
     resources = [
@@ -80,7 +81,7 @@ resource "aws_batch_job_definition" "pdm_object_tagger" {
           {"name": "LOG_LEVEL", "value": "INFO"},
           {"name": "AWS_DEFAULT_REGION", "value": "eu-west-2"},
           {"name": "S3_BUCKET", "value": "${data.terraform_remote_state.adg.outputs.published_bucket.id}"},
-          {"name": "S3_PREFIX", "value": "pdm-dataset"},
+          {"name": "S3_PREFIX", "value": "pdm-dataset/"},
           {"name": "CSV_LOCATION", "value": "NOT_SET"}
       ],
       "ulimits": [
