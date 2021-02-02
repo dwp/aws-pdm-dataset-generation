@@ -39,11 +39,11 @@ variable "emr_ami_id" {
 
 variable "emr_instance_type" {
   default = {
-    development = "m5.8xlarge"
+    development = "m5.2xlarge"
     qa          = "m5.2xlarge"
-    integration = "m5.8xlarge" # temp increase for DW-4437 testing
+    integration = "m5.2xlarge"
     preprod     = "m5.2xlarge"
-    production  = "m5.2xlarge"
+    production  = "m5.16xlarge"
   }
 }
 
@@ -58,6 +58,6 @@ variable "emr_core_instance_count" {
     qa          = "2"
     integration = "2"
     preprod     = "2"
-    production  = "8"
+    production  = "50"
   }
 }
