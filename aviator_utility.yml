@@ -1,0 +1,17 @@
+spruce:
+  - base: ci/meta.yml
+    prune:
+      - meta
+    merge:
+      - with_in: ci/utility
+        regexp: ".*yml"
+        except:
+          - groups_crown.yml
+          - resources_crown.yml
+    to: aviator_pipeline_object_tagging.yml
+fly:
+  name: pdm-dataset-generation
+  target: utility
+  expose: true
+  check_creds: true
+  config: aviator_pipeline_object_tagging.yml

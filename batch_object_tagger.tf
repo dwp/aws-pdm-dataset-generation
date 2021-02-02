@@ -32,6 +32,7 @@ data "aws_iam_policy_document" "pdm_object_tagger" {
     effect = "Allow"
 
     actions = [
+      "s3:ListObjects",
       "s3:GetObject",
       "s3:*Tagging"
     ]

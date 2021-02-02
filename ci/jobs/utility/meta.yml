@@ -1,0 +1,86 @@
+meta:
+  config:
+    object-tagging-batch:
+      task: object-tagging-batch
+      attempts: 1
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((docker-awscli.repository))
+            version: ((docker-awscli.version))
+            tag: ((docker-awscli.version))
+        inputs:
+          - name: manifest
+          - name: .aws
+          - name: meta
+        params:
+          AWS_PROFILE: ci
+          AWS_SHARED_CREDENTIALS_FILE: .aws/credentials
+          AWS_DEFAULT_REGION: eu-west-2
+          TIMEOUT: 90   # Time (in minutes) to wait for job to complete
+          BATCH_JOB_DEFINITION: pdm_object_tagger_job
+        run:
+          path: sh
+          args:
+            - -exc
+            - |
+              pipeline_name=`cat "meta/build_pipeline_name"`
+              job_name=`cat "meta/build_job_name"`
+              build_number=`cat "meta/build_name"`
+              job_id=$(aws batch submit-job --job-queue pdm_object_tagger --job-definition ${BATCH_JOB_DEFINITION} --job-name ${pipeline_name}_${job_name}_${build_number} --parameters manifest="$(python -c 'import json,sys; print(json.dumps(json.dumps(json.loads(open("manifest/manifest.json", "r").read()))))')" | jq -e --raw-output .jobId)
+              i=0
+              set +x
+              while [[ ${i} -le ${TIMEOUT} ]]
+              do
+                status=$(aws batch describe-jobs --jobs ${job_id} | jq -e --raw-output '.jobs[0].status')
+                if [ "$status" == "FAILED" ]; then
+                  echo "job failed"
+                  exit 1
+                fi
+                if [ "$status" == "SUCCEEDED" ]; then
+                  echo "job succeeded"
+                  exit 0
+                fi
+                echo "job is currently ${status}"
+                i=$((i+1))
+                sleep 60
+              done
+              exit 1
+
+      create-aws-profiles:
+        task: create-aws-profiles
+        attempts: 15
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: ((docker-awscli-ubuntu.repository))
+              version: ((docker-awscli-ubuntu.version))
+              tag: ((docker-awscli-ubuntu.version))
+          outputs:
+            - name: .aws
+          params:
+            AWS_ACCESS_KEY_ID: ((ci.aws_access_key_id))
+            AWS_SECRET_ACCESS_KEY: ((ci.aws_secret_access_key))
+            AWS_REGION: eu-west-2
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                cat <<EOF> .aws/credentials
+                [default]
+                region = $AWS_REGION
+                aws_access_key_id = $AWS_ACCESS_KEY_ID
+                aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
+                [ci]
+                region = $AWS_REGION
+                role_arn = $AWS_ROLE
+                source_profile = default
+                s3 =
+                  max_concurrent_requests = 5
+                  signature_version = s3v4
+                EOF
