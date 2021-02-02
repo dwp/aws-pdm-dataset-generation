@@ -61,3 +61,7 @@ variable "emr_core_instance_count" {
     production  = "8"
   }
 }
+
+variable "pdm_object_tagger_version" {
+  description = "Sha256 container version. Include sha256 prefix"
+}
