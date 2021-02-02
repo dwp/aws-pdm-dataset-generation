@@ -1,5 +1,5 @@
 jobs:
-- name: pdm-load-transactional-data-prod
+- name: pdm-load-geography-data-prod
   serial: true
   plan:
   - get: aws-pdm-dataset-generation
@@ -19,8 +19,8 @@ jobs:
   - .: (( inject meta.plan.get-transactional-files ))
     config:
       params:
-        SOURCE_PATH: "/home/pdm_transactional_tables/"
+        SOURCE_PATH: "/home/pdm_geography_table/"
   - .: (( inject meta.plan.load-s3 ))
     config:
       params:
-        S3_FOLDER: "common-model-inputs/transactional_data"
+        S3_FOLDER: "common-model-inputs/geography_data"
