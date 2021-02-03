@@ -117,7 +117,6 @@ locals {
   cw_agent_metrics_collection_interval = 60
 
   s3_log_prefix            = "emr/pdm_dataset_generator"
-  emrfs_metadata_tablename = "pdm_Dataset_Generation_Metadata"
 
   source_db           = "uc_pdm_source"
   transform_db        = "uc_pdm_transform"
