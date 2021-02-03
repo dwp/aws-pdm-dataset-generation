@@ -24,15 +24,18 @@ resource "aws_s3_bucket_object" "instances" {
   key    = "emr/pdm/instances.yaml"
   content = templatefile("${path.module}/cluster_config/instances.yaml.tpl",
     {
-      keep_cluster_alive  = local.keep_cluster_alive[local.environment]
-      add_master_sg       = aws_security_group.pdm_common.id
-      add_slave_sg        = aws_security_group.pdm_common.id
-      subnet_ids          = join(",", data.terraform_remote_state.internal_compute.outputs.pdm_subnet.ids)
-      master_sg           = aws_security_group.pdm_master.id
-      slave_sg            = aws_security_group.pdm_slave.id
-      service_access_sg   = aws_security_group.pdm_emr_service.id
-      instance_type       = var.emr_instance_type[local.environment]
-      core_instance_count = var.emr_core_instance_count[local.environment]
+      keep_cluster_alive       = local.keep_cluster_alive[local.environment]
+      add_master_sg            = aws_security_group.pdm_common.id
+      add_slave_sg             = aws_security_group.pdm_common.id
+      subnet_ids               = join(",", data.terraform_remote_state.internal_compute.outputs.pdm_subnet.ids)
+      master_sg                = aws_security_group.pdm_master.id
+      slave_sg                 = aws_security_group.pdm_slave.id
+      service_access_sg        = aws_security_group.pdm_emr_service.id
+      instance_type_master     = var.emr_instance_type_master[local.environment]
+      instance_type_core_one   = var.emr_instance_type_core_one[local.environment]
+      instance_type_core_two   = var.emr_instance_type_core_two[local.environment]
+      instance_type_core_three = var.emr_instance_type_core_three[local.environment]
+      core_instance_count      = var.emr_core_instance_count[local.environment]
     }
   )
 }
@@ -67,7 +70,6 @@ resource "aws_s3_bucket_object" "configurations" {
       proxy_http_port              = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
       proxy_https_host             = data.terraform_remote_state.internal_compute.outputs.internet_proxy.host
       proxy_https_port             = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
-      emrfs_metadata_tablename     = local.emrfs_metadata_tablename
       hive_metsatore_username      = var.metadata_store_pdm_writer_username
       hive_metastore_pwd           = data.aws_secretsmanager_secret.rds_aurora_secrets.name
       hive_metastore_endpoint      = data.terraform_remote_state.adg.outputs.hive_metastore.rds_cluster.endpoint
