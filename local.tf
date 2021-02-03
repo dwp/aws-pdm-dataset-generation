@@ -124,10 +124,10 @@ locals {
   model_db            = "uc_pdm_model"
   transactional_db    = "uc_pdm_transactional"
   uc_db               = "uc"
-  data_location       = format("s3://%s", data.terraform_remote_state.adg.outputs.published_bucket.id)
-  dictionary_location = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "common-model-inputs")
+  data_location       = format("s3://%s", data.terraform_remote_state.common.outputs.published_bucket.id)
+  dictionary_location = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "common-model-inputs")
   serde               = "org.openx.data.jsonserde.JsonSerDe"
-  pii_data_location   = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "pdm-dataset/pii")
+  pii_data_location   = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "pdm-dataset/pii")
 
   intial_transactioanl_load = {
     development = "true"
