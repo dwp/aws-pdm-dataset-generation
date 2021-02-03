@@ -69,11 +69,11 @@ locals {
   }
 
   pdm_version = {
-    development = "0.0.17"
-    qa          = "0.0.17"
-    integration = "0.0.17"
-    preprod     = "0.0.17"
-    production  = "0.0.17"
+    development = "0.0.20"
+    qa          = "0.0.19"
+    integration = "0.0.19"
+    preprod     = "0.0.19"
+    production  = "0.0.19"
   }
 
   amazon_region_domain = "${data.aws_region.current.name}.amazonaws.com"
@@ -123,9 +123,16 @@ locals {
   transform_db        = "uc_pdm_transform"
   model_db            = "uc_pdm_model"
   transactional_db    = "uc_pdm_transactional"
+<<<<<<< HEAD
   uc_db               = "uc"
   data_location       = format("s3://%s", data.terraform_remote_state.common.outputs.published_bucket.id)
   dictionary_location = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "common-model-inputs")
+=======
+  views_db            = "uc_views_tables"
+  views_tables_db     = "uc"
+  data_location       = format("s3://%s", data.terraform_remote_state.adg.outputs.published_bucket.id)
+  dictionary_location = format("s3://%s/%s", data.terraform_remote_state.adg.outputs.published_bucket.id, "common-model-inputs")
+>>>>>>> b8c8c143033fba892c8825fbec3921d326623e43
   serde               = "org.openx.data.jsonserde.JsonSerDe"
   pii_data_location   = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "pdm-dataset/pii")
 

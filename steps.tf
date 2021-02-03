@@ -63,7 +63,7 @@ resource "aws_s3_bucket_object" "views_sh" {
       transform_db     = local.transform_db
       transactional_db = local.transactional_db
       model_db         = local.model_db
-      views_db         = local.uc_db
+      views_db         = local.views_db
     }
   )
 }
@@ -107,13 +107,13 @@ resource "aws_s3_bucket_object" "create_hive_dynamo_table" {
   )
 }
 
-resource "aws_s3_bucket_object" "create_pii_csv_sh" {
+resource "aws_s3_bucket_object" "create_views_tables" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  key    = "component/pdm-dataset-generation/create_pii_csv_files.sh"
-  content = templatefile("${path.module}/steps/create_pii_csv_files.sh",
+  key    = "component/pdm-dataset-generation/create-views-tables.sh"
+  content = templatefile("${path.module}/steps/create-views-tables.sh",
     {
-      views_db          = local.uc_db
-      pii_data_location = local.pii_data_location
+      views_db        = local.views_db
+      views_tables_db = local.views_tables_db
     }
   )
 }
@@ -130,7 +130,7 @@ resource "aws_s3_bucket_object" "intial_transactional_load_sh" {
   )
 }
 
-resource "aws_s3_bucket_object" "log_tables_row_count" {
+resource "aws_s3_bucket_object" "row_count" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "component/pdm-dataset-generation/row-count.sh"
   content = templatefile("${path.module}/steps/row-count.sh",
@@ -138,8 +138,9 @@ resource "aws_s3_bucket_object" "log_tables_row_count" {
       transform_db     = local.transform_db
       transactional_db = local.transactional_db
       model_db         = local.model_db
-      views_db         = local.uc_db
+      views_db         = local.views_db
       data_location    = local.data_location
+      views_tables_db  = local.views_tables_db
     }
   )
 }

@@ -12,6 +12,9 @@ BootstrapActions:
 - Name: "download-pdm-sql"
   ScriptBootstrapAction:
     Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/download_sql.sh"
+- Name: "application-metrics-setup"
+  ScriptBootstrapAction:
+    Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/application-metrics-setup.sh"
 Steps:
 - Name: "create-hive-dynamo-table"
   HadoopJarStep:
@@ -73,10 +76,10 @@ Steps:
     - "s3://${s3_config_bucket}/component/pdm-dataset-generation/views.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
-- Name: "create_pii_csv_files"
+- Name: "create-views-tables"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/create_pii_csv_files.sh"
+    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/create-views-tables.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "row-count"
