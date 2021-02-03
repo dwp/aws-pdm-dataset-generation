@@ -61,6 +61,18 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
+            "file_path": "/var/log/pdm/nohup.log",
+            "log_group_name": "$${cwa_bootstrap_loggrp_name}",
+            "log_stream_name": "emr_setup.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/pdm/application_metrics.log",
+            "log_group_name": "$${cwa_bootstrap_loggrp_name}",
+            "log_stream_name": "application_metrics.log",
+            "timezone": "UTC"
+          },
+          {
             "file_path": "/var/log/hadoop-yarn/yarn-yarn-nodemanager**.log",
             "log_group_name": "$${cwa_yarnspark_loggrp_name}",
             "log_stream_name": "yarn_nodemanager.log",
@@ -151,9 +163,9 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
-            "file_path": "/var/log/pdm/create_pii_csv_files.log",
+            "file_path": "/var/log/pdm/create_views_tables.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "create_pii_csv_files.log",
+            "log_stream_name": "create_views_tables.log",
             "timezone": "UTC"
           },
           {
