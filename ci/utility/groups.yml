@@ -1,4 +1,4 @@
 groups:
   - name: object-tagging
     jobs:
-      - object-tagging-dev
+    - object-tagging-dev

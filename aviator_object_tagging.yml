@@ -5,12 +5,11 @@ spruce:
     merge:
       - with_in: ci/utility/
         regexp: ".*yml"
-        except:
-          - groups.yml
-          - resources.yml
+      - with_in: ci/utility/jobs/
+        regexp: ".*yml"
     to: aviator_pipeline_object_tagging.yml
 fly:
-  name: pdm-dataset-generation
+  name: pdm-object-tagging
   target: utility
   expose: true
   check_creds: true

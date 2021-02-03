@@ -7,3 +7,5 @@ resources:
       uri: https://github.com/dwp/dataworks-s3-object-tagger.git
     check_every: 5m
     webhook_token: ((dataworks.concourse_github_webhook_token))
+  - name: meta
+    type: meta
