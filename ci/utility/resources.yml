@@ -9,3 +9,12 @@ resources:
     webhook_token: ((dataworks.concourse_github_webhook_token))
   - name: meta
     type: meta
+  - name: dataworks-aws-rbac
+    type: git
+    source:
+      branch: master
+      username: ((dataworks.enterprise_github_username))
+      password: ((dataworks-secrets.enterprise_github_pat))
+      uri: https://((dataworks.enterprise_github_url))/dip/aws-rbac.git
+    webhook_token: ((dataworks.concourse_github_webhook_token))
+    check_every: 5m

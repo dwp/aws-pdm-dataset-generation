@@ -10,3 +10,13 @@ jobs:
           params:
             BATCH_JOB_DEFINITION: pdm_object_tagger_job
             AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
+  - name: rbac-csv-upload
+    serial: true
+    plan:
+      - get: dataworks-aws-rbac
+        trigger: true
+      - get: meta
+      - .: (( inject meta.plan.rbac-csv-upload ))
+        config:
+          params:
+            AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
