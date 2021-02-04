@@ -89,7 +89,7 @@ meta:
             version: ((dataworks.docker_awscli_version))
             tag: ((dataworks.docker_awscli_version))
         inputs:
-          - name: dataworks-aws-rbac
+          - name: rbac-csv
           - name: terraform-output-common 
         params:
           AWS_DEFAULT_REGION: eu-west-2
@@ -101,4 +101,4 @@ meta:
               CONFIG_BUCKET=$(cat terraform-output-common/outputs.json | jq -r '.config_bucket.value.id' )
               echo $CONFIG_BUCKET
               source /assume-role
-              aws s3 cp dataworks-aws-rbac/data/data_classification.csv s3://${CONFIG_BUCKET}/component/rbac/data_classification.csv
+              aws s3 cp rbac-csv/data/data_classification.csv s3://${CONFIG_BUCKET}/component/rbac/data_classification.csv
