@@ -73,3 +73,4 @@ meta:
               # ls
               # cd dataworks-aws-rbac
               # ls
+              aws s3 cp dataworks-aws-rbac/README.md s3://${S3_BUCKET}/marktest.md 
