@@ -74,14 +74,24 @@ data "aws_iam_policy_document" "pdm_object_tagger_published_bucket" {
   }
 }
 
-resource "aws_iam_policy" "pdm_object_tagger" {
-  name   = "pdm_object_tagger"
-  policy = data.aws_iam_policy_document.pdm_object_tagger.json
+resource "aws_iam_policy" "pdm_object_tagger_config" {
+  name   = "pdm_object_tagger_config"
+  policy = data.aws_iam_policy_document.pdm_object_tagger_config_bucket.json
 }
 
-resource "aws_iam_role_policy_attachment" "pdm_object_tagger" {
+resource "aws_iam_policy" "pdm_object_tagger_published" {
+  name   = "pdm_object_tagger_published"
+  policy = data.aws_iam_policy_document.pdm_object_tagger_published_bucket.json
+}
+
+resource "aws_iam_role_policy_attachment" "pdm_object_tagger_config" {
   role       = aws_iam_role.pdm_object_tagger.name
-  policy_arn = aws_iam_policy.pdm_object_tagger.arn
+  policy_arn = aws_iam_policy.pdm_object_tagger_config.arn
+}
+
+resource "aws_iam_role_policy_attachment" "pdm_object_tagger_published" {
+  role       = aws_iam_role.pdm_object_tagger.name
+  policy_arn = aws_iam_policy.pdm_object_tagger_published.arn
 }
 
 resource "aws_iam_role_policy_attachment" "pdm_object_tagger_ecs" {
