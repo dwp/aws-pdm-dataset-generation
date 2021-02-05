@@ -26,7 +26,7 @@ resource "aws_iam_role" "pdm_object_tagger" {
   tags               = local.common_tags
 }
 
-data "aws_iam_policy_document" "pdm_object_tagger" {
+data "aws_iam_policy_document" "pdm_object_tagger_config_bucket" {
   statement {
     sid    = "AllowS3Tagging"
     effect = "Allow"
@@ -39,8 +39,52 @@ data "aws_iam_policy_document" "pdm_object_tagger" {
 
     resources = [
       "${data.terraform_remote_state.common.outputs.config_bucket.arn}/*",
-      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/*"
     ]
+  }
+
+  statement {
+    sid    = "AllowDecryptConfigBucketObjects"
+    effect = "Allow"
+
+    actions = [
+      "kms:Decrypt",
+      "kms:DescribeKey",
+    ]
+
+    resources = [
+      "${data.terraform_remote_state.common.outputs.config_bucket.arn}/*",
+    ]
+  }
+}
+
+data "aws_iam_policy_document" "pdm_object_tagger_published_bucket" {
+  statement {
+    sid    = "AllowS3Tagging"
+    effect = "Allow"
+
+    actions = [
+      "s3:ListObjects",
+      "s3:GetObject",
+      "s3:*Tagging"
+    ]
+
+    resources = [
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/*",
+    ]
+  }
+
+  statement {
+    sid    = "AllowDecryptPublishedBucketObjects"
+    effect = "Allow"
+
+    actions = [
+      "kms:Decrypt",
+      "kms:DescribeKey",
+    ]
+
+    resources = [
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/*}",
+      ]
   }
 }
 
