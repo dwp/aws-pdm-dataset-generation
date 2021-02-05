@@ -93,7 +93,7 @@ variable "emr_core_instance_count" {
 }
 
 variable "image_version" {
-  description = "Sha256 container version. Include sha256 prefix"
+  description = "Container tag values."
   default = {
     s3-object-tagger = "0.0.3"
   }
