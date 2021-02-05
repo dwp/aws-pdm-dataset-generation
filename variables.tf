@@ -91,3 +91,10 @@ variable "emr_core_instance_count" {
     production  = "22"
   }
 }
+
+variable "image_version" {
+  description = "Container tag values."
+  default = {
+    s3-object-tagger = "0.0.3"
+  }
+}
