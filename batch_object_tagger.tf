@@ -72,20 +72,6 @@ data "aws_iam_policy_document" "pdm_object_tagger_published_bucket" {
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/*",
     ]
   }
-
-  statement {
-    sid    = "AllowDecryptPublishedBucketObjects"
-    effect = "Allow"
-
-    actions = [
-      "kms:Decrypt",
-      "kms:DescribeKey",
-    ]
-
-    resources = [
-      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/*}",
-      ]
-  }
 }
 
 resource "aws_iam_policy" "pdm_object_tagger" {
