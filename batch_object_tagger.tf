@@ -1,5 +1,5 @@
 locals {
-  pdm_object_tagger_image = "${local.account.management}.${data.terraform_remote_state.aws_ingestion.outputs.vpc.vpc.ecr_dkr_domain_name}/dataworks-s3-object-tagger${var.image_version.s3-object-tagger}"
+  pdm_object_tagger_image = "${local.account.management}.${data.terraform_remote_state.aws_ingestion.outputs.vpc.vpc.ecr_dkr_domain_name}/dataworks-s3-object-tagger:${var.image_version.s3-object-tagger}"
 }
 
 # AWS Batch Job IAM role
