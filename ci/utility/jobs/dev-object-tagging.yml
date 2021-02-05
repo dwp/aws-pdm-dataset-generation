@@ -18,7 +18,7 @@ jobs:
     plan:
       - get: rbac-csv
         trigger: true
-        passed: 
+        passed:
           - rbac-csv-upload-dev
       - get: dataworks-s3-object-tagger
         trigger: true
@@ -33,3 +33,4 @@ jobs:
             AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
             S3_PREFIX: "data/uc"
             CSV_PREFIX: "component/rbac"
+            FILE_NAME: "data_classification.csv"

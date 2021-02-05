@@ -28,7 +28,7 @@ meta:
               job_name=`cat "meta/build_job_name"`
               build_number=`cat "meta/build_name"`
               CONFIG_BUCKET=$(cat terraform-output-common/outputs.json | jq -r '.config_bucket.value.id' )
-              CSV_LOCATION="s3://${CONFIG_BUCKET}/${CSV_PREFIX}/data_classification.csv"
+              CSV_LOCATION="s3://${CONFIG_BUCKET}/${CSV_PREFIX}/${FILE_NAME}"
 
               job_id=$(aws batch submit-job --job-queue pdm_object_tagger --job-definition ${BATCH_JOB_DEFINITION} \
                 --job-name ${pipeline_name}_${job_name}_${build_number} \
@@ -63,7 +63,6 @@ meta:
             repository: ((dataworks.terraform_repository))
             tag: ((dataworks.terraform_version))
         params:
-          TF_WORKSPACE: default
           TF_CLI_ARGS_apply: -lock-timeout=300s
           TF_CLI_ARGS_plan: -lock-timeout=300s
           TF_INPUT: "false"
