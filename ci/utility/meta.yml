@@ -26,7 +26,7 @@ meta:
               source /assume-role
               pipeline_name=`cat "meta/build_pipeline_name"`
               job_name=`cat "meta/build_job_name"`
-              build_number=`cat "meta/build_name"`
+              build_number=$(cat "meta/build_name" | tr '.' '_')
               CONFIG_BUCKET=$(cat terraform-output-common/outputs.json | jq -r '.config_bucket.value.id' )
               CSV_LOCATION="s3://${CONFIG_BUCKET}/${CSV_PREFIX}/${FILE_NAME}"
 
