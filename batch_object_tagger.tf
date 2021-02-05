@@ -87,7 +87,6 @@ resource "aws_batch_job_definition" "pdm_object_tagger" {
           {"name": "AWS_DEFAULT_REGION", "value": "eu-west-2"},
           {"name": "BUCKET", "value": "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
           {"name": "ENVIRONMENT", "value": "${local.environment}"}
-
       ],
       "ulimits": [
         {
