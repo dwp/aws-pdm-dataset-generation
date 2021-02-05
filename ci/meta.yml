@@ -6,8 +6,9 @@ meta:
         image_resource:
           type: docker-image
           source:
-            repository: dwpdigital/jinja-yaml-aws
-            tag: 0.0.5
+            repository: ((docker-awscli.repository))
+            version: ((docker-awscli.version))
+            tag: ((docker-awscli.version))
         params:
           TF_INPUT: false
           AWS_REGION: ((dataworks.aws_region))
@@ -256,8 +257,8 @@ meta:
         AWS_SECRET_ACCESS_KEY: ((ci.aws_secret_access_key))
         AWS_REGION: eu-west-2
 
-    terraform-output-adg:
-      task: terraform-output-adg
+    terraform-output-common:
+      task: terraform-output-common
       config:
         platform: linux
         image_resource:
@@ -276,13 +277,13 @@ meta:
               cp ../terraform-config-crown/terraform.tfvars .
               terraform workspace show
               terraform init
-              terraform output --json > ../terraform-output-adg/outputs.json
-          dir: aws-analytical-dataset-generation
+              terraform output --json > ../terraform-output-common/outputs.json
+          dir: aws-common-infrastructure
         inputs:
-          - name: aws-analytical-dataset-generation
+          - name: aws-common-infrastructure
           - name: terraform-config-crown
         outputs:
-          - name: terraform-output-adg
+          - name: terraform-output-common
         params:
           TF_CLI_ARGS_plan: -lock-timeout=300s
           TF_INPUT: "false"
@@ -397,7 +398,7 @@ meta:
         inputs:
           - name: pdm_transactional_tables
           - name: .aws
-          - name: terraform-output-adg
+          - name: terraform-output-common
         params:
           AWS_PROFILE: ci
           AWS_SHARED_CREDENTIALS_FILE: .aws/credentials
@@ -406,5 +407,5 @@ meta:
           args:
             - -exc
             - |
-              AWS_PUBLISHED_BUCKET="$(cat terraform-output-adg/outputs.json |  jq -r '.published_bucket.value.id')"
+              AWS_PUBLISHED_BUCKET="$(cat terraform-output-common/outputs.json |  jq -r '.published_bucket.value.id')"
               aws s3 --endpoint-url=https://s3-eu-west-1.amazonaws.com sync pdm_transactional_tables/ s3://${AWS_PUBLISHED_BUCKET}/common-model-inputs/transactional_data
