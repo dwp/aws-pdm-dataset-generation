@@ -1,5 +1,5 @@
 jobs:
-  - name: rbac-csv-upload
+  - name: rbac-csv-upload-dev
     max_in_flight: 1
     serial: true
     plan:
@@ -19,7 +19,7 @@ jobs:
       - get: rbac-csv
         trigger: true
         passed: 
-          - rbac-csv-upload
+          - rbac-csv-upload-dev
       - get: dataworks-s3-object-tagger
         trigger: true
       - get: meta
