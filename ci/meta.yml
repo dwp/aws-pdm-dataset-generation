@@ -247,9 +247,9 @@ meta:
               sed -i '/^assume_role/ d' terraform.tfvars
               cp terraform.tf ../terraform-config-crown
               cp terraform.tfvars ../terraform-config-crown
-          dir: aws-analytical-dataset-generation
+          dir: aws-common-infrastructure
         inputs:
-          - name: aws-analytical-dataset-generation
+          - name: aws-common-infrastructure
         outputs:
           - name: terraform-config-crown
       params:
@@ -272,16 +272,12 @@ meta:
           args:
             - -exc
             - |
-              pwd
-              cp ../terraform-config-crown/terraform.tf .
-              cp ../terraform-config-crown/terraform.tfvars .
               terraform workspace show
               terraform init
               terraform output --json > ../terraform-output-common/outputs.json
           dir: aws-common-infrastructure
         inputs:
           - name: aws-common-infrastructure
-          - name: terraform-config-crown
         outputs:
           - name: terraform-output-common
         params:
