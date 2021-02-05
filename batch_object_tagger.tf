@@ -38,7 +38,7 @@ data "aws_iam_policy_document" "pdm_object_tagger" {
     ]
 
     resources = [
-      "${data.terraform_remote_state.adg.outputs.published_bucket.arn}/*",
+      "${data.terraform_remote_state.common.outputs.config_bucket.arn}/*",
     ]
   }
 }
