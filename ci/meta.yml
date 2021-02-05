@@ -404,4 +404,4 @@ meta:
             - -exc
             - |
               AWS_PUBLISHED_BUCKET="$(cat terraform-output-common/outputs.json |  jq -r '.published_bucket.value.id')"
-              aws s3 --endpoint-url=https://s3-eu-west-1.amazonaws.com sync pdm_transactional_tables/ s3://${AWS_PUBLISHED_BUCKET}/common-model-inputs/transactional_data
+              aws s3 --endpoint-url=https://s3-eu-west-1.amazonaws.com sync pdm_transactional_tables/ s3://${AWS_PUBLISHED_BUCKET}/${S3_FOLDER}
