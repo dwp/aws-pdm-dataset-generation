@@ -3,9 +3,8 @@ jobs:
   serial: true
   plan:
   - get: aws-pdm-dataset-generation
-  - get: aws-analytical-dataset-generation
-  - .: (( inject meta.plan.terraform-bootstrap-crown ))
-  - .: (( inject meta.plan.terraform-output-adg ))
+  - get: aws-common-infrastructure
+  - .: (( inject meta.plan.terraform-output-common ))
     config:
       params:
         TF_WORKSPACE: production
