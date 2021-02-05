@@ -28,7 +28,7 @@ meta:
               build_number=`cat "meta/build_name"`
               job_id=$(aws batch submit-job --job-queue pdm_object_tagger --job-definition ${BATCH_JOB_DEFINITION} \
                 --job-name ${pipeline_name}_${job_name}_${build_number} \
-                --parameters manifest='{"test": "test_pipeline"}' \
+                --container-overrides "{\"command\": \"--s3_prefix=${S3_PREFIX}\"}"
                 | jq -e --raw-output .jobId)
               i=0
               set +x
