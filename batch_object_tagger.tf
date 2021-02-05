@@ -94,16 +94,6 @@ resource "aws_iam_role_policy_attachment" "pdm_object_tagger_published" {
   policy_arn = aws_iam_policy.pdm_object_tagger_published.arn
 }
 
-resource "aws_iam_role_policy_attachment" "pdm_object_tagger_ecs" {
-  role       = aws_iam_role.pdm_object_tagger.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
-
-resource "aws_iam_role_policy_attachment" "pdm_object_tagger_batch_ecr" {
-  role       = aws_iam_role.pdm_object_tagger.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-}
-
 resource "aws_batch_job_queue" "pdm_object_tagger" {
   //  TODO: Move compute environment to fargate once Terraform supports it.
   compute_environments = [data.terraform_remote_state.aws_ingestion.outputs.k2hb_reconciliation_trimmer_batch.arn]
