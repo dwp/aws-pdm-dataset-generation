@@ -92,6 +92,9 @@ variable "emr_core_instance_count" {
   }
 }
 
-variable "pdm_object_tagger_version" {
+variable "image_version" {
   description = "Sha256 container version. Include sha256 prefix"
+  default = {
+    s3-object-tagger = "0.0.3"
+  }
 }

@@ -13,6 +13,7 @@ meta:
             tag: ((dataworks.docker_awscli_version))
         inputs:
           - name: meta
+          - name: terraform-output-common
         params:
           AWS_DEFAULT_REGION: eu-west-2
           TIMEOUT: 90   # Time (in minutes) to wait for job to complete
@@ -26,9 +27,12 @@ meta:
               pipeline_name=`cat "meta/build_pipeline_name"`
               job_name=`cat "meta/build_job_name"`
               build_number=`cat "meta/build_name"`
+              CONFIG_BUCKET=$(cat terraform-output-common/outputs.json | jq -r '.config_bucket.value.id' )
+              CSV_LOCATION="s3://${CONFIG_BUCKET}/${CSV_PREFIX}/data_classification.csv"
+
               job_id=$(aws batch submit-job --job-queue pdm_object_tagger --job-definition ${BATCH_JOB_DEFINITION} \
                 --job-name ${pipeline_name}_${job_name}_${build_number} \
-                --container-overrides "{\"command\": \"--s3_prefix=${S3_PREFIX}\"}"
+                --container-overrides "{\"command\": [\"--s3_prefix=${S3_PREFIX}\", \"--csv_location=${CSV_LOCATION}\"]}" \
                 | jq -e --raw-output .jobId)
               i=0
               set +x
@@ -48,6 +52,7 @@ meta:
                 sleep 60
               done
               exit 1
+
     terraform-output:
       task: terraform-output
       config:
@@ -90,7 +95,7 @@ meta:
             tag: ((dataworks.docker_awscli_version))
         inputs:
           - name: rbac-csv
-          - name: terraform-output-common 
+          - name: terraform-output-common
         params:
           AWS_DEFAULT_REGION: eu-west-2
         run:
