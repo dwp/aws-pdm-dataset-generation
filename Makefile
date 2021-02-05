@@ -26,3 +26,14 @@ git-hooks: ## Set up hooks in .githooks
 	@git submodule update --init .githooks ; \
 	git config core.hooksPath .githooks  \
 
+.PHONY: concourse-login
+concourse-login: ## Login to concourse using Fly
+	fly -t aws-concourse login -c https://ci.dataworks.dwp.gov.uk/ -n dataworks
+
+.PHONY: utility-login
+utility-login: ## Login to utility team using Fly
+	fly -t utility login -c https://ci.dataworks.dwp.gov.uk/ -n utility
+
+.PHONY: update-object-tagging-pipeline
+update-object-tagging-pipeline: ## Update the update-object-tagging pipeline
+	aviator -f aviator_object_tagging.yml
