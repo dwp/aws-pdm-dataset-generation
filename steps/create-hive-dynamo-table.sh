@@ -13,6 +13,7 @@ set -euo pipefail
     log_wrapper_message "Creating external hive table"
 
     hive -e "CREATE DATABASE IF NOT EXISTS AUDIT; \
+    DROP TABLE IF EXISTS AUDIT.data_pipeline_metadata_hive; \
     CREATE EXTERNAL TABLE IF NOT EXISTS AUDIT.data_pipeline_metadata_hive (Correlation_Id STRING, Run_Id BIGINT, DataProduct STRING, DateProductRun STRING, Status STRING) \
     STORED BY 'org.apache.hadoop.hive.dynamodb.DynamoDBStorageHandler' \
     TBLPROPERTIES ('dynamodb.table.name'='${dynamodb_table_name}', \
