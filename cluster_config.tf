@@ -70,10 +70,11 @@ resource "aws_s3_bucket_object" "configurations" {
       proxy_http_port              = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
       proxy_https_host             = data.terraform_remote_state.internal_compute.outputs.internet_proxy.host
       proxy_https_port             = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
-      hive_metsatore_username      = var.metadata_store_pdm_writer_username
+      hive_metastore_username      = var.metadata_store_pdm_writer_username
       hive_metastore_pwd           = data.aws_secretsmanager_secret.rds_aurora_secrets.name
       hive_metastore_endpoint      = data.terraform_remote_state.adg.outputs.hive_metastore.rds_cluster.endpoint
       hive_metastore_database_name = data.terraform_remote_state.adg.outputs.hive_metastore.rds_cluster.database_name
+      hive_compaction_threads      = local.hive_compaction_threads[local.environment]
     }
   )
 }
