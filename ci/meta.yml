@@ -3,12 +3,6 @@ meta:
     terraform-common-config:
       config:
         platform: linux
-        image_resource:
-          type: docker-image
-          source:
-            repository: ((docker-awscli.repository))
-            version: ((docker-awscli.version))
-            tag: ((docker-awscli.version))
         params:
           TF_INPUT: false
           AWS_REGION: ((dataworks.aws_region))
@@ -20,6 +14,12 @@ meta:
       task: terraform-bootstrap
       .: (( inject meta.plan.terraform-common-config ))
       config:
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.docker_awscli_repository))
+            version: ((dataworks.docker_awscli_version))
+            tag: ((dataworks.docker_awscli_version))
         run:
           path: sh
           args:

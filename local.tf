@@ -145,4 +145,12 @@ locals {
     preprod     = "TERMINATE_CLUSTER"
     production  = "TERMINATE_CLUSTER"
   }
+
+  hive_compaction_threads = {
+    development = "1"
+    qa          = "1"
+    integration = "1"
+    preprod     = "1"
+    production  = "12" # vCPU in the instance / 8
+  }
 }
