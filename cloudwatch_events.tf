@@ -134,9 +134,8 @@ resource "aws_cloudwatch_event_target" "pdm_success_start_object_tagger" {
     job_name = "pdm_success_cloudwatch_event"
   }
 
-  input = "{\"command\": [\"--data-s3-prefix=data/uc\", \"--csv-location=s3://${local.data_classification.config_bucket.id}/${local.data_classification.config_prefix}/data_classification.csv\"]}"
+  input = "{\"Parameters\": {\"data-s3-prefix\": \"data/uc\", \"csv-location\": \"s3://${local.data_classification.config_bucket.id}/${local.data_classification.config_prefix}/data_classification.csv\"}}"
 }
-
 
 resource "aws_cloudwatch_metric_alarm" "pdm_success" {
   alarm_name                = "pdm_completed_all_steps"
