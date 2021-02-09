@@ -131,7 +131,7 @@ resource "aws_cloudwatch_event_target" "pdm_success_start_object_tagger" {
 
   batch_target {
     job_definition = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_batch.job_definition.id
-    job_name = "pdm_success_cloudwatch_event"
+    job_name = "pdm-success-cloudwatch-event"
   }
 
   input = "{\"Parameters\": {\"data-s3-prefix\": \"data/uc\", \"csv-location\": \"s3://${local.data_classification.config_bucket.id}/${local.data_classification.config_prefix}/data_classification.csv\"}}"
