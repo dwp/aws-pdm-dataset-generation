@@ -2,6 +2,8 @@
 
 set -euo pipefail
 (
+
+    CORRELATION_ID=$2
     # Import the logging functions
     source /opt/emr/logging.sh
 
@@ -20,6 +22,8 @@ set -euo pipefail
     'dynamodb.column.mapping' = 'Correlation_Id:Correlation_Id,Run_Id:Run_Id,DataProduct:DataProduct,DateProductRun:Date,Status:Status,CurrentStep:CurrentStep','dynamodb.null.serialization' = 'true');"
 
     log_wrapper_message "Finished creating external hive table"
+
+    echo $CORRELATION_ID >> /opt/emr/correlation_id.txt
 
 ) >> /var/log/pdm/create-hive-dynamo-table.log 2>&1
 

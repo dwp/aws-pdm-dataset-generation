@@ -1,0 +1,20 @@
+{
+  "Correlation_Id": {
+    "S": ""
+  },
+  "DataProduct": {
+    "S": "PDM"
+  },
+  "Date": {
+    "S": ""
+  },
+  "Run_Id": {
+    "N": ""
+  },
+  "Status": {
+    "S": ""
+  },
+  "CurrentStep": {
+    "S": ""
+  }
+}
