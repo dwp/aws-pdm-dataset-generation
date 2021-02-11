@@ -25,14 +25,14 @@ jq '.Run_Id.N = "'$RUN_ID'"'<<<$JSON_STRING
 jq '.Status.S = "'$STATUS'"'<<<$JSON_STRING
 
 #Check if row for this correlation ID already exists - in which case we need to increment it rather than create a new row
-response=`aws dynamodb get-item --table-name data_pipeline_metadata --key '{"Correlation_Id": {"S": "'$CORRELATION_ID'"}, "DataProduct": {"S": "'$DATA_PRODUCT'"}}'`
+response=`aws dynamodb get-item --table-name ${dynamodb_table_name} --key '{"Correlation_Id": {"S": "'$CORRELATION_ID'"}, "DataProduct": {"S": "'$DATA_PRODUCT'"}}'`
 if [[ -z $response ]]; then
-  aws dynamodb put-item  --table-name data_pipeline_metadata --item $JSON_STRING
+  aws dynamodb put-item  --table-name ${dynamodb_table_name} --item $JSON_STRING
 else
   RUN_ID=`echo $response | jq -r .'Item.Run_Id.N'`
   RUN_ID=$((RUN_ID+1))
   jq '.Run_Id.N = "'$RUN_ID'"'<<<$JSON_STRING
-  aws dynamodb put-item  --table-name data_pipeline_metadata --item $JSON_STRING
+  aws dynamodb put-item  --table-name ${dynamodb_table_name} --item $JSON_STRING
 fi
 
 keep_looking=true
@@ -48,7 +48,7 @@ while [ $keep_looking ]; do
       if [[ "$state" == "FAILED" ]]; then
         jq '.Status.S = "'$state'"'<<<$JSON_STRING
       fi
-      aws dynamodb put-item  --table-name data_pipeline_metadata --item $JSON_STRING
+      aws dynamodb put-item  --table-name ${dynamodb_table_name} --item $JSON_STRING
       sleep 30
     done
   done
