@@ -1,6 +1,6 @@
 #!/bin/bash
 
-STEP_DETAILS_DIR=/mnt/var/lib/info/steps/
+STEP_DETAILS_DIR=/mnt/var/lib/info/steps
 CORRELATION_ID_FILE=/opt/emr/correlation_id.txt
 RUN_ID=1
 DATE=$(date '+%Y-%m-%d')
@@ -35,14 +35,11 @@ else
   aws dynamodb put-item  --table-name data_pipeline_metadata --item $JSON_STRING
 fi
 
-
-
-
 keep_looking=true
 
 #endless loop to keep updating dynamo every 30s with current step info
 while [ $keep_looking ]; do
-  for step_file in $STEP_DEATILS_DIR*.json; do
+  for step_file in $STEP_DEATILS_DIR/*.json; do
     state=""
     while [[ "$state" != "COMPLETED" || "$state" != "FAILED" ]]; do
       CURRENT_STEP=$(echo "$step_file" | sed 's:.*/::' | cut -f 1 -d '.')
@@ -53,10 +50,6 @@ while [ $keep_looking ]; do
       fi
       aws dynamodb put-item  --table-name data_pipeline_metadata --item $JSON_STRING
       sleep 30
-
     done
   done
 done
-
-
-
