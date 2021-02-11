@@ -144,7 +144,7 @@ resource "aws_s3_bucket_object" "update_dynamo_sh" {
   bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
   kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key        = "component/pdm-dataset-generation/update_dynamo.sh"
-  content = file("${path.module}/bootstrap_actions/update_dynamo.sh",
+  content = templatefile("${path.module}/bootstrap_actions/update_dynamo.sh",
     {
       dynamodb_table_name = local.data_pipeline_metadata
     }
