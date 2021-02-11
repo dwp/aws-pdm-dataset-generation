@@ -1,6 +1,6 @@
 #!/bin/bash
 
-STEP_DETAILS_DIR=/mnt/var/lib/info/steps/
+STEP_DETAILS_DIR=/mnt/var/lib/info/steps
 CORRELATION_ID_FILE=/opt/emr/correlation_id.txt
 RUN_ID=1
 DATE=$(date '+%Y-%m-%d')
@@ -41,7 +41,7 @@ PREVIOUS_STATE=""
 #endless loop to keep updating dynamo every 30s with current step info
 cd $STEP_DETAILS_DIR
 while [ $keep_looking ]; do
-  for i in $STEP_DEATILS_DIR*.json; do
+  for i in $STEP_DEATILS_DIR/*.json; do
     state=""
     while [[ "$state" != "COMPLETED" ]]; do
       step_script_name=$(jq -r '.args[0]' $i)
