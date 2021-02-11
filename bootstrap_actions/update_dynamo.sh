@@ -46,7 +46,6 @@ while [ $keep_looking ]; do
     while [[ "$state" != "COMPLETED" ]]; do
       step_script_name=$(jq -r '.args[0]' $i)
       CURRENT_STEP=$(echo "$step_script_name" | sed 's:.*/::' | cut -f 1 -d '.')
-      echo $CURRENT_STEP
       state=$(jq -r '.state' $i)
       JSON_STRING=`jq '.CurrentStep.S = "'$CURRENT_STEP'"'<<<$JSON_STRING`
       if [[ "$state" == "FAILED" ]]; then
@@ -54,6 +53,7 @@ while [ $keep_looking ]; do
       fi
       if [[ "$step_script_name" == "collect-metrics" ]] && [[ "$state" == "COMPLETED" ]]; then
         JSON_STRING=`jq '.Status.S = "'$state'"'<<<$JSON_STRING`
+        keep_looking=false
       fi
       if [[ $PREVIOUS_STATE != $state ]] && [[ $PREVIOUS_STEP != $CURRENT_STEP ]]; then
         aws dynamodb put-item  --table-name ${dynamodb_table_name} --item "$JSON_STRING"
