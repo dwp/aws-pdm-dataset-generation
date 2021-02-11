@@ -6,7 +6,6 @@ RUN_ID=1
 DATE=$(date '+%Y-%m-%d')
 STATUS="In-Progress"
 CURRENT_STEP=""
-DATA_PRODUCT="PDM"
 
 while [ ! -f $CORRELATION_ID_FILE ]
 do
@@ -24,7 +23,7 @@ jq '.Date.S = "'$DATE'"'<<<$JSON_STRING
 jq '.Run_Id.N = "'$RUN_ID'"'<<<$JSON_STRING
 jq '.Status.S = "'$STATUS'"'<<<$JSON_STRING
 
-#Check if row for this correlation ID already exists - in which case we need to increment it rather than create a new row
+#Check if row for this correlation ID already exists - in which case we need to increment the Run_Id
 response=`aws dynamodb get-item --table-name ${dynamodb_table_name} --key '{"Correlation_Id": {"S": "'$CORRELATION_ID'"}, "DataProduct": {"S": "'$DATA_PRODUCT'"}}'`
 if [[ -z $response ]]; then
   aws dynamodb put-item  --table-name ${dynamodb_table_name} --item $JSON_STRING
@@ -36,11 +35,11 @@ else
 fi
 
 keep_looking=true
-
+PREVIOUS_STEP=""
+PREVIOUS_STATE=""
 #endless loop to keep updating dynamo every 30s with current step info
 while [ $keep_looking ]; do
   for step_file in $STEP_DEATILS_DIR/*.json; do
-    state=""
     while [[ "$state" != "COMPLETED" || "$state" != "FAILED" ]]; do
       CURRENT_STEP=$(echo "$step_file" | sed 's:.*/::' | cut -f 1 -d '.')
       state=$(jq -r '.state' $step_file)
@@ -48,7 +47,11 @@ while [ $keep_looking ]; do
       if [[ "$state" == "FAILED" ]]; then
         jq '.Status.S = "'$state'"'<<<$JSON_STRING
       fi
-      aws dynamodb put-item  --table-name ${dynamodb_table_name} --item $JSON_STRING
+      if [ $PREVIOUS_STATE != $state ] || [ $PREVIOUS_STEP != $CURRENT_STEP ]; then
+        aws dynamodb put-item  --table-name ${dynamodb_table_name} --item $JSON_STRING
+      fi
+      PREVIOUS_STATE=$state
+      PREVIOUS_STEP=$CURRENT_STEP
       sleep 30
     done
   done
