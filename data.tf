@@ -39,6 +39,7 @@ data "aws_iam_policy_document" "pdm_dataset_generator_write_data" {
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/metrics/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/common-model-inputs/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/analytical-dataset/*",
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/test-pdm-dataset/*",
     ]
   }
 
