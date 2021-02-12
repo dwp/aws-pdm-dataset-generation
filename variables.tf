@@ -84,10 +84,20 @@ variable "metadata_store_pdm_writer_username" {
 
 variable "emr_core_instance_count" {
   default = {
-    development = "2"
-    qa          = "2"
-    integration = "2"
-    preprod     = "2"
-    production  = "35"
+    development = "1"
+    qa          = "1"
+    integration = "1"
+    preprod     = "1"
+    production  = "20"
+  }
+}
+
+variable "emr_core_spot_instance_count" {
+  default = {
+    development = "1"
+    qa          = "1"
+    integration = "1"
+    preprod     = "1"
+    production  = "15"
   }
 }

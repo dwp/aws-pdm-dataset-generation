@@ -36,6 +36,7 @@ resource "aws_s3_bucket_object" "instances" {
       instance_type_core_two   = var.emr_instance_type_core_two[local.environment]
       instance_type_core_three = var.emr_instance_type_core_three[local.environment]
       core_instance_count      = var.emr_core_instance_count[local.environment]
+      core_spot_instance_count = var.emr_core_spot_instance_count[local.environment]
     }
   )
 }
