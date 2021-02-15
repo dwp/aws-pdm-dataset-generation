@@ -45,6 +45,18 @@ resource "aws_s3_bucket_object" "installer_sh" {
   )
 }
 
+resource "aws_s3_bucket_object" "replay_utility" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/replay.sh"
+  content = templatefile("${path.module}/bootstrap_actions/replay.sh",
+    {
+      retry_max_attempts          = local.retry_max_attempts[local.environment]
+      retry_attempt_delay_seconds = local.retry_attempt_delay_seconds[local.environment]
+      retry_enabled               = local.retry_enabled[local.environment]
+    }
+  )
+}
+
 resource "aws_s3_bucket_object" "logging_script" {
   bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
   key     = "component/pdm-dataset-generation/logging.sh"
