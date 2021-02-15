@@ -1,5 +1,6 @@
 jobs:
 - name: pdm-dataset-generation-dev
+  max_in_flight: 1
   plan:
   - in_parallel:
     - get: aws-pdm-dataset-generation
