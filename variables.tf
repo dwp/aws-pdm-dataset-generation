@@ -69,11 +69,21 @@ variable "emr_instance_type_core_two" {
 
 variable "emr_instance_type_core_three" {
   default = {
-    development = "m5d.2xlarge"
-    qa          = "m5d.2xlarge"
-    integration = "m5d.2xlarge"
-    preprod     = "m5d.2xlarge"
-    production  = "m5d.24xlarge"
+    development = "r5a.2xlarge"
+    qa          = "r5a.2xlarge"
+    integration = "r5a.2xlarge"
+    preprod     = "r5a.2xlarge"
+    production  = "r5a.24xlarge"
+  }
+}
+
+variable "emr_instance_type_core_four" {
+  default = {
+    development = "r5.2xlarge"
+    qa          = "r5.2xlarge"
+    integration = "r5.2xlarge"
+    preprod     = "r5.2xlarge"
+    production  = "r5.24xlarge"
   }
 }
 
@@ -88,6 +98,6 @@ variable "emr_core_instance_count" {
     qa          = "2"
     integration = "2"
     preprod     = "2"
-    production  = "35"
+    production  = "25"
   }
 }
