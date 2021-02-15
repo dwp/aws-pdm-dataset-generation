@@ -88,10 +88,10 @@ resource "aws_s3_bucket_object" "clean_dictionary_data_sh" {
   )
 }
 
-resource "aws_s3_bucket_object" "create-databases_sh" {
+resource "aws_s3_bucket_object" "create_databases_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  key    = "component/pdm-dataset-generation/create-databases.sh"
-  content = templatefile("${path.module}/steps/create-databases.sh",
+  key    = "component/pdm-dataset-generation/create_databases.sh"
+  content = templatefile("${path.module}/steps/create_databases.sh",
     {
     }
   )
