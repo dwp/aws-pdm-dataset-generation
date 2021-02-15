@@ -62,21 +62,24 @@
         CURRENT_STEP=$(echo "$step_script_name" | sed 's:.*/::' | cut -f 1 -d '.')
         JSON_STRING=`jq '.CurrentStep.S = "'$CURRENT_STEP'"'<<<$JSON_STRING`
         state=$(jq -r '.state' $i)
-        if [[ "$state" == "FAILED" ]]; then
-          log_wrapper_message "Failed. Step Name: $step_script_name, Step status: $state"
-          JSON_STRING=`jq '.Status.S = "'$state'"'<<<$JSON_STRING`
+        if [[ "$state" == "FAILED" ]] || [[ "$state" == "CANCELLED" ]]; then
+          log_wrapper_message "Failed. Step Name: $CURRENT_STEP, Step status: $state"
+          JSON_STRING=`jq '.Status.S = "FAILED"'<<<$JSON_STRING`
+          dynamo_put_item "$JSON_STRING"
+          exit
         fi
-        if [[ "$step_script_name" == "$FINAL_STEP_NAME" ]] && [[ "$state" == "COMPLETED" ]]; then
-          JSON_STRING=`jq '.Status.S = "'$state'"'<<<$JSON_STRING`
+        if [[ "$CURRENT_STEP" == "$FINAL_STEP_NAME" ]] && [[ "$state" == "COMPLETED" ]]; then
+          JSON_STRING=`jq '.Status.S = "COMPLETED"'<<<$JSON_STRING`
+          dynamo_put_item "$JSON_STRING"
+          exit
         fi
         if [[ $PREVIOUS_STATE != $state ]] && [[ $PREVIOUS_STEP != $CURRENT_STEP ]]; then
           #aws dynamodb put-item  --table-name ${dynamodb_table_name} --item "$JSON_STRING"
           dynamo_put_item "$JSON_STRING"
-          log_wrapper_message "Success. Step Name: $step_script_name, Step status: $state"
+          log_wrapper_message "Success. Step Name: $CURRENT_STEP, Step status: $state"
           processed_files+=( $i )
         else
-          log_wrapper_message "Sleeping as $step_script_name is still in state: $state"
-          sleep 30
+          sleep 5
         fi
         PREVIOUS_STATE=$state
         PREVIOUS_STEP=$CURRENT_STEP
