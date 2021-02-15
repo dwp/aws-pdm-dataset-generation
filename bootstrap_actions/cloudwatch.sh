@@ -61,9 +61,15 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
-            "file_path": "/var/log/pdm/nohup.log",
+            "file_path": "/var/log/pdm/emr_setup.log",
             "log_group_name": "$${cwa_bootstrap_loggrp_name}",
             "log_stream_name": "emr_setup.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/pdm/update_dynamo_sh.log",
+            "log_group_name": "$${cwa_bootstrap_loggrp_name}",
+            "log_stream_name": "update_dynamo_sh.log",
             "timezone": "UTC"
           },
           {
