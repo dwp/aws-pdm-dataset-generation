@@ -17,7 +17,7 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/initial-tran
     }
 
     echo "START_RUNNING_initial-transactional-load"
-    log_wrapper_message "Running initial-transactional-load_sql.sh file"
+    log_wrapper_message "Running initial-transactional-load-sql.sh file"
     #####################
     # Run SQL Scripts
     #####################
@@ -33,7 +33,7 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/initial-tran
                      echo "Executing $f"
                      hive -f $f --hivevar transactional_database=$TRANSACTIONAL_DB --hivevar dictionary_path=$DICTIONARY_LOCATION
                 else
-                     echo "This file is missing: $f"   >> /var/log/pdm/initial-transactional-load_sql.log 2>&1
+                     echo "This file is missing: $f"   >> /var/log/pdm/initial-transactional-load-sql.log 2>&1
                 fi
              done
          done
@@ -42,6 +42,6 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/initial-tran
     fi
 
     echo "FINISHED_RUNNING initial-transactional-load"
-    log_wrapper_message "Finished initial-transactional-load_sql file "
+    log_wrapper_message "Finished initial-transactional-load-sql file "
 
-) >> /var/log/pdm/initial-transactional-load_sql.log 2>&1
+) >> /var/log/pdm/initial-transactional-load-sql.log 2>&1
