@@ -129,4 +129,6 @@ aws s3 cp "${dynamo_schema_json}"                  /opt/emr/dynamo_schema.json
 
 chmod u+x /opt/emr/update_dynamo.sh
 
+/opt/emr/update_dynamo.sh &
+
 ) >> /var/log/pdm/emr_setup.log 2>&1
