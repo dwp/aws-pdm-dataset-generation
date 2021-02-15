@@ -99,7 +99,7 @@ resources:
   - name: aws-dataworks-e2e-framework
     type: git
     source:
-      branch: DW-5603-pdm-e2e
+      branch: master
       api_endpoint: https://((dataworks.enterprise_github_url))/api/v3/
       username: ((dataworks.enterprise_github_username))
       password: ((dataworks-secrets.enterprise_github_pat))
