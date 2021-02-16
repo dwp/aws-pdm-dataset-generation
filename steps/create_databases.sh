@@ -18,7 +18,7 @@
     # Run SQL Scripts
     #####################
 
-    hive -f /opt/emr/sql/extracted/src/main/resources/scripts/db/create_databases.sql
+    hive -f /opt/emr/sql/extracted/src/main/resources/scripts/db/create_db.sql
  
     echo "FINISHED_RUNNING_create_databases......................"
     log_wrapper_message "finished running create db ......................."
