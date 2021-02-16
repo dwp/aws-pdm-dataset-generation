@@ -74,7 +74,7 @@
           exit
         fi
         if [[ $PREVIOUS_STATE != $state ]] && [[ $PREVIOUS_STEP != $CURRENT_STEP ]]; then
-          #aws dynamodb put-item  --table-name ${dynamodb_table_name} --item "$JSON_STRING"
+          
           dynamo_put_item "$JSON_STRING"
           log_wrapper_message "Success. Step Name: $CURRENT_STEP, Step status: $state"
           processed_files+=( $i )
