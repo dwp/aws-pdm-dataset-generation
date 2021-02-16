@@ -76,6 +76,7 @@ resource "aws_s3_bucket_object" "configurations" {
       hive_metastore_endpoint      = data.terraform_remote_state.adg.outputs.hive_metastore.rds_cluster.endpoint
       hive_metastore_database_name = data.terraform_remote_state.adg.outputs.hive_metastore.rds_cluster.database_name
       hive_compaction_threads      = local.hive_compaction_threads[local.environment]
+      hive_metastore_location      = local.hive_metastore_location
     }
   )
 }

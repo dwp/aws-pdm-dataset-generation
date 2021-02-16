@@ -7,7 +7,7 @@ Configurations:
 - Classification: "hive-site"
   Properties:
     "hive.metastore.schema.verification": "false"
-    "hive.metastore.warehouse.dir": "s3://${s3_published_bucket}/pdm-dataset/hive/external"
+    "hive.metastore.warehouse.dir": "s3://${s3_published_bucket}/${hive_metastore_location}"
     "hive.metastore.metrics.enabled": "true"
     "hive.server2.metrics.enabled": "true"
     "hive.service.metrics.reporter": "JSON_FILE"

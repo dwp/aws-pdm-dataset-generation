@@ -135,12 +135,13 @@ resource "aws_s3_bucket_object" "row_count" {
   key    = "component/pdm-dataset-generation/row-count.sh"
   content = templatefile("${path.module}/steps/row-count.sh",
     {
-      transform_db     = local.transform_db
-      transactional_db = local.transactional_db
-      model_db         = local.model_db
-      views_db         = local.views_db
-      data_location    = local.data_location
-      views_tables_db  = local.views_tables_db
+      transform_db            = local.transform_db
+      transactional_db        = local.transactional_db
+      model_db                = local.model_db
+      views_db                = local.views_db
+      data_location           = local.data_location
+      views_tables_db         = local.views_tables_db
+      hive_metastore_location = local.hive_metastore_location
     }
   )
 }
