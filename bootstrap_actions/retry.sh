@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-source ${BOOTSTRAP_DIRECTORY:-/opt/emr}/logging.sh
+source $${BOOTSTRAP_DIRECTORY:-/opt/emr}/logging.sh
 
 retry::with_retries() {
 
@@ -13,15 +13,15 @@ retry::with_retries() {
         ((attempts++))
 
         log_pdm_message "Retryable attempt failed" "retry.sh" "$$" \
-                        "command" "$command" \
-                        "attempts_made" $attempts \
-                        "max_attempts" $(retry::max_attempts)
+                        "command,$command" \
+                        "attempts_made,$attempts" \
+                        "max_attempts,$(retry::max_attempts)"
 
         if retry::max_attempts_made $attempts; then
             log_pdm_message "Max retries attempted, exiting" "retry.sh" "$$" \
-                            "command" "$command" \
-                            "attempts" $attempts \
-                            "max_attempts" $(retry::max_attempts)
+                            "command,$command" \
+                            "attempts,$attempts" \
+                            "max_attempts,$(retry::max_attempts)"
             exit 1
         fi
 
@@ -30,7 +30,7 @@ retry::with_retries() {
 }
 
 retry::max_attempts_made() {
-    local attempts_made=${1:?Usage: $FUNCNAME attempts-made}
+    local attempts_made=$${1:?}
     [[ $attempts_made -ge $(retry::max_attempts) ]]
 }
 
