@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -euo pipefail
 (
     ####################################################################################################
                       #TEMP TO DROP ALL TABLES AND DBS FOR PDM
