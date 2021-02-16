@@ -35,6 +35,7 @@ data "aws_iam_policy_document" "pdm_dataset_generator_write_data" {
     ]
 
     resources = [
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/${local.hive_metastore_location}",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/${local.hive_metastore_location}/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/pdm-dataset/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/metrics/*",
