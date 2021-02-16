@@ -1,7 +1,7 @@
 locals {
   data_classification = {
-    config_bucket = data.terraform_remote_state.common.outputs.config_bucket
-    config_prefix = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_data_classification.config_prefix
+    config_bucket  = data.terraform_remote_state.common.outputs.config_bucket
+    config_prefix  = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_data_classification.config_prefix
     data_s3_prefix = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_data_classification.data_s3_prefix
   }
 }
