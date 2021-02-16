@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -euo pipefail
 (
 
     CORRELATION_ID=$2
