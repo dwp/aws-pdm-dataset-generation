@@ -3,6 +3,7 @@
 # Set Variables
 ###############
 
+set -euo pipefail
 
 (
  # Import the logging functions
