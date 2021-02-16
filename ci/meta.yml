@@ -464,7 +464,7 @@ meta:
         params:
           AWS_REGION: ((dataworks.aws_region))
           AWS_DEFAULT_REGION: ((dataworks.aws_region))
-          E2E_TEST_TIMEOUT: 500
+          E2E_TEST_TIMEOUT: 7200
           ASSUME_DURATION: 36000
         run:
           dir: aws-dataworks-e2e-framework

@@ -10,13 +10,9 @@ jobs:
     - get: emr-al2-ami
       trigger: true
     - get: aws-ingestion
-      trigger: true
     - get: aws-common-infrastructure
-      trigger: true
     - get: aws-internal-compute
-      trigger: true
     - get: aws-dataworks-e2e-framework
-      trigger: true
     - put: meta
       resource: meta-qa
   - .: (( inject meta.plan.terraform-bootstrap ))
