@@ -259,14 +259,15 @@ meta:
 
     terraform-output-common:
       task: terraform-output-common
+      .: (( inject meta.plan.terraform-common-config ))
       config:
         platform: linux
         image_resource:
           type: docker-image
           source:
-            repository: ((terraform.repository))
-            version: ((terraform12.version))
-            tag: ((terraform12.version))
+            repository: ((dataworks.terraform_repository))
+            version: ((dataworks.terraform_version))
+            tag: ((dataworks.terraform_version))
         run:
           path: sh
           args:
@@ -280,11 +281,6 @@ meta:
           - name: aws-common-infrastructure
         outputs:
           - name: terraform-output-common
-        params:
-          TF_CLI_ARGS_plan: -lock-timeout=300s
-          TF_INPUT: "false"
-          AWS_ACCESS_KEY_ID: ((ci.aws_access_key_id))
-          AWS_SECRET_ACCESS_KEY: ((ci.aws_secret_access_key))
 
     create-aws-profiles:
       task: create-aws-profiles
@@ -405,3 +401,96 @@ meta:
             - |
               AWS_PUBLISHED_BUCKET="$(cat terraform-output-common/outputs.json |  jq -r '.published_bucket.value.id')"
               aws s3 --endpoint-url=https://s3-eu-west-1.amazonaws.com sync pdm_transactional_tables/ s3://${AWS_PUBLISHED_BUCKET}/${S3_FOLDER}
+
+    terraform-output-ingest:
+      task: terraform-output-ingest
+      .: (( inject meta.plan.terraform-common-config ))
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.terraform_repository))
+            version: ((dataworks.terraform_version))
+            tag: ((dataworks.terraform_version))
+        run:
+          path: sh
+          args:
+            - -exc
+            - |
+              terraform workspace show
+              terraform init
+              terraform output --json > ../terraform-output-ingest/outputs.json
+          dir: aws-ingestion
+        inputs:
+          - name: aws-ingestion
+        outputs:
+          - name: terraform-output-ingest
+
+    terraform-output-internal-compute:
+      task: terraform-output-internal-compute
+      .: (( inject meta.plan.terraform-common-config ))
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.terraform_repository))
+            version: ((dataworks.terraform_version))
+            tag: ((dataworks.terraform_version))
+        run:
+          path: sh
+          args:
+            - -exc
+            - |
+              terraform workspace show
+              terraform init
+              terraform output --json > ../terraform-output-internal-compute/outputs.json
+          dir: aws-internal-compute
+        inputs:
+          - name: aws-internal-compute
+        outputs:
+          - name: terraform-output-internal-compute
+
+    run-behave-job:
+      task: run-behave-job
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.docker_python_boto_behave_repository))
+            tag: ((dataworks.docker_python_boto_behave_version))
+        params:
+          AWS_REGION: ((dataworks.aws_region))
+          AWS_DEFAULT_REGION: ((dataworks.aws_region))
+          E2E_TEST_TIMEOUT: 7200
+          ASSUME_DURATION: 36000
+        run:
+          dir: aws-dataworks-e2e-framework
+          path: sh
+          args:
+            - -exc
+            - |
+              source /assume-role
+              set +x
+
+              export E2E_FEATURE_TAG_FILTER="@${E2E_FEATURE_TAG_FILTER}"
+              cd src/runners
+              ./run-ci.sh \
+              "../../../meta" \
+              "../../../terraform-output-ingest/outputs.json" \
+              "../../../terraform-output-internal-compute/outputs.json" \
+              "NOT_SET" \
+              "NOT_SET" \
+              "NOT_SET" \
+              "NOT_SET" \
+              "NOT_SET" \
+              "NOT_SET" \
+              "../../../terraform-output-common/outputs.json" \
+        inputs:
+          - name: aws-dataworks-e2e-framework
+          - name: terraform-output-internal-compute
+          - name: terraform-output-ingest
+          - name: terraform-output-common
+          - name: meta
