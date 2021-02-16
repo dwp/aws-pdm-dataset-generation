@@ -25,12 +25,12 @@ jobs:
   - .: (( inject meta.plan.terraform-plan ))
     params:
       TF_WORKSPACE: qa
-    - .: (( inject meta.plan.terraform-output-ingest ))
-    - .: (( inject meta.plan.terraform-output-internal-compute ))
-    - .: (( inject meta.plan.terraform-output-common ))
-    - .: (( inject meta.plan.run-behave-job ))
-      config:
-        params:
-          E2E_FEATURE_TAG_FILTER: aws-pdm-dataset-generation
-          AWS_ACC: ((aws_account.qa))
-          AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
+  - .: (( inject meta.plan.terraform-output-ingest ))
+  - .: (( inject meta.plan.terraform-output-internal-compute ))
+  - .: (( inject meta.plan.terraform-output-common ))
+  - .: (( inject meta.plan.run-behave-job ))
+    config:
+      params:
+        E2E_FEATURE_TAG_FILTER: aws-pdm-dataset-generation
+        AWS_ACC: ((aws_account.qa))
+        AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
