@@ -175,9 +175,9 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
-            "file_path": "/var/log/pdm/initial-transactional-load-sql.log",
+            "file_path": "/var/log/pdm/initial_transactional_load_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "initial-transactional-load-sql.log",
+            "log_stream_name": "initial_transactional_load_sql.log",
             "timezone": "UTC"
           },
           {
