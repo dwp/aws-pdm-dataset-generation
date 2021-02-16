@@ -118,14 +118,14 @@ resource "aws_s3_bucket_object" "create_views_tables" {
   )
 }
 
-resource "aws_s3_bucket_object" "initial-transactional-load_sh" {
+resource "aws_s3_bucket_object" "initial_transactional_load_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  key    = "component/pdm-dataset-generation/initial-transactional-load.sh"
-  content = templatefile("${path.module}/steps/initial-transactional-load.sh",
+  key    = "component/pdm-dataset-generation/initial_transactional_load.sh"
+  content = templatefile("${path.module}/steps/initial_transactional_load.sh",
     {
-      transactional_db          = local.transactional_db
-      dictionary_location       = local.dictionary_location
-      intial_transactioanl_load = local.intial_transactioanl_load[local.environment]
+      transactional_db           = local.transactional_db
+      dictionary_location        = local.dictionary_location
+      initial_transactional_load = local.initial_transactional_load[local.environment]
     }
   )
 }
@@ -135,12 +135,13 @@ resource "aws_s3_bucket_object" "row_count" {
   key    = "component/pdm-dataset-generation/row-count.sh"
   content = templatefile("${path.module}/steps/row-count.sh",
     {
-      transform_db     = local.transform_db
-      transactional_db = local.transactional_db
-      model_db         = local.model_db
-      views_db         = local.views_db
-      data_location    = local.data_location
-      views_tables_db  = local.views_tables_db
+      transform_db            = local.transform_db
+      transactional_db        = local.transactional_db
+      model_db                = local.model_db
+      views_db                = local.views_db
+      data_location           = local.data_location
+      views_tables_db         = local.views_tables_db
+      hive_metastore_location = local.hive_metastore_location
     }
   )
 }

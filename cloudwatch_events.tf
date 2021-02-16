@@ -1,7 +1,8 @@
 locals {
   data_classification = {
-    config_bucket = data.terraform_remote_state.common.outputs.config_bucket
-    config_prefix = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_data_classification.config_prefix
+    config_bucket  = data.terraform_remote_state.common.outputs.config_bucket
+    config_prefix  = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_data_classification.config_prefix
+    data_s3_prefix = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_data_classification.data_s3_prefix
   }
 }
 
@@ -134,7 +135,7 @@ resource "aws_cloudwatch_event_target" "pdm_success_start_object_tagger" {
     job_name       = "pdm-success-cloudwatch-event"
   }
 
-  input = "{\"Parameters\": {\"data-s3-prefix\": \"data/uc\", \"csv-location\": \"s3://${local.data_classification.config_bucket.id}/${local.data_classification.config_prefix}/data_classification.csv\"}}"
+  input = "{\"Parameters\": {\"data-s3-prefix\": \"${local.data_classification.data_s3_prefix}\", \"csv-location\": \"s3://${local.data_classification.config_bucket.id}/${local.data_classification.config_prefix}/data_classification.csv\"}}"
 }
 
 resource "aws_cloudwatch_metric_alarm" "pdm_success" {
