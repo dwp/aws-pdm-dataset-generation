@@ -10,7 +10,7 @@ set -euo pipefail
     source /opt/emr/logging.sh
 
     function log_wrapper_message() {
-        log_pdm_message "$${1}" "create_databases_sql.sh" "$$$" "$${@:2}" "Running as: ,$USER"
+        log_pdm_message "$${1}" "create_databases_sql.sh" "$$" "$${@:2}" "Running as: ,$USER"
     }
 
     echo "START_RUNNING_create_databases ......................"
