@@ -25,7 +25,6 @@ Configurations:
     "hive.mapred.mode": "nonstrict"
     "hive.strict.checks.cartesian.product": "false"
     "hive.exec.parallel": "true"
-    "hive.vectorized.execution.enabled": "true"
 - Classification: "emrfs-site"
   Properties:
     "fs.s3.maxConnections": "10000"
