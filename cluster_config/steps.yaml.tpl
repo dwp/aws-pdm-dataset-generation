@@ -40,10 +40,10 @@ Steps:
     - "s3://${s3_config_bucket}/component/pdm-dataset-generation/create_databases.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
-- Name: "initial-transactional-load"
+- Name: "initial_transactional_load"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/initial-transactional-load.sh"
+    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/initial_transactional_load.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "transactional"
