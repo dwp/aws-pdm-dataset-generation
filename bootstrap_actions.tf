@@ -26,6 +26,8 @@ resource "aws_s3_bucket_object" "emr_setup_sh" {
       cwa_yarnspark_loggrp_name       = aws_cloudwatch_log_group.pdm_cw_yarnspark_loggroup.name
       cwa_hive_loggrp_name            = aws_cloudwatch_log_group.pdm_cw_hive_loggroup.name
       name                            = local.emr_cluster_name
+      update_dynamo_sh                = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.update_dynamo_sh.key)
+      dynamo_schema_json              = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.dynamo_json_file.key)
   })
 }
 
@@ -142,4 +144,22 @@ resource "aws_s3_bucket_object" "prometheus_config" {
   kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key        = "component/pdm-dataset-generation/metrics_config/prometheus_config.yml"
   content    = file("${path.module}/bootstrap_actions/metrics_config/prometheus_config.yml")
+}
+
+resource "aws_s3_bucket_object" "dynamo_json_file" {
+  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
+  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
+  key        = "component/pdm-dataset-generation/dynamo_schema.json"
+  content    = file("${path.module}/bootstrap_actions/dynamo_schema.json")
+}
+
+resource "aws_s3_bucket_object" "update_dynamo_sh" {
+  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
+  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
+  key        = "component/pdm-dataset-generation/update_dynamo.sh"
+  content = templatefile("${path.module}/bootstrap_actions/update_dynamo.sh",
+    {
+      dynamodb_table_name = local.data_pipeline_metadata
+    }
+  )
 }

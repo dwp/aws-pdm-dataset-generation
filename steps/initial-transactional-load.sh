@@ -6,18 +6,18 @@
 TRANSACTIONAL_DB="${transactional_db}"
 DICTIONARY_LOCATION="${dictionary_location}"
 
-TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/intial_transactional_load
+TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/initial-transactional-load
 
 (
  # Import the logging functions
     source /opt/emr/logging.sh
 
     function log_wrapper_message() {
-        log_pdm_message "$${1}" "intial_transactional_load.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
+        log_pdm_message "$${1}" "initial-transactional-load.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
     }
 
-    echo "START_RUNNING_INTIAL_TRANSACTIONAL_LOAD"
-    log_wrapper_message "Running intial_transactional_load_sql.sh file"
+    echo "START_RUNNING_initial-transactional-load"
+    log_wrapper_message "Running initial-transactional-load-sql.sh file"
     #####################
     # Run SQL Scripts
     #####################
@@ -33,7 +33,7 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/intial_trans
                      echo "Executing $f"
                      hive -f $f --hivevar transactional_database=$TRANSACTIONAL_DB --hivevar dictionary_path=$DICTIONARY_LOCATION
                 else
-                     echo "This file is missing: $f"   >> /var/log/pdm/intial_transactional_load_sql.log 2>&1
+                     echo "This file is missing: $f"   >> /var/log/pdm/initial-transactional-load-sql.log 2>&1
                 fi
              done
          done
@@ -41,7 +41,7 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/intial_trans
         echo "Skipping intial_transactioanl_load as flag is set to ${intial_transactioanl_load}"
     fi
 
-    echo "FINISHED_RUNNING INTIAL_TRANSACTIONAL_LOAD"
-    log_wrapper_message "Finished intial_transactional_load_sql file "
+    echo "FINISHED_RUNNING initial-transactional-load"
+    log_wrapper_message "Finished initial-transactional-load-sql file "
 
-) >> /var/log/pdm/intial_transactional_load_sql.log 2>&1
+) >> /var/log/pdm/initial-transactional-load-sql.log 2>&1

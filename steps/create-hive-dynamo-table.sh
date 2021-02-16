@@ -2,6 +2,10 @@
 
 set -euo pipefail
 (
+
+    CORRELATION_ID=$2
+    echo $CORRELATION_ID >> /opt/emr/correlation_id.txt
+
     # Import the logging functions
     source /opt/emr/logging.sh
 
