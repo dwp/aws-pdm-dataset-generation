@@ -14,7 +14,7 @@ locals {
   dynamo_meta_name                = "PDMGen-metadata"
   secret_name                     = "/concourse/dataworks/pdm"
   data_pipeline_metadata          = data.terraform_remote_state.internal_compute.outputs.data_pipeline_metadata_dynamo.name
-  hive_metastore_location         = "data"
+  hive_metastore_location         = "data/uc"
   common_tags = {
     Environment  = local.environment
     Application  = local.emr_cluster_name
@@ -129,7 +129,6 @@ locals {
   views_db            = "uc_views_tables"
   views_tables_db     = "uc"
   serde               = "org.openx.data.jsonserde.JsonSerDe"
-  pii_data_location   = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "pdm-dataset/pii")
 
   initial_transactional_load = {
     development = "true"
