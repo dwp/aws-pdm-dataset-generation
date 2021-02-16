@@ -2,20 +2,6 @@
 
 set -euo pipefail
 (
-    ####################################################################################################
-                      #TEMP TO DROP ALL TABLES AND DBS FOR PDM
-    dbs=("uc_pdm_model" "uc_pdm_source" "uc_pdm_transactional" "uc_pdm_transform" "uc")
-    declare -a $dbs
-    for db in $${dbs[@]}; do
-      tb_names=$(hive -S -e "USE $db; SHOW TABLES;")
-      declare -a $tb_names
-      for table in $${tb_names[@]}; do
-        hive -e "DROP TABLE $db.$table;"
-      done
-      hive -e "DROP DATABASE $db"
-    done
-    ####################################################################################################
-
 
     CORRELATION_ID=$2
     echo $CORRELATION_ID >> /opt/emr/correlation_id.txt
