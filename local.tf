@@ -130,7 +130,7 @@ locals {
   serde               = "org.openx.data.jsonserde.JsonSerDe"
   pii_data_location   = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "pdm-dataset/pii")
 
-  intial_transactioanl_load = {
+  initial_transactional_load = {
     development = "true"
     qa          = "false"
     integration = "false"
