@@ -153,4 +153,28 @@ locals {
     preprod     = "1"
     production  = "12" # vCPU in the instance / 8
   }
+
+  retry_max_attempts = {
+    development = "10"
+    qa          = "10"
+    integration = "10"
+    preprod     = "10"
+    production  = "12"
+  }
+
+  retry_attempt_delay_seconds = {
+    development = "5"
+    qa          = "5"
+    integration = "5"
+    preprod     = "5"
+    production  = "5"
+  }
+
+  retry_enabled = {
+    development = "true"
+    qa          = "false"
+    integration = "false"
+    preprod     = "false"
+    production  = "false"
+  }
 }

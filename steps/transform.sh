@@ -12,6 +12,7 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transform
 (
  # Import the logging functions
     source /opt/emr/logging.sh
+    source /opt/emr/retry.sh
 
     function log_wrapper_message() {
         log_pdm_message "$${1}" "transform_sql.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
@@ -26,11 +27,13 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transform
     for f in $SOURCE_DIR/*.sql
     do
         echo "Executing $f"
-        hive -f $f --hivevar source_database=$SOURCE_DB --hivevar transform_database=$TRANSFORM_DB --hivevar dictionary_path=$DICTIONARY_LOCATION
+        retry::with_retries hive -f $f \
+                            --hivevar source_database=$SOURCE_DB \
+                            --hivevar transform_database=$TRANSFORM_DB \
+                            --hivevar dictionary_path=$DICTIONARY_LOCATION
     done
 
     echo "FINISHED_RUNNING_TRANFORM ......................"
     log_wrapper_message "finished running transform......................."
 
 ) >> /var/log/pdm/transform_sql.log 2>&1
-
