@@ -3,13 +3,14 @@
 # Set Variables
 ###############
 
+set -euo pipefail
 
 (
  # Import the logging functions
     source /opt/emr/logging.sh
 
     function log_wrapper_message() {
-        log_pdm_message "$${1}" "create_databases_sql.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
+        log_pdm_message "$${1}" "create_databases_sql.sh" "$$" "$${@:2}" "Running as: ,$USER"
     }
 
     echo "START_RUNNING_create_databases ......................"
@@ -18,7 +19,7 @@
     # Run SQL Scripts
     #####################
 
-    hive -f /opt/emr/sql/extracted/src/main/resources/scripts/db/create_databases.sql
+    hive -f /opt/emr/sql/extracted/src/main/resources/scripts/db/create_db.sql
  
     echo "FINISHED_RUNNING_create_databases......................"
     log_wrapper_message "finished running create db ......................."

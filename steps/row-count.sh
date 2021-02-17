@@ -6,6 +6,7 @@ TRANSACTIONAL_DB="${transactional_db}"
 VIEWS_TABLES_DB="${views_tables_db}"
 METRICS_FILE_PATH=/var/log/hive/metrics.json
 S3_LOCATION="${data_location}"
+HIVE_METASTORE_LOCATION="${hive_metastore_location}"
 
 (
     source /opt/emr/logging.sh
@@ -15,10 +16,10 @@ S3_LOCATION="${data_location}"
     log_wrapper_message "Running row-count.sh file"
 
     db_names=($TRANSFORM_DB $TRANSACTIONAL_DB $MODEL_DB $VIEWS_TABLES_DB)
-    res1=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/$MODEL_DB.db/)
-    res2=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/$TRANSACTIONAL_DB.db/)
-    res3=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/$TRANSFORM_DB.db/)
-    res4=$(aws s3 ls $S3_LOCATION/pdm-dataset/hive/external/$VIEWS_TABLES_DB.db/)
+    res1=$(aws s3 ls $S3_LOCATION/$HIVE_METASTORE_LOCATION/$MODEL_DB.db/)
+    res2=$(aws s3 ls $S3_LOCATION/$HIVE_METASTORE_LOCATION/$TRANSACTIONAL_DB.db/)
+    res3=$(aws s3 ls $S3_LOCATION/$HIVE_METASTORE_LOCATION/$TRANSFORM_DB.db/)
+    res4=$(aws s3 ls $S3_LOCATION/$HIVE_METASTORE_LOCATION/$VIEWS_TABLES_DB.db/)
 
     tables_string="$res1 $res2 $res3 $res4"
     query_string1=""
