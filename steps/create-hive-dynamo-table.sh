@@ -13,6 +13,10 @@ set -euo pipefail
         log_pdm_message "$1" "create-hive-dynamo-table.sh" "$$" "Running as: $USER"
     }
 
+     # Import retry function
+    source /opt/emr/retry.sh
+    check_retry
+
 
     log_wrapper_message "Creating external hive table"
 

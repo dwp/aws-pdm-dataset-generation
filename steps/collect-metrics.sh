@@ -10,6 +10,10 @@ function log_wrapper_message() {
     log_pdm_message "$1" "collect-metrics.sh" "$$" "Running as: $USER"
 }
 
+ # Import retry function
+source /opt/emr/retry.sh
+check_retry
+
 log_wrapper_message "Creating metrics file"
 
 METRICS_FILE_PATH=/var/log/hive/metrics.json

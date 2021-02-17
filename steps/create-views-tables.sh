@@ -11,6 +11,10 @@ TEMP_DIR=/opt/emr/sql/extracted/src/main/resources/scripts
         log_pdm_message "$${1}" "create-views-tables.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
     }
 
+     # Import retry function
+    source /opt/emr/retry.sh
+    check_retry
+
     log_wrapper_message "Start running create-views-tables.sh Shell"
 
     statements_file=$TEMP_DIR/create_views_tables.sql

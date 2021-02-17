@@ -16,6 +16,10 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/initial_tran
         log_pdm_message "$${1}" "initial_transactional_load.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
     }
 
+     # Import retry function
+    source /opt/emr/retry.sh
+    check_retry
+
     echo "START_RUNNING_initial_transactional_load"
     log_wrapper_message "Running initial_transactional_load_sql.sh file"
     #####################

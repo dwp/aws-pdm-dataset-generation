@@ -19,6 +19,10 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/source
         log_pdm_message "$${1}" "source_sql.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
     }
 
+    # Import retry function
+    source /opt/emr/retry.sh
+    check_retry
+
     echo "START_RUNNING_SOURCE ......................"
     log_wrapper_message "start running source ......................."
     #####################

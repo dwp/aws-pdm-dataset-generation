@@ -13,6 +13,11 @@ HIVE_METASTORE_LOCATION="${hive_metastore_location}"
     function log_wrapper_message() {
         log_pdm_message "$1" "row-count.sh" "$$" "Running as: $USER"
     }
+
+    # Import retry function
+    source /opt/emr/retry.sh
+    check_retry
+    
     log_wrapper_message "Running row-count.sh file"
 
     db_names=($TRANSFORM_DB $TRANSACTIONAL_DB $MODEL_DB $VIEWS_TABLES_DB)

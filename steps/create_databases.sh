@@ -13,6 +13,10 @@ set -euo pipefail
         log_pdm_message "$${1}" "create_databases_sql.sh" "$$" "$${@:2}" "Running as: ,$USER"
     }
 
+ # Import retry function
+    source /opt/emr/retry.sh
+    check_retry
+
     echo "START_RUNNING_create_databases ......................"
     log_wrapper_message "start running create db ......................."
     #####################

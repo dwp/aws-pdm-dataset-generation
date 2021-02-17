@@ -8,6 +8,10 @@ set -euo pipefail
         log_pdm_message "$1" "hive-setup.sh" "$$" "Running as: $USER"
     }
 
+    # Import retry function
+    source /opt/emr/retry.sh
+    check_retry
+
     log_wrapper_message "Setting up metrics exporter"
 
     aws s3 cp "${metrics_export_to_s3}" /opt/emr/metrics/export-to-s3.sh
