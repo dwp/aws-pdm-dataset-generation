@@ -22,6 +22,7 @@ resource "aws_s3_bucket_object" "emr_setup_sh" {
       S3_CLOUDWATCH_SHELL             = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.cloudwatch_sh.key)
       cwa_bootstrap_loggrp_name       = aws_cloudwatch_log_group.pdm_cw_bootstrap_loggroup.name
       cwa_steps_loggrp_name           = aws_cloudwatch_log_group.pdm_cw_steps_loggroup.name
+      cwa_tests_loggrp_name           = aws_cloudwatch_log_group.pdm_cw_tests_loggroup.name
       cwa_yarnspark_loggrp_name       = aws_cloudwatch_log_group.pdm_cw_yarnspark_loggroup.name
       cwa_hive_loggrp_name            = aws_cloudwatch_log_group.pdm_cw_hive_loggroup.name
       name                            = local.emr_cluster_name
@@ -79,6 +80,12 @@ resource "aws_cloudwatch_log_group" "pdm_cw_yarnspark_loggroup" {
 
 resource "aws_cloudwatch_log_group" "pdm_cw_hive_loggroup" {
   name              = local.cw_agent_hive_loggrp_name
+  retention_in_days = 180
+  tags              = local.common_tags
+}
+
+resource "aws_cloudwatch_log_group" "pdm_cw_tests_loggroup" {
+  name              = local.cw_agent_tests_loggrp_name
   retention_in_days = 180
   tags              = local.common_tags
 }

@@ -115,6 +115,7 @@ locals {
   cw_agent_steps_loggrp_name           = "/app/pdm_dataset_generator/step_logs"
   cw_agent_yarnspark_loggrp_name       = "/app/pdm_dataset_generator/yarn-spark_logs"
   cw_agent_hive_loggrp_name            = "/app/pdm_dataset_generator/hive-logs"
+  cw_agent_tests_loggrp_name           = "/app/pdm_dataset_generator/tests_logs"
   cw_agent_metrics_collection_interval = 60
 
   s3_log_prefix = "emr/pdm_dataset_generator"
