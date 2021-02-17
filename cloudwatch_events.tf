@@ -1,7 +1,8 @@
 locals {
   data_classification = {
-    config_bucket = data.terraform_remote_state.common.outputs.config_bucket
-    config_prefix = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_data_classification.config_prefix
+    config_bucket  = data.terraform_remote_state.common.outputs.config_bucket
+    config_prefix  = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_data_classification.config_prefix
+    data_s3_prefix = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_data_classification.data_s3_prefix
   }
 }
 
@@ -15,7 +16,7 @@ data "aws_iam_policy_document" "cloudwatch_events_assume_role" {
 
     principals {
       identifiers = ["events.amazonaws.com"]
-      type = "Service"
+      type        = "Service"
     }
   }
 }
@@ -125,16 +126,16 @@ EOF
 
 resource "aws_cloudwatch_event_target" "pdm_success_start_object_tagger" {
   target_id = "pdm_success"
-  rule = aws_cloudwatch_event_rule.pdm_success.name
-  arn = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_batch.job_queue.arn
-  role_arn = aws_iam_role.allow_batch_job_submission.arn
+  rule      = aws_cloudwatch_event_rule.pdm_success.name
+  arn       = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_batch.job_queue.arn
+  role_arn  = aws_iam_role.allow_batch_job_submission.arn
 
   batch_target {
     job_definition = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_batch.job_definition.id
-    job_name = "pdm-success-cloudwatch-event"
+    job_name       = "pdm-success-cloudwatch-event"
   }
 
-  input = "{\"Parameters\": {\"data-s3-prefix\": \"data/uc\", \"csv-location\": \"s3://${local.data_classification.config_bucket.id}/${local.data_classification.config_prefix}/data_classification.csv\"}}"
+  input = "{\"Parameters\": {\"data-s3-prefix\": \"${local.data_classification.data_s3_prefix}\", \"csv-location\": \"s3://${local.data_classification.config_bucket.id}/${local.data_classification.config_prefix}/data_classification.csv\"}}"
 }
 
 resource "aws_cloudwatch_metric_alarm" "pdm_success" {

@@ -53,7 +53,7 @@ echo "Setup cloudwatch logs"
 sudo /opt/emr/cloudwatch.sh \
     "${cwa_metrics_collection_interval}" "${cwa_namespace}"  "${cwa_log_group_name}" \
     "${aws_default_region}" "${cwa_bootstrap_loggrp_name}" "${cwa_steps_loggrp_name}" \
-    "${cwa_yarnspark_loggrp_name}" "${cwa_hive_loggrp_name}"
+    "${cwa_yarnspark_loggrp_name}" "${cwa_hive_loggrp_name}" "${cwa_tests_loggrp_name}"
 
 export ACM_KEY_PASSWORD=$(uuidgen -r)
 
@@ -121,5 +121,14 @@ sudo hostnamectl set-hostname $HOSTNAME
 aws ec2 create-tags --resources $INSTANCE_ID --tags Key=Name,Value=$HOSTNAME
 
 log_wrapper_message "Completed the emr-setup.sh step of the EMR Cluster"
+
+
+log_wrapper_message "Downloading and running dynamo updater script"
+aws s3 cp "${update_dynamo_sh}"                    /opt/emr/update_dynamo.sh
+aws s3 cp "${dynamo_schema_json}"                  /opt/emr/dynamo_schema.json
+
+chmod u+x /opt/emr/update_dynamo.sh
+
+/opt/emr/update_dynamo.sh &
 
 ) >> /var/log/pdm/emr_setup.log 2>&1

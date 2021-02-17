@@ -14,6 +14,7 @@ locals {
   dynamo_meta_name                = "PDMGen-metadata"
   secret_name                     = "/concourse/dataworks/pdm"
   data_pipeline_metadata          = data.terraform_remote_state.internal_compute.outputs.data_pipeline_metadata_dynamo.name
+  hive_metastore_location         = "data/uc"
   common_tags = {
     Environment  = local.environment
     Application  = local.emr_cluster_name
@@ -69,11 +70,11 @@ locals {
   }
 
   pdm_version = {
-    development = "0.0.20"
-    qa          = "0.0.20"
-    integration = "0.0.20"
-    preprod     = "0.0.20"
-    production  = "0.0.20"
+    development = "0.0.21"
+    qa          = "0.0.21"
+    integration = "0.0.21"
+    preprod     = "0.0.21"
+    production  = "0.0.21"
   }
 
   amazon_region_domain = "${data.aws_region.current.name}.amazonaws.com"
@@ -114,6 +115,7 @@ locals {
   cw_agent_steps_loggrp_name           = "/app/pdm_dataset_generator/step_logs"
   cw_agent_yarnspark_loggrp_name       = "/app/pdm_dataset_generator/yarn-spark_logs"
   cw_agent_hive_loggrp_name            = "/app/pdm_dataset_generator/hive-logs"
+  cw_agent_tests_loggrp_name           = "/app/pdm_dataset_generator/tests_logs"
   cw_agent_metrics_collection_interval = 60
 
   s3_log_prefix = "emr/pdm_dataset_generator"
@@ -128,13 +130,12 @@ locals {
   views_db            = "uc_views_tables"
   views_tables_db     = "uc"
   serde               = "org.openx.data.jsonserde.JsonSerDe"
-  pii_data_location   = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "pdm-dataset/pii")
 
-  intial_transactioanl_load = {
+  initial_transactional_load = {
     development = "true"
-    qa          = "false"
-    integration = "false"
-    preprod     = "false"
+    qa          = "true"
+    integration = "true"
+    preprod     = "true"
     production  = "true"
   }
 

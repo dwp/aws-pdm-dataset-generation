@@ -9,6 +9,8 @@ cwa_bootstrap_loggrp_name="$5"
 cwa_steps_loggrp_name="$6"
 cwa_yarnspark_loggrp_name="$7"
 cwa_hive_loggrp_name="$8"
+cwa_tests_loggrp_name="$9"
+
 
 export AWS_DEFAULT_REGION="$${4}"
 
@@ -61,9 +63,15 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
-            "file_path": "/var/log/pdm/nohup.log",
+            "file_path": "/var/log/pdm/emr_setup.log",
             "log_group_name": "$${cwa_bootstrap_loggrp_name}",
             "log_stream_name": "emr_setup.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/pdm/update_dynamo_sh.log",
+            "log_group_name": "$${cwa_bootstrap_loggrp_name}",
+            "log_stream_name": "update_dynamo_sh.log",
             "timezone": "UTC"
           },
           {
@@ -157,9 +165,9 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
-            "file_path": "/var/log/pdm/create_db_sql.log",
+            "file_path": "/var/log/pdm/create_databases_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "create_db_sql.log",
+            "log_stream_name": "create_databases_sql.log",
             "timezone": "UTC"
           },
           {
@@ -169,9 +177,9 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
-            "file_path": "/var/log/pdm/intial_transactional_load_sql.log",
+            "file_path": "/var/log/pdm/initial_transactional_load_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "intial_transactional_load_sql.log",
+            "log_stream_name": "initial_transactional_load_sql.log",
             "timezone": "UTC"
           },
           {
@@ -190,6 +198,12 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "file_path": "/var/log/pdm/collect-metrics.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
             "log_stream_name": "collect-metrics.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/pdm/e2e.log",
+            "log_group_name": "$${cwa_tests_loggrp_name}",
+            "log_stream_name": "e2e.log",
             "timezone": "UTC"
           }
         ]

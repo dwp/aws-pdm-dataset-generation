@@ -35,7 +35,7 @@ resource "aws_s3_bucket_object" "instances" {
       instance_type_core_one   = var.emr_instance_type_core_one[local.environment]
       instance_type_core_two   = var.emr_instance_type_core_two[local.environment]
       instance_type_core_three = var.emr_instance_type_core_three[local.environment]
-      instance_type_core_four = var.emr_instance_type_core_four[local.environment]
+      instance_type_core_four  = var.emr_instance_type_core_four[local.environment]
       core_instance_count      = var.emr_core_instance_count[local.environment]
     }
   )
@@ -76,6 +76,7 @@ resource "aws_s3_bucket_object" "configurations" {
       hive_metastore_endpoint      = data.terraform_remote_state.adg.outputs.hive_metastore.rds_cluster.endpoint
       hive_metastore_database_name = data.terraform_remote_state.adg.outputs.hive_metastore.rds_cluster.database_name
       hive_compaction_threads      = local.hive_compaction_threads[local.environment]
+      hive_metastore_location      = local.hive_metastore_location
     }
   )
 }
