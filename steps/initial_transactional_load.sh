@@ -13,7 +13,6 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/initial_tran
     source /opt/emr/logging.sh
  # Import resume step function
     source /opt/emr/resume_step.sh
-    resume_from_step
 
     function log_wrapper_message() {
         log_pdm_message "$${1}" "initial_transactional_load.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"

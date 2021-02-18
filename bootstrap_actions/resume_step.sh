@@ -22,3 +22,5 @@ function resume_from_step() {
         log_pdm_message "No previous step file found"
     fi
 }
+
+resume_from_step

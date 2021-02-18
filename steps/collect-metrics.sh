@@ -7,7 +7,6 @@ set -euo pipefail
 source /opt/emr/logging.sh
  # Import resume step function
     source /opt/emr/resume_step.sh
-    resume_from_step
 
 function log_wrapper_message() {
     log_pdm_message "$1" "collect-metrics.sh" "$$" "Running as: $USER"
