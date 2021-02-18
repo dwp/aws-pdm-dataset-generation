@@ -9,7 +9,7 @@ function resume_from_step() {
         CURRENT_FILE_NAME=`basename "$0"`
         FILE_NAME_NO_EXT="${CURRENT_FILE_NAME%.*}"
 
-        if [[ $STEP != $FILE_NAME_NO_EXT]]; then
+        if [[ $STEP != $FILE_NAME_NO_EXT ]]; then
             log_pdm_message "Current step name $FILE_NAME_NO_EXT doesn't match previously failed step $STEP, exiting"
             exit 0
         else
