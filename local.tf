@@ -15,6 +15,7 @@ locals {
   secret_name                     = "/concourse/dataworks/pdm"
   data_pipeline_metadata          = data.terraform_remote_state.internal_compute.outputs.data_pipeline_metadata_dynamo.name
   hive_metastore_location         = "data/uc"
+  hive_data_location              = "data"
   common_tags = {
     Environment  = local.environment
     Application  = local.emr_cluster_name
