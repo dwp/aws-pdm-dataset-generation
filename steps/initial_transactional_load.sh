@@ -9,7 +9,6 @@ DICTIONARY_LOCATION="${dictionary_location}"
 TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/initial_transactional_load
 
 (
-    exit 0 # TEMP TO RUN ONLY THE VIEWS
  # Import the logging functions
     source /opt/emr/logging.sh
 
