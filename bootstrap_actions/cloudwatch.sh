@@ -29,13 +29,13 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
           {
             "file_path": "/opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log",
             "log_group_name": "$${cwa_log_group_name}",
-            "log_stream_name": "amazon-cloudwatch-agent.log",
+            "log_stream_name": "{instance_id}-amazon-cloudwatch-agent.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/messages",
             "log_group_name": "$${cwa_log_group_name}",
-            "log_stream_name": "messages",
+            "log_stream_name": "{instance_id}-messages",
             "timezone": "UTC"
           },
           {
@@ -53,157 +53,157 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
           {
             "file_path": "/var/log/pdm/acm-cert-retriever.log",
             "log_group_name": "$${cwa_bootstrap_loggrp_name}",
-            "log_stream_name": "acm-cert-retriever.log",
+            "log_stream_name": "{instance_id}-acm-cert-retriever.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/nohup.log",
             "log_group_name": "$${cwa_bootstrap_loggrp_name}",
-            "log_stream_name": "nohup.log",
+            "log_stream_name": "{instance_id}-nohup.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/emr_setup.log",
             "log_group_name": "$${cwa_bootstrap_loggrp_name}",
-            "log_stream_name": "emr_setup.log",
+            "log_stream_name": "{instance_id}-emr_setup.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/update_dynamo_sh.log",
             "log_group_name": "$${cwa_bootstrap_loggrp_name}",
-            "log_stream_name": "update_dynamo_sh.log",
+            "log_stream_name": "{instance_id}-update_dynamo_sh.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/application_metrics.log",
             "log_group_name": "$${cwa_bootstrap_loggrp_name}",
-            "log_stream_name": "application_metrics.log",
+            "log_stream_name": "{instance_id}-application_metrics.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/hadoop-yarn/yarn-yarn-nodemanager**.log",
             "log_group_name": "$${cwa_yarnspark_loggrp_name}",
-            "log_stream_name": "yarn_nodemanager.log",
+            "log_stream_name": "{instance_id}-yarn_nodemanager.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/hive/hive-server2.log",
             "log_group_name": "$${cwa_hive_loggrp_name}",
-            "log_stream_name": "hive_server2.log",
+            "log_stream_name": "{instance_id}-hive_server2.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/hive/user/hive/hive.log",
             "log_group_name": "$${cwa_hive_loggrp_name}",
-            "log_stream_name": "query_related_hive_user.log",
+            "log_stream_name": "{instance_id}-query_related_hive_user.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/hive/user/hadoop/hive.log",
             "log_group_name": "$${cwa_hive_loggrp_name}",
-            "log_stream_name": "query_related_hadoop_user.log",
+            "log_stream_name": "{instance_id}-query_related_hadoop_user.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/hive/user/root/hive.log",
             "log_group_name": "$${cwa_hive_loggrp_name}",
-            "log_stream_name": "query_related_root_user.log",
+            "log_stream_name": "{instance_id}-query_related_root_user.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/download_unzip_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "download_unzip_sql.log",
+            "log_stream_name": "{instance_id}-download_unzip_sql.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/download_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "download_sql.log",
+            "log_stream_name": "{instance_id}-download_sql.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/missing_model_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "missing_model_sql.log",
+            "log_stream_name": "{instance_id}-missing_model_sql.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/model_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "model_sql.log",
+            "log_stream_name": "{instance_id}-model_sql.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/transform_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "transform_sql.log",
+            "log_stream_name": "{instance_id}-transform_sql.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/source_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "source_sql.log",
+            "log_stream_name": "{instance_id}-source_sql.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/transactional_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "transactional_sql.log",
+            "log_stream_name": "{instance_id}-transactional_sql.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/views_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "views_sql.log",
+            "log_stream_name": "{instance_id}-views_sql.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/clean_dictionary_data.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "clean_dictionary_data.log",
+            "log_stream_name": "{instance_id}-clean_dictionary_data.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/create_databases_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "create_databases_sql.log",
+            "log_stream_name": "{instance_id}-create_databases_sql.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/create_views_tables.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "create_views_tables.log",
+            "log_stream_name": "{instance_id}-create_views_tables.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/initial_transactional_load_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "initial_transactional_load_sql.log",
+            "log_stream_name": "{instance_id}-initial_transactional_load_sql.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/pdm_tables_row_count.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "pdm_tables_row_count.log",
+            "log_stream_name": "{instance_id}-pdm_tables_row_count.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/create-hive-dynamo-table.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "create-hive-dynamo-table.log",
+            "log_stream_name": "{instance_id}-create-hive-dynamo-table.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/collect-metrics.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "collect-metrics.log",
+            "log_stream_name": "{instance_id}-collect-metrics.log",
             "timezone": "UTC"
           },
           {
             "file_path": "/var/log/pdm/e2e.log",
             "log_group_name": "$${cwa_tests_loggrp_name}",
-            "log_stream_name": "e2e.log",
+            "log_stream_name": "{instance_id}-e2e.log",
             "timezone": "UTC"
           }
         ]
