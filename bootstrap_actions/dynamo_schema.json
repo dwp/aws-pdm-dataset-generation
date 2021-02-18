@@ -16,5 +16,11 @@
   },
   "CurrentStep": {
     "S": ""
+  },
+  "Cluster_Id": {
+    "S": ""
+  },
+  "S3_prefix": {
+    "S": ""
   }
 }
