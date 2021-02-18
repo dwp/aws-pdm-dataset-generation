@@ -130,22 +130,6 @@ resource "aws_s3_bucket_object" "initial_transactional_load_sh" {
   )
 }
 
-resource "aws_s3_bucket_object" "row_count" {
-  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  key    = "component/pdm-dataset-generation/row-count.sh"
-  content = templatefile("${path.module}/steps/row-count.sh",
-    {
-      transform_db            = local.transform_db
-      transactional_db        = local.transactional_db
-      model_db                = local.model_db
-      views_db                = local.views_db
-      data_location           = local.data_location
-      views_tables_db         = local.views_tables_db
-      hive_metastore_location = local.hive_metastore_location
-    }
-  )
-}
-
 resource "aws_s3_bucket_object" "collect_metrics" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "component/pdm-dataset-generation/collect-metrics.sh"
