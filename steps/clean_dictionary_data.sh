@@ -41,11 +41,6 @@ DICTIONARY_LOCATION="${dictionary_location}"
     aws s3 cp /opt/emr/sql/initialDeliveryUnitAddresses.json $DICTIONARY_LOCATION/data/address/initialDeliveryUnitAddresses.json
 
     log_wrapper_message "Finish clean_dictionary_data.sh"
-    
-
-
-
 
 ) >> /var/log/pdm/clean_dictionary_data.log 2>&1
-
 
