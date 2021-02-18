@@ -12,6 +12,7 @@ VIEWS_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/views
 (
  # Import the logging functions
     source /opt/emr/logging.sh
+    source /opt/emr/retry.sh
 # Import and execute resume step function
     source /opt/emr/resume_step.sh
 
@@ -28,7 +29,7 @@ VIEWS_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/views
     for f in $VIEWS_DIR/*.sql
     do
         echo "Executing $f"
-        hive -f $f \
+        retry::with_retries hive -f $f \
             --hivevar views_database=$VIEWS_DB \
             --hivevar model_database=$MODEL_DB \
             --hivevar transactional_database=$TRANSACTIONAL_DB \
