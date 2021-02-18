@@ -2,8 +2,10 @@
 
 source /opt/emr/logging.sh
 
+STEP_TO_START_FROM_FILE=/opt/emr/step_to_start_from.txt
+
 function resume_from_step() {
-    if [[ -f /opt/emr/step_to_start_from.txt ]]; then
+    if [[ -f $STEP_TO_START_FROM_FILE ]]; then
         log_pdm_message "Previous step file found"
         STEP=`cat $STEP_TO_START_FROM_FILE`
         CURRENT_FILE_NAME=`basename "$0"`
@@ -16,6 +18,7 @@ function resume_from_step() {
             log_pdm_message "Current step name $FILE_NAME_NO_EXT matches previously failed step $STEP, deleting file"
             rm -f $STEP_TO_START_FROM_FILE
         fi
+    else
+        log_pdm_message "No previous step file found"
     fi
-    log_pdm_message "No previous step file found"
 }
