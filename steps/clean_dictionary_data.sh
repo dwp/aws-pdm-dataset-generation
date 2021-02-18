@@ -6,6 +6,7 @@
 DICTIONARY_LOCATION="${dictionary_location}"
 
 (
+    exit 0 # TEMP TO RUN ONLY THE VIEWS
  # Import the logging functions
     source /opt/emr/logging.sh
 

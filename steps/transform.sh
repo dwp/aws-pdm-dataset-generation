@@ -10,6 +10,7 @@ DICTIONARY_LOCATION="${dictionary_location}"
 SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transform
 
 (
+    exit 0 # TEMP TO RUN ONLY THE VIEWS
  # Import the logging functions
     source /opt/emr/logging.sh
     source /opt/emr/retry.sh
