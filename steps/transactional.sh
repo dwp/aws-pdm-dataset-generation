@@ -10,6 +10,7 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transactiona
 (
  # Import the logging functions
     source /opt/emr/logging.sh
+    source /opt/emr/retry.sh
 
     function log_wrapper_message() {
         log_pdm_message "$${1}" "transactional_sql.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
@@ -28,7 +29,8 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transactiona
     for f in $TRANSACTIONAL_DIR/*.sql
     do
         echo "Executing $f"
-        hive -f $f --hivevar transactional_database=$TRANSACTIONAL_DB
+        retry::with_retries hive -f $f \
+                            --hivevar transactional_database=$TRANSACTIONAL_DB
     done
 
     echo "FINISHED_RUNNING_TRANSACTIONAL......................"

@@ -9,6 +9,7 @@ resource "aws_s3_bucket_object" "emr_setup_sh" {
       S3_COMMON_LOGGING_SHELL         = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, data.terraform_remote_state.common.outputs.application_logging_common_file.s3_id)
       S3_LOGGING_SHELL                = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.logging_script.key)
       RETRY_SHELL                     = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.retry_script.key)
+      S3_RETRY_UTILITY                = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.retry_utility.key)
       aws_default_region              = "eu-west-2"
       full_proxy                      = data.terraform_remote_state.internal_compute.outputs.internet_proxy.url
       full_no_proxy                   = local.no_proxy
@@ -44,6 +45,18 @@ resource "aws_s3_bucket_object" "installer_sh" {
     {
       full_proxy    = data.terraform_remote_state.internal_compute.outputs.internet_proxy.url
       full_no_proxy = local.no_proxy
+    }
+  )
+}
+
+resource "aws_s3_bucket_object" "retry_utility" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/retry.sh"
+  content = templatefile("${path.module}/bootstrap_actions/retry.sh",
+    {
+      retry_max_attempts          = local.retry_max_attempts[local.environment]
+      retry_attempt_delay_seconds = local.retry_attempt_delay_seconds[local.environment]
+      retry_enabled               = local.retry_enabled[local.environment]
     }
   )
 }
