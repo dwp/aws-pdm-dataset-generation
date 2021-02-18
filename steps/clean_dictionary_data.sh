@@ -6,17 +6,14 @@
 DICTIONARY_LOCATION="${dictionary_location}"
 
 (
-    STEP_TO_START_FROM_FILE=/opt/emr/step_to_start_from.txt
- # Import the logging functions
+    # Import the logging functions
     source /opt/emr/logging.sh
-# Import and execute resume step function
+    # Import and execute resume step function
     source /opt/emr/resume_step.sh
 
     function log_wrapper_message() {
         log_pdm_message "$${1}" "clean_dictionary_data.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
     }
-
-
 
     log_wrapper_message "Uploading initialOrganisation.json "
     aws s3 cp $DICTIONARY_LOCATION/unclean/site/initialOrganisation.json /opt/emr/sql/initialOrganisation.json
