@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $${BOOTSTRAP_DIRECTORY:-/opt/emr}/logging.sh
+source /opt/emr/logging.sh
 
 function resume_from_step() {
     if [[ -f /opt/emr/step_to_start_from.txt ]]; then
