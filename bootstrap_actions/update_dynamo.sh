@@ -94,7 +94,9 @@
     dynamo_put_item "$JSON_STRING"
   else
     STATUS=`echo $response | jq -r .'Item.Status.S'`
-    if [[ "$STATUS" == "FAILED" ]]
+    log_wrapper_message "Status from previous run $STATUS"
+    if [[ "$STATUS" == "FAILED" ]]; then
+      log_wrapper_message "Previous failed status found, creating step_to_start_from.txt"
       CURRENT_STEP=`echo $response | jq -r .'Item.CurrentStep.S'`
       echo $CURRENT_STEP >> /opt/emr/step_to_start_from.txt
     fi   
