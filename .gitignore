@@ -12,3 +12,4 @@ aviator_pipeline_object_tagging.yml
 .DS_Store
 **/__pycache__/
 *.pyc
+venv/

@@ -2,6 +2,7 @@
 set -euo pipefail
 
 (
+    exit 0 # TEMP TO RUN ONLY THE VIEWS
 
     CORRELATION_ID=$2
     echo $CORRELATION_ID >> /opt/emr/correlation_id.txt
