@@ -3,9 +3,6 @@ set -euo pipefail
 (
     # Import the logging functions
     source /opt/emr/logging.sh
-     # Import resume step function
-    source /opt/emr/resume_step.sh
-    resume_from_step
     
     function log_wrapper_message() {
         log_pdm_message "$1" "hive-setup.sh" "$$" "Running as: $USER"
@@ -18,5 +15,3 @@ set -euo pipefail
     /opt/emr/metrics/export-to-s3.sh &
     
 ) >> /var/log/pdm/nohup.log 2>&1
-
-
