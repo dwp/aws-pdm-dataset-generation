@@ -24,7 +24,6 @@ aws s3 cp "${S3_RETRY_UTILITY}"                    /opt/emr/retry.sh
 echo "Changing the Permissions"
 chmod u+x /opt/shared/common_logging.sh
 chmod u+x /opt/emr/logging.sh
-chmod u+x /opt/emr/retry.sh
 chmod u+x /opt/emr/resume_step.sh
 chmod u+x /opt/emr/cloudwatch.sh
 
