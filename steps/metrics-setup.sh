@@ -15,5 +15,3 @@ set -euo pipefail
     /opt/emr/metrics/export-to-s3.sh &
     
 ) >> /var/log/pdm/nohup.log 2>&1
-
-

@@ -10,9 +10,11 @@ DICTIONARY_LOCATION="${dictionary_location}"
 SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transform
 
 (
- # Import the logging functions
+    # Import the logging functions
     source /opt/emr/logging.sh
     source /opt/emr/retry.sh
+    # Import and execute resume step function
+    source /opt/emr/resume_step.sh
 
     function log_wrapper_message() {
         log_pdm_message "$${1}" "transform_sql.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"

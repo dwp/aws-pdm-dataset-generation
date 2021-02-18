@@ -13,9 +13,11 @@ MODEL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/model
 # Run Model Script
 ########################
 (
- # Import the logging functions
+    # Import the logging functions
     source /opt/emr/logging.sh
     source /opt/emr/retry.sh
+    # Import and execute resume step function
+    source /opt/emr/resume_step.sh
 
     function log_wrapper_message() {
         log_pdm_message "$${1}" "model_sql.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
@@ -43,4 +45,5 @@ MODEL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/model
 
     echo "FINISHED_RUNNING_MODEL ......................"
     log_wrapper_message "finished running model ......................."
+
 ) >> /var/log/pdm/model_sql.log 2>&1

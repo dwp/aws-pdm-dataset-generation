@@ -10,9 +10,13 @@ HIVE_METASTORE_LOCATION="${hive_metastore_location}"
 
 (
     source /opt/emr/logging.sh
+    # Import and execute resume step function
+    source /opt/emr/resume_step.sh
+
     function log_wrapper_message() {
         log_pdm_message "$1" "row-count.sh" "$$" "Running as: $USER"
     }
+    
     log_wrapper_message "Running row-count.sh file"
 
     db_names=($TRANSFORM_DB $TRANSACTIONAL_DB $MODEL_DB $VIEWS_TABLES_DB)

@@ -93,9 +93,18 @@
   if [[ -z $response ]]; then
     dynamo_put_item "$JSON_STRING"
   else
+    STATUS=`echo $response | jq -r .'Item.Status.S'`
+    log_wrapper_message "Status from previous run $STATUS"
+    if [[ "$STATUS" == "FAILED" ]]; then
+      log_wrapper_message "Previous failed status found, creating step_to_start_from.txt"
+      CURRENT_STEP=`echo $response | jq -r .'Item.CurrentStep.S'`
+      echo $CURRENT_STEP >> /opt/emr/step_to_start_from.txt
+    fi   
+
     RUN_ID=`echo $response | jq -r .'Item.Run_Id.N'`
     RUN_ID=$((RUN_ID+1))
     JSON_STRING=`jq '.Run_Id.N = "'$RUN_ID'"'<<<$JSON_STRING`
+    JSON_STRING=`jq '.Date.S = "'$DATE'"'<<<$JSON_STRING`
     dynamo_put_item "$JSON_STRING"
   fi
   log_wrapper_message "Updating DynamoDB with CORRELATION_ID: $CORRELATION_ID and RUN_ID: $RUN_ID"

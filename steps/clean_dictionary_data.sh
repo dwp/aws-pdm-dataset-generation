@@ -6,8 +6,10 @@
 DICTIONARY_LOCATION="${dictionary_location}"
 
 (
- # Import the logging functions
+    # Import the logging functions
     source /opt/emr/logging.sh
+    # Import and execute resume step function
+    source /opt/emr/resume_step.sh
 
     function log_wrapper_message() {
         log_pdm_message "$${1}" "clean_dictionary_data.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
@@ -41,5 +43,4 @@ DICTIONARY_LOCATION="${dictionary_location}"
     log_wrapper_message "Finish clean_dictionary_data.sh"
 
 ) >> /var/log/pdm/clean_dictionary_data.log 2>&1
-
 

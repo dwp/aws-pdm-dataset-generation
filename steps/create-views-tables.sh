@@ -6,6 +6,8 @@ TEMP_DIR=/opt/emr/sql/extracted/src/main/resources/scripts
 
 (
     source /opt/emr/logging.sh
+    # Import and execute resume step function
+    source /opt/emr/resume_step.sh
 
     function log_wrapper_message() {
         log_pdm_message "$${1}" "create-views-tables.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
