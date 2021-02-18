@@ -17,4 +17,5 @@ function resume_from_step() {
             rm -f $STEP_TO_START_FROM_FILE
         fi
     fi
+    log_pdm_message "No previous step file found"
 }
