@@ -9,7 +9,7 @@ DICTIONARY_LOCATION="${dictionary_location}"
     STEP_TO_START_FROM_FILE=/opt/emr/step_to_start_from.txt
  # Import the logging functions
     source /opt/emr/logging.sh
- # Import resume step function
+# Import and execute resume step function
     source /opt/emr/resume_step.sh
 
     function log_wrapper_message() {

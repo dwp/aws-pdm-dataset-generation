@@ -104,6 +104,7 @@
     RUN_ID=`echo $response | jq -r .'Item.Run_Id.N'`
     RUN_ID=$((RUN_ID+1))
     JSON_STRING=`jq '.Run_Id.N = "'$RUN_ID'"'<<<$JSON_STRING`
+    JSON_STRING=`jq '.Date.S = "'$DATE'"'<<<$JSON_STRING`
     dynamo_put_item "$JSON_STRING"
   fi
   log_wrapper_message "Updating DynamoDB with CORRELATION_ID: $CORRELATION_ID and RUN_ID: $RUN_ID"

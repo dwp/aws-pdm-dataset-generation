@@ -16,7 +16,7 @@ MODEL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/model
  # Import the logging functions
     source /opt/emr/logging.sh
     source /opt/emr/retry.sh
- # Import resume step function
+# Import and execute resume step function
     source /opt/emr/resume_step.sh
 
     function log_wrapper_message() {

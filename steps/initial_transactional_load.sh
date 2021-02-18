@@ -11,7 +11,7 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/initial_tran
 (
  # Import the logging functions
     source /opt/emr/logging.sh
- # Import resume step function
+# Import and execute resume step function
     source /opt/emr/resume_step.sh
 
     function log_wrapper_message() {
