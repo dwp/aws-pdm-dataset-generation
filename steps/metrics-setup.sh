@@ -3,14 +3,13 @@ set -euo pipefail
 (
     # Import the logging functions
     source /opt/emr/logging.sh
+     # Import resume step function
+    source /opt/emr/resume_step.sh
+    resume_from_step
     
     function log_wrapper_message() {
         log_pdm_message "$1" "hive-setup.sh" "$$" "Running as: $USER"
     }
-
-    # Import retry function
-    source /opt/emr/retry.sh
-    check_retry
 
     log_wrapper_message "Setting up metrics exporter"
 

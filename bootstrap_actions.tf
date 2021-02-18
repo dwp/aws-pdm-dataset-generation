@@ -8,7 +8,7 @@ resource "aws_s3_bucket_object" "emr_setup_sh" {
       ENVIRONMENT_NAME                = local.environment
       S3_COMMON_LOGGING_SHELL         = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, data.terraform_remote_state.common.outputs.application_logging_common_file.s3_id)
       S3_LOGGING_SHELL                = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.logging_script.key)
-      RETRY_SHELL                     = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.retry_script.key)
+      RESUME_STEP_SHELL               = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.resume_step_script.key)
       S3_RETRY_UTILITY                = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.retry_utility.key)
       aws_default_region              = "eu-west-2"
       full_proxy                      = data.terraform_remote_state.internal_compute.outputs.internet_proxy.url
@@ -67,10 +67,10 @@ resource "aws_s3_bucket_object" "logging_script" {
   content = file("${path.module}/bootstrap_actions/logging.sh")
 }
 
-resource "aws_s3_bucket_object" "retry_script" {
+resource "aws_s3_bucket_object" "resume_step_script" {
   bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
-  key     = "component/pdm-dataset-generation/retry.sh"
-  content = file("${path.module}/bootstrap_actions/retry.sh")
+  key     = "component/pdm-dataset-generation/resume_step.sh"
+  content = file("${path.module}/bootstrap_actions/resume_step.sh")
 }
 
 resource "aws_cloudwatch_log_group" "pdm_dataset_generator" {
