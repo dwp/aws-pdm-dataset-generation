@@ -22,11 +22,11 @@ set -euo pipefail
     hive -e "CREATE DATABASE IF NOT EXISTS AUDIT; \
     DROP TABLE IF EXISTS AUDIT.data_pipeline_metadata_hive; \
     CREATE EXTERNAL TABLE IF NOT EXISTS AUDIT.data_pipeline_metadata_hive (Correlation_Id STRING, Run_Id BIGINT, \
-    DataProduct STRING, DateProductRun STRING, Status STRING, CurrentStep STRING, Cluster_Id STRING, S3_prefix STRING) \
+    DataProduct STRING, DateProductRun STRING, Status STRING, CurrentStep STRING, Cluster_Id STRING, S3_Prefix STRING) \
     STORED BY 'org.apache.hadoop.hive.dynamodb.DynamoDBStorageHandler' \
     TBLPROPERTIES ('dynamodb.table.name'='${dynamodb_table_name}', \
     'dynamodb.column.mapping' = 'Correlation_Id:Correlation_Id,Run_Id:Run_Id,DataProduct:DataProduct,DateProductRun:Date,\
-    Status:Status,CurrentStep:CurrentStep,Cluster_Id:Cluster_Id,S3_prefix:S3_prefix','dynamodb.null.serialization' = 'true');"
+    Status:Status,CurrentStep:CurrentStep,Cluster_Id:Cluster_Id,S3_Prefix:S3_Prefix','dynamodb.null.serialization' = 'true');"
 
     log_wrapper_message "Finished creating external hive table"
 

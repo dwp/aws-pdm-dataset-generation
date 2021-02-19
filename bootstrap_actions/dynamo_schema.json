@@ -20,7 +20,7 @@
   "Cluster_Id": {
     "S": ""
   },
-  "S3_prefix": {
+  "S3_Prefix": {
     "S": ""
   }
 }
