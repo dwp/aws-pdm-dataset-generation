@@ -12,7 +12,7 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transform
 (
     # Import the logging functions
     source /opt/emr/logging.sh
-    source /opt/emr/retry.sh
+
     # Import and execute resume step function
     source /opt/emr/resume_step.sh
 
@@ -26,14 +26,11 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transform
     # Run SQL Scripts
     #####################
 
-    for f in $SOURCE_DIR/*.sql
-    do
-        echo "Executing $f"
-        retry::with_retries hive -f $f \
+    find $SOURCE_DIR -name '*.sql' | grep -v 'youth_obligation_transform.sql' \
+        | xargs -n1 -P10 /opt/emr/with_retry.sh hive \
                             --hivevar source_database=$SOURCE_DB \
                             --hivevar transform_database=$TRANSFORM_DB \
-                            --hivevar dictionary_path=$DICTIONARY_LOCATION
-    done
+                            --hivevar dictionary_path=$DICTIONARY_LOCATION -f
 
     echo "FINISHED_RUNNING_TRANFORM ......................"
     log_wrapper_message "finished running transform......................."
