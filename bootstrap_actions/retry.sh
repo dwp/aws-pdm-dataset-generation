@@ -61,7 +61,3 @@ retry::enabled() {
       false
   fi
 }
-
-if [[ -n "$@" ]]; then
-    retry::with_retries $@
-fi
