@@ -14,7 +14,6 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/source
 (
     # Import the logging functions
     source /opt/emr/logging.sh
-    source /opt/emr/retry.sh
     # Import resume step function
     source /opt/emr/resume_step.sh
 
@@ -28,15 +27,12 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/source
     # Run SQL Scripts
     #####################
 
-    for f in $SOURCE_DIR/*.sql
-    do
-        echo "Executing $f"
-        retry::with_retries hive -f $f \
-                            --hivevar source_database=$SOURCE_DB \
-                            --hivevar data_path=$DATA_LOCATION \
-                            --hivevar serde=$SERDE \
-                            --hivevar dictionary_path=$DICTIONARY_LOCATION
-    done
+    find $SOURCE_DIR -name '*.sql' \
+        | xargs -n1 -P${processes} /opt/emr/with_retry.sh hive \
+                --hivevar source_database=$SOURCE_DB \
+                --hivevar data_path=$DATA_LOCATION \
+                --hivevar serde=$SERDE \
+                --hivevar dictionary_path=$DICTIONARY_LOCATION -f
 
     echo "FINISHED_RUNNING_SOURCE......................"
     log_wrapper_message "finished running source......................."

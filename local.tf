@@ -174,9 +174,49 @@ locals {
 
   retry_enabled = {
     development = "true"
-    qa          = "false"
-    integration = "false"
-    preprod     = "false"
-    production  = "false"
+    qa          = "true"
+    integration = "true"
+    preprod     = "true"
+    production  = "true"
+  }
+
+  model_processes = {
+    development = "10"
+    qa          = "10"
+    integration = "10"
+    preprod     = "10"
+    production  = "10"
+  }
+
+  source_processes = {
+    development = "10"
+    qa          = "10"
+    integration = "10"
+    preprod     = "10"
+    production  = "10"
+  }
+
+  transactional_processes = {
+    development = "10"
+    qa          = "10"
+    integration = "10"
+    preprod     = "10"
+    production  = "10"
+  }
+
+  transform_processes = {
+    development = "10"
+    qa          = "10"
+    integration = "10"
+    preprod     = "10"
+    production  = "10"
+  }
+
+  views_processes = {
+    development = "10"
+    qa          = "10"
+    integration = "10"
+    preprod     = "10"
+    production  = "10"
   }
 }
