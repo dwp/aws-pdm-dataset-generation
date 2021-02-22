@@ -45,7 +45,7 @@ tables_report() {
 
 parallelised_statements() {
     local input_file=$${1:?}
-    xargs -d '\n' -a $input_file -r -P10 -n1 hive -e
+    xargs -d '\n' -a $input_file -r -P${processes} -n1 hive -e
 }
 
 drop_existing_table_statements() {

@@ -119,6 +119,7 @@ resource "aws_s3_bucket_object" "create_views_tables" {
     {
       views_db        = local.views_db
       views_tables_db = local.views_tables_db
+      processes       = local.views_tables_processes[local.environment]
     }
   )
 }

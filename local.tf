@@ -219,4 +219,12 @@ locals {
     preprod     = "10"
     production  = "10"
   }
+
+  views_tables_processes = {
+    development = "10"
+    qa          = "10"
+    integration = "10"
+    preprod     = "10"
+    production  = "10"
+  }
 }
