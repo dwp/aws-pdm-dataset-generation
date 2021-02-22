@@ -2,9 +2,11 @@
 sudo mkdir -p /var/log/pdm
 sudo mkdir -p /opt/emr
 sudo mkdir -p /opt/shared
+sudo mkdir -p /var/ci
 sudo chown hadoop:hadoop /var/log/pdm
 sudo chown hadoop:hadoop /opt/emr
 sudo chown hadoop:hadoop /opt/shared
+sudo chown hadoop:hadoop /var/ci
 export PDM_LOG_LEVEL="${PDM_LOG_LEVEL}"
 
 echo "${VERSION}" > /opt/emr/version
@@ -27,15 +29,11 @@ chmod u+x /opt/emr/logging.sh
         log_pdm_message "$${1}" "download_scripts.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
     }
 
-    log_wrapper_message "Create directory for the files"
-    sudo mkdir -p /var/ci
-    sudo chown hadoop:hadoop /var/ci
-
     log_wrapper_message "Downloading & install latest bootstrap and steps scripts"
-    $(which aws) s3 cp ${scripts_location}/ /var/ci/ --include "*.sh"
+    $(which aws) s3 cp --recursive ${scripts_location}/ /var/ci/ --include "*.sh" --exclude "*/metrics/*.sh"
 
     log_wrapper_message "Downloading & install latest metrics scripts"
-    $(which aws) s3 cp ${metrics_scripts_location}/ /var/ci/ --include "*.sh"
+    $(which aws) s3 cp --recursive ${metrics_scripts_location}/ /var/ci/ --include "*.sh"
 
     log_wrapper_message "Apply recursive execute permissions to the folder"
     sudo chmod --recursive a+rx /var/ci
