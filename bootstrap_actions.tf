@@ -130,6 +130,25 @@ resource "aws_s3_bucket_object" "cloudwatch_sh" {
   )
 }
 
+resource "aws_s3_bucket_object" "download_scripts_sh" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/download_scripts.sh"
+  content = templatefile("${path.module}/bootstrap_actions/download_scripts.sh",
+    {
+      scripts_location = format(
+        "s3://%s/%s",
+        data.terraform_remote_state.common.outputs.config_bucket.id,
+        "component/pdm-dataset-generation/"
+      )
+      metrics_scripts_location = format(
+        "s3://%s/%s",
+        data.terraform_remote_state.common.outputs.config_bucket.id,
+        "component/pdm-dataset-generation/metrics/"
+      )
+    }
+  )
+}
+
 resource "aws_s3_bucket_object" "download_sql_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "component/pdm-dataset-generation/download_sql.sh"

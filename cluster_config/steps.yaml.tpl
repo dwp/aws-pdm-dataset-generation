@@ -1,90 +1,93 @@
 ---
 BootstrapActions:
+- Name: "download-scripts"
+  ScriptBootstrapAction:
+    Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/download_scripts.sh"
 - Name: "start_ssm"
   ScriptBootstrapAction:
-    Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/start_ssm.sh"
+    Path: "/var/ci/start_ssm.sh"
 - Name: "get-dks-cert"
   ScriptBootstrapAction:
-    Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/emr-setup.sh"
+    Path: "/var/ci/emr-setup.sh"
 - Name: "installer"
   ScriptBootstrapAction:
-    Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/installer.sh"
+    Path: "/var/ci/installer.sh"
 - Name: "download-pdm-sql"
   ScriptBootstrapAction:
-    Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/download_sql.sh"
+    Path: "/var/ci/download_sql.sh"
 - Name: "application-metrics-setup"
   ScriptBootstrapAction:
-    Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/application-metrics-setup.sh"
+    Path: "/var/ci/application-metrics-setup.sh"
 Steps:
 - Name: "create-hive-dynamo-table"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/create-hive-dynamo-table.sh"
+    - "/var/ci/create-hive-dynamo-table.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "metrics-setup"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/metrics/metrics-setup.sh"
+    - "/var/ci/metrics-setup.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "clean-dictionary-data"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/clean_dictionary_data.sh"
+    - "/var/ci/clean_dictionary_data.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "create_databases"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/create_databases.sh"
+    - "/var/ci/create_databases.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "transactional"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/transactional.sh"
+    - "/var/ci/transactional.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "initial_transactional_load"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/initial_transactional_load.sh"
+    - "/var/ci/initial_transactional_load.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "source"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/source.sh"
+    - "/var/ci/source.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "transform"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/transform.sh"
+    - "/var/ci/transform.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "model"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/model.sh"
+    - "/var/ci/model.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "views"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/views.sh"
+    - "/var/ci/views.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "create-views-tables"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/create-views-tables.sh"
+    - "/var/ci/create-views-tables.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "collect-metrics"
   HadoopJarStep:
     Args:
-    - "s3://${s3_config_bucket}/component/pdm-dataset-generation/collect-metrics.sh"
+    - "/var/ci/collect-metrics.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
