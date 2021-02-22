@@ -56,7 +56,7 @@ drop_existing_table_statements() {
 
 create_table_statements() {
     while read table_name; do
-        echo \"CREATE TABLE $(views_tables_db).$table_name AS SELECT \* FROM $(views_db).$table_name\;\"
+        echo \"CREATE TABLE $(views_tables_db).$table_name STORED AS ORC AS SELECT \* FROM $(views_db).$table_name\;\"
     done
 }
 
