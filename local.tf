@@ -181,50 +181,50 @@ locals {
   }
 
   model_processes = {
-    development = "10"
-    qa          = "10"
+    development = "20"
+    qa          = "20"
     integration = "10"
     preprod     = "10"
-    production  = "10"
+    production  = "20"
   }
 
   source_processes = {
-    development = "10"
-    qa          = "10"
+    development = "20"
+    qa          = "20"
     integration = "10"
     preprod     = "10"
-    production  = "10"
+    production  = "20"
   }
 
   transactional_processes = {
-    development = "10"
-    qa          = "10"
+    development = "20"
+    qa          = "20"
     integration = "10"
     preprod     = "10"
-    production  = "10"
+    production  = "20"
   }
 
   transform_processes = {
-    development = "10"
-    qa          = "10"
+    development = "20"
+    qa          = "20"
     integration = "10"
     preprod     = "10"
-    production  = "10"
+    production  = "20"
   }
 
   views_processes = {
-    development = "10"
-    qa          = "10"
+    development = "20"
+    qa          = "20"
     integration = "10"
     preprod     = "10"
-    production  = "10"
+    production  = "20"
   }
 
   views_tables_processes = {
-    development = "10"
-    qa          = "10"
+    development = "20"
+    qa          = "20"
     integration = "10"
     preprod     = "10"
-    production  = "10"
+    production  = "20"
   }
 }

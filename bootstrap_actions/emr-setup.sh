@@ -1,30 +1,17 @@
 #!/usr/bin/env bash
-echo "Creating shared directory"
-sudo mkdir -p /opt/shared
-sudo mkdir -p /opt/emr
-sudo mkdir -p /var/log/pdm
+echo "Creating directories"
 sudo mkdir -p /opt/emr/sql
 sudo mkdir -p /opt/emr/sql/extracted
-sudo chown hadoop:hadoop /opt/emr
-sudo chown hadoop:hadoop /opt/shared
-sudo chown hadoop:hadoop /var/log/pdm
 sudo chown hadoop:hadoop /opt/emr/sql
 sudo chown hadoop:hadoop /opt/emr/sql/extracted
-echo "${VERSION}" > /opt/emr/version
-echo "${PDM_LOG_LEVEL}" > /opt/emr/log_level
-echo "${ENVIRONMENT_NAME}" > /opt/emr/environment
 
 echo "Installing scripts"
-aws s3 cp "${S3_COMMON_LOGGING_SHELL}"             /opt/shared/common_logging.sh
-aws s3 cp "${S3_LOGGING_SHELL}"                    /opt/emr/logging.sh
-aws s3 cp "${RESUME_STEP_SHELL}"                   /opt/emr/resume_step.sh
-aws s3 cp "${S3_CLOUDWATCH_SHELL}"                 /opt/emr/cloudwatch.sh
-aws s3 cp "${S3_RETRY_UTILITY}"                    /opt/emr/retry.sh
-aws s3 cp "${S3_RETRY_SCRIPT}"                     /opt/emr/with_retry.sh
+$(which aws) s3 cp "${RESUME_STEP_SHELL}"                   /opt/emr/resume_step.sh
+$(which aws) s3 cp "${S3_CLOUDWATCH_SHELL}"                 /opt/emr/cloudwatch.sh
+$(which aws) s3 cp "${S3_RETRY_UTILITY}"                    /opt/emr/retry.sh
+$(which aws) s3 cp "${S3_RETRY_SCRIPT}"                     /opt/emr/with_retry.sh
 
 echo "Changing the Permissions"
-chmod u+x /opt/shared/common_logging.sh
-chmod u+x /opt/emr/logging.sh
 chmod u+x /opt/emr/resume_step.sh
 chmod u+x /opt/emr/cloudwatch.sh
 chmod u+x /opt/emr/with_retry.sh
@@ -123,14 +110,14 @@ export INSTANCE_ROLE=$(jq .instanceRole /mnt/var/lib/info/extraInstanceData.json
 export HOSTNAME=${name}-$${INSTANCE_ROLE//\"}-$UUID
 
 sudo hostnamectl set-hostname $HOSTNAME
-aws ec2 create-tags --resources $INSTANCE_ID --tags Key=Name,Value=$HOSTNAME
+$(which aws) ec2 create-tags --resources $INSTANCE_ID --tags Key=Name,Value=$HOSTNAME
 
 log_wrapper_message "Completed the emr-setup.sh step of the EMR Cluster"
 
 
 log_wrapper_message "Downloading and running dynamo updater script"
-aws s3 cp "${update_dynamo_sh}"                    /opt/emr/update_dynamo.sh
-aws s3 cp "${dynamo_schema_json}"                  /opt/emr/dynamo_schema.json
+$(which aws) s3 cp "${update_dynamo_sh}"                    /opt/emr/update_dynamo.sh
+$(which aws) s3 cp "${dynamo_schema_json}"                  /opt/emr/dynamo_schema.json
 
 chmod u+x /opt/emr/update_dynamo.sh
 

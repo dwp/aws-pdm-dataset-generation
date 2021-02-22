@@ -4,7 +4,7 @@ resources:
     source:
       access_token: ((dataworks-secrets.concourse_github_pat))
       repository: dwp/aws-pdm-dataset-generation
-    check_every: 720h
+    check_every: 5m
     webhook_token: ((dataworks.concourse_github_webhook_token))
 
   - name: aws-pdm-dataset-generation
@@ -13,7 +13,19 @@ resources:
       branch: master
       repository: dwp/aws-pdm-dataset-generation
       uri: https://github.com/dwp/aws-pdm-dataset-generation.git
-    check_every: 720h
+    check_every: 5m
+    webhook_token: ((dataworks.concourse_github_webhook_token))
+
+  - name: aws-pdm-dataset-generation-update-pipeline
+    type: git
+    source:
+      branch: master
+      repository: dwp/aws-pdm-dataset-generation
+      uri: https://github.com/dwp/aws-pdm-dataset-generation.git
+      paths:
+        - ci/*
+        - aviator.yml
+    check_every: 5m
     webhook_token: ((dataworks.concourse_github_webhook_token))
 
   - name: emr-launcher-release
@@ -21,12 +33,12 @@ resources:
     source:
       owner: dwp
       repository: emr-launcher
-    check_every: 1h
+    check_every: 5m
     webhook_token: ((dataworks.concourse_github_webhook_token))
 
   - name: emr-al2-ami
     type: ami
-    check_every: 1h
+    check_every: 5m
     source:
       aws_role_arn: arn:aws:iam::((dataworks.aws_management_acc)):role/ci
       region: ((dataworks.aws_region))

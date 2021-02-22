@@ -71,14 +71,14 @@ resource "aws_iam_policy" "pdm_dataset_generator_write_data" {
 
 # E2E Test directory
 resource "aws_s3_bucket_object" "e2e_pdm_test_dataset" {
-  bucket = data.terraform_remote_state.common.outputs.published_bucket.id
-  key    = "e2e-test-pdm-dataset/placeholder_s3_file"
+  bucket  = data.terraform_remote_state.common.outputs.published_bucket.id
+  key     = "e2e-test-pdm-dataset/placeholder_s3_file"
   content = ("Placeholder file so that the S3 directory is available in the bucket")
 }
 
 resource "aws_s3_bucket_object" "e2e_pdm_test_output" {
-  bucket = data.terraform_remote_state.common.outputs.published_bucket.id
-  key    = "e2e-test-pdm-output/placeholder_s3_file"
+  bucket  = data.terraform_remote_state.common.outputs.published_bucket.id
+  key     = "e2e-test-pdm-output/placeholder_s3_file"
   content = ("Placeholder file so that the S3 directory is available in the bucket")
 }
 

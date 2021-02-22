@@ -3,11 +3,7 @@ resource "aws_s3_bucket_object" "emr_setup_sh" {
   key    = "component/pdm-dataset-generation/emr-setup.sh"
   content = templatefile("${path.module}/bootstrap_actions/emr-setup.sh",
     {
-      VERSION                         = local.pdm_version[local.environment]
       PDM_LOG_LEVEL                   = local.pdm_log_level[local.environment]
-      ENVIRONMENT_NAME                = local.environment
-      S3_COMMON_LOGGING_SHELL         = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, data.terraform_remote_state.common.outputs.application_logging_common_file.s3_id)
-      S3_LOGGING_SHELL                = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.logging_script.key)
       RESUME_STEP_SHELL               = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.resume_step_script.key)
       S3_RETRY_UTILITY                = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.retry_utility.key)
       S3_RETRY_SCRIPT                 = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.retry_script.key)
@@ -126,6 +122,30 @@ resource "aws_s3_bucket_object" "cloudwatch_sh" {
   content = templatefile("${path.module}/bootstrap_actions/cloudwatch.sh",
     {
       emr_release = var.emr_release[local.environment]
+    }
+  )
+}
+
+resource "aws_s3_bucket_object" "download_scripts_sh" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/download_scripts.sh"
+  content = templatefile("${path.module}/bootstrap_actions/download_scripts.sh",
+    {
+      scripts_location = format(
+        "s3://%s/%s",
+        data.terraform_remote_state.common.outputs.config_bucket.id,
+        "component/pdm-dataset-generation"
+      )
+      metrics_scripts_location = format(
+        "s3://%s/%s",
+        data.terraform_remote_state.common.outputs.config_bucket.id,
+        "component/pdm-dataset-generation/metrics"
+      )
+      VERSION                   = local.pdm_version[local.environment]
+      PDM_LOG_LEVEL             = local.pdm_log_level[local.environment]
+      ENVIRONMENT_NAME          = local.environment
+      S3_LOGGING_SHELL          = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.logging_script.key)
+      S3_COMMON_LOGGING_SHELL   = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, data.terraform_remote_state.common.outputs.application_logging_common_file.s3_id)
     }
   )
 }
