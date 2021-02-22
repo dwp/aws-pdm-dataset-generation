@@ -138,12 +138,12 @@ resource "aws_s3_bucket_object" "download_scripts_sh" {
       scripts_location = format(
         "s3://%s/%s",
         data.terraform_remote_state.common.outputs.config_bucket.id,
-        "component/pdm-dataset-generation/"
+        "component/pdm-dataset-generation"
       )
       metrics_scripts_location = format(
         "s3://%s/%s",
         data.terraform_remote_state.common.outputs.config_bucket.id,
-        "component/pdm-dataset-generation/metrics/"
+        "component/pdm-dataset-generation/metrics"
       )
     }
   )

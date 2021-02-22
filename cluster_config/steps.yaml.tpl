@@ -5,19 +5,19 @@ BootstrapActions:
     Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/download_scripts.sh"
 - Name: "start_ssm"
   ScriptBootstrapAction:
-    Path: "/var/ci/start_ssm.sh"
+    Path: "file:/var/ci/start_ssm.sh"
 - Name: "get-dks-cert"
   ScriptBootstrapAction:
-    Path: "/var/ci/emr-setup.sh"
+    Path: "file:/var/ci/emr-setup.sh"
 - Name: "installer"
   ScriptBootstrapAction:
-    Path: "/var/ci/installer.sh"
+    Path: "file:/var/ci/installer.sh"
 - Name: "download-pdm-sql"
   ScriptBootstrapAction:
-    Path: "/var/ci/download_sql.sh"
+    Path: "file:/var/ci/download_sql.sh"
 - Name: "application-metrics-setup"
   ScriptBootstrapAction:
-    Path: "/var/ci/application-metrics-setup.sh"
+    Path: "file:/var/ci/application-metrics-setup.sh"
 Steps:
 - Name: "create-hive-dynamo-table"
   HadoopJarStep:

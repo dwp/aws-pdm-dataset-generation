@@ -9,12 +9,12 @@
     echo "Download & install latest bootstrap and steps scripts"
     log_wrapper_message "Downloading & install latest bootstrap and steps scripts"
 
-    aws s3 cp --recursive ${scripts_location}/ /var/ci/ --include "*.sh"
+    $(which aws) s3 cp ${scripts_location}/ /var/ci/ --include "*.sh"
 
     echo "Download & install latest metrics scripts"
     log_wrapper_message "Downloading & install latest metrics scripts"
 
-    aws s3 cp --recursive ${metrics_scripts_location}/ /var/ci/ --include "*.sh"
+    $(which aws) s3 cp ${metrics_scripts_location}/ /var/ci/ --include "*.sh"
 
     echo "Apply recursive execute permissions to the folder"
     log_wrapper_message "Apply recursive execute permissions to the folder"
