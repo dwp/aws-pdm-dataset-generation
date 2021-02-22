@@ -27,6 +27,7 @@ resource "aws_s3_bucket_object" "source_sh" {
       data_location       = local.data_location
       dictionary_location = local.dictionary_location
       serde               = local.serde
+      processes           = local.source_processes[local.environment]
     }
   )
 }
@@ -39,6 +40,7 @@ resource "aws_s3_bucket_object" "transform_sh" {
       source_db           = local.source_db
       transform_db        = local.transform_db
       dictionary_location = local.dictionary_location
+      processes           = local.transform_processes[local.environment]
     }
   )
 }
@@ -51,6 +53,7 @@ resource "aws_s3_bucket_object" "model_sh" {
       transform_db     = local.transform_db
       transactional_db = local.transactional_db
       model_db         = local.model_db
+      processes        = local.model_processes[local.environment]
     }
   )
 }
@@ -64,6 +67,7 @@ resource "aws_s3_bucket_object" "views_sh" {
       transactional_db = local.transactional_db
       model_db         = local.model_db
       views_db         = local.views_db
+      processes        = local.views_processes[local.environment]
     }
   )
 }
@@ -74,6 +78,7 @@ resource "aws_s3_bucket_object" "transactional_sh" {
   content = templatefile("${path.module}/steps/transactional.sh",
     {
       transactional_db = local.transactional_db
+      processes        = local.transactional_processes[local.environment]
     }
   )
 }
@@ -114,6 +119,7 @@ resource "aws_s3_bucket_object" "create_views_tables" {
     {
       views_db        = local.views_db
       views_tables_db = local.views_tables_db
+      processes       = local.views_tables_processes[local.environment]
     }
   )
 }
