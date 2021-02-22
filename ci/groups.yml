@@ -6,9 +6,11 @@ groups:
       - pdm-dataset-generation-integration
       - pdm-dataset-generation-preprod
       - pdm-dataset-generation-production
+
   - name: pull-request
     jobs:
       - pdm-dataset-generation-pr
+
   - name: common-model-inputs
     jobs:
       - dataworks-mastered-data-dev
@@ -21,24 +23,23 @@ groups:
       - ucfs-mastered-data-qa
       - ucfs-mastered-data-preprod
       - ucfs-mastered-data-production
-  - name: admin-dev
+
+  - name: admin-start-cluster
     jobs:
       - dev-start-cluster
-      - dev-stop-cluster
-  - name: admin-qa
-    jobs:
       - qa-start-cluster
-      - qa-stop-cluster
-  - name: admin-int
-    jobs:
       - int-start-cluster
-      - int-stop-cluster
-  - name: admin-preprod
-    jobs:
       - preprod-start-cluster
-      - preprod-stop-cluster
-  - name: admin-prod
-    jobs:
       - prod-start-cluster
+
+  - name: admin-stop-cluster
+    jobs:
+      - dev-stop-cluster
+      - qa-stop-cluster
+      - int-stop-cluster
+      - preprod-stop-cluster
       - prod-stop-cluster
 
+  - name: update-pipeline
+    jobs:
+      - update-pipeline
