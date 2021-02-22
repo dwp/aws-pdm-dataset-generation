@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-echo "Creating shared directory"
-sudo mkdir -p /opt/shared
+echo "Creating directories"
 sudo mkdir -p /opt/emr/sql
 sudo mkdir -p /opt/emr/sql/extracted
-sudo chown hadoop:hadoop /opt/shared
 sudo chown hadoop:hadoop /opt/emr/sql
 sudo chown hadoop:hadoop /opt/emr/sql/extracted
 

@@ -1,8 +1,10 @@
 # Necessary minimal setup for this script to run
 sudo mkdir -p /var/log/pdm
 sudo mkdir -p /opt/emr
+sudo mkdir -p /opt/shared
 sudo chown hadoop:hadoop /var/log/pdm
 sudo chown hadoop:hadoop /opt/emr
+sudo chown hadoop:hadoop /opt/shared
 export PDM_LOG_LEVEL="${PDM_LOG_LEVEL}"
 
 echo "${VERSION}" > /opt/emr/version
