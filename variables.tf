@@ -39,8 +39,8 @@ variable "emr_ami_id" {
 
 variable "emr_instance_type_master" {
   default = {
-    development = "m5.2xlarge"
-    qa          = "m5.2xlarge"
+    development = "m5.16xlarge"
+    qa          = "m5.16xlarge"
     integration = "m5.2xlarge"
     preprod     = "m5.2xlarge"
     production  = "m5.16xlarge"
@@ -49,11 +49,11 @@ variable "emr_instance_type_master" {
 
 variable "emr_instance_type_core_one" {
   default = {
-    development = "m5.2xlarge"
-    qa          = "m5.2xlarge"
+    development = "m5.16xlarge"
+    qa          = "m5.16xlarge"
     integration = "m5.2xlarge"
     preprod     = "m5.2xlarge"
-    production  = "m5.24xlarge"
+    production  = "m5.16xlarge"
   }
 }
 
@@ -69,21 +69,21 @@ variable "emr_instance_type_core_two" {
 
 variable "emr_instance_type_core_three" {
   default = {
-    development = "r5a.2xlarge"
-    qa          = "r5a.2xlarge"
+    development = "r5a.16xlarge"
+    qa          = "r5a.16xlarge"
     integration = "r5a.2xlarge"
     preprod     = "r5a.2xlarge"
-    production  = "r5a.24xlarge"
+    production  = "r5a.16xlarge"
   }
 }
 
 variable "emr_instance_type_core_four" {
   default = {
-    development = "r5.2xlarge"
-    qa          = "r5.2xlarge"
+    development = "r5.16xlarge"
+    qa          = "r5.16xlarge"
     integration = "r5.2xlarge"
     preprod     = "r5.2xlarge"
-    production  = "r5.24xlarge"
+    production  = "r5.16xlarge"
   }
 }
 
@@ -94,10 +94,10 @@ variable "metadata_store_pdm_writer_username" {
 
 variable "emr_core_instance_count" {
   default = {
-    development = "2"
-    qa          = "2"
+    development = "10"
+    qa          = "10"
     integration = "2"
     preprod     = "2"
-    production  = "25"
+    production  = "10"
   }
 }
