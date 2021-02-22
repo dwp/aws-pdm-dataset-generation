@@ -1,58 +1,103 @@
 #!/bin/bash
 
-VIEWS_DB="${views_db}"
-VIEWS_TABLES_DB="${views_tables_db}"
-TEMP_DIR=/opt/emr/sql/extracted/src/main/resources/scripts
+source /opt/emr/logging.sh
+source /opt/emr/resume_step.sh
 
-(
-    source /opt/emr/logging.sh
-    # Import and execute resume step function
-    source /opt/emr/resume_step.sh
+main() {
+    log_wrapper_message "Dropping existing tables"
+    drop_existing_tables
+    log_wrapper_message "Creating new tables"
+    create_tables
+    log_wrapper_message "Generating report"
+    tables_report
+    log_wrapper_message "Dropping source views"
+    drop_views
+    log_wrapper_message "Finished"
+}
 
-    function log_wrapper_message() {
-        log_pdm_message "$${1}" "create-views-tables.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
-    }
+drop_existing_tables() {
+    parallelised_statements <(existing_table_names | drop_existing_table_statements)
+}
 
-    log_wrapper_message "Start running create-views-tables.sh Shell"
+create_tables() {
+    parallelised_statements <(views_table_names | create_table_statements)
+}
 
-    statements_file=$TEMP_DIR/create_views_tables.sql
-    touch $statements_file
-    tb_names=$(hive -S -e "USE $VIEWS_DB; SHOW TABLES;")
-    tb_names_views_tables_previous_iteration=$(hive -S -e "USE $VIEWS_TABLES_DB; SHOW TABLES;")
-    declare -a $tb_names
-    declare -a $tb_names_views_tables_previous_iteration
-    # Clean up views_tables database
-    for i in $${tb_names_views_tables_previous_iteration[@]}
-      do
-        echo "DROP TABLE "$VIEWS_TABLES_DB"."$i";" >> $statements_file
-      done
-    # Create new tables from views
-    for i in $${tb_names[@]}
-      do
-        echo "CREATE TABLE "$VIEWS_TABLES_DB"."$i" AS SELECT * FROM "$VIEWS_DB"."$i";" >> $statements_file
-      done
-    # Clean up views database
-    for i in $${tb_names[@]}
-      do
-        echo "DROP VIEW "$VIEWS_DB"."$i";" >> $statements_file
-      done
-    hive --hiveconf hive.cli.errors.ignore=true -f $statements_file
-    tb_names_views_tables=$(hive -S -e "USE $VIEWS_TABLES_DB; SHOW TABLES;")
-    sudo rm -f $statements_file
-    declare -a $tb_names_views_tables
-    count=0
-    for i in $${tb_names_views_tables[@]}
-      do
-        (( count ++ ))
-      done
-    echo "$count views were replaced by tables"
+drop_views() {
+    parallelised_statements <(views_table_names | drop_view_statements)
+}
 
-    if [[ $tb_names != $tb_names_views_tables ]]
-      then
-        echo "WARN. There was a problem creating tables from:"
-        echo $${tb_names[@]} $${tb_names_views_tables[@]} | tr ' ' '\n' | sort | uniq -u
+tables_report() {
+    local no_table=$(no_table_created)
+    if [[ -n $no_table ]]; then
+        echo WARN: The following tables were not created: $no_table
     fi
 
-    log_wrapper_message "Finished running create_views_tables.sh"
+    local no_view=$(no_source_view)
 
-) >> /var/log/pdm/create_views_tables.log 2>&1
+    if [[ -n $no_view ]]; then
+        echo WARN: the following tables were not sourced from the views: $no_view
+    fi
+
+    local table_count=$(existing_table_names | wc -l)
+    echo $table_count tables created.
+}
+
+parallelised_statements() {
+    local input_file=$${1:?}
+    xargs -d '\n' -a $input_file -r -P${processes} -n1 hive -e
+}
+
+drop_existing_table_statements() {
+    while read table_name; do
+        echo \"DROP TABLE IF EXISTS $(views_tables_db).$table_name\;\"
+    done
+}
+
+create_table_statements() {
+    while read table_name; do
+        echo \"CREATE TABLE $(views_tables_db).$table_name AS SELECT \* FROM $(views_db).$table_name\;\"
+    done
+}
+
+drop_view_statements() {
+    while read view_name; do
+        echo \"DROP VIEW $(views_db).$view_name\;\"
+    done
+}
+
+existing_table_names() {
+    table_names $(views_tables_db)
+}
+
+views_table_names() {
+    table_names $(views_db)
+}
+
+table_names() {
+    local database=$${1:?}
+    hive -S -e "USE $database; SHOW TABLES;" | sort | uniq
+}
+
+no_table_created() {
+    comm -23 <(views_table_names) <(existing_table_names)
+}
+
+no_source_view() {
+    comm -13 <(views_table_names) <(existing_table_names)
+}
+
+log_wrapper_message() {
+    log_pdm_message "$${1}" "create-views-tables.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
+}
+
+views_db() {
+    echo ${views_db}
+}
+
+views_tables_db() {
+    echo ${views_tables_db}
+}
+
+
+main &> /var/log/pdm/create_views_tables.log

@@ -10,7 +10,6 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transactiona
 (
     # Import the logging functions
     source /opt/emr/logging.sh
-    source /opt/emr/retry.sh
     # Import and execute resume step function
     source /opt/emr/resume_step.sh
 
@@ -24,12 +23,9 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transactiona
     # Run SQL Scripts
     #####################
 
-    for f in $TRANSACTIONAL_DIR/*.sql
-    do
-        echo "Executing $f"
-        retry::with_retries hive -f $f \
-                            --hivevar transactional_database=$TRANSACTIONAL_DB
-    done
+    find $TRANSACTIONAL_DIR -name '*.sql' \
+        | xargs -n1 -P${processes} /opt/emr/with_retry.sh hive \
+                --hivevar transactional_database=$TRANSACTIONAL_DB -f
 
     echo "FINISHED_RUNNING_TRANSACTIONAL......................"
     log_wrapper_message "finished running transactional......................."
