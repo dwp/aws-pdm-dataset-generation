@@ -71,11 +71,11 @@ locals {
   }
 
   pdm_version = {
-    development = "0.0.21"
-    qa          = "0.0.21"
-    integration = "0.0.21"
-    preprod     = "0.0.21"
-    production  = "0.0.21"
+    development = "0.0.22"
+    qa          = "0.0.22"
+    integration = "0.0.22"
+    preprod     = "0.0.22"
+    production  = "0.0.22"
   }
 
   amazon_region_domain = "${data.aws_region.current.name}.amazonaws.com"
