@@ -104,7 +104,7 @@ locals {
 
   keep_cluster_alive = {
     development = true
-    qa          = false
+    qa          = true
     integration = false
     preprod     = false
     production  = false
@@ -142,7 +142,7 @@ locals {
 
   step_fail_action = {
     development = "CONTINUE"
-    qa          = "TERMINATE_CLUSTER"
+    qa          = "CONTINUE"
     integration = "TERMINATE_CLUSTER"
     preprod     = "TERMINATE_CLUSTER"
     production  = "TERMINATE_CLUSTER"
