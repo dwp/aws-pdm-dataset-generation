@@ -25,6 +25,7 @@ MODEL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/model
     echo "START_RUNNING_MODEL ......................"
     log_wrapper_message "start running model ......................."
 
+    echo Running $MODEL_DIR/site_dim.1.sql
     /opt/emr/with_retry.sh hive \
                            --hivevar model_database=$MODEL_DB \
                            --hivevar transform_database=$TRANSFORM_DB \
@@ -32,7 +33,10 @@ MODEL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/model
 
     for n in {1..9}
     do
-        find $MODEL_DIR -name "*$n.sql" | grep site_dim.1.sql \
+        echo "Running the following:"
+        find $MODEL_DIR -name "*$n.sql" | grep -v site_dim.1.sql
+
+        find $MODEL_DIR -name "*$n.sql" | grep -v site_dim.1.sql \
             | xargs -r -n1 -P${processes} /opt/emr/with_retry.sh hive \
                     --hivevar model_database=$MODEL_DB \
                     --hivevar transform_database=$TRANSFORM_DB \
