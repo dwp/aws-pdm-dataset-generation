@@ -12,7 +12,6 @@ VIEWS_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/views
 (
     # Import the logging functions
     source /opt/emr/logging.sh
-    source /opt/emr/retry.sh
     # Import and execute resume step function
     source /opt/emr/resume_step.sh
 
@@ -26,15 +25,12 @@ VIEWS_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/views
     # Run SQL Scripts
     #####################
 
-    for f in $VIEWS_DIR/*.sql
-    do
-        echo "Executing $f"
-        retry::with_retries hive -f $f \
+    find $VIEWS_DIR -name '*.sql' \
+        | xargs -n1 -P${processes} /opt/emr/with_retry.sh hive \
             --hivevar views_database=$VIEWS_DB \
             --hivevar model_database=$MODEL_DB \
             --hivevar transactional_database=$TRANSACTIONAL_DB \
-            --hivevar transform_database=$TRANSFORM_DB
-    done
+            --hivevar transform_database=$TRANSFORM_DB -f
 
     echo "FINISHED_RUNNING_VIEW......................"
     log_wrapper_message "finished running views......................"

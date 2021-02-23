@@ -71,11 +71,11 @@ locals {
   }
 
   pdm_version = {
-    development = "0.0.21"
-    qa          = "0.0.21"
-    integration = "0.0.21"
-    preprod     = "0.0.21"
-    production  = "0.0.21"
+    development = "0.0.22"
+    qa          = "0.0.22"
+    integration = "0.0.22"
+    preprod     = "0.0.22"
+    production  = "0.0.22"
   }
 
   amazon_region_domain = "${data.aws_region.current.name}.amazonaws.com"
@@ -174,9 +174,57 @@ locals {
 
   retry_enabled = {
     development = "true"
-    qa          = "false"
-    integration = "false"
-    preprod     = "false"
-    production  = "false"
+    qa          = "true"
+    integration = "true"
+    preprod     = "true"
+    production  = "true"
+  }
+
+  model_processes = {
+    development = "20"
+    qa          = "20"
+    integration = "10"
+    preprod     = "10"
+    production  = "20"
+  }
+
+  source_processes = {
+    development = "20"
+    qa          = "20"
+    integration = "10"
+    preprod     = "10"
+    production  = "20"
+  }
+
+  transactional_processes = {
+    development = "20"
+    qa          = "20"
+    integration = "10"
+    preprod     = "10"
+    production  = "20"
+  }
+
+  transform_processes = {
+    development = "20"
+    qa          = "20"
+    integration = "10"
+    preprod     = "10"
+    production  = "20"
+  }
+
+  views_processes = {
+    development = "20"
+    qa          = "20"
+    integration = "10"
+    preprod     = "10"
+    production  = "20"
+  }
+
+  views_tables_processes = {
+    development = "20"
+    qa          = "20"
+    integration = "10"
+    preprod     = "10"
+    production  = "20"
   }
 }

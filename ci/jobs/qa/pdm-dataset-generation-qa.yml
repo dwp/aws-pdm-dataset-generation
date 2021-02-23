@@ -25,9 +25,16 @@ jobs:
   - .: (( inject meta.plan.terraform-plan ))
     params:
       TF_WORKSPACE: qa
-  - .: (( inject meta.plan.terraform-output-ingest ))
-  - .: (( inject meta.plan.terraform-output-internal-compute ))
-  - .: (( inject meta.plan.terraform-output-common ))
+  - in_parallel:
+    - .: (( inject meta.plan.terraform-output-ingest ))
+      params:
+        TF_WORKSPACE: qa
+    - .: (( inject meta.plan.terraform-output-internal-compute ))
+      params:
+        TF_WORKSPACE: qa
+    - .: (( inject meta.plan.terraform-output-common ))
+      params:
+        TF_WORKSPACE: qa
   - .: (( inject meta.plan.run-behave-job ))
     config:
       params:
