@@ -23,6 +23,7 @@
   CURRENT_STEP=""
   DATA_PRODUCT="PDM"
   CLUSTER_ID=`cat /mnt/var/lib/info/job-flow.json | jq '.jobFlowId'`
+  CLUSTER_ID=$${CLUSTER_ID//\"}
 
   FINAL_STEP_NAME="collect-metrics"
 
