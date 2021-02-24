@@ -134,3 +134,13 @@ resource "aws_iam_role_policy_attachment" "pdm_emr_relauncher_policy_execution" 
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
 
+resource "aws_iam_role_policy_attachment" "pdm_emr_relauncher_sns_attachment" {
+  role       = aws_iam_role.pdm_emr_relauncher_lambda_role.name
+  policy_arn = aws_iam_policy.pdm_emr_relauncher_sns_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "pdm_emr_relauncher_scan_dynamo_attachment" {
+  role       = aws_iam_role.pdm_emr_relauncher_lambda_role.name
+  policy_arn = aws_iam_policy.pdm_emr_relauncher_scan_dynamo_policy.arn
+}
+
