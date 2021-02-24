@@ -25,8 +25,7 @@ set -euo pipefail
     DataProduct STRING, DateProductRun STRING, Status STRING, CurrentStep STRING, Cluster_Id STRING, S3_Prefix STRING) \
     STORED BY 'org.apache.hadoop.hive.dynamodb.DynamoDBStorageHandler' \
     TBLPROPERTIES ('dynamodb.table.name'='${dynamodb_table_name}', \
-    'dynamodb.column.mapping' = 'Correlation_Id:Correlation_Id,Run_Id:Run_Id,DataProduct:DataProduct,DateProductRun:Date,\
-    Status:Status,CurrentStep:CurrentStep,Cluster_Id:Cluster_Id,S3_Prefix:S3_Prefix','dynamodb.null.serialization' = 'true');"
+    'dynamodb.column.mapping' = 'Correlation_Id:Correlation_Id,Run_Id:Run_Id,DataProduct:DataProduct,DateProductRun:Date,Status:Status,CurrentStep:CurrentStep,Cluster_Id:Cluster_Id,S3_Prefix:S3_Prefix','dynamodb.null.serialization' = 'true');"
 
     log_wrapper_message "Finished creating external hive table"
 
