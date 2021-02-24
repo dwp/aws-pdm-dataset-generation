@@ -7,6 +7,8 @@ jobs:
             version: every
           - get: emr-launcher-release
             trigger: true
+          - get: emr-relauncher-release
+            trigger: true
           - get: emr-al2-ami
             trigger: true
       - put: aws-pdm-dataset-generation-pr
@@ -48,6 +50,7 @@ jobs:
                 cp ../terraform-config/terraform.tfvars .
                 export TF_VAR_emr_ami_id=$(cat ../emr-al2-ami/id)
                 export TF_VAR_pdm_emr_launcher_zip="{base_path = \"../emr-launcher-release\", version = \"$(cat ../emr-launcher-release/version)\"}"
+                export TF_VAR_pdm_emr_relauncher_zip="{base_path = \"../emr-relauncher-release\", version = \"$(cat ../emr-relauncher-release/version)\"}"
                 terraform init
                 terraform workspace show
                 terraform plan
@@ -55,6 +58,7 @@ jobs:
             - name: aws-pdm-dataset-generation
             - name: terraform-config
             - name: emr-launcher-release
+            - name: emr-relauncher-release
             - name: emr-al2-ami
         input_mapping:
           aws-pdm-dataset-generation: aws-pdm-dataset-generation-pr

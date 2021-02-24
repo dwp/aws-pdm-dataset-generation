@@ -7,6 +7,8 @@ jobs:
       trigger: true
     - get: emr-launcher-release
       trigger: true
+    - get: emr-relauncher-release
+      trigger: true
     - get: emr-al2-ami
       trigger: true
     - get: aws-ingestion
