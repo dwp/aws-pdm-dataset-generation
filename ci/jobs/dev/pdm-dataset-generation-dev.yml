@@ -11,10 +11,8 @@ jobs:
       trigger: true
     - get: emr-al2-ami
       trigger: true
-    - get: aws-ingestion
-    - get: aws-common-infrastructure
-    - get: aws-internal-compute
     - get: aws-dataworks-e2e-framework
+      trigger: false
     - put: meta
       resource: meta-development
   - .: (( inject meta.plan.terraform-bootstrap ))
@@ -27,16 +25,6 @@ jobs:
   - .: (( inject meta.plan.terraform-plan ))
     params:
       TF_WORKSPACE: default
-  - in_parallel:
-    - .: (( inject meta.plan.terraform-output-ingest ))
-      params:
-        TF_WORKSPACE: default
-    - .: (( inject meta.plan.terraform-output-internal-compute ))
-      params:
-        TF_WORKSPACE: default
-    - .: (( inject meta.plan.terraform-output-common ))
-      params:
-        TF_WORKSPACE: default
   - .: (( inject meta.plan.run-behave-job ))
     config:
       params:
