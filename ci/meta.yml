@@ -57,7 +57,7 @@ meta:
               cp ../terraform-config/terraform.tf .
               cp ../terraform-config/terraform.tfvars .
               export TF_VAR_pdm_emr_launcher_zip="{base_path = \"../emr-launcher-release\", version = \"$(cat ../emr-launcher-release/version)\"}"
-              export TF_VAR_pdm_emr_relauncher_zip="{base_path = \"../emr-relauncher-release\", version = \"$(cat ../emr-relauncher-release/version)\"}"
+              # export TF_VAR_pdm_emr_relauncher_zip="{base_path = \"../emr-relauncher-release\", version = \"$(cat ../emr-relauncher-release/version)\"}"
               terraform init
               terraform workspace show
               terraform plan -out terraform.plan
@@ -66,7 +66,7 @@ meta:
           - name: aws-pdm-dataset-generation
           - name: terraform-config
           - name: emr-launcher-release
-          - name: emr-relauncher-release
+          # - name: emr-relauncher-release
           - name: emr-al2-ami
 
     terraform-plan:
@@ -91,7 +91,7 @@ meta:
               cp ../terraform-config/terraform.tf .
               cp ../terraform-config/terraform.tfvars .
               export TF_VAR_pdm_emr_launcher_zip="{base_path = \"../emr-launcher-release\", version = \"$(cat ../emr-launcher-release/version)\"}"
-              export TF_VAR_pdm_emr_relauncher_zip="{base_path = \"../emr-relauncher-release\", version = \"$(cat ../emr-relauncher-release/version)\"}"
+              # export TF_VAR_pdm_emr_relauncher_zip="{base_path = \"../emr-relauncher-release\", version = \"$(cat ../emr-relauncher-release/version)\"}"
               terraform init
               terraform workspace show
               terraform plan -detailed-exitcode
@@ -99,7 +99,7 @@ meta:
           - name: aws-pdm-dataset-generation
           - name: terraform-config
           - name: emr-launcher-release
-          - name: emr-relauncher-release
+          # - name: emr-relauncher-release
           - name: emr-al2-ami
 
     unit-tests:
