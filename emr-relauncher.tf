@@ -33,7 +33,7 @@ resource "aws_lambda_function" "pdm_emr_relauncher" {
 }
 
 resource "aws_cloudwatch_event_target" "pdm_emr_relauncher_target" {
-  rule      = aws_cloudwatch_event_rule.pdm_terminated_with_errors_rule.name
+  rule      = aws_cloudwatch_event_rule.pdm_failed.name
   target_id = "pdm_emr_relauncher_target"
   arn       = aws_lambda_function.pdm_emr_relauncher.arn
 }
@@ -48,7 +48,7 @@ resource "aws_lambda_permission" "pdm_emr_relauncher_invoke_permission" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.pdm_emr_relauncher.function_name
   principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.pdm_terminated_with_errors_rule.arn
+  source_arn    = aws_cloudwatch_event_rule.pdm_failed.arn
 }
 
 data "aws_iam_policy_document" "pdm_emr_relauncher_assume_policy" {
