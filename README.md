@@ -13,4 +13,5 @@ PDM logs its run information into a DynamoDB table with the following structure:
 |      123       |     PDM     | 2021-02-11 |    1   | FAILED |    Model    |             | j-1SM0GDS5 | path_to_data/ |   
     
 The cluster will log information resembling the above DynamoDB table. If it fails, it will kick off a cloudwatch event that has a target lambda - [dataworks-emr-relauncher](https://github.com/dwp/dataworks-emr-relauncher)   
-The retry logic is contained within that lambda as well as more detailed documentation. 
+The retry logic is contained within that lambda as well as more detailed documentation. If the failed cluster is restarted
+it will skip to the failed step and resume from there. 
