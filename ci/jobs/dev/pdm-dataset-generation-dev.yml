@@ -7,6 +7,8 @@ jobs:
       trigger: true
     - get: emr-launcher-release
       trigger: true
+    - get: emr-relauncher-release
+      trigger: true
     - get: emr-al2-ami
       trigger: true
     - get: aws-dataworks-e2e-framework
@@ -23,9 +25,4 @@ jobs:
   - .: (( inject meta.plan.terraform-plan ))
     params:
       TF_WORKSPACE: default
-  - .: (( inject meta.plan.run-behave-job ))
-    config:
-      params:
-        E2E_FEATURE_TAG_FILTER: aws-pdm-dataset-generation
-        AWS_ACC: ((aws_account.development))
-        AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
+
