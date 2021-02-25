@@ -141,11 +141,11 @@ resource "aws_s3_bucket_object" "download_scripts_sh" {
         data.terraform_remote_state.common.outputs.config_bucket.id,
         "component/pdm-dataset-generation/metrics"
       )
-      VERSION                   = local.pdm_version[local.environment]
-      PDM_LOG_LEVEL             = local.pdm_log_level[local.environment]
-      ENVIRONMENT_NAME          = local.environment
-      S3_LOGGING_SHELL          = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.logging_script.key)
-      S3_COMMON_LOGGING_SHELL   = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, data.terraform_remote_state.common.outputs.application_logging_common_file.s3_id)
+      VERSION                 = local.pdm_version[local.environment]
+      PDM_LOG_LEVEL           = local.pdm_log_level[local.environment]
+      ENVIRONMENT_NAME        = local.environment
+      S3_LOGGING_SHELL        = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.logging_script.key)
+      S3_COMMON_LOGGING_SHELL = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, data.terraform_remote_state.common.outputs.application_logging_common_file.s3_id)
     }
   )
 }

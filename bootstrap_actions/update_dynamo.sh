@@ -4,7 +4,7 @@
 
     #only log on master to avoid duplication
     if [[ "$INSTANCE_ROLE" != '"MASTER"' ]]; then
-      exit
+      exit 0
     fi
     source /opt/emr/logging.sh
 
@@ -72,12 +72,12 @@
           log_wrapper_message "Failed. Step Name: $CURRENT_STEP, Step status: $state"
           JSON_STRING=`jq '.Status.S = "FAILED"'<<<$JSON_STRING`
           dynamo_put_item "$JSON_STRING"
-          exit
+          exit 0
         fi
         if [[ "$CURRENT_STEP" == "$FINAL_STEP_NAME" ]] && [[ "$state" == "COMPLETED" ]]; then
           JSON_STRING=`jq '.Status.S = "COMPLETED"'<<<$JSON_STRING`
           dynamo_put_item "$JSON_STRING"
-          exit
+          exit 0
         fi
         if [[ $PREVIOUS_STATE != $state ]] && [[ $PREVIOUS_STEP != $CURRENT_STEP ]]; then
           
