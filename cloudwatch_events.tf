@@ -169,8 +169,8 @@ resource "aws_cloudwatch_metric_alarm" "pdm_terminated" {
     local.common_tags,
     {
       Name              = "pdm_terminated",
-      notification_type = "Error",
-      severity          = "Critical"
+      notification_type = "Information",
+      severity          = "High"
     },
   )
 }
@@ -190,7 +190,7 @@ resource "aws_cloudwatch_event_target" "pdm_success_start_object_tagger" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "pdm_success" {
-  alarm_name                = "pdm_completed_all_steps"
+  alarm_name                = "pdm_success"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = "1"
   metric_name               = "TriggeredRules"
@@ -207,7 +207,7 @@ resource "aws_cloudwatch_metric_alarm" "pdm_success" {
   tags = merge(
     local.common_tags,
     {
-      Name              = "pdm_completed_all_steps",
+      Name              = "pdm_success",
       notification_type = "Information",
       severity          = "Critical"
     },
