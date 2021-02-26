@@ -11,7 +11,7 @@ jobs:
       trigger: true
     - get: emr-al2-ami
       trigger: true
-    - get: aws-dataworks-e2e-framework
+    - get: dataworks-behavioural-framework
       trigger: false
     - put: meta
       resource: meta-development
