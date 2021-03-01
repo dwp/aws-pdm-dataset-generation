@@ -28,7 +28,7 @@ resource "aws_lambda_function" "pdm_emr_relauncher" {
       SNS_TOPIC             = data.terraform_remote_state.aws_analytical_dataset_generation.outputs.adg_completion_status_sns_topic.arn
       TABLE_NAME            = local.data_pipeline_metadata
       STEPS_TO_NOT_RETRY    = "collect-metrics"
-      MAX_RETRY_COUNT       = "1"
+      MAX_RETRY_COUNT       = "2"
       LOG_LEVEL             = "debug"
     }
   }

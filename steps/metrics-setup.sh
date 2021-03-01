@@ -14,4 +14,4 @@ set -euo pipefail
     chmod +x /opt/emr/metrics/export-to-s3.sh
     /opt/emr/metrics/export-to-s3.sh &
     
-) >> /var/log/pdm/nohup.log 2>&1
+) >> /var/log/pdm/metrics-setup.log 2>&1
