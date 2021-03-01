@@ -83,7 +83,7 @@ locals {
     qa          = "0"
     integration = "0"
     preprod     = "0"
-    production  = "1"
+    production  = "2"
   }
 
   amazon_region_domain = "${data.aws_region.current.name}.amazonaws.com"
