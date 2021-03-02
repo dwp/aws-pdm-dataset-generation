@@ -3,7 +3,7 @@ jobs:
   max_in_flight: 1
   plan:
   - in_parallel:
-    - get: aws-pdm-dataset-generation
+    - get: aws-pdm-dataset-generation-emr-6
       trigger: true
     - get: emr-launcher-release
       trigger: true
