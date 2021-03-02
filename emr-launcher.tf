@@ -169,6 +169,7 @@ data "aws_iam_policy_document" "pdm_emr_launcher_getsecrets" {
 
     resources = [
       data.aws_secretsmanager_secret.rds_aurora_secrets.arn,
+      data.terraform_remote_state.internal_compute.outputs.metadata_store_users.pdm_writer.secret_arn,
     ]
   }
 }
