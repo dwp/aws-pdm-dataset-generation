@@ -54,22 +54,24 @@
 
     ttl_value=$(get_ttl)
 
+    log_wrapper_message "Updating DynamoDB with Correlation_Id: $CORRELATION_ID, DataProduct: $DATA_PRODUCT, Date: $DATE, Cluster_Id: $CLUSTER_ID, S3_Prefix_Analytical_DataSet: $S3_PREFIX, TimeToExist: $ttl_value, CurrentStep: $current_step, Status: $status, Run_Id: $run_id"
+
     update_expression="SET #d = :s, Cluster_Id = :v, S3_Prefix_Analytical_DataSet = :b, TimeToExist = :z"
     expression_values="\":s\": {\"S\":\"$DATE\"}, \":v\": {\"S\":\"$CLUSTER_ID\"}, \":b\": {\"S\":\"$S3_PREFIX\"}, \":z\": {\"N\":\"$ttl_value\"}"
     expression_names="\"#d\":\"Date\""
 
-    if [[ ! -z "$current_step" ]]; then
+    if [[ ! -z "$current_step" ]] && [[ "$current_step" != "NOT_SET" ]]; then
         update_expression="$update_expression, CurrentStep = :y"
         expression_values="$expression_values, \":y\": {\"S\":\"$current_step\"}"
     fi
 
-    if [[ ! -z "$status" ]]; then
-        update_expression="$update_expression, #s = :u"
+    if [[ ! -z "$status" ]] && [[ "$status" != "NOT_SET" ]]; then
+        update_expression="$update_expression, #a = :u"
         expression_values="$expression_values, \":u\": {\"S\":\"$status\"}"
         expression_names="$expression_names, \"#a\":\"Status\""
     fi
 
-    if [[ ! -z "$run_id" ]]; then
+    if [[ ! -z "$run_id" ]] && [[ "$run_id" != "NOT_SET" ]]; then
         update_expression="$update_expression, Run_Id = :t"
         expression_values="$expression_values, \":t\": {\"N\":\"$run_id\"}"
     fi
