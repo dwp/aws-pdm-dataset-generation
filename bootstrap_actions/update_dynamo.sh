@@ -47,7 +47,7 @@
       echo $((TIME_NOW + 604800000))
   }
 
-  dynamo_put_item() {
+  dynamo_update_item() {
     current_step="$1"
     status="$2"
     run_id="$3"
