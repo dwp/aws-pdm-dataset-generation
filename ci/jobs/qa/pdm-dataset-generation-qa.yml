@@ -4,6 +4,7 @@ jobs:
   plan:
   - in_parallel:
     - get: aws-pdm-dataset-generation
+      resource: aws-pdm-dataset-generation-emr-6
       trigger: true
     - get: emr-launcher-release
       trigger: true
