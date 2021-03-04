@@ -22,7 +22,6 @@ Configurations:
     "javax.jdo.option.ConnectionPassword": ${hive_metastore_pwd}
     "hive.strict.checks.cartesian.product": "false"
     "hive.exec.parallel": "true"
-    "hive.stats.fetch.partition.stats": "true"
 - Classification: "emrfs-site"
   Properties:
     "fs.s3.maxConnections": "10000"
