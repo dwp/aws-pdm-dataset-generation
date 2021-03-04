@@ -13,7 +13,6 @@ Configurations:
     "hive.service.metrics.reporter": "JSON_FILE"
     "hive.service.metrics.file.location": "/var/log/hive/metrics.json"
     "hive.txn.manager": "org.apache.hadoop.hive.ql.lockmgr.DbTxnManager"
-    "hive.exec.dynamic.partition.mode": "nostrict"
     "hive.compactor.initiator.on": "true"
     "hive.compactor.worker.threads": "${hive_compaction_threads}"
     "hive.support.concurrency": "true"
@@ -23,6 +22,7 @@ Configurations:
     "javax.jdo.option.ConnectionPassword": ${hive_metastore_pwd}
     "hive.strict.checks.cartesian.product": "false"
     "hive.exec.parallel": "true"
+    "hive.stats.fetch.partition.stats": "true"
 - Classification: "hive"
   Properties:
     "hive.llap.enabled": "true"
