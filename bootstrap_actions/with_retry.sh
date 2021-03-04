@@ -9,6 +9,8 @@
         log_pdm_message "$${1}" "with_retry.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
     }
 
+    log_wrapper_message "Starting with_retry.sh script................"
+
     SECONDS=0
     retry::with_retries $@
     DURATION=$SECONDS
