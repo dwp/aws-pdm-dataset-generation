@@ -12,8 +12,8 @@
     SECONDS=0
     time retry::with_retries $@
     DURATION=$SECONDS
-    echo time1-time2 $@
 
-    log_wrapper_message "$@ took $SECONDS seconds to process"
+    SCRIPT_NAME=`echo $@ | sed 's/.*scripts//'`
+    log_wrapper_message "$SCRIPT_NAME took $SECONDS seconds to process"
 
 )  >> /var/log/pdm/time_taken.log 2>&1
