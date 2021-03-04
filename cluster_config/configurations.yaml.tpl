@@ -25,6 +25,7 @@ Configurations:
     "hive.mapred.mode": "nonstrict"
     "hive.strict.checks.cartesian.product": "false"
     "hive.exec.parallel": "true"
+    "hive.llap.enabled": "true"
 - Classification: "emrfs-site"
   Properties:
     "fs.s3.maxConnections": "10000"
