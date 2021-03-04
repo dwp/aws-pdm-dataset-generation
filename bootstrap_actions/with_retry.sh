@@ -10,7 +10,7 @@
     }
 
     SECONDS=0
-    time retry::with_retries $@
+    retry::with_retries $@
     DURATION=$SECONDS
 
     SCRIPT_NAME=`echo $@ | sed 's/.*scripts//'`
