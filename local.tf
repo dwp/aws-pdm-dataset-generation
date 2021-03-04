@@ -214,7 +214,7 @@ locals {
 
   transform_processes = {
     development = "20"
-    qa          = "20"
+    qa          = "1"
     integration = "10"
     preprod     = "10"
     production  = "20"
