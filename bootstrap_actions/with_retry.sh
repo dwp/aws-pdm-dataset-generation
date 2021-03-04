@@ -1,15 +1,19 @@
 #!/usr/bin/bash
 
-source /opt/emr/retry.sh
-source /opt/emr/logging.sh
+(
 
-function log_wrapper_message() {
-    log_pdm_message "$${1}" "update_dynamo.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
-}
+    source /opt/emr/retry.sh
+    source /opt/emr/logging.sh
 
-SECONDS=0
-time retry::with_retries $@
-DURATION=$SECONDS
-echo time1-time2 $@
+    function log_wrapper_message() {
+        log_pdm_message "$${1}" "update_dynamo.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
+    }
 
-log_wrapper_message "$@ took $SECONDS seconds to process"
+    SECONDS=0
+    time retry::with_retries $@
+    DURATION=$SECONDS
+    echo time1-time2 $@
+
+    log_wrapper_message "$@ took $SECONDS seconds to process"
+
+)  >> /var/log/pdm/time_taken.log 2>&1
