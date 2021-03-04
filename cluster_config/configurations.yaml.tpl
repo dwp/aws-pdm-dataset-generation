@@ -4,8 +4,6 @@ Configurations:
   Properties:
     "yarn.log-aggregation-enable": "true"
     "yarn.nodemanager.remote-app-log-dir": "s3://${s3_log_bucket}/${s3_log_prefix}/yarn"
-    "yarn.node-labels.enabled": "true"
-    "yarn.node-labels.am.default-node-label-expression": "CORE"
 - Classification: "hive-site"
   Properties:
     "hive.metastore.schema.verification": "false"
