@@ -23,10 +23,6 @@ Configurations:
     "hive.strict.checks.cartesian.product": "false"
     "hive.exec.parallel": "true"
     "hive.stats.fetch.partition.stats": "true"
-- Classification: "hive"
-  Properties:
-    "hive.llap.enabled": "true"
-    "hive.llap.percent-allocation": "0.8"
 - Classification: "emrfs-site"
   Properties:
     "fs.s3.maxConnections": "10000"
