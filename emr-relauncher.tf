@@ -25,7 +25,7 @@ resource "aws_lambda_function" "pdm_emr_relauncher" {
 
   environment {
     variables = {
-      SNS_TOPIC          = data.terraform_remote_state.aws_analytical_dataset_generation.outputs.adg_completion_status_sns_topic.arn
+      SNS_TOPIC          = data.terraform_remote_state.aws_analytical_dataset_generation.outputs.pdm_cw_trigger_sns_topic.arn
       TABLE_NAME         = local.data_pipeline_metadata
       STEPS_TO_NOT_RETRY = "collect-metrics"
       MAX_RETRY_COUNT    = local.pdm_max_retry_count[local.environment]
@@ -91,7 +91,7 @@ data "aws_iam_policy_document" "pdm_emr_relauncher_sns_policy" {
     ]
 
     resources = [
-      data.terraform_remote_state.aws_analytical_dataset_generation.outputs.adg_completion_status_sns_topic.arn
+      data.terraform_remote_state.aws_analytical_dataset_generation.outputs.pdm_cw_trigger_sns_topic.arn
     ]
   }
 }
