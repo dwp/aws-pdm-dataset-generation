@@ -1,7 +1,7 @@
 # aws-pdm-dataset-generation
 Repo for PDM dataset generation
 
-## Initital setup:
+## Initial setup:
 PDM requires that data from Crown platform (HDFS location) be ingested for 5 tables namely `agent_dim`, `appointment_type_dim`, `site_dim`, `team_dim`, `to_do_type_type_dim`.
 This data is ingested into S3 from Crown through a Concourse job and placed into `common-model-inputs/transactional_data` prefix of the `published_bucket`.
 When `initial_transactional_load` property in `local.tf` is set to `true` for each environment, the `initial_transactional_load` step in the application will create tables for the intitial transactional tables.
