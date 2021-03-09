@@ -38,3 +38,8 @@ Configurations:
     Properties:
       "YARN_RESOURCEMANAGER_OPTS": "\"-javaagent:/opt/emr/metrics/dependencies/jmx_prometheus_javaagent-0.14.0.jar=7105:/opt/emr/metrics/prometheus_config.yml\""
       "YARN_NODEMANAGER_OPTS": "\"-javaagent:/opt/emr/metrics/dependencies/jmx_prometheus_javaagent-0.14.0.jar=7107:/opt/emr/metrics/prometheus_config.yml\""
+- Classification: "tez-site"
+  Properties:
+    "tez.am.container.reuse.enabled": "true"
+    "tez.am.container.session.delay-allocation-millis": "900000"
+    "tez.session.am.dag.submit.timeout.secs": "900"

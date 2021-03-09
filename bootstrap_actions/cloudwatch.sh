@@ -207,6 +207,12 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
+            "file_path": "/var/log/pdm/flush-pushgateway.log",
+            "log_group_name": "$${cwa_steps_loggrp_name}",
+            "log_stream_name": "{instance_id}-flush-pushgateway.log",
+            "timezone": "UTC"
+          },
+          {
             "file_path": "/var/log/pdm/e2e.log",
             "log_group_name": "$${cwa_tests_loggrp_name}",
             "log_stream_name": "{instance_id}-e2e.log",
