@@ -1,6 +1,5 @@
 resource "aws_s3_bucket_object" "metrics_setup_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key    = "component/pdm-dataset-generation/metrics/metrics-setup.sh"
   content = templatefile("${path.module}/steps/metrics-setup.sh",
     {
@@ -11,7 +10,6 @@ resource "aws_s3_bucket_object" "metrics_setup_sh" {
 
 resource "aws_s3_bucket_object" "export_to_s3_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key    = "component/pdm-dataset-generation/metrics/export-to-s3.sh"
   content = templatefile("${path.module}/steps/export-to-s3.sh",
     {
@@ -22,7 +20,6 @@ resource "aws_s3_bucket_object" "export_to_s3_sh" {
 
 resource "aws_s3_bucket_object" "source_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key    = "component/pdm-dataset-generation/source.sh"
   content = templatefile("${path.module}/steps/source.sh",
     {
@@ -37,7 +34,6 @@ resource "aws_s3_bucket_object" "source_sh" {
 
 resource "aws_s3_bucket_object" "transform_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key    = "component/pdm-dataset-generation/transform.sh"
   content = templatefile("${path.module}/steps/transform.sh",
     {
@@ -51,7 +47,6 @@ resource "aws_s3_bucket_object" "transform_sh" {
 
 resource "aws_s3_bucket_object" "model_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key    = "component/pdm-dataset-generation/model.sh"
   content = templatefile("${path.module}/steps/model.sh",
     {
@@ -65,7 +60,6 @@ resource "aws_s3_bucket_object" "model_sh" {
 
 resource "aws_s3_bucket_object" "views_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key    = "component/pdm-dataset-generation/views.sh"
   content = templatefile("${path.module}/steps/views.sh",
     {
@@ -80,7 +74,6 @@ resource "aws_s3_bucket_object" "views_sh" {
 
 resource "aws_s3_bucket_object" "transactional_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key    = "component/pdm-dataset-generation/transactional.sh"
   content = templatefile("${path.module}/steps/transactional.sh",
     {
@@ -92,7 +85,6 @@ resource "aws_s3_bucket_object" "transactional_sh" {
 
 resource "aws_s3_bucket_object" "clean_dictionary_data_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key    = "component/pdm-dataset-generation/clean_dictionary_data.sh"
   content = templatefile("${path.module}/steps/clean_dictionary_data.sh",
     {
@@ -103,7 +95,6 @@ resource "aws_s3_bucket_object" "clean_dictionary_data_sh" {
 
 resource "aws_s3_bucket_object" "create_databases_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key    = "component/pdm-dataset-generation/create_databases.sh"
   content = templatefile("${path.module}/steps/create_databases.sh",
     {
@@ -113,7 +104,6 @@ resource "aws_s3_bucket_object" "create_databases_sh" {
 
 resource "aws_s3_bucket_object" "create_hive_dynamo_table" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key    = "component/pdm-dataset-generation/create-hive-dynamo-table.sh"
   content = templatefile("${path.module}/steps/create-hive-dynamo-table.sh",
     {
@@ -124,7 +114,6 @@ resource "aws_s3_bucket_object" "create_hive_dynamo_table" {
 
 resource "aws_s3_bucket_object" "create_views_tables" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key    = "component/pdm-dataset-generation/create-views-tables.sh"
   content = templatefile("${path.module}/steps/create-views-tables.sh",
     {
@@ -137,7 +126,6 @@ resource "aws_s3_bucket_object" "create_views_tables" {
 
 resource "aws_s3_bucket_object" "initial_transactional_load_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key    = "component/pdm-dataset-generation/initial_transactional_load.sh"
   content = templatefile("${path.module}/steps/initial_transactional_load.sh",
     {
@@ -150,7 +138,6 @@ resource "aws_s3_bucket_object" "initial_transactional_load_sh" {
 
 resource "aws_s3_bucket_object" "collect_metrics" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key    = "component/pdm-dataset-generation/collect-metrics.sh"
   content = templatefile("${path.module}/steps/collect-metrics.sh",
     {
