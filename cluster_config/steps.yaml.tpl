@@ -43,18 +43,6 @@ Steps:
     - "/var/ci/create_databases.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
-- Name: "transactional"
-  HadoopJarStep:
-    Args:
-    - "/var/ci/transactional.sh"
-    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
-  ActionOnFailure: "${action_on_failure}"
-- Name: "initial_transactional_load"
-  HadoopJarStep:
-    Args:
-    - "/var/ci/initial_transactional_load.sh"
-    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
-  ActionOnFailure: "${action_on_failure}"
 - Name: "source"
   HadoopJarStep:
     Args:
