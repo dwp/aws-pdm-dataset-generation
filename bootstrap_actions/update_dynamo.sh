@@ -28,7 +28,7 @@
   IN_PROGRESS_STATUS="IN_PROGRESS"
   CANCELLED_STATUS="CANCELLED"
 
-  FINAL_STEP_NAME="collect-metrics"
+  FINAL_STEP_NAME="flush-s3"
 
   while [[ ! -f $CORRELATION_ID_FILE ]] && [[ ! -f $S3_PREFIX_FILE ]]
   do
