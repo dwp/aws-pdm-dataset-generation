@@ -22,7 +22,7 @@
   CURRENT_STEP=""
   DATA_PRODUCT="PDM"
 
-  FINAL_STEP_NAME="collect-metrics"
+  FINAL_STEP_NAME="flush-s3"
 
   while [ ! -f $CORRELATION_ID_FILE ]
   do
