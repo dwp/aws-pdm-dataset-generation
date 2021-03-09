@@ -19,6 +19,12 @@ BootstrapActions:
   ScriptBootstrapAction:
     Path: "file:/var/ci/application-metrics-setup.sh"
 Steps:
+- Name: "courtesy-flush"
+  HadoopJarStep:
+    Args:
+    - "/var/ci/courtesy-flush.sh"
+    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
+  ActionOnFailure: "${action_on_failure}"
 - Name: "create-hive-dynamo-table"
   HadoopJarStep:
     Args:
@@ -89,5 +95,11 @@ Steps:
   HadoopJarStep:
     Args:
     - "/var/ci/collect-metrics.sh"
+    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
+  ActionOnFailure: "${action_on_failure}"
+- Name: "flush-s3"
+  HadoopJarStep:
+    Args:
+    - "/var/ci/flush-s3.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"

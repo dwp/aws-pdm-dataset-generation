@@ -144,3 +144,23 @@ resource "aws_s3_bucket_object" "collect_metrics" {
     }
   )
 }
+
+resource "aws_s3_bucket_object" "courtesy_flush" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/courtesy-flush.sh"
+  content = templatefile("${path.module}/steps/courtesy-flush.sh",
+    {
+      pdm_metrics_path = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "metrics/pdm-metrics.json")
+    }
+  )
+}
+
+resource "aws_s3_bucket_object" "flush_s3" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/flush-s3.sh"
+  content = templatefile("${path.module}/steps/flush-s3.sh",
+    {
+      pdm_metrics_path = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "metrics/pdm-metrics.json")
+    }
+  )
+}

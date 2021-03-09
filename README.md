@@ -21,3 +21,12 @@ PDM logs its run information into a DynamoDB table with the following structure:
 The cluster will log information resembling the above DynamoDB table. If it fails, it will kick off a cloudwatch event that has a target lambda - [dataworks-emr-relauncher](https://github.com/dwp/dataworks-emr-relauncher)   
 The retry logic is contained within that lambda as well as more detailed documentation. If the failed cluster is restarted
 it will skip to the failed step and resume from there. 
+
+## Metrics
+
+This clusters metrics are exported using Json Exporter. The metrics file is created and written locally to 
+```
+/var/log/hive/metrics.json
+```
+This file is then uploaded to S3, where the Json Exporter scrapes the metrics and stores them in Prometheus. 
+The S3 file is deleted at the start and end of every run to prevent stale metrics being scraped. 
