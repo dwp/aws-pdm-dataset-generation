@@ -15,7 +15,7 @@ set -euo pipefail
     
     log_wrapper_message "Deleting PDM metrics file"
 
-    aws s3 rm myjson.json "${pdm_metrics_path}"
+    aws s3 rm "${pdm_metrics_path}"
     log_wrapper_message "Done deleting the PDM metrics file"
     
 ) >> /var/log/pdm/flush-s3.log 2>&1
