@@ -157,25 +157,3 @@ resource "aws_s3_bucket_object" "collect_metrics" {
     }
   )
 }
-
-resource "aws_s3_bucket_object" "flush_pushgateway" {
-  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
-  key        = "component/pdm-dataset-generation/flush-pushgateway.sh"
-  content = templatefile("${path.module}/steps/flush-pushgateway.sh",
-    {
-      adg_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.pdm_pushgateway_hostname
-    }
-  )
-}
-
-resource "aws_s3_bucket_object" "courtesy_flush" {
-  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
-  key        = "component/pdm-dataset-generation/courtesy-flush.sh"
-  content = templatefile("${path.module}/steps/courtesy-flush.sh",
-    {
-      adg_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.pdm_pushgateway_hostname
-    }
-  )
-}
