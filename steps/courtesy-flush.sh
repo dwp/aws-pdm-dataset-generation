@@ -14,3 +14,5 @@ set -euo pipefail
     log_wrapper_message "Done flushing the ADG pushgateway"
     
 ) >> /var/log/adg/flush-pushgateway.log 2>&1
+
+aws s3 rm myjson.json
