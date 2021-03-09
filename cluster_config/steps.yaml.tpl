@@ -67,27 +67,3 @@ Steps:
     - "/var/ci/transform.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
-- Name: "model"
-  HadoopJarStep:
-    Args:
-    - "/var/ci/model.sh"
-    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
-  ActionOnFailure: "${action_on_failure}"
-- Name: "views"
-  HadoopJarStep:
-    Args:
-    - "/var/ci/views.sh"
-    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
-  ActionOnFailure: "${action_on_failure}"
-- Name: "create-views-tables"
-  HadoopJarStep:
-    Args:
-    - "/var/ci/create-views-tables.sh"
-    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
-  ActionOnFailure: "${action_on_failure}"
-- Name: "collect-metrics"
-  HadoopJarStep:
-    Args:
-    - "/var/ci/collect-metrics.sh"
-    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
-  ActionOnFailure: "${action_on_failure}"
