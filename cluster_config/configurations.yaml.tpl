@@ -22,6 +22,9 @@ Configurations:
     "javax.jdo.option.ConnectionPassword": ${hive_metastore_pwd}
     "hive.strict.checks.cartesian.product": "false"
     "hive.exec.parallel": "true"
+    "hive.driver.parallel.compilation": "false"
+    "hive.server2.parallel.ops.in.session": "true"
+    "hive.server2.tez.initialize.default.sessions": "false"
 - Classification: "emrfs-site"
   Properties:
     "fs.s3.maxConnections": "10000"
@@ -38,3 +41,10 @@ Configurations:
     Properties:
       "YARN_RESOURCEMANAGER_OPTS": "\"-javaagent:/opt/emr/metrics/dependencies/jmx_prometheus_javaagent-0.14.0.jar=7105:/opt/emr/metrics/prometheus_config.yml\""
       "YARN_NODEMANAGER_OPTS": "\"-javaagent:/opt/emr/metrics/dependencies/jmx_prometheus_javaagent-0.14.0.jar=7107:/opt/emr/metrics/prometheus_config.yml\""
+- Classification: "tez-site"
+  Configurations:
+    Properties:
+      "tez.am.log.level": "DEBUG"
+      "tez.session.am.dag.submit.timeout.secs": "900"
+      "tez.am.container.reuse.enabled": "true"
+      "tez.am.container.session.delay-allocation-millis": "900000"

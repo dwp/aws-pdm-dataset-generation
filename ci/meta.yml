@@ -169,7 +169,7 @@ meta:
               export AWS_DEFAULT_REGION
               source /assume-role
               set +x
-              export topic_arn=arn:aws:sns:${AWS_DEFAULT_REGION}:${AWS_ACC}:adg_completion_status_sns
+              export topic_arn=arn:aws:sns:${AWS_DEFAULT_REGION}:${AWS_ACC}:pdm_cw_trigger_sns
               export message_json=$(cat <<EOF
               {
                 "correlation_id": "$CORRELATION_ID",
