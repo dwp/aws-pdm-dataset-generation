@@ -150,15 +150,17 @@ resource "aws_s3_bucket_object" "courtesy_flush" {
   key    = "component/pdm-dataset-generation/courtesy-flush.sh"
   content = templatefile("${path.module}/steps/courtesy-flush.sh",
     {
+      metrics_export_to_s3 = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.export_to_s3_sh.key)
     }
   )
 }
 
-resource "aws_s3_bucket_object" "flush_gateway" {
+resource "aws_s3_bucket_object" "flush_s3" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  key    = "component/pdm-dataset-generation/flush-pushgateway.sh"
-  content = templatefile("${path.module}/steps/flush-pushgateway.sh",
+  key    = "component/pdm-dataset-generation/flush-s3.sh"
+  content = templatefile("${path.module}/steps/flush-s3.sh",
     {
+      pdm_metrics_path = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "metrics/pdm-metrics.json")
     }
   )
 }

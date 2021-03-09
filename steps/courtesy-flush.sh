@@ -6,13 +6,12 @@ set -euo pipefail
     source /opt/emr/logging.sh
     
     function log_wrapper_message() {
-        log_adg_message "$${1}" "flush-pushgateway.sh" "Running as: ,$USER"
+        log_pdm_message "$1" "courtesy-flush.sh" "$$" "Running as: $USER"
     }
     
-    log_wrapper_message "Flushing the ADG pushgateway"
-    curl -X PUT http://${adg_pushgateway_hostname}:9091/api/v1/admin/wipe
-    log_wrapper_message "Done flushing the ADG pushgateway"
-    
-) >> /var/log/adg/flush-pushgateway.log 2>&1
+    log_wrapper_message "Deleting PDM metrics file"
 
-aws s3 rm myjson.json
+    aws s3 rm myjson.json "${metrics_export_to_s3}"
+    log_wrapper_message "Done deleting the PDM metrics file"
+    
+) >> /var/log/pdm/flush-metrics.log 2>&1
