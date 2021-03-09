@@ -25,7 +25,8 @@ it will skip to the failed step and resume from there.
 ## Metrics
 
 This clusters metrics are exported using Json Exporter. The metrics file is created and written locally to 
-```/var/log/hive/metrics.json
+```
+/var/log/hive/metrics.json
 ```
 This file is then uploaded to S3, where the Json Exporter scrapes the metrics and stores them in Prometheus. 
 The S3 file is deleted at the start and end of every run to prevent stale metrics being scraped. 
