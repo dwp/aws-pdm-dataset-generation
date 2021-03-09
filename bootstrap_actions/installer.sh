@@ -27,4 +27,4 @@
 
     log_wrapper_message "Completed the installer.sh step of the EMR Cluster"
 
-) >> /var/log/pdm/nohup.log 2>&1
+) >> /var/log/pdm/installer.log 2>&1

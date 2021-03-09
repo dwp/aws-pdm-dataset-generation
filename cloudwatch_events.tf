@@ -50,8 +50,8 @@ resource "aws_iam_role_policy_attachment" "allow_batch_job_submission" {
   policy_arn = aws_iam_policy.allow_batch_job_submission.arn
 }
 
-resource "aws_cloudwatch_event_rule" "pdm_terminated_with_errors_rule" {
-  name          = "pdm_terminated_with_errors_rule"
+resource "aws_cloudwatch_event_rule" "pdm_failed" {
+  name          = "pdm_failed"
   description   = "Sends failed message to slack when pdm cluster terminates with errors"
   event_pattern = <<EOF
 {
@@ -73,29 +73,30 @@ resource "aws_cloudwatch_event_rule" "pdm_terminated_with_errors_rule" {
 EOF
 }
 
-resource "aws_cloudwatch_metric_alarm" "pdm_failed_with_errors" {
-  alarm_name                = "pdm_failed_with_errors"
-  comparison_operator       = "GreaterThanOrEqualToThreshold"
-  evaluation_periods        = "1"
-  metric_name               = "TriggeredRules"
-  namespace                 = "AWS/Events"
-  period                    = "60"
-  statistic                 = "Sum"
-  threshold                 = "1"
-  alarm_description         = "This metric monitors cluster termination with errors"
-  insufficient_data_actions = []
-  alarm_actions             = [data.terraform_remote_state.security-tools.outputs.sns_topic_london_monitoring.arn]
-  dimensions = {
-    RuleName = aws_cloudwatch_event_rule.pdm_terminated_with_errors_rule.name
+resource "aws_cloudwatch_event_rule" "pdm_terminated" {
+  name          = "pdm_terminated"
+  description   = "Sends terminated message to slack when pdm cluster terminates by user request"
+  event_pattern = <<EOF
+{
+  "source": [
+    "aws.emr"
+  ],
+  "detail-type": [
+    "EMR Cluster State Change"
+  ],
+  "detail": {
+    "state": [
+      "TERMINATED"
+    ],
+    "name": [
+      "pdm-dataset-generator"
+    ],
+    "stateChangeReason": [
+      "{\"code\":\"USER_REQUEST\",\"message\":\"User request\"}"
+    ]
   }
-  tags = merge(
-    local.common_tags,
-    {
-      Name              = "pdm_failed_with_errors",
-      notification_type = "Error",
-      severity          = "Critical"
-    },
-  )
+}
+EOF
 }
 
 resource "aws_cloudwatch_event_rule" "pdm_success" {
@@ -124,6 +125,56 @@ resource "aws_cloudwatch_event_rule" "pdm_success" {
 EOF
 }
 
+resource "aws_cloudwatch_metric_alarm" "pdm_failed" {
+  alarm_name                = "pdm_failed"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "1"
+  metric_name               = "TriggeredRules"
+  namespace                 = "AWS/Events"
+  period                    = "60"
+  statistic                 = "Sum"
+  threshold                 = "1"
+  alarm_description         = "This metric monitors cluster termination with errors"
+  insufficient_data_actions = []
+  alarm_actions             = [data.terraform_remote_state.security-tools.outputs.sns_topic_london_monitoring.arn]
+  dimensions = {
+    RuleName = aws_cloudwatch_event_rule.pdm_failed.name
+  }
+  tags = merge(
+    local.common_tags,
+    {
+      Name              = "pdm_failed",
+      notification_type = "Error",
+      severity          = "Critical"
+    },
+  )
+}
+
+resource "aws_cloudwatch_metric_alarm" "pdm_terminated" {
+  alarm_name                = "pdm_terminated"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "1"
+  metric_name               = "TriggeredRules"
+  namespace                 = "AWS/Events"
+  period                    = "60"
+  statistic                 = "Sum"
+  threshold                 = "1"
+  alarm_description         = "This metric monitors cluster terminated by user request"
+  insufficient_data_actions = []
+  alarm_actions             = [data.terraform_remote_state.security-tools.outputs.sns_topic_london_monitoring.arn]
+  dimensions = {
+    RuleName = aws_cloudwatch_event_rule.pdm_terminated.name
+  }
+  tags = merge(
+    local.common_tags,
+    {
+      Name              = "pdm_terminated",
+      notification_type = "Information",
+      severity          = "High"
+    },
+  )
+}
+
 resource "aws_cloudwatch_event_target" "pdm_success_start_object_tagger" {
   target_id = "pdm_success"
   rule      = aws_cloudwatch_event_rule.pdm_success.name
@@ -139,7 +190,7 @@ resource "aws_cloudwatch_event_target" "pdm_success_start_object_tagger" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "pdm_success" {
-  alarm_name                = "pdm_completed_all_steps"
+  alarm_name                = "pdm_success"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = "1"
   metric_name               = "TriggeredRules"
@@ -156,7 +207,7 @@ resource "aws_cloudwatch_metric_alarm" "pdm_success" {
   tags = merge(
     local.common_tags,
     {
-      Name              = "pdm_completed_all_steps",
+      Name              = "pdm_success",
       notification_type = "Information",
       severity          = "Critical"
     },

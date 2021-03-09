@@ -71,11 +71,19 @@ locals {
   }
 
   pdm_version = {
-    development = "0.0.22"
-    qa          = "0.0.22"
-    integration = "0.0.22"
-    preprod     = "0.0.22"
-    production  = "0.0.22"
+    development = "0.0.30"
+    qa          = "0.0.30"
+    integration = "0.0.30"
+    preprod     = "0.0.30"
+    production  = "0.0.30"
+  }
+
+  pdm_max_retry_count = {
+    development = "0"
+    qa          = "0"
+    integration = "0"
+    preprod     = "0"
+    production  = "2"
   }
 
   amazon_region_domain = "${data.aws_region.current.name}.amazonaws.com"

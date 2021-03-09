@@ -63,9 +63,9 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
-            "file_path": "/var/log/pdm/nohup.log",
+            "file_path": "/var/log/pdm/installer.log",
             "log_group_name": "$${cwa_bootstrap_loggrp_name}",
-            "log_stream_name": "{instance_id}-nohup.log",
+            "log_stream_name": "{instance_id}-installer.log",
             "timezone": "UTC"
           },
           {
@@ -78,6 +78,12 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "file_path": "/var/log/pdm/update_dynamo_sh.log",
             "log_group_name": "$${cwa_bootstrap_loggrp_name}",
             "log_stream_name": "{instance_id}-update_dynamo_sh.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/pdm/download_sql.log",
+            "log_group_name": "$${cwa_bootstrap_loggrp_name}",
+            "log_stream_name": "{instance_id}-download_sql.log",
             "timezone": "UTC"
           },
           {
@@ -123,12 +129,6 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
-            "file_path": "/var/log/pdm/download_sql.log",
-            "log_group_name": "$${cwa_steps_loggrp_name}",
-            "log_stream_name": "{instance_id}-download_sql.log",
-            "timezone": "UTC"
-          },
-          {
             "file_path": "/var/log/pdm/missing_model_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
             "log_stream_name": "{instance_id}-missing_model_sql.log",
@@ -138,6 +138,12 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "file_path": "/var/log/pdm/model_sql.log",
             "log_group_name": "$${cwa_steps_loggrp_name}",
             "log_stream_name": "{instance_id}-model_sql.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/pdm/metrics-setup.log",
+            "log_group_name": "$${cwa_steps_loggrp_name}",
+            "log_stream_name": "{instance_id}-metrics-setup.log",
             "timezone": "UTC"
           },
           {

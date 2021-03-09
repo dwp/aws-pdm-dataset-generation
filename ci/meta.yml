@@ -57,6 +57,7 @@ meta:
               cp ../terraform-config/terraform.tf .
               cp ../terraform-config/terraform.tfvars .
               export TF_VAR_pdm_emr_launcher_zip="{base_path = \"../emr-launcher-release\", version = \"$(cat ../emr-launcher-release/version)\"}"
+              export TF_VAR_pdm_emr_relauncher_zip="{base_path = \"../emr-relauncher-release\", version = \"$(cat ../emr-relauncher-release/version)\"}"
               terraform init
               terraform workspace show
               terraform plan -out terraform.plan
@@ -65,6 +66,7 @@ meta:
           - name: aws-pdm-dataset-generation
           - name: terraform-config
           - name: emr-launcher-release
+          - name: emr-relauncher-release
           - name: emr-al2-ami
 
     terraform-plan:
@@ -89,6 +91,7 @@ meta:
               cp ../terraform-config/terraform.tf .
               cp ../terraform-config/terraform.tfvars .
               export TF_VAR_pdm_emr_launcher_zip="{base_path = \"../emr-launcher-release\", version = \"$(cat ../emr-launcher-release/version)\"}"
+              export TF_VAR_pdm_emr_relauncher_zip="{base_path = \"../emr-relauncher-release\", version = \"$(cat ../emr-relauncher-release/version)\"}"
               terraform init
               terraform workspace show
               terraform plan -detailed-exitcode
@@ -96,33 +99,8 @@ meta:
           - name: aws-pdm-dataset-generation
           - name: terraform-config
           - name: emr-launcher-release
+          - name: emr-relauncher-release
           - name: emr-al2-ami
-
-    terraform-output-management-infra:
-      task: terraform-output-management-infra
-      config:
-        platform: linux
-        image_resource:
-          type: docker-image
-          source:
-            repository: ((dataworks.terraform_repository))
-            tag: ((dataworks.terraform_version))
-        run:
-          path: sh
-          args:
-            - -exc
-            - |
-              terraform workspace show
-              terraform init
-              terraform output --json > ../terraform-output-management-infra/outputs.json
-          dir: aws-management-infrastructure
-        inputs:
-          - name: aws-management-infrastructure
-        outputs:
-          - name: terraform-output-management-infra
-      params:
-        TF_CLI_ARGS_plan: -lock-timeout=300s
-        TF_INPUT: "false"
 
     unit-tests:
       task: unit-tests
@@ -191,7 +169,7 @@ meta:
               export AWS_DEFAULT_REGION
               source /assume-role
               set +x
-              export topic_arn=arn:aws:sns:${AWS_DEFAULT_REGION}:${AWS_ACC}:adg_completion_status_sns
+              export topic_arn=arn:aws:sns:${AWS_DEFAULT_REGION}:${AWS_ACC}:pdm_cw_trigger_sns
               export message_json=$(cat <<EOF
               {
                 "correlation_id": "$CORRELATION_ID",
@@ -402,56 +380,6 @@ meta:
               AWS_PUBLISHED_BUCKET="$(cat terraform-output-common/outputs.json |  jq -r '.published_bucket.value.id')"
               aws s3 --endpoint-url=https://s3-eu-west-1.amazonaws.com sync pdm_transactional_tables/ s3://${AWS_PUBLISHED_BUCKET}/${S3_FOLDER}
 
-    terraform-output-ingest:
-      task: terraform-output-ingest
-      .: (( inject meta.plan.terraform-common-config ))
-      config:
-        platform: linux
-        image_resource:
-          type: docker-image
-          source:
-            repository: ((dataworks.terraform_repository))
-            version: ((dataworks.terraform_version))
-            tag: ((dataworks.terraform_version))
-        run:
-          path: sh
-          args:
-            - -exc
-            - |
-              terraform workspace show
-              terraform init
-              terraform output --json > ../terraform-output-ingest/outputs.json
-          dir: aws-ingestion
-        inputs:
-          - name: aws-ingestion
-        outputs:
-          - name: terraform-output-ingest
-
-    terraform-output-internal-compute:
-      task: terraform-output-internal-compute
-      .: (( inject meta.plan.terraform-common-config ))
-      config:
-        platform: linux
-        image_resource:
-          type: docker-image
-          source:
-            repository: ((dataworks.terraform_repository))
-            version: ((dataworks.terraform_version))
-            tag: ((dataworks.terraform_version))
-        run:
-          path: sh
-          args:
-            - -exc
-            - |
-              terraform workspace show
-              terraform init
-              terraform output --json > ../terraform-output-internal-compute/outputs.json
-          dir: aws-internal-compute
-        inputs:
-          - name: aws-internal-compute
-        outputs:
-          - name: terraform-output-internal-compute
-
     run-behave-job:
       task: run-behave-job
       config:
@@ -467,7 +395,7 @@ meta:
           E2E_TEST_TIMEOUT: 7200
           ASSUME_DURATION: 10800
         run:
-          dir: aws-dataworks-e2e-framework
+          dir: dataworks-behavioural-framework
           path: sh
           args:
             - -exc
@@ -478,19 +406,7 @@ meta:
               export E2E_FEATURE_TAG_FILTER="@${E2E_FEATURE_TAG_FILTER}"
               cd src/runners
               ./run-ci.sh \
-              "../../../meta" \
-              "../../../terraform-output-ingest/outputs.json" \
-              "../../../terraform-output-internal-compute/outputs.json" \
-              "NOT_SET" \
-              "NOT_SET" \
-              "NOT_SET" \
-              "NOT_SET" \
-              "NOT_SET" \
-              "NOT_SET" \
-              "../../../terraform-output-common/outputs.json" \
+              "../../../meta"
         inputs:
-          - name: aws-dataworks-e2e-framework
-          - name: terraform-output-internal-compute
-          - name: terraform-output-ingest
-          - name: terraform-output-common
+          - name: dataworks-behavioural-framework
           - name: meta
