@@ -96,6 +96,7 @@ data "aws_iam_policy_document" "pdm_emr_launcher_runjobflow_policy" {
     effect = "Allow"
     actions = [
       "elasticmapreduce:RunJobFlow",
+      "elasticmapreduce:AddTags",
     ]
     resources = [
       "*"
