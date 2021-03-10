@@ -23,6 +23,10 @@ Configurations:
     "hive.strict.checks.cartesian.product": "false"
     "hive.exec.parallel": "true"
     "hive.llap.execution.mode": "none"
+    "hive.driver.parallel.compilation": "false"
+    "hive.server2.parallel.ops.in.session": "true"
+    "hive.server2.tez.initialize.default.sessions": "false"
+    "hive.tez.log.level": "DEBUG"
 - Classification: "emrfs-site"
   Properties:
     "fs.s3.maxConnections": "10000"

@@ -28,6 +28,7 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transform
 
     find $SOURCE_DIR -name 'youth_obligation_details.sql' \
         | xargs -n1 -P${processes} /opt/emr/with_retry.sh hive \
+                --hiveconf hive.root.logger=DEBUG,console \
                 --hivevar source_database=$SOURCE_DB \
                 --hivevar transform_database=$TRANSFORM_DB \
                 --hivevar dictionary_path=$DICTIONARY_LOCATION -f
