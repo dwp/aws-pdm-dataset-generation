@@ -6,7 +6,7 @@ set -euo pipefail
     CORRELATION_ID=$2
     S3_PREFIX=$4
     SNAPSHOT_TYPE=$6
-    EXPORT_DATE=$6
+    EXPORT_DATE=$8
     
     echo $CORRELATION_ID >>     /opt/emr/correlation_id.txt
     echo $S3_PREFIX >>          /opt/emr/s3_prefix.txt
