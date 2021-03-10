@@ -27,3 +27,7 @@ Tags:
   Value: "aws-pdm-dataset-generator"
 - Key: "Name"
   Value: "aws-pdm-dataset-generator"
+- Key: "snapshot_type"
+  Value: "NOT_SET"
+- Key: "export_date"
+  Value: "NOT_SET"
