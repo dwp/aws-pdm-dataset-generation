@@ -27,9 +27,8 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/source
     # Run SQL Scripts
     #####################
 
-    find $SOURCE_DIR -name 'youth_obligation_details.sql' \
+    find $SOURCE_DIR -name '*.sql' \
         | xargs -n1 -P${processes} /opt/emr/with_retry.sh hive \
-                --hiveconf hive.root.logger=DEBUG,console \
                 --hivevar source_database=$SOURCE_DB \
                 --hivevar data_path=$DATA_LOCATION \
                 --hivevar serde=$SERDE \

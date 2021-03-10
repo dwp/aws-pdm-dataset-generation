@@ -13,6 +13,8 @@ Configurations:
     "hive.service.metrics.reporter": "JSON_FILE"
     "hive.service.metrics.file.location": "/var/log/hive/metrics.json"
     "hive.txn.manager": "org.apache.hadoop.hive.ql.lockmgr.DbTxnManager"
+    "hive.enforce.bucketing": "true"
+    "hive.exec.dynamic.partition.mode": "nostrict"
     "hive.compactor.initiator.on": "true"
     "hive.compactor.worker.threads": "${hive_compaction_threads}"
     "hive.support.concurrency": "true"
@@ -20,13 +22,13 @@ Configurations:
     "javax.jdo.option.ConnectionDriverName": "org.mariadb.jdbc.Driver"
     "javax.jdo.option.ConnectionUserName": ${hive_metastore_username}
     "javax.jdo.option.ConnectionPassword": ${hive_metastore_pwd}
+    "hive.mapred.mode": "nonstrict"
     "hive.strict.checks.cartesian.product": "false"
     "hive.exec.parallel": "true"
-    "hive.llap.execution.mode": "none"
-    "hive.driver.parallel.compilation": "false"
-    "hive.server2.parallel.ops.in.session": "true"
-    "hive.server2.tez.initialize.default.sessions": "false"
-    "hive.tez.log.level": "DEBUG"
+    "hive.exec.failure.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"
+    "hive.exec.post.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"
+    "hive.exec.pre.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"
+    "hive_timeline_logging_enabled": "true"
 - Classification: "emrfs-site"
   Properties:
     "fs.s3.maxConnections": "10000"

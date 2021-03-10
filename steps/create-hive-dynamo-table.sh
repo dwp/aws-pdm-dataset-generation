@@ -13,23 +13,22 @@ set -euo pipefail
     # Import and execute resume step function
     source /opt/emr/resume_step.sh
 
-#TODO rename this step file to something appropriate. The below code now lives in ADG. the ERM-LAUNCHER will need to pass the above vars to whatever this step name will be
-#    function log_wrapper_message() {
-#        log_pdm_message "$1" "create-hive-dynamo-table.sh" "$$" "Running as: $USER"
-#    }
-#
-#    log_wrapper_message "Creating external hive table"
-#
-#    hive -e "CREATE DATABASE IF NOT EXISTS AUDIT; \
-#    DROP TABLE IF EXISTS AUDIT.data_pipeline_metadata_hive; \
-#    CREATE EXTERNAL TABLE IF NOT EXISTS AUDIT.data_pipeline_metadata_hive (Correlation_Id STRING, Run_Id BIGINT, \
-#    DataProduct STRING, DateProductRun STRING, Status STRING, CurrentStep STRING, Cluster_Id STRING, \
-#    S3_Prefix_Snapshots STRING, S3_Prefix_Analytical_DataSet STRING, Snapshot_Type STRING) \
-#    STORED BY 'org.apache.hadoop.hive.dynamodb.DynamoDBStorageHandler' \
-#    TBLPROPERTIES ('dynamodb.table.name'='${dynamodb_table_name}', \
-#    'dynamodb.column.mapping' = 'Correlation_Id:Correlation_Id,Run_Id:Run_Id,DataProduct:DataProduct,DateProductRun:Date,Status:Status,CurrentStep:CurrentStep,Cluster_Id:Cluster_Id,S3_Prefix_Snapshots:S3_Prefix_Snapshots,S3_Prefix_Analytical_DataSet:S3_Prefix_Analytical_DataSet,Snapshot_Type:Snapshot_Type','dynamodb.null.serialization' = 'true');"
-#
-#    log_wrapper_message "Finished creating external hive table"
+    function log_wrapper_message() {
+        log_pdm_message "$1" "create-hive-dynamo-table.sh" "$$" "Running as: $USER"
+    }
+
+    log_wrapper_message "Creating external hive table"
+
+    hive -e "CREATE DATABASE IF NOT EXISTS AUDIT; \
+    DROP TABLE IF EXISTS AUDIT.data_pipeline_metadata_hive; \
+    CREATE EXTERNAL TABLE IF NOT EXISTS AUDIT.data_pipeline_metadata_hive (Correlation_Id STRING, Run_Id BIGINT, \
+    DataProduct STRING, DateProductRun STRING, Status STRING, CurrentStep STRING, Cluster_Id STRING, \
+    S3_Prefix_Snapshots STRING, S3_Prefix_Analytical_DataSet STRING, Snapshot_Type STRING) \
+    STORED BY 'org.apache.hadoop.hive.dynamodb.DynamoDBStorageHandler' \
+    TBLPROPERTIES ('dynamodb.table.name'='${dynamodb_table_name}', \
+    'dynamodb.column.mapping' = 'Correlation_Id:Correlation_Id,Run_Id:Run_Id,DataProduct:DataProduct,DateProductRun:Date,Status:Status,CurrentStep:CurrentStep,Cluster_Id:Cluster_Id,S3_Prefix_Snapshots:S3_Prefix_Snapshots,S3_Prefix_Analytical_DataSet:S3_Prefix_Analytical_DataSet,Snapshot_Type:Snapshot_Type','dynamodb.null.serialization' = 'true');"
+
+    log_wrapper_message "Finished creating external hive table"
 
 ) >> /var/log/pdm/create-hive-dynamo-table.log 2>&1
 
