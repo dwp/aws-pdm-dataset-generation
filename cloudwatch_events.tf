@@ -149,6 +149,7 @@ EOF
 }
 
 resource "aws_cloudwatch_metric_alarm" "pdm_failed" {
+  count                     = local.pdm_alerts[local.environment] == true ? 1 : 0
   alarm_name                = "pdm_failed"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = "1"
@@ -174,6 +175,7 @@ resource "aws_cloudwatch_metric_alarm" "pdm_failed" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "pdm_terminated" {
+  count                     = local.pdm_alerts[local.environment] == true ? 1 : 0
   alarm_name                = "pdm_terminated"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = "1"
@@ -213,6 +215,7 @@ resource "aws_cloudwatch_event_target" "pdm_success_start_object_tagger" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "pdm_success" {
+  count                     = local.pdm_alerts[local.environment] == true ? 1 : 0
   alarm_name                = "pdm_success"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = "1"
@@ -238,6 +241,7 @@ resource "aws_cloudwatch_metric_alarm" "pdm_success" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "pdm_running" {
+  count                     = local.pdm_alerts[local.environment] == true ? 1 : 0
   alarm_name                = "pdm_running"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = "1"
