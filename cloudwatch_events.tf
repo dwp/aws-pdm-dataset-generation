@@ -125,6 +125,29 @@ resource "aws_cloudwatch_event_rule" "pdm_success" {
 EOF
 }
 
+resource "aws_cloudwatch_event_rule" "pdm_running" {
+  name          = "pdm_running"
+  description   = "checks that PDM has started running"
+  event_pattern = <<EOF
+{
+  "source": [
+    "aws.emr"
+  ],
+  "detail-type": [
+    "EMR Cluster State Change"
+  ],
+  "detail": {
+    "state": [
+      "RUNNING"
+    ],
+    "name": [
+      "pdm-dataset-generator"
+    ]
+  }
+}
+EOF
+}
+
 resource "aws_cloudwatch_metric_alarm" "pdm_failed" {
   alarm_name                = "pdm_failed"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
@@ -208,6 +231,31 @@ resource "aws_cloudwatch_metric_alarm" "pdm_success" {
     local.common_tags,
     {
       Name              = "pdm_success",
+      notification_type = "Information",
+      severity          = "Critical"
+    },
+  )
+}
+
+resource "aws_cloudwatch_metric_alarm" "pdm_running" {
+  alarm_name                = "pdm_running"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "1"
+  metric_name               = "TriggeredRules"
+  namespace                 = "AWS/Events"
+  period                    = "60"
+  statistic                 = "Sum"
+  threshold                 = "1"
+  alarm_description         = "Monitoring pdm completion"
+  insufficient_data_actions = []
+  alarm_actions             = [data.terraform_remote_state.security-tools.outputs.sns_topic_london_monitoring.arn]
+  dimensions = {
+    RuleName = aws_cloudwatch_event_rule.pdm_running.name
+  }
+  tags = merge(
+    local.common_tags,
+    {
+      Name              = "pdm_running",
       notification_type = "Information",
       severity          = "Critical"
     },
