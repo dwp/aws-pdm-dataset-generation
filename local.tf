@@ -235,4 +235,12 @@ locals {
     preprod     = "10"
     production  = "20"
   }
+
+  pdm_alerts = {
+    development = false
+    qa          = false
+    integration = false
+    preprod     = false
+    production  = true
+  }
 }
