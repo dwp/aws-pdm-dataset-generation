@@ -15,6 +15,9 @@ log_wrapper_message "Starting processing $SCRIPT_NAME ..........................
 
 SECONDS=0
 retry::with_retries $@
+exit_code=$?
 DURATION=$SECONDS
 
-log_wrapper_message "$SCRIPT_NAME took $SECONDS seconds to process"
+log_wrapper_message "$SCRIPT_NAME took $SECONDS seconds to process" "exit_code,$exit_code"
+
+exit $exit_code

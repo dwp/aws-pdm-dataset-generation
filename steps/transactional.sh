@@ -23,9 +23,12 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transactiona
     # Run SQL Scripts
     #####################
 
-    find $TRANSACTIONAL_DIR -name '*.sql' \
+    if ! find $TRANSACTIONAL_DIR -name '*.sql' \
         | xargs -n1 -P${processes} /opt/emr/with_retry.sh hive \
-                --hivevar transactional_database=$TRANSACTIONAL_DB -f
+                --hivevar transactional_database=$TRANSACTIONAL_DB -f; then
+        echo transactional stage failed
+        exit 1
+    fi
 
     echo "FINISHED_RUNNING_TRANSACTIONAL......................"
     log_wrapper_message "finished running transactional......................."
