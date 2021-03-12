@@ -16,15 +16,6 @@ resources:
     check_every: 5m
     webhook_token: ((dataworks.concourse_github_webhook_token))
 
-  - name: aws-pdm-dataset-generation-emr-6
-    type: git
-    source:
-      branch: emr-6
-      repository: dwp/aws-pdm-dataset-generation
-      uri: https://github.com/dwp/aws-pdm-dataset-generation.git
-    check_every: 5m
-    webhook_token: ((dataworks.concourse_github_webhook_token))
-
   - name: aws-pdm-dataset-generation-update-pipeline
     type: git
     source:
