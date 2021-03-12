@@ -17,6 +17,8 @@
   STEP_DETAILS_DIR=/mnt/var/lib/info/steps
   CORRELATION_ID_FILE=/opt/emr/correlation_id.txt
   S3_PREFIX_FILE=/opt/emr/s3_prefix.txt
+  SNAPSHOT_TYPE_FILE=/opt/emr/snapshot_type.txt
+  EXPORT_DATE_FILE=/opt/emr/export_date.txt
   RUN_ID=1
   DATE=$(date '+%Y-%m-%d')
   DATA_PRODUCT="PDM"
@@ -30,14 +32,19 @@
 
   FINAL_STEP_NAME="flush-s3"
 
-  while [[ ! -f $CORRELATION_ID_FILE ]] && [[ ! -f $S3_PREFIX_FILE ]]
+  while [[ ! -f $CORRELATION_ID_FILE ]] && [[ ! -f $S3_PREFIX_FILE ]] && [[ ! -f $SNAPSHOT_TYPE_FILE ]] && [[ ! -f $EXPORT_DATE_FILE ]]
   do
     sleep 5
   done
 
-  if [[ -f "$CORRELATION_ID_FILE" ]]  && [[ -f $S3_PREFIX_FILE ]]; then
-      CORRELATION_ID=`cat $CORRELATION_ID_FILE`
-      S3_PREFIX=`cat $S3_PREFIX_FILE`
+  CORRELATION_ID=`cat $CORRELATION_ID_FILE`
+  S3_PREFIX=`cat $S3_PREFIX_FILE`
+  SNAPSHOT_TYPE=`cat $SNAPSHOT_TYPE_FILE`
+  EXPORT_DATE=`cat $EXPORT_DATE_FILE`
+
+  if [[ -z "$EXPORT_DATE" ]]; then
+    log_wrapper_message "Export date from file was empty, so defaulting to today's date"
+    EXPORT_DATE="$DATE"
   fi
 
   while [ ! -f $STEP_DEATILS_DIR/*.json ]
@@ -59,10 +66,10 @@
 
     ttl_value=$(get_ttl)
 
-    log_wrapper_message "Updating DynamoDB with Correlation_Id: $CORRELATION_ID, DataProduct: $DATA_PRODUCT, Date: $DATE, Cluster_Id: $CLUSTER_ID, S3_Prefix_Analytical_DataSet: $S3_PREFIX, TimeToExist: $ttl_value, CurrentStep: $current_step, Status: $status, Run_Id: $run_id"
+    log_wrapper_message "Updating DynamoDB with Correlation_Id: $CORRELATION_ID, DataProduct: $DATA_PRODUCT, Date: $EXPORT_DATE, Cluster_Id: $CLUSTER_ID, S3_Prefix_Analytical_DataSet: $S3_PREFIX, TimeToExist: $ttl_value, CurrentStep: $current_step, Status: $status, Run_Id: $run_id"
 
     update_expression="SET #d = :s, Cluster_Id = :v, S3_Prefix_Analytical_DataSet = :b, TimeToExist = :z"
-    expression_values="\":s\": {\"S\":\"$DATE\"}, \":v\": {\"S\":\"$CLUSTER_ID\"}, \":b\": {\"S\":\"$S3_PREFIX\"}, \":z\": {\"N\":\"$ttl_value\"}"
+    expression_values="\":s\": {\"S\":\"$EXPORT_DATE\"}, \":v\": {\"S\":\"$CLUSTER_ID\"}, \":b\": {\"S\":\"$S3_PREFIX\"}, \":z\": {\"N\":\"$ttl_value\"}"
     expression_names="\"#d\":\"Date\""
 
     if [[ ! -z "$current_step" ]] && [[ "$current_step" != "NOT_SET" ]]; then
