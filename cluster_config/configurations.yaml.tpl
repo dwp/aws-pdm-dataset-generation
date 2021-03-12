@@ -25,6 +25,13 @@ Configurations:
     "hive.mapred.mode": "nonstrict"
     "hive.strict.checks.cartesian.product": "false"
     "hive.exec.parallel": "true"
+    "hive.exec.failure.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"
+    "hive.exec.post.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"
+    "hive.exec.pre.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"
+    "hive_timeline_logging_enabled": "true"
+- Classification: "tez-site"
+  Properties:
+    "tez.am.resource.memory.mb": "1024"
 - Classification: "emrfs-site"
   Properties:
     "fs.s3.maxConnections": "10000"

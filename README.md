@@ -30,3 +30,69 @@ This clusters metrics are exported using Json Exporter. The metrics file is crea
 ```
 This file is then uploaded to S3, where the Json Exporter scrapes the metrics and stores them in Prometheus. 
 The S3 file is deleted at the start and end of every run to prevent stale metrics being scraped. 
+
+# Upgrading to EMR 6.2.0
+
+There is a requirement for our data products to start using Hive 3 instead of Hive 2. Hive 3 comes bundled with EMR 6.2.0 
+along with other upgrades including Spark. Below is a list of steps taken to upgrade PDM to EMR 6.2.0  
+
+1. Make sure you are using an AL2 ami 
+
+2. Point PDM at the new metastore: `hive_metastore_v2` in `internal-compute` instead of the old one in the configurations.yml   
+
+    The values below should resolve to the new metastore, the details of which are an output of `internal-compute`
+    ```    
+   "javax.jdo.option.ConnectionURL": "jdbc:mysql://${hive_metastore_endpoint}:3306/${hive_metastore_database_name}?createDatabaseIfNotExist=true"
+   "javax.jdo.option.ConnectionUserName": "${hive_metsatore_username}"
+   "javax.jdo.option.ConnectionPassword": "${hive_metastore_pwd}"
+   ```
+
+3. Create ingress/egress security group rules to the metastore in the `internal-compute` repo. Example below   
+
+    ```
+    resource "aws_security_group_rule" "ingress_pdm" {
+      description              = "Allow mysql traffic to Aurora RDS from PDM"
+      from_port                = 3306
+      protocol                 = "tcp"
+      security_group_id        = aws_security_group.hive_metastore_v2.id
+      to_port                  = 3306
+      type                     = "ingress"
+      source_security_group_id = data.terraform_remote_state.pdm.outputs.pdm_common_sg.id
+    }
+    
+    resource "aws_security_group_rule" "egress_pdm" {
+      description              = "Allow mysql traffic to Aurora RDS from PDM"
+      from_port                = 3306
+      protocol                 = "tcp"
+      security_group_id        = data.terraform_remote_state.pdm.outputs.pdm_common_sg.id
+      to_port                  = 3306
+      type                     = "egress"
+      source_security_group_id = aws_security_group.hive_metastore_v2.id
+    }
+    ```
+
+3. Rotate the `pdm-writer` user from the `internal-compute` pipeline so that when PDM starts up it can login to the metastore.
+
+4. Give IAM permissions to the PDM EMR launcher to read the new Secret  
+
+    ```
+    data "aws_iam_policy_document" "pdm_emr_launcher_getsecrets" {
+     statement {
+       effect = "Allow"
+    
+       actions = [
+         "secretsmanager:GetSecretValue",
+       ]
+    
+       resources = [
+         data.terraform_remote_state.internal_compute.outputs.metadata_store_users.pdm_writer.secret_arn,
+       ]
+     }
+    }
+    ``` 
+   
+5. Bump the EMR version to 6.2.0 and launch the cluster.   
+
+6. TODO: still figuring out how to get the speed back to normal. Once done update this with instructions
+
+Make sure that the first time anything uses the metastore it initialises with Hive 3, otherwise it will have to be rebuilt. 
