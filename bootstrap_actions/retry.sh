@@ -22,7 +22,7 @@ retry::with_retries() {
                             "command,$command" \
                             "attempts,$attempts" \
                             "max_attempts,$(retry::max_attempts)"
-            exit 1
+            return 10
         fi
 
         sleep $(retry::delay)

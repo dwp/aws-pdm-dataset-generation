@@ -25,12 +25,15 @@ VIEWS_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/views
     # Run SQL Scripts
     #####################
 
-    find $VIEWS_DIR -name '*.sql' \
+    if ! find $VIEWS_DIR -name '*.sql' \
         | xargs -n1 -P${processes} /opt/emr/with_retry.sh hive \
             --hivevar views_database=$VIEWS_DB \
             --hivevar model_database=$MODEL_DB \
             --hivevar transactional_database=$TRANSACTIONAL_DB \
-            --hivevar transform_database=$TRANSFORM_DB -f
+            --hivevar transform_database=$TRANSFORM_DB -f; then
+        echo view stage failed, exiting. >&2
+        exit 1
+    fi
 
     echo "FINISHED_RUNNING_VIEW......................"
     log_wrapper_message "finished running views......................"
