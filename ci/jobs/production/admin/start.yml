@@ -8,5 +8,6 @@ jobs:
           params:
             AWS_ROLE_ARN: arn:aws:iam::((aws_account.production)):role/ci
             AWS_ACC: ((aws_account.production))
-            S3_PREFIX: analytical-dataset/full/2021-02-23_09-10-15
-            CORRELATION_ID: ingest_emr_scheduled_tasks_export_snapshots_to_crown_production_full_82_full
+            S3_PREFIX: analytical-dataset/full/2021-03-15_09-46-12
+            CORRELATION_ID: ingest_emr_scheduled_tasks_export_snapshots_to_crown_production_full_99_full
+            EXPORT_DATE: "2021-03-15"
