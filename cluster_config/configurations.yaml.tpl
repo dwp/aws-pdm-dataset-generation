@@ -25,7 +25,6 @@ Configurations:
     "hive.service.metrics.reporter": "JSON_FILE"
     "hive.service.metrics.file.location": "/var/log/hive/metrics.json"
     "hive.txn.manager": "org.apache.hadoop.hive.ql.lockmgr.DbTxnManager"
-    "hive.enforce.bucketing": "true"
     "hive.exec.dynamic.partition.mode": "nostrict"
     "hive.compactor.initiator.on": "true"
     "hive.compactor.worker.threads": "${hive_compaction_threads}"
@@ -50,12 +49,6 @@ Configurations:
 - Classification: "tez-site"
   Properties:
     "tez.am.resource.memory.mb": "1024"
-    "hive.vectorized.execution.enabled": "false"
-    "hive.vectorized.execution.reduce.enabled": "false"
-    "hive.vectorized.complex.types.enabled": "false"
-    "hive.vectorized.use.row.serde.deserialize": "false"
-    "hive.vectorized.execution.ptf.enabled": "false"
-    "hive.vectorized.row.serde.inputformat.excludes": ""
 - Classification: "emrfs-site"
   Properties:
     "fs.s3.maxConnections": "10000"
