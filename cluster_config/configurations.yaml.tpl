@@ -40,6 +40,12 @@ Configurations:
     "hive.exec.failure.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"
     "hive.exec.post.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"
     "hive.exec.pre.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"
+    "hive.vectorized.execution.enabled": "false"
+    "hive.vectorized.execution.reduce.enabled": "false"
+    "hive.vectorized.complex.types.enabled": "false"
+    "hive.vectorized.use.row.serde.deserialize": "false"
+    "hive.vectorized.execution.ptf.enabled": "false"
+    "hive.vectorized.row.serde.inputformat.excludes": ""
     "hive_timeline_logging_enabled": "true"
 - Classification: "tez-site"
   Properties:
