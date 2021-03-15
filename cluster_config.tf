@@ -77,13 +77,6 @@ resource "aws_s3_bucket_object" "configurations" {
       hive_metastore_database_name  = data.terraform_remote_state.internal_compute.outputs.hive_metastore_v2.database_name
       hive_compaction_threads       = local.hive_compaction_threads[local.environment]
       hive_metastore_location       = local.hive_metastore_location
-      yarn_reduce_memory            = var.yarn_reduce_memory_mb[local.environment]
-      yarn_map_memory               = var.yarn_map_memory_mb[local.environment]
-      yarn_reduce_java_opts         = var.yarn_reduce_java_opts[local.environment]
-      yarn_map_java_opts            = var.yarn_map_java_opts[local.environment]
-      yarn_min_allocation_mb        = var.yarn_min_allocation_mb[local.environment]
-      yarn_max_allocation_mb        = var.yarn_max_allocation_mb[local.environment]
-      yarn_node_manager_resource_mb = var.yarn_node_manager_resource_mb[local.environment]
     }
   )
 }
