@@ -50,6 +50,12 @@ Configurations:
 - Classification: "tez-site"
   Properties:
     "tez.am.resource.memory.mb": "1024"
+    "hive.vectorized.execution.enabled": "false"
+    "hive.vectorized.execution.reduce.enabled": "false"
+    "hive.vectorized.complex.types.enabled": "false"
+    "hive.vectorized.use.row.serde.deserialize": "false"
+    "hive.vectorized.execution.ptf.enabled": "false"
+    "hive.vectorized.row.serde.inputformat.excludes": ""
 - Classification: "emrfs-site"
   Properties:
     "fs.s3.maxConnections": "10000"
