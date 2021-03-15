@@ -102,16 +102,6 @@ variable "emr_core_instance_count" {
   }
 }
 
-variable "emr_core_instance_count" {
-  default = {
-    development = "15"
-    qa          = "15"
-    integration = "2"
-    preprod     = "2"
-    production  = "15"
-  }
-}
-
 variable "yarn_map_memory_mb" {
   default = {
     development = "6144"
