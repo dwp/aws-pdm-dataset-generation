@@ -6,8 +6,8 @@ Configurations:
     "yarn.nodemanager.remote-app-log-dir": "s3://${s3_log_bucket}/${s3_log_prefix}/yarn"
 - Classification: "mapred-site"
   Properties:
-    "mapreduce.map.memory.mb": "${yarn_reduce_memory}"
-    "mapreduce.reduce.memory.mb": "${yarn_map_memory}"
+    "mapreduce.map.memory.mb": "${yarn_map_memory}"
+    "mapreduce.reduce.memory.mb": "${yarn_reduce_memory}"
     "mapreduce.map.java.opts": "${yarn_map_java_opts}"
     "mapreduce.reduce.java.opts": "${yarn_reduce_java_opts}"
     "mapreduce.task.timeout": "0"
