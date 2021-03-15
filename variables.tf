@@ -94,10 +94,80 @@ variable "metadata_store_pdm_writer_username" {
 
 variable "emr_core_instance_count" {
   default = {
-    development = "10"
-    qa          = "10"
+    development = "15"
+    qa          = "15"
     integration = "2"
     preprod     = "2"
-    production  = "10"
+    production  = "15"
+  }
+}
+
+variable "yarn_map_memory_mb" {
+  default = {
+    development = "6144"
+    qa          = "6144"
+    integration = "1024"
+    preprod     = "1024"
+    production  = "6144"
+  }
+}
+
+variable "yarn_reduce_memory_mb" {
+  default = {
+    development = "3072"
+    qa          = "3072"
+    integration = "1024"
+    preprod     = "1024"
+    production  = "3072"
+  }
+}
+
+variable "yarn_map_java_opts" {
+  default = {
+    development = "-Xmx4916m"
+    qa          = "-Xmx4916m"
+    integration = "-Xmx512m"
+    preprod     = "-Xmx512m"
+    production  = "-Xmx4916m"
+  }
+}
+
+variable "yarn_reduce_java_opts" {
+  default = {
+    development = "-Xmx2458m"
+    qa          = "-Xmx2458m"
+    integration = "-Xmx1024m"
+    preprod     = "-Xmx1024m"
+    production  = "-Xmx2458m"
+  }
+}
+
+variable "yarn_min_allocation_mb" {
+  default = {
+    development = "32"
+    qa          = "32"
+    integration = "32"
+    preprod     = "32"
+    production  = "32"
+  }
+}
+
+variable "yarn_max_allocation_mb" {
+  default = {
+    development = "10240"
+    qa          = "10240"
+    integration = "2580"
+    preprod     = "2580"
+    production  = "10240"
+  }
+}
+
+variable "yarn_node_manager_resource_mb" {
+  default = {
+    development = "10240"
+    qa          = "10240"
+    integration = "2580"
+    preprod     = "2580"
+    production  = "10240"
   }
 }

@@ -4,6 +4,18 @@ Configurations:
   Properties:
     "yarn.log-aggregation-enable": "true"
     "yarn.nodemanager.remote-app-log-dir": "s3://${s3_log_bucket}/${s3_log_prefix}/yarn"
+- Classification: "mapred-site"
+  Properties:
+    "mapreduce.map.memory.mb": "${yarn_map_memory}"
+    "mapreduce.reduce.memory.mb": "${yarn_reduce_memory}"
+    "mapreduce.map.java.opts": "${yarn_map_java_opts}"
+    "mapreduce.reduce.java.opts": "${yarn_reduce_java_opts}"
+    "mapreduce.task.timeout": "0"
+    "yarn.scheduler.minimum-allocation-mb": "${yarn_min_allocation_mb}"
+    "yarn.scheduler.maximum-allocation-mb": "${yarn_max_allocation_mb}"
+    "yarn.nodemanager.resource.memory-mb": "${yarn_node_manager_resource_mb}"
+    "yarn.nodemanager.vmem-check-enabled": "false"
+    "yarn.nodemanager.pmem-check-enabled": "false"
 - Classification: "hive-site"
   Properties:
     "hive.metastore.schema.verification": "false"
