@@ -10,3 +10,5 @@ jobs:
             AWS_ACC: ((aws_account.development))
             S3_PREFIX: analytical-dataset/2020-08-13_22-16-58/
             CORRELATION_ID: test
+            SNAPSHOT_TYPE: "full"
+            EXPORT_DATE: "2020-08-13"
