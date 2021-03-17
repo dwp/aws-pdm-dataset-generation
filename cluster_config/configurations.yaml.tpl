@@ -34,9 +34,12 @@ Configurations:
     "hive.vectorized.execution.ptf.enabled": "false"
     "hive.vectorized.row.serde.inputformat.excludes": ""
     "hive_timeline_logging_enabled": "true"
+    "hive.server2.tez.sessions.per.default.queue": "5"
+    "hive.server2.tez.initialize.default.sessions": "true"
 - Classification: "tez-site"
   Properties:
     "tez.am.resource.memory.mb": "1024"
+    "tez.am.container.reuse.enabled": "true"
 - Classification: "emrfs-site"
   Properties:
     "fs.s3.maxConnections": "10000"
