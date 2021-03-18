@@ -15,6 +15,26 @@ jobs:
         params:
           path: aws-pdm-dataset-generation-pr
           status: pending
+      - task: linting-shell
+        input_mapping:
+          aws-pdm-dataset-generation: aws-pdm-dataset-generation-pr
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: koalaman/shellcheck-alpine
+              tag: latest
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                find . -name *.sh | cat >> shell-list
+                for i in $(cat shell-list); do shellcheck $i; done
+            dir: aws-pdm-dataset-generation
+          inputs:
+            - name: aws-pdm-dataset-generation
       - .: (( inject meta.plan.terraform-bootstrap ))
         input_mapping:
           aws-pdm-dataset-generation: aws-pdm-dataset-generation-pr
