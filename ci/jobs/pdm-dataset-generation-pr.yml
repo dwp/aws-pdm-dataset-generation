@@ -30,7 +30,7 @@ jobs:
             args:
               - -exc
               - |
-                find . -name *.sh | cat >> shell-list
+                find . -name "*.sh" | cat >> shell-list
                 for i in $(cat shell-list); do shellcheck $i; done
             dir: aws-pdm-dataset-generation
           inputs:
