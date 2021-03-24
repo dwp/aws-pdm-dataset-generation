@@ -102,7 +102,8 @@ cd /etc/pki/ca-trust/source/anchors/ || exit
 sudo touch pdm_ca.pem
 sudo chown hadoop:hadoop /etc/pki/tls/private/"${private_key_alias}".key /etc/pki/tls/certs/"${private_key_alias}".crt /etc/pki/ca-trust/source/anchors/pdm_ca.pem
 TRUSTSTORE_ALIASES="${truststore_aliases}"
-for F in $(echo $TRUSTSTORE_ALIASES | sed "s/,/ /g"); do
+#shellcheck disable=SC2001
+for F in $(echo "$TRUSTSTORE_ALIASES" | sed "s/,/ /g"); do #Shellcheck wants to not use sed for POSIX compliance but is ok here as it works
  (sudo cat "$F.crt"; echo) >> pdm_ca.pem;
 done
 
