@@ -19,11 +19,10 @@
   S3_PREFIX_FILE=/opt/emr/s3_prefix.txt
   SNAPSHOT_TYPE_FILE=/opt/emr/snapshot_type.txt
   EXPORT_DATE_FILE=/opt/emr/export_date.txt
-  RUN_ID=1
   DATE=$(date '+%Y-%m-%d')
   DATA_PRODUCT="PDM"
   CLUSTER_ID=`cat /mnt/var/lib/info/job-flow.json | jq '.jobFlowId'`
-  CLUSTER_ID=$${CLUSTER_ID//\"}
+  CLUSTER_ID="$CLUSTER_ID//\""
   
   FAILED_STATUS="FAILED"
   COMPLETED_STATUS="COMPLETED"
@@ -47,7 +46,7 @@
     EXPORT_DATE="$DATE"
   fi
 
-  while [ ! -f $STEP_DEATILS_DIR/*.json ]
+  while [ ! -f "$STEP_DETAILS_DIR/*.json" ]
   do
     sleep 5
   done
