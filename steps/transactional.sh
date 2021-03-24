@@ -23,9 +23,11 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transactiona
     # Run SQL Scripts
     #####################
 
+    #shellcheck disable=SC2038
+    # here we are finding SQL files and don't have any non-alphanumeric filenames
     if ! find $TRANSACTIONAL_DIR -name '*.sql' \
-        | xargs -n1 -P${processes} /opt/emr/with_retry.sh hive \
-                --hivevar transactional_database=$TRANSACTIONAL_DB -f; then
+        | xargs -n1 -P"${processes}" /opt/emr/with_retry.sh hive \
+                --hivevar transactional_database="$TRANSACTIONAL_DB" -f; then
         echo transactional stage failed
         exit 1
     fi
