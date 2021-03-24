@@ -26,7 +26,8 @@ set -euo pipefail
     step_name=$(echo "$step_script_name" | sed 's:.*/::' | cut -f 1 -d '.')
     gauge_name=runtime_step_$step_id$step_name
     end_time=$(jq -r '.endDateTime' "$i");
-    completion_ms=$(( $end_time - $start_time ));
+    #shellcheck disable=SC2004
+    completion_ms=$(( $end_time - $start_time )); #{} braces are not being used but this is still flagged
     completion_min=$((completion_ms / 60000));
     state=$(jq -r '.state' "$i");
     if [[ "$state" == "COMPLETED" ]]; then
