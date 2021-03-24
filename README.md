@@ -22,6 +22,35 @@ The cluster will log information resembling the above DynamoDB table. If it fail
 The retry logic is contained within that lambda as well as more detailed documentation. If the failed cluster is restarted
 it will skip to the failed step and resume from there. 
 
+
+## Full cluster restart
+
+Sometimes the PDM cluster is required to re-start from the beginning, instead of restarting from the failure point.
+To do a full cluster restart, before running the ```start-cluster``` job, it is required to delete the row having as a key the concerned ```Correlation_Id``` and ```DataProduct``` from the DynamoDB table at section [Retries on cluster failure](#retries-on-cluster-failure). 
+The ```clear-dynamodb-row``` job is responsible for carrying out the row deletion.
+To delete a row from the DynamoDB table
+
+* Manually enter CORRELATION_ID and DATA_PRODUCT of the row to the ```clear-dynamodb-row``` job and run aviator.
+
+
+```
+jobs:
+  - name: dev-clear-dynamodb-row
+    plan:
+      - .: (( inject meta.plan.clear-dynamodb-row ))
+        config:
+          params:
+            AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
+            AWS_ACC: ((aws_account.development))
+            CORRELATION_ID: <Correlation_Id of the row to delete>
+            DATA_PRODUCT: <DataProduct of the row to delete>
+
+```
+
+* Run the ```start-cluster``` job.
+
+
+
 ## Metrics
 
 This clusters metrics are exported using Json Exporter. The metrics file is created and written locally to 
