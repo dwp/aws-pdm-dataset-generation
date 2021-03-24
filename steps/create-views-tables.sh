@@ -28,54 +28,57 @@ drop_views() {
 }
 
 tables_report() {
-    local no_table=$(no_table_created)
+    no_table_created_value=$(no_table_created)
+    local no_table="$no_table_created_value"
     if [[ -n $no_table ]]; then
-        echo WARN: The following tables were not created: $no_table
+        echo WARN: The following tables were not created: "$no_table"
     fi
 
-    local no_view=$(no_source_view)
+    no_source_view_value=$(no_source_view)
+    local no_view="$no_source_view_value"
 
     if [[ -n $no_view ]]; then
-        echo WARN: the following tables were not sourced from the views: $no_view
+        echo WARN: the following tables were not sourced from the views: "$no_view"
     fi
 
-    local table_count=$(existing_table_names | wc -l)
+    existing_table_names_value=$(existing_table_names | wc -l)
+    local table_count="$existing_table_names_value"
     echo $table_count tables created.
 }
 
 parallelised_statements() {
-    local input_file=$${1:?}
-    xargs -d '\n' -a $input_file -r -P${processes} -n1 hive -e
+    local input_file=($${1:?})
+    xargs -d '\n' -a $input_file -r -P"${processes}" -n1 hive -e
 }
 
 drop_existing_table_statements() {
     while read table_name; do
-        echo \"DROP TABLE IF EXISTS $(views_tables_db).$table_name\;\"
+        echo \"DROP TABLE IF EXISTS $(views_tables_db)."$table_name"\;\"
     done
 }
 
 create_table_statements() {
     while read table_name; do
-        echo \"CREATE TABLE $(views_tables_db).$table_name STORED AS ORC AS SELECT \* FROM $(views_db).$table_name\;\"
+        echo \"CREATE TABLE $(views_tables_db)."$table_name" STORED AS ORC AS SELECT \* FROM $(views_db)."$table_name"\;\"
     done
 }
 
 drop_view_statements() {
     while read view_name; do
-        echo \"DROP VIEW $(views_db).$view_name\;\"
+        echo \"DROP VIEW $(views_db)."$view_name"\;\"
     done
 }
 
 existing_table_names() {
-    table_names $(views_tables_db)
+    table_names "$(views_tables_db)"
 }
 
 views_table_names() {
-    table_names $(views_db)
+    table_names "$(views_db)"
 }
 
 table_names() {
-    local database=$${1:?}
+    local database=($${1:?})
     hive -S -e "USE $database; SHOW TABLES;" | sort | uniq
 }
 
@@ -92,11 +95,11 @@ log_wrapper_message() {
 }
 
 views_db() {
-    echo ${views_db}
+    echo "${views_db}"
 }
 
 views_tables_db() {
-    echo ${views_tables_db}
+    echo "${views_tables_db}"
 }
 
 
