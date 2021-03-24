@@ -30,7 +30,7 @@ retry::with_retries() {
 }
 
 retry::max_attempts_made() {
-    local attempts_made=$${1:?}
+    local attempts_made="$${1:?}"
     [[ $attempts_made -ge $(retry::max_attempts) ]]
 }
 
