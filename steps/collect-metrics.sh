@@ -19,7 +19,7 @@ set -euo pipefail
 
     cd $STEP_DETAILS_DIR
 
-    for i in $STEP_DETAILS_DIR*.json; do
+    for i in "$STEP_DETAILS_DIR"*.json; do
     start_time=$(jq -r '.startDateTime' "$i");
     step_id=$(jq -r '.id' "$i")
     step_script_name=$(jq -r '.args[0]' "$i")
