@@ -34,19 +34,19 @@ To do a full cluster restart
 * Manually enter CORRELATION_ID and DATA_PRODUCT of the row to delete to the ```clear-dynamodb-row``` job and run aviator.
 
 
-```
-jobs:
-  - name: dev-clear-dynamodb-row
-    plan:
-      - .: (( inject meta.plan.clear-dynamodb-row ))
-        config:
-          params:
-            AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
-            AWS_ACC: ((aws_account.development))
-            CORRELATION_ID: <Correlation_Id of the row to delete>
-            DATA_PRODUCT: <DataProduct of the row to delete>
+    ```
+    jobs:
+      - name: dev-clear-dynamodb-row
+        plan:
+          - .: (( inject meta.plan.clear-dynamodb-row ))
+            config:
+              params:
+                AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
+                AWS_ACC: ((aws_account.development))
+                CORRELATION_ID: <Correlation_Id of the row to delete>
+                DATA_PRODUCT: <DataProduct of the row to delete>
 
-```
+    ```
 
 * Run the ```start-cluster``` job.
 
