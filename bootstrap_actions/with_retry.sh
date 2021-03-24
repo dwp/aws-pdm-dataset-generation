@@ -4,7 +4,8 @@
 source /opt/emr/retry.sh
 source /opt/emr/logging.sh
 
-SCRIPT_NAME=$(echo "$@" | sed 's/.*scripts//')
+#shellcheck disable=SC2001
+SCRIPT_NAME=$(echo "$@" | sed 's/.*scripts//') #Shellcheck wants to not use sed for POSIX compliance but is ok here as it works
 
 function log_wrapper_message() {
     log_pdm_message "$${1}" "with_retry.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
