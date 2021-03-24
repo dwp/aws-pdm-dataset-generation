@@ -117,7 +117,7 @@
           log_wrapper_message "All steps completed. Final step Name: $CURRENT_STEP, Step status: $state"
           exit 0
         fi
-        if [[ $PREVIOUS_STATE != $state ]] && [[ $PREVIOUS_STEP != $CURRENT_STEP ]]; then
+        if [[ "$PREVIOUS_STATE" != "$state" ]] && [[ "$PREVIOUS_STEP" != "$CURRENT_STEP" ]]; then
           dynamo_update_item "$CURRENT_STEP" "NOT_SET" "NOT_SET"
           log_wrapper_message "Successful step. Last step name: $PREVIOUS_STEP, Last step status: $PREVIOUS_STATE, Current step name: $CURRENT_STEP, Current step status: $state"
           processed_files+=( "$i" )
