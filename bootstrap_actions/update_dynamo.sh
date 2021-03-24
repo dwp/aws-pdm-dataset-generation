@@ -95,9 +95,11 @@
   }
 
   check_step_dir() {
-    cd $STEP_DETAILS_DIR
-    for i in $STEP_DETAILS_DIR/*.json; do
-      if [[ "$${processed_files[@]}" =~ "$${i}" ]]; then
+    cd "$STEP_DETAILS_DIR" || exit
+    #shellcheck disable=SC2231
+    for i in $STEP_DETAILS_DIR/*.json; do # We want wordsplitting here
+      #shellcheck disable=SC2076
+      if [[ "$${processed_files[@]}" =~ "$${i}" ]]; then # We do not want a REGEX check here so it is ok
         continue
       fi
       state=$(jq -r '.state' $i)
@@ -131,6 +133,7 @@
   }
 
   #Check if row for this correlation ID already exists - in which case we need to increment the Run_Id
+  #shellcheck disable=SC2086
   response=`aws dynamodb get-item --table-name ${dynamodb_table_name} --key '{"Correlation_Id": {"S": "'$CORRELATION_ID'"}, "DataProduct": {"S": "'$DATA_PRODUCT'"}}'`
   if [[ -z $response ]]; then
     dynamo_update_item "NOT_SET" "$IN_PROGRESS_STATUS" "1"
