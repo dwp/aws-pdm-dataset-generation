@@ -13,6 +13,7 @@ METRICS_FILEPATH="/opt/emr/metrics"
 
 mkdir -p /opt/emr/metrics
 
+#shellcheck disable=SC2154
 aws s3 cp "${metrics_pom}" $METRICS_FILEPATH/pom.xml
 aws s3 cp "${prometheus_config}" $METRICS_FILEPATH/prometheus_config.yml
 
