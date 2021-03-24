@@ -102,11 +102,11 @@
       if [[ "$${processed_files[@]}" =~ "$${i}" ]]; then # We do not want a REGEX check here so it is ok
         continue
       fi
-      state=$(jq -r '.state' $i)
+      state=$(jq -r '.state' "$i")
       while [[ "$state" != "$COMPLETED_STATUS" ]]; do
-        step_script_name=$(jq -r '.args[0]' $i)
+        step_script_name=$(jq -r '.args[0]' "$i")
         CURRENT_STEP=$(echo "$step_script_name" | sed 's:.*/::' | cut -f 1 -d '.')
-        state=$(jq -r '.state' $i)
+        state=$(jq -r '.state' "$i")
         if [[ "$state" == "$FAILED_STATUS" ]] || [[ "$state" == "$CANCELLED_STATUS" ]]; then
           log_wrapper_message "Failed step. Step Name: $CURRENT_STEP, Step status: $state"
           dynamo_update_item "$CURRENT_STEP" "$FAILED_STATUS" "NOT_SET"
@@ -120,7 +120,7 @@
         if [[ $PREVIOUS_STATE != $state ]] && [[ $PREVIOUS_STEP != $CURRENT_STEP ]]; then
           dynamo_update_item "$CURRENT_STEP" "NOT_SET" "NOT_SET"
           log_wrapper_message "Successful step. Last step name: $PREVIOUS_STEP, Last step status: $PREVIOUS_STATE, Current step name: $CURRENT_STEP, Current step status: $state"
-          processed_files+=( $i )
+          processed_files+=( "$i" )
         else
           sleep 5
         fi
@@ -138,7 +138,7 @@
   if [[ -z $response ]]; then
     dynamo_update_item "NOT_SET" "$IN_PROGRESS_STATUS" "1"
   else
-    LAST_STATUS=`echo $response | jq -r .'Item.Status.S'`
+    LAST_STATUS=$(echo "$response" | jq -r .'Item.Status.S')
     log_wrapper_message "Status from previous run $LAST_STATUS"
     if [[ "$LAST_STATUS" == "$FAILED_STATUS" ]]; then
       log_wrapper_message "Previous failed status found, creating step_to_start_from.txt"
@@ -146,7 +146,7 @@
       echo $CURRENT_STEP >> /opt/emr/step_to_start_from.txt
     fi   
 
-    CURRENT_RUN_ID=`echo $response | jq -r .'Item.Run_Id.N'`
+    CURRENT_RUN_ID=$(echo "$response" | jq -r .'Item.Run_Id.N')
     NEW_RUN_ID=$((CURRENT_RUN_ID+1))
     dynamo_update_item "NOT_SET" "$IN_PROGRESS_STATUS" "$NEW_RUN_ID"
   fi
