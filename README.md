@@ -23,14 +23,15 @@ The retry logic is contained within that lambda as well as more detailed documen
 it will skip to the failed step and resume from there. 
 
 
-## Full cluster restart
+### Full cluster restart
 
-Sometimes the PDM cluster is required to re-start from the beginning, instead of restarting from the failure point.
-To do a full cluster restart, before running the ```start-cluster``` job, it is required to delete the row having as a key the concerned ```Correlation_Id``` and ```DataProduct``` from the DynamoDB table at section [Retries on cluster failure](#retries-on-cluster-failure). 
+Sometimes the PDM cluster is required to restart from the beginning instead of restarting from the failure point.
+To be able to do a full cluster restart, delete if it exists the row having as a key the concerned ```Correlation_Id``` and ```DataProduct``` in the DynamoDB table storing cluster state information (see [Retries on cluster failure](#retries-on-cluster-failure)). 
 The ```clear-dynamodb-row``` job is responsible for carrying out the row deletion.
-To delete a row from the DynamoDB table
 
-* Manually enter CORRELATION_ID and DATA_PRODUCT of the row to the ```clear-dynamodb-row``` job and run aviator.
+To do a full cluster restart
+
+* Manually enter CORRELATION_ID and DATA_PRODUCT of the row to delete to the ```clear-dynamodb-row``` job and run aviator.
 
 
 ```
