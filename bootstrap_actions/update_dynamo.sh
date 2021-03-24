@@ -21,7 +21,7 @@
   EXPORT_DATE_FILE=/opt/emr/export_date.txt
   DATE=$(date '+%Y-%m-%d')
   DATA_PRODUCT="PDM"
-  CLUSTER_ID=$(cat /mnt/var/lib/info/job-flow.json | jq '.jobFlowId')
+  CLUSTER_ID=$(jq '.jobFlowId' < /mnt/var/lib/info/job-flow.json)
   CLUSTER_ID="$CLUSTER_ID//\""
   
   FAILED_STATUS="FAILED"
