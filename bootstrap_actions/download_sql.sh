@@ -14,7 +14,7 @@
 
     VERSION="${version}"
     URL="s3://${s3_artefact_bucket_id}/dataworks-pdm/dataworks-pdm-$VERSION.zip"
-    "$(which aws)" s3 cp $URL /opt/emr/sql
+    "$(which aws)" s3 cp "$URL" /opt/emr/sql
 
     echo "PDM_VERSION: $VERSION"
     log_wrapper_message "pdm_version: $VERSION"
