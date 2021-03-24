@@ -23,7 +23,7 @@ The retry logic is contained within that lambda as well as more detailed documen
 it will skip to the failed step and resume from there. 
 
 
-### Full cluster restart
+## Full cluster restart
 
 Sometimes the PDM cluster is required to restart from the beginning instead of restarting from the failure point.
 To be able to do a full cluster restart, delete if it exists the row having as a key the concerned ```Correlation_Id``` and ```DataProduct``` in the DynamoDB table storing cluster state information (see [Retries on cluster failure](#retries-on-cluster-failure)). 
