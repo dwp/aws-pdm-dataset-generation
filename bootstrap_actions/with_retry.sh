@@ -4,7 +4,7 @@
 source /opt/emr/retry.sh
 source /opt/emr/logging.sh
 
-SCRIPT_NAME=`echo $@ | sed 's/.*scripts//'`
+SCRIPT_NAME=`echo "$@" | sed 's/.*scripts//'`
 
 function log_wrapper_message() {
     log_pdm_message "$${1}" "with_retry.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
@@ -14,7 +14,7 @@ function log_wrapper_message() {
 log_wrapper_message "Starting processing $SCRIPT_NAME ............................"
 
 SECONDS=0
-retry::with_retries $@
+retry::with_retries "$@"
 exit_code=$?
 DURATION=$SECONDS
 
