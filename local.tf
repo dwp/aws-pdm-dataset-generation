@@ -141,11 +141,11 @@ locals {
   serde               = "org.openx.data.jsonserde.JsonSerDe"
 
   initial_transactional_load = {
-    development = "true"
-    qa          = "true"
-    integration = "true"
-    preprod     = "true"
-    production  = "true"
+    development = "false"
+    qa          = "false"
+    integration = "false"
+    preprod     = "false"
+    production  = "false"
   }
 
   step_fail_action = {
