@@ -21,7 +21,7 @@
   EXPORT_DATE_FILE=/opt/emr/export_date.txt
   DATE=$(date '+%Y-%m-%d')
   DATA_PRODUCT="PDM"
-  CLUSTER_ID=`cat /mnt/var/lib/info/job-flow.json | jq '.jobFlowId'`
+  CLUSTER_ID=$(cat /mnt/var/lib/info/job-flow.json | jq '.jobFlowId')
   CLUSTER_ID="$CLUSTER_ID//\""
   
   FAILED_STATUS="FAILED"
@@ -36,10 +36,10 @@
     sleep 5
   done
 
-  CORRELATION_ID=`cat $CORRELATION_ID_FILE`
-  S3_PREFIX=`cat $S3_PREFIX_FILE`
-  SNAPSHOT_TYPE=`cat $SNAPSHOT_TYPE_FILE`
-  EXPORT_DATE=`cat $EXPORT_DATE_FILE`
+  CORRELATION_ID=$(cat $CORRELATION_ID_FILE)
+  S3_PREFIX=$(cat $S3_PREFIX_FILE)
+  SNAPSHOT_TYPE=$(cat $SNAPSHOT_TYPE_FILE)
+  EXPORT_DATE=$(cat $EXPORT_DATE_FILE)
 
   if [[ -z "$EXPORT_DATE" ]]; then
     log_wrapper_message "Export date from file was empty, so defaulting to today's date"
@@ -71,18 +71,18 @@
     expression_values="\":s\": {\"S\":\"$EXPORT_DATE\"}, \":v\": {\"S\":\"$CLUSTER_ID\"}, \":b\": {\"S\":\"$S3_PREFIX\"}, \":x\": {\"S\":\"$SNAPSHOT_TYPE\"}, \":z\": {\"N\":\"$ttl_value\"}"
     expression_names="\"#d\":\"Date\""
 
-    if [[ ! -z "$current_step" ]] && [[ "$current_step" != "NOT_SET" ]]; then
+    if [[ -n "$current_step" ]] && [[ "$current_step" != "NOT_SET" ]]; then
         update_expression="$update_expression, CurrentStep = :y"
         expression_values="$expression_values, \":y\": {\"S\":\"$current_step\"}"
     fi
 
-    if [[ ! -z "$status" ]] && [[ "$status" != "NOT_SET" ]]; then
+    if [[ -n "$status" ]] && [[ "$status" != "NOT_SET" ]]; then
         update_expression="$update_expression, #a = :u"
         expression_values="$expression_values, \":u\": {\"S\":\"$status\"}"
         expression_names="$expression_names, \"#a\":\"Status\""
     fi
 
-    if [[ ! -z "$run_id" ]] && [[ "$run_id" != "NOT_SET" ]]; then
+    if [[ -n "$run_id" ]] && [[ "$run_id" != "NOT_SET" ]]; then
         update_expression="$update_expression, Run_Id = :t"
         expression_values="$expression_values, \":t\": {\"N\":\"$run_id\"}"
     fi
@@ -134,7 +134,7 @@
 
   #Check if row for this correlation ID already exists - in which case we need to increment the Run_Id
   #shellcheck disable=SC2086
-  response=`aws dynamodb get-item --table-name ${dynamodb_table_name} --key '{"Correlation_Id": {"S": "'$CORRELATION_ID'"}, "DataProduct": {"S": "'$DATA_PRODUCT'"}}'`
+  response=$(aws dynamodb get-item --table-name ${dynamodb_table_name} --key '{"Correlation_Id": {"S": "'$CORRELATION_ID'"}, "DataProduct": {"S": "'$DATA_PRODUCT'"}}')
   if [[ -z $response ]]; then
     dynamo_update_item "NOT_SET" "$IN_PROGRESS_STATUS" "1"
   else
@@ -142,8 +142,8 @@
     log_wrapper_message "Status from previous run $LAST_STATUS"
     if [[ "$LAST_STATUS" == "$FAILED_STATUS" ]]; then
       log_wrapper_message "Previous failed status found, creating step_to_start_from.txt"
-      CURRENT_STEP=`echo $response | jq -r .'Item.CurrentStep.S'`
-      echo $CURRENT_STEP >> /opt/emr/step_to_start_from.txt
+      CURRENT_STEP=$(echo "$response" | jq -r .'Item.CurrentStep.S')
+      echo "$CURRENT_STEP" >> /opt/emr/step_to_start_from.txt
     fi   
 
     CURRENT_RUN_ID=$(echo "$response" | jq -r .'Item.Run_Id.N')
