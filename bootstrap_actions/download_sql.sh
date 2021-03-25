@@ -1,3 +1,4 @@
+#!/bin/bash
 (
     # Import the logging functions
     source /opt/emr/logging.sh
@@ -13,7 +14,7 @@
 
     VERSION="${version}"
     URL="s3://${s3_artefact_bucket_id}/dataworks-pdm/dataworks-pdm-$VERSION.zip"
-    $(which aws) s3 cp $URL /opt/emr/sql
+    "$(which aws)" s3 cp "$URL" /opt/emr/sql
 
     echo "PDM_VERSION: $VERSION"
     log_wrapper_message "pdm_version: $VERSION"
@@ -31,7 +32,7 @@
     echo "START_UNZIPPING ......................"
     log_wrapper_message "start unzipping ......................."
 
-    unzip /opt/emr/sql/dataworks-pdm-$VERSION.zip -d $SCRIPT_DIR  >> /var/log/pdm/download_unzip_sql.log 2>&1
+    unzip /opt/emr/sql/dataworks-pdm-"$VERSION".zip -d $SCRIPT_DIR  >> /var/log/pdm/download_unzip_sql.log 2>&1
 
     echo "FINISHED UNZIPPING ......................"
     log_wrapper_message "finished unzipping ......................."

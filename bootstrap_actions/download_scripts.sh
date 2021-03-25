@@ -1,3 +1,4 @@
+#!/bin/bash
 # Necessary minimal setup for this script to run
 sudo mkdir -p /var/log/pdm
 sudo mkdir -p /opt/emr
@@ -30,10 +31,10 @@ chmod u+x /opt/emr/logging.sh
     }
 
     log_wrapper_message "Downloading & install latest bootstrap and steps scripts"
-    $(which aws) s3 cp --recursive ${scripts_location}/ /var/ci/ --include "*.sh" --exclude "*/metrics/*.sh"
+    $(which aws) s3 cp --recursive "${scripts_location}"/ /var/ci/ --include "*.sh" --exclude "*/metrics/*.sh"
 
     log_wrapper_message "Downloading & install latest metrics scripts"
-    $(which aws) s3 cp --recursive ${metrics_scripts_location}/ /var/ci/ --include "*.sh"
+    $(which aws) s3 cp --recursive "${metrics_scripts_location}"/ /var/ci/ --include "*.sh"
 
     log_wrapper_message "Apply recursive execute permissions to the folder"
     sudo chmod --recursive a+rx /var/ci

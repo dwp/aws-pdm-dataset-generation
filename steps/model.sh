@@ -27,9 +27,9 @@ MODEL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/model
 
     echo Running $MODEL_DIR/site_dim.1.sql
     if ! /opt/emr/with_retry.sh hive \
-                           --hivevar model_database=$MODEL_DB \
-                           --hivevar transform_database=$TRANSFORM_DB \
-                           --hivevar transactional_database=$TRANSACTIONAL_DB -f $MODEL_DIR/site_dim.1.sql; then
+                           --hivevar model_database="$MODEL_DB" \
+                           --hivevar transform_database="$TRANSFORM_DB" \
+                           --hivevar transactional_database="$TRANSACTIONAL_DB" -f "$MODEL_DIR"/site_dim.1.sql; then
         echo model stage failed
         exit 1
     fi
@@ -38,9 +38,9 @@ MODEL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/model
 
         if [[ $n == 5 ]]; then
             if ! /opt/emr/with_retry.sh hive \
-                                   --hivevar model_database=$MODEL_DB \
-                                   --hivevar transform_database=$TRANSFORM_DB \
-                                   --hivevar transactional_database=$TRANSACTIONAL_DB \
+                                   --hivevar model_database="$MODEL_DB" \
+                                   --hivevar transform_database="$TRANSFORM_DB" \
+                                   --hivevar transactional_database="$TRANSACTIONAL_DB" \
                                    -f $MODEL_DIR/sanction_fact.5.sql; then
                 echo model stage failed
                 exit 1
@@ -48,12 +48,12 @@ MODEL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/model
         fi
 
         echo "Running the following:"
-        find $MODEL_DIR -name "*$n.sql" | egrep -v "site_dim.1.sql|sanction_fact.5.sql"
-        if ! find $MODEL_DIR -name "*$n.sql" | egrep -v "site_dim.1.sql|sanction_fact.5.sql" \
-            | xargs -r -n1 -P${processes} /opt/emr/with_retry.sh hive \
-                    --hivevar model_database=$MODEL_DB \
-                    --hivevar transform_database=$TRANSFORM_DB \
-                    --hivevar transactional_database=$TRANSACTIONAL_DB -f; then
+        find "$MODEL_DIR" -name "*$n.sql" | grep -Ev "site_dim.1.sql|sanction_fact.5.sql"
+        if ! find "$MODEL_DIR" -name "*$n.sql" | grep -Ev "site_dim.1.sql|sanction_fact.5.sql" \
+            | xargs -r -n1 -P"${processes}" /opt/emr/with_retry.sh hive \
+                    --hivevar model_database="$MODEL_DB" \
+                    --hivevar transform_database="$TRANSFORM_DB" \
+                    --hivevar transactional_database="$TRANSACTIONAL_DB" -f; then
             echo model stage failed
             exit 1
         fi

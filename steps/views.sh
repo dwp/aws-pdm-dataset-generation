@@ -25,12 +25,14 @@ VIEWS_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/views
     # Run SQL Scripts
     #####################
 
+    #shellcheck disable=SC2038
+    # here we are finding SQL files and don't have any non-alphanumeric filenames
     if ! find $VIEWS_DIR -name '*.sql' \
-        | xargs -n1 -P${processes} /opt/emr/with_retry.sh hive \
-            --hivevar views_database=$VIEWS_DB \
-            --hivevar model_database=$MODEL_DB \
-            --hivevar transactional_database=$TRANSACTIONAL_DB \
-            --hivevar transform_database=$TRANSFORM_DB -f; then
+        | xargs -n1 -P"${processes}" /opt/emr/with_retry.sh hive \
+            --hivevar views_database="$VIEWS_DB" \
+            --hivevar model_database="$MODEL_DB" \
+            --hivevar transactional_database="$TRANSACTIONAL_DB" \
+            --hivevar transform_database="$TRANSFORM_DB" -f; then
         echo view stage failed, exiting. >&2
         exit 1
     fi
