@@ -40,6 +40,14 @@ groups:
       - preprod-stop-cluster
       - prod-stop-cluster
 
+  - name: admin-clear-dynamodb-row
+    jobs:
+      - dev-clear-dynamodb-row
+      - qa-clear-dynamodb-row
+      - int-clear-dynamodb-row
+      - preprod-clear-dynamodb-row
+      - prod-clear-dynamodb-row
+
   - name: update-pipeline
     jobs:
       - update-pipeline
