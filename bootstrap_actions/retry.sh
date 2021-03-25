@@ -8,7 +8,7 @@ retry::with_retries() {
 
     declare -i attempts=0
 
-    until "${command[@]}"; do
+    until "$${command[@]}"; do
 
         ((attempts++))
 
