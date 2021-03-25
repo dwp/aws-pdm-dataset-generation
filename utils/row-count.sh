@@ -32,14 +32,13 @@ HIVE_METASTORE_LOCATION="${hive_metastore_location}"
 
     for db_name in "${db_names[@]}"
       do
-        db_row_count=0
         tb_names=$(hive -S -e "USE $db_name; SHOW TABLES;")
         for tb_name in "${tb_names[@]}"
         do
         if [[ "$tables_string" == *"$tb_name/"* ]]
         then
-        query_string1="$query_string1""ANALYZE TABLE "$db_name"."$tb_name" COMPUTE STATISTICS;$new_line"
-        query_string2="$query_string2""SELECT '"$db_name"."$tb_name"'; SHOW TBLPROPERTIES "$db_name"."$tb_name"('numRows');$new_line"
+        query_string1="$query_string1" "ANALYZE TABLE "$db_name"."$tb_name" COMPUTE STATISTICS;$new_line"
+        query_string2="$query_string2" "SELECT '"$db_name"."$tb_name"'; SHOW TBLPROPERTIES "$db_name"."$tb_name"('numRows');$new_line"
         fi
         done
         echo "$query_string1" | tee query_cs.hql
@@ -48,7 +47,7 @@ HIVE_METASTORE_LOCATION="${hive_metastore_location}"
         outp=$(hive -S -f ./query_sp.hql)
         query_string1=""
         query_string2=""
-        to_cloudwatch=$(echo "$outp" | while read TABLE_NAME COUNT; do echo $TABLE_NAME $COUNT; done)
+        to_cloudwatch=$(echo "$outp" | while read -r TABLE_NAME COUNT; do echo $TABLE_NAME $COUNT; done)
         for i in "${to_cloudwatch[@]}"
           do
             echo "$i"
