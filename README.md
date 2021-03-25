@@ -26,12 +26,12 @@ it will skip to the failed step and resume from there.
 ## Full cluster restart
 
 Sometimes the PDM cluster is required to restart from the beginning instead of restarting from the failure point.
-To be able to do a full cluster restart, delete if it exists the row having as a key the concerned ```Correlation_Id``` and ```DataProduct``` in the DynamoDB table storing cluster state information (see [Retries on cluster failure](#retries-on-cluster-failure)). 
+To be able to do a full cluster restart, delete the associated DynamoDB row if it exists. The keys to the row are `Correlation_Id` and `DataProduct` in the DynamoDB table storing cluster state information (see [Retries on cluster failure](#retries-on-cluster-failure)). 
 The ```clear-dynamodb-row``` job is responsible for carrying out the row deletion.
 
 To do a full cluster restart
 
-* Manually enter CORRELATION_ID and DATA_PRODUCT of the row to delete to the ```clear-dynamodb-row``` job and run aviator.
+* Manually enter CORRELATION_ID and DATA_PRODUCT of the row to delete to the `clear-dynamodb-row` job and run aviator.
 
 
     ```
@@ -47,8 +47,9 @@ To do a full cluster restart
                 DATA_PRODUCT: <DataProduct of the row to delete>
 
     ```
+* Run the admin job to `<env>-clear-dynamodb-row`
 
-* Run the ```start-cluster``` job.
+* You can then run `start-cluster` job with the same `Correlation_Id` from fresh.
 
 
 
