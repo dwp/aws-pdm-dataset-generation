@@ -13,7 +13,7 @@ retry::with_retries() {
         ((attempts++))
 
         log_pdm_message "Retryable attempt failed" "retry.sh" "$$" \
-                        "command," "${command[@]}" \
+                        "command," "$${command[@]}" \
                         "attempts_made,$attempts" \
                         "max_attempts,$(retry::max_attempts)"
 
