@@ -43,29 +43,30 @@ tables_report() {
 
     existing_table_names_value=$(existing_table_names | wc -l)
     local table_count="$existing_table_names_value"
-    echo $table_count tables created.
+    echo "$table_count" tables created.
 }
 
 parallelised_statements() {
-    local input_file=($${1:?})
-    xargs -d '\n' -a $input_file -r -P"${processes}" -n1 hive -e
+    local input_file="($${1:?})"
+    #shellcheck disable=SC2001
+    xargs -d '\n' -a "$input_file" -r -P"${processes}" -n1 hive -e
 }
 
 drop_existing_table_statements() {
-    while read table_name; do
-        echo \"DROP TABLE IF EXISTS $(views_tables_db)."$table_name"\;\"
+    while read -r table_name; do
+        echo \"DROP TABLE IF EXISTS "$(views_tables_db)"."$table_name"\;\"
     done
 }
 
 create_table_statements() {
-    while read table_name; do
-        echo \"CREATE TABLE $(views_tables_db)."$table_name" STORED AS ORC AS SELECT \* FROM $(views_db)."$table_name"\;\"
+    while read -r table_name; do
+        echo \"CREATE TABLE "$(views_tables_db)"."$table_name" STORED AS ORC AS SELECT \* FROM "$(views_db)"."$table_name"\;\"
     done
 }
 
 drop_view_statements() {
-    while read view_name; do
-        echo \"DROP VIEW $(views_db)."$view_name"\;\"
+    while read -r view_name; do
+        echo \"DROP VIEW "$(views_db)"."$view_name"\;\"
     done
 }
 
@@ -78,7 +79,7 @@ views_table_names() {
 }
 
 table_names() {
-    local database=($${1:?})
+    local database="($${1:?})"
     hive -S -e "USE $database; SHOW TABLES;" | sort | uniq
 }
 
