@@ -30,12 +30,11 @@ HIVE_METASTORE_LOCATION="${hive_metastore_location}"
     query_string2=""
     new_line=$'\n'
 
-    for db_name in "$${db_names[@]}"
+    for db_name in "${db_names[@]}"
       do
         db_row_count=0
         tb_names=$(hive -S -e "USE $db_name; SHOW TABLES;")
-        declare -a "$tb_names"
-        for tb_name in "$${tb_names[@]}"
+        for tb_name in "${tb_names[@]}"
         do
         if [[ "$tables_string" == *"$tb_name/"* ]]
         then
@@ -50,14 +49,14 @@ HIVE_METASTORE_LOCATION="${hive_metastore_location}"
         query_string1=""
         query_string2=""
         to_cloudwatch=$(echo "$outp" | while read TABLE_NAME COUNT; do echo $TABLE_NAME $COUNT; done)
-        for i in "$${to_cloudwatch[@]}"
+        for i in "${to_cloudwatch[@]}"
           do
             echo "$i"
           done
         rows_in_db=$((0))
         separated=$(echo "$${outp}" | sed -e 's/ /\n/g')
         rows_in_tables=$(echo "$${separated}" | sed -e '/^[0-9]*$/!d')
-        for j in "$${rows_in_tables[@]}"
+        for j in "${rows_in_tables[@]}"
           do
             rows_in_db=$((rows_in_db+j))
           done
