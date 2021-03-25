@@ -19,7 +19,7 @@ retry::with_retries() {
 
         if retry::max_attempts_made "$attempts"; then
             log_pdm_message "Max retries attempted, exiting" "retry.sh" "$$" \
-                            "command," "${command[@]}" \
+                            "command," "$${command[@]}" \
                             "attempts,$attempts" \
                             "max_attempts,$(retry::max_attempts)"
             return 10
