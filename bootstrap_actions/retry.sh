@@ -4,6 +4,7 @@ source /opt/emr/logging.sh
 
 retry::with_retries() {
 
+    #shellcheck disable=SC2034
     local command=("$@")
 
     declare -i attempts=0
