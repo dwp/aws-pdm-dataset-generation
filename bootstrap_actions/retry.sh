@@ -1,43 +1,44 @@
 #!/usr/bin/bash
 
-source $${BOOTSTRAP_DIRECTORY:-/opt/emr}/logging.sh
+source /opt/emr/logging.sh
 
 retry::with_retries() {
 
-    local command="$@"
+    #shellcheck disable=SC2034
+    local command=("$@")
 
     declare -i attempts=0
 
-    until $command; do
+    until "$${command[@]}"; do
 
         ((attempts++))
 
         log_pdm_message "Retryable attempt failed" "retry.sh" "$$" \
-                        "command,$command" \
+                        "command," "$${command[@]}" \
                         "attempts_made,$attempts" \
                         "max_attempts,$(retry::max_attempts)"
 
-        if retry::max_attempts_made $attempts; then
+        if retry::max_attempts_made "$attempts"; then
             log_pdm_message "Max retries attempted, exiting" "retry.sh" "$$" \
-                            "command,$command" \
+                            "command," "$${command[@]}" \
                             "attempts,$attempts" \
                             "max_attempts,$(retry::max_attempts)"
             return 10
         fi
 
-        sleep $(retry::delay)
+        sleep "$(retry::delay)"
     done
 }
 
 retry::max_attempts_made() {
-    local attempts_made=$${1:?}
+    local attempts_made="$${1:?}"
     [[ $attempts_made -ge $(retry::max_attempts) ]]
 }
 
 retry::max_attempts() {
     if retry::enabled; then
         if [[ -n ${retry_max_attempts} ]]; then
-            echo ${retry_max_attempts}
+            echo "${retry_max_attempts}"
         else
             echo 5
         fi
@@ -48,7 +49,7 @@ retry::max_attempts() {
 
 retry::delay() {
     if [[ -n ${retry_attempt_delay_seconds} ]]; then
-        echo ${retry_attempt_delay_seconds}
+        echo "${retry_attempt_delay_seconds}"
     else
         echo 1
     fi

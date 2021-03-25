@@ -19,16 +19,17 @@ set -euo pipefail
 
     cd $STEP_DETAILS_DIR
 
-    for i in $STEP_DEATILS_DIR*.json; do
-    start_time=$(jq -r '.startDateTime' $i);
-    step_id=$(jq -r '.id' $i)
-    step_script_name=$(jq -r '.args[0]' $i)
+    for i in "$STEP_DETAILS_DIR"*.json; do
+    start_time=$(jq -r '.startDateTime' "$i");
+    step_id=$(jq -r '.id' "$i")
+    step_script_name=$(jq -r '.args[0]' "$i")
     step_name=$(echo "$step_script_name" | sed 's:.*/::' | cut -f 1 -d '.')
     gauge_name=runtime_step_$step_id$step_name
-    end_time=$(jq -r '.endDateTime' $i);
-    completion_ms=$(( $end_time - $start_time ));
+    end_time=$(jq -r '.endDateTime' "$i");
+    #shellcheck disable=SC2004
+    completion_ms=$(( $end_time - $start_time )); #{} braces are not being used but this is still flagged
     completion_min=$((completion_ms / 60000));
-    state=$(jq -r '.state' $i);
+    state=$(jq -r '.state' "$i");
     if [[ "$state" == "COMPLETED" ]]; then
        state=$((0))
     elif [[ "$state" == "FAILED" ]]; then
@@ -41,7 +42,6 @@ set -euo pipefail
        state=$((4))
     fi
     gauge_name2=state_step_$step_id$step_name
-    value_entry=$(jq -n --argjson value $completion_min '{value:$value}');
     jq --argjson val $completion_min '.gauges += {"'"$gauge_name"'":{"value":$val}}' $METRICS_FILE_PATH > "tmp" && sudo mv -f -b "tmp" $METRICS_FILE_PATH
     jq --argjson val2 $state '.gauges += {"'"$gauge_name2"'":{"value":$val2}}' $METRICS_FILE_PATH > "tmp" && sudo mv -f -b "tmp" $METRICS_FILE_PATH
     done

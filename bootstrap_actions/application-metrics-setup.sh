@@ -34,8 +34,10 @@ rm /tmp/$MAVEN-$VERSION.tar.gz
 
 log_wrapper_message "Resolving dependencies for metrics"
 
-PROXY_HOST=$(echo "${proxy_url}" | sed 's|.*://\(.*\):.*|\1|')
-PROXY_PORT=$(echo "${proxy_url}" | sed 's|.*:||')
+#shellcheck disable=SC2001
+PROXY_HOST=$(echo "${proxy_url}" | sed 's|.*://\(.*\):.*|\1|') # SED is fine to use here
+#shellcheck disable=SC2001
+PROXY_PORT=$(echo "${proxy_url}" | sed 's|.*:||') # SED is fine to use here
 
 export MAVEN_OPTS="-DproxyHost=$PROXY_HOST -DproxyPort=$PROXY_PORT"
 $METRICS_FILEPATH/$MAVEN/bin/mvn -f $METRICS_FILEPATH/pom.xml dependency:copy-dependencies -DoutputDirectory="$METRICS_FILEPATH/dependencies"

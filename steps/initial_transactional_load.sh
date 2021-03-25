@@ -28,12 +28,12 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/initial_tran
     then
          for n in {1..2}
          do
-            for f in "$TRANSACTIONAL_DIR"/*$n".sql"
+            for f in "$TRANSACTIONAL_DIR"/*"$n.sql"
             do
                 if [ -e "$f" ]
                 then
                      echo "Executing $f"
-                     hive -f $f --hivevar transactional_database=$TRANSACTIONAL_DB --hivevar dictionary_path=$DICTIONARY_LOCATION
+                     hive -f "$f" --hivevar transactional_database="$TRANSACTIONAL_DB" --hivevar dictionary_path="$DICTIONARY_LOCATION"
                 else
                      echo "This file is missing: $f"   >> /var/log/pdm/initial_transactional_load_sql.log 2>&1
                 fi

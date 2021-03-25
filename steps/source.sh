@@ -27,12 +27,14 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/source
     # Run SQL Scripts
     #####################
 
+    #shellcheck disable=SC2038
+    # here we are finding SQL files and don't have any non-alphanumeric filenames
     if ! find $SOURCE_DIR -name '*.sql' \
-        | xargs -n1 -P${processes} /opt/emr/with_retry.sh hive \
-                --hivevar source_database=$SOURCE_DB \
-                --hivevar data_path=$DATA_LOCATION \
-                --hivevar serde=$SERDE \
-                --hivevar dictionary_path=$DICTIONARY_LOCATION -f; then
+        | xargs -n1 -P"${processes}" /opt/emr/with_retry.sh hive \
+                --hivevar source_database="$SOURCE_DB" \
+                --hivevar data_path="$DATA_LOCATION" \
+                --hivevar serde="$SERDE" \
+                --hivevar dictionary_path="$DICTIONARY_LOCATION" -f; then
         echo source stage failed >&2
         exit 1
     fi

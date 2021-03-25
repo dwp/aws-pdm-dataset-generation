@@ -47,15 +47,18 @@ sudo /opt/emr/cloudwatch.sh \
     "${aws_default_region}" "${cwa_bootstrap_loggrp_name}" "${cwa_steps_loggrp_name}" \
     "${cwa_yarnspark_loggrp_name}" "${cwa_hive_loggrp_name}" "${cwa_tests_loggrp_name}"
 
-export ACM_KEY_PASSWORD=$(uuidgen -r)
-
 log_wrapper_message "Getting the DKS Certificate Details "
 
 ## get dks cert
-export TRUSTSTORE_PASSWORD=$(uuidgen -r)
-export KEYSTORE_PASSWORD=$(uuidgen -r)
-export PRIVATE_KEY_PASSWORD=$(uuidgen -r)
-export ACM_KEY_PASSWORD=$(uuidgen -r)
+trust_store_pass=$(uuidgen -r)
+key_store_pass=$(uuidgen -r)
+key_pass=$(uuidgen -r)
+acm_pass=$(uuidgen -r)
+
+export TRUSTSTORE_PASSWORD="$trust_store_pass"
+export KEYSTORE_PASSWORD="$key_store_pass"
+export PRIVATE_KEY_PASSWORD="$key_pass"
+export ACM_KEY_PASSWORD="$acm_pass"
 
 #sudo mkdir -p /opt/emr
 #sudo chown hadoop:hadoop /opt/emr
@@ -87,30 +90,34 @@ acm-cert-retriever \
     --truststore-certs "${truststore_certs}" \
     --jks-only true >> /var/log/pdm/acm-cert-retriever.log 2>&1
 
-
+#shellcheck disable=SC2024
 sudo -E acm-cert-retriever \
     --acm-cert-arn "${acm_cert_arn}" \
     --acm-key-passphrase "$ACM_KEY_PASSWORD" \
     --private-key-alias "${private_key_alias}" \
     --truststore-aliases "${truststore_aliases}" \
-    --truststore-certs "${truststore_certs}"  >> /var/log/pdm/acm-cert-retriever.log 2>&1
+    --truststore-certs "${truststore_certs}"  >> /var/log/pdm/acm-cert-retriever.log 2>&1 # No sudo needed to write to file, so redirect is fine
 
-cd /etc/pki/ca-trust/source/anchors/
+cd /etc/pki/ca-trust/source/anchors/ || exit
 sudo touch pdm_ca.pem
 sudo chown hadoop:hadoop /etc/pki/tls/private/"${private_key_alias}".key /etc/pki/tls/certs/"${private_key_alias}".crt /etc/pki/ca-trust/source/anchors/pdm_ca.pem
 TRUSTSTORE_ALIASES="${truststore_aliases}"
-for F in $(echo $TRUSTSTORE_ALIASES | sed "s/,/ /g"); do
+#shellcheck disable=SC2001
+for F in $(echo "$TRUSTSTORE_ALIASES" | sed "s/,/ /g"); do #Shellcheck wants to not use sed for POSIX compliance but is ok here as it works
  (sudo cat "$F.crt"; echo) >> pdm_ca.pem;
 done
 
 UUID=$(dbus-uuidgen | cut -c 1-8)
 TOKEN=$(curl -X PUT -H "X-aws-ec2-metadata-token-ttl-seconds: 21600" "http://169.254.169.254/latest/api/token")
-export INSTANCE_ID=$(curl -H "X-aws-ec2-metadata-token:$TOKEN" -s http://169.254.169.254/latest/meta-data/instance-id)
-export INSTANCE_ROLE=$(jq .instanceRole /mnt/var/lib/info/extraInstanceData.json)
-export HOSTNAME=${name}-$${INSTANCE_ROLE//\"}-$UUID
+instance_id=$(curl -H "X-aws-ec2-metadata-token:$TOKEN" -s http://169.254.169.254/latest/meta-data/instance-id)
+instance_role=$(jq .instanceRole /mnt/var/lib/info/extraInstanceData.json)
+host="${name}-$${INSTANCE_ROLE//\"}-$UUID"
+export INSTANCE_ID="$instance_id"
+export INSTANCE_ROLE="$instance_role"
+export HOSTNAME="$host"
 
-sudo hostnamectl set-hostname $HOSTNAME
-$(which aws) ec2 create-tags --resources $INSTANCE_ID --tags Key=Name,Value=$HOSTNAME
+sudo hostnamectl set-hostname "$HOSTNAME"
+$(which aws) ec2 create-tags --resources "$INSTANCE_ID" --tags Key=Name,Value="$HOSTNAME"
 
 log_wrapper_message "Completed the emr-setup.sh step of the EMR Cluster"
 
