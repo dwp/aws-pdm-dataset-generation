@@ -28,7 +28,7 @@ TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/initial_tran
     then
          for n in {1..2}
          do
-            for f in "$TRANSACTIONAL_DIR"/"*$n.sql"
+            for f in "$TRANSACTIONAL_DIR"/*"$n.sql"
             do
                 if [ -e "$f" ]
                 then
