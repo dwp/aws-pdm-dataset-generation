@@ -54,6 +54,7 @@ HIVE_METASTORE_LOCATION="${hive_metastore_location}"
           done
         rows_in_db=$((0))
         separated=$(echo "${outp}" | sed -e 's/ /\n/g')
+        #shellcheck disable=SC2001
         rows_in_tables=$(echo "${separated}" | sed -e '/^[0-9]*$/!d')
         for j in "${rows_in_tables[@]}"
           do
