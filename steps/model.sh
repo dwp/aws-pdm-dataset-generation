@@ -48,9 +48,9 @@ MODEL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/model
         fi
 
         echo "Running the following:"
-        find $MODEL_DIR -name "*$n.sql" | grep -Ev "site_dim.1.sql|sanction_fact.5.sql"
-        if ! find $MODEL_DIR -name "*$n.sql" | grep -Ev "site_dim.1.sql|sanction_fact.5.sql" \
-            | xargs -r -n1 -P${processes} /opt/emr/with_retry.sh hive \
+        find "$MODEL_DIR" -name "*$n.sql" | grep -Ev "site_dim.1.sql|sanction_fact.5.sql"
+        if ! find "$MODEL_DIR" -name "*$n.sql" | grep -Ev "site_dim.1.sql|sanction_fact.5.sql" \
+            | xargs -r -n1 -P"${processes}" /opt/emr/with_retry.sh hive \
                     --hivevar model_database="$MODEL_DB" \
                     --hivevar transform_database="$TRANSFORM_DB" \
                     --hivevar transactional_database="$TRANSACTIONAL_DB" -f; then
