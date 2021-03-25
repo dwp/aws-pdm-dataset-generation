@@ -53,6 +53,7 @@ HIVE_METASTORE_LOCATION="${hive_metastore_location}"
             echo "$i"
           done
         rows_in_db=$((0))
+        #shellcheck disable=SC2001
         separated=$(echo "${outp}" | sed -e 's/ /\n/g')
         #shellcheck disable=SC2001
         rows_in_tables=$(echo "${separated}" | sed -e '/^[0-9]*$/!d')
