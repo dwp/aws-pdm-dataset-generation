@@ -108,11 +108,6 @@ Configurations:
     "tez.runtime.io.sort.mb": "${tez_runtime_io_sort_mb}"
     "tez.runtime.unordered.output.buffer.size-mb": "${tez_runtime_unordered_output_buffer_size_mb}"
 
-- Classification: "tez-site"
-  Properties:
-    "tez.am.resource.memory.mb": "1024"
-    "tez.am.container.reuse.enabled": "true"
-
 - Classification: "emrfs-site"
   Properties:
     "fs.s3.maxConnections": "10000"
