@@ -358,18 +358,18 @@ locals {
   }
 
   hive_max_reducers = {
-    development = "3000"
-    qa          = "3000"
+    development = "2000"
+    qa          = "2000"
     integration = "1099"
     preprod     = "1099"
-    production  = "3000"
+    production  = "2000"
   }
 
   hive_tez_sessions_per_queue = {
-    development = "25"
-    qa          = "25"
+    development = "10"
+    qa          = "10"
     integration = "10"
     preprod     = "10"
-    production  = "25"
+    production  = "10"
   }
 }
