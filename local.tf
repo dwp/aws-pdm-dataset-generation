@@ -293,11 +293,11 @@ locals {
   }
 
   tez_task_resource_memory_mb = {
-    development = "8196"
-    qa          = "8196"
+    development = "1024"
+    qa          = "1024"
     integration = "1024"
     preprod     = "1024"
-    production  = "8196"
+    production  = "1024"
   }
 
   tez_am_launch_cmd_opts = {
@@ -334,42 +334,42 @@ locals {
   }
 
   llap_number_of_instances = {
-    development = "20"
-    qa          = "20"
+    development = "10"
+    qa          = "10"
     integration = "5"
     preprod     = "5"
-    production  = "20"
+    production  = "10"
   }
 
   map_reduce_vcores_per_node = {
-    development = "15"
-    qa          = "15"
+    development = "10"
+    qa          = "10"
     integration = "10"
     preprod     = "10"
-    production  = "15"
+    production  = "10"
   }
 
   map_reduce_vcores_per_task = {
-    development = "5"
-    qa          = "5"
+    development = "2"
+    qa          = "2"
     integration = "2"
     preprod     = "2"
-    production  = "5"
+    production  = "2"
   }
 
   hive_max_reducers = {
-    development = "3000"
-    qa          = "3000"
+    development = "2000"
+    qa          = "2000"
     integration = "1099"
     preprod     = "1099"
-    production  = "3000"
+    production  = "2000"
   }
 
   hive_tez_sessions_per_queue = {
-    development = "25"
-    qa          = "25"
+    development = "10"
+    qa          = "10"
     integration = "10"
     preprod     = "10"
-    production  = "25"
+    production  = "10"
   }
 }
