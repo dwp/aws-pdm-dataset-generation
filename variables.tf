@@ -59,8 +59,8 @@ variable "emr_instance_type_core_one" {
 
 variable "emr_instance_type_core_two" {
   default = {
-    development = "m5a.2xlarge"
-    qa          = "m5a.2xlarge"
+    development = "m5a.16xlarge"
+    qa          = "m5a.16xlarge"
     integration = "m5a.2xlarge"
     preprod     = "m5a.2xlarge"
     production  = "m5a.16xlarge"
