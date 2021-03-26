@@ -334,27 +334,27 @@ locals {
   }
 
   llap_number_of_instances = {
-    development = "20"
-    qa          = "20"
+    development = "10"
+    qa          = "10"
     integration = "5"
     preprod     = "5"
-    production  = "20"
+    production  = "10"
   }
 
   map_reduce_vcores_per_node = {
-    development = "15"
-    qa          = "15"
+    development = "10"
+    qa          = "10"
     integration = "10"
     preprod     = "10"
-    production  = "15"
+    production  = "10"
   }
 
   map_reduce_vcores_per_task = {
-    development = "5"
-    qa          = "5"
+    development = "2"
+    qa          = "2"
     integration = "2"
     preprod     = "2"
-    production  = "5"
+    production  = "2"
   }
 
   hive_max_reducers = {
