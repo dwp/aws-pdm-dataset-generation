@@ -268,6 +268,14 @@ locals {
     production  = "8168"
   }
 
+  tez_am_resource_memory_mb = {
+    development = "23622"
+    qa          = "23622"
+    integration = "3840"
+    preprod     = "3840"
+    production  = "23622"
+  }
+
   tez_grouping_min_size = {
     development = "52428800"
     qa          = "52428800"
