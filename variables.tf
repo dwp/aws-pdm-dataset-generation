@@ -63,7 +63,7 @@ variable "emr_instance_type_core_two" {
     qa          = "m5a.2xlarge"
     integration = "m5a.2xlarge"
     preprod     = "m5a.2xlarge"
-    production  = "m5a.24xlarge"
+    production  = "m5a.16xlarge"
   }
 }
 
@@ -98,7 +98,7 @@ variable "emr_core_instance_count" {
     qa          = "15"
     integration = "2"
     preprod     = "2"
-    production  = "15"
+    production  = "25"
   }
 }
 
