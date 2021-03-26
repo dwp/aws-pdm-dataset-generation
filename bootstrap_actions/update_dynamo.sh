@@ -31,7 +31,7 @@
 
   FINAL_STEP_NAME="flush-s3"
 
-  while [[ ! -f $CORRELATION_ID_FILE ]] && [[ ! -f $S3_PREFIX_FILE ]] && [[ ! -f $SNAPSHOT_TYPE_FILE ]] && [[ ! -f $EXPORT_DATE_FILE ]]
+  while [[ ! -f "$CORRELATION_ID_FILE" ]] && [[ ! -f "$S3_PREFIX_FILE" ]] && [[ ! -f "$SNAPSHOT_TYPE_FILE" ]] && [[ ! -f "$EXPORT_DATE_FILE" ]]
   do
     sleep 5
   done
@@ -45,11 +45,6 @@
     log_wrapper_message "Export date from file was empty, so defaulting to today's date"
     EXPORT_DATE="$DATE"
   fi
-
-  while [ ! -f "$STEP_DETAILS_DIR/*.json" ]
-  do
-    sleep 5
-  done
 
   processed_files=()
 
