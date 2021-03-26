@@ -268,14 +268,6 @@ locals {
     production  = "8168"
   }
 
-  tez_task_resource_memory_mb = {
-    development = "1024"
-    qa          = "1024"
-    integration = "1024"
-    preprod     = "1024"
-    production  = "8196"
-  }
-
   tez_grouping_min_size = {
     development = "1342177"
     qa          = "1342177"
