@@ -243,4 +243,133 @@ locals {
     preprod     = false
     production  = true
   }
+
+  hive_tez_container_size = {
+    development = "21614"
+    qa          = "21614"
+    integration = "2688"
+    preprod     = "2688"
+    production  = "21614"
+  }
+
+  hive_tez_java_opts = {
+    development = "-Xmx17400m"
+    qa          = "-Xmx17400m"
+    integration = "-Xmx2150m"
+    preprod     = "-Xmx2150m"
+    production  = "-Xmx17400m"
+  }
+
+  hive_auto_convert_join_noconditionaltask_size = {
+    development = "8168"
+    qa          = "8168"
+    integration = "896"
+    preprod     = "896"
+    production  = "8168"
+  }
+
+  tez_am_resource_memory_mb = {
+    development = "23622"
+    qa          = "23622"
+    integration = "3840"
+    preprod     = "3840"
+    production  = "23622"
+  }
+
+  tez_grouping_min_size = {
+    development = "52428800"
+    qa          = "52428800"
+    integration = "1342177"
+    preprod     = "1342177"
+    production  = "52428800"
+  }
+
+  tez_grouping_max_size = {
+    development = "1073741824"
+    qa          = "1073741824"
+    integration = "268435456"
+    preprod     = "268435456"
+    production  = "1073741824"
+  }
+
+  tez_task_resource_memory_mb = {
+    development = "8196"
+    qa          = "8196"
+    integration = "1024"
+    preprod     = "1024"
+    production  = "8196"
+  }
+
+  tez_am_launch_cmd_opts = {
+    development = "-Xmx18893m"
+    qa          = "-Xmx18893m"
+    integration = "-Xmx3072m"
+    preprod     = "-Xmx3072m"
+    production  = "-Xmx18893m"
+  }
+
+  tez_runtime_unordered_output_buffer_size_mb = {
+    development = "2148"
+    qa          = "2148"
+    integration = "268"
+    preprod     = "268"
+    production  = "2148"
+  }
+
+  tez_runtime_io_sort_mb = {
+    development = "8600"
+    qa          = "8600"
+    integration = "1075"
+    preprod     = "1075"
+    production  = "8600"
+  }
+
+  // This value should be the same as yarn.scheduler.maximum-allocation-mb
+  llap_daemon_yarn_container_mb = {
+    development = "253952"
+    qa          = "253952"
+    integration = "57344"
+    preprod     = "57344"
+    production  = "253952"
+  }
+
+  llap_number_of_instances = {
+    development = "20"
+    qa          = "20"
+    integration = "5"
+    preprod     = "5"
+    production  = "20"
+  }
+
+  map_reduce_vcores_per_node = {
+    development = "15"
+    qa          = "15"
+    integration = "10"
+    preprod     = "10"
+    production  = "15"
+  }
+
+  map_reduce_vcores_per_task = {
+    development = "5"
+    qa          = "5"
+    integration = "2"
+    preprod     = "2"
+    production  = "5"
+  }
+
+  hive_max_reducers = {
+    development = "3000"
+    qa          = "3000"
+    integration = "1099"
+    preprod     = "1099"
+    production  = "3000"
+  }
+
+  hive_tez_sessions_per_queue = {
+    development = "25"
+    qa          = "25"
+    integration = "10"
+    preprod     = "10"
+    production  = "25"
+  }
 }

@@ -63,7 +63,7 @@ variable "emr_instance_type_core_two" {
     qa          = "m5a.2xlarge"
     integration = "m5a.2xlarge"
     preprod     = "m5a.2xlarge"
-    production  = "m5a.24xlarge"
+    production  = "m5a.16xlarge"
   }
 }
 
@@ -94,11 +94,11 @@ variable "metadata_store_pdm_writer_username" {
 
 variable "emr_core_instance_count" {
   default = {
-    development = "15"
-    qa          = "15"
+    development = "25"
+    qa          = "25"
     integration = "2"
     preprod     = "2"
-    production  = "15"
+    production  = "25"
   }
 }
 
