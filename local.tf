@@ -293,11 +293,11 @@ locals {
   }
 
   tez_task_resource_memory_mb = {
-    development = "8196"
-    qa          = "8196"
+    development = "1024"
+    qa          = "1024"
     integration = "1024"
     preprod     = "1024"
-    production  = "8196"
+    production  = "1024"
   }
 
   tez_am_launch_cmd_opts = {
