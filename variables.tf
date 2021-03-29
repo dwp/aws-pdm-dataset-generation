@@ -49,21 +49,21 @@ variable "emr_instance_type_master" {
 
 variable "emr_instance_type_core_one" {
   default = {
-    development = "m5.16xlarge"
-    qa          = "m5.16xlarge"
-    integration = "m5.2xlarge"
-    preprod     = "m5.2xlarge"
-    production  = "m5.16xlarge"
-  }
-}
-
-variable "emr_instance_type_core_two" {
-  default = {
     development = "m5a.16xlarge"
     qa          = "m5a.16xlarge"
     integration = "m5a.2xlarge"
     preprod     = "m5a.2xlarge"
     production  = "m5a.16xlarge"
+  }
+}
+
+variable "emr_instance_type_core_two" {
+  default = {
+    development = "m5.16xlarge"
+    qa          = "m5.16xlarge"
+    integration = "m5.2xlarge"
+    preprod     = "m5.2xlarge"
+    production  = "m5.16xlarge"
   }
 }
 
