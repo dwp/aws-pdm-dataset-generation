@@ -39,21 +39,21 @@ variable "emr_ami_id" {
 
 variable "emr_instance_type_master" {
   default = {
-    development = "m6g.16xlarge"
-    qa          = "m6g.16xlarge"
-    integration = "m6g.2xlarge"
-    preprod     = "m6g.2xlarge"
-    production  = "m6g.16xlarge"
+    development = "r5a.12xlarge"
+    qa          = "r5a.12xlarge"
+    integration = "r5a.large"
+    preprod     = "r5a.large"
+    production  = "r5a.12xlarge"
   }
 }
 
 variable "emr_instance_type_core_one" {
   default = {
-    development = "m6g.16xlarge"
-    qa          = "m6g.16xlarge"
-    integration = "m6g.2xlarge"
-    preprod     = "m6g.2xlarge"
-    production  = "m6g.16xlarge"
+    development = "r5a.16xlarge"
+    qa          = "r5a.16xlarge"
+    integration = "r5a.large"
+    preprod     = "r5a.large"
+    production  = "r5a.16xlarge"
   }
 }
 
@@ -79,11 +79,11 @@ variable "emr_instance_type_core_three" {
 
 variable "emr_instance_type_core_four" {
   default = {
-    development = "r5.16xlarge"
-    qa          = "r5.16xlarge"
-    integration = "r5.2xlarge"
-    preprod     = "r5.2xlarge"
-    production  = "r5.16xlarge"
+    development = "r5d.16xlarge"
+    qa          = "r5d.16xlarge"
+    integration = "r5d.large"
+    preprod     = "r5d.large"
+    production  = "r5d.16xlarge"
   }
 }
 
