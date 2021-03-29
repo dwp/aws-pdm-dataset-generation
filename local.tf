@@ -377,4 +377,12 @@ locals {
     preprod     = "10"
     production  = "50"
   }
+
+  hive_bytes_per_reducer = {
+    development = "52428800"
+    qa          = "52428800"
+    integration = "52428800"
+    preprod     = "52428800"
+    production  = "52428800"
+  }
 }
