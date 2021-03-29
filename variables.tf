@@ -65,7 +65,7 @@ variable "emr_instance_type_core_two" {
     preprod     = "r5a.large"
     production  = "r5a.12xlarge"
   }
-}=
+}
 
 variable "emr_instance_type_core_three" {
   default = {
