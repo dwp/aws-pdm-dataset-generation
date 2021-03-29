@@ -331,11 +331,11 @@ locals {
 
   // This value should be the same as yarn.scheduler.maximum-allocation-mb
   llap_daemon_yarn_container_mb = {
-    development = "253952"
-    qa          = "253952"
+    development = "385024"
+    qa          = "385024"
     integration = "57344"
     preprod     = "57344"
-    production  = "253952"
+    production  = "385024"
   }
 
   llap_number_of_instances = {
