@@ -371,10 +371,10 @@ locals {
   }
 
   hive_tez_sessions_per_queue = {
-    development = "35"
-    qa          = "35"
+    development = "50"
+    qa          = "50"
     integration = "10"
     preprod     = "10"
-    production  = "35"
+    production  = "50"
   }
 }
