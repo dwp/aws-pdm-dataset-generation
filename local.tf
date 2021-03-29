@@ -245,21 +245,23 @@ locals {
   }
 
   hive_tez_container_size = {
-    development = "21614"
-    qa          = "21614"
+    development = "15360"
+    qa          = "15360"
     integration = "2688"
     preprod     = "2688"
-    production  = "21614"
+    production  = "15360"
   }
 
+  # 0.8 of hive_tez_container_size
   hive_tez_java_opts = {
-    development = "-Xmx17400m"
-    qa          = "-Xmx17400m"
+    development = "-Xmx12288m"
+    qa          = "-Xmx12288m"
     integration = "-Xmx2150m"
     preprod     = "-Xmx2150m"
-    production  = "-Xmx17400m"
+    production  = "-Xmx12288m"
   }
 
+  # 0.33 of hive_tez_container_size
   hive_auto_convert_join_noconditionaltask_size = {
     development = "8168"
     qa          = "8168"
@@ -292,20 +294,22 @@ locals {
     production  = "1073741824"
   }
 
+  # 0.8 of hive_tez_container_size
   tez_task_resource_memory_mb = {
-    development = "1024"
-    qa          = "1024"
+    development = "8196"
+    qa          = "8196"
     integration = "1024"
     preprod     = "1024"
-    production  = "1024"
+    production  = "8196"
   }
 
+  # 0.8 of tez_am_resource_memory_mb
   tez_am_launch_cmd_opts = {
-    development = "-Xmx18893m"
-    qa          = "-Xmx18893m"
-    integration = "-Xmx3072m"
-    preprod     = "-Xmx3072m"
-    production  = "-Xmx18893m"
+    development = "-Xmx6556m"
+    qa          = "-Xmx6556m"
+    integration = "-Xmx819m"
+    preprod     = "-Xmx819m"
+    production  = "-Xmx6556m"
   }
 
   tez_runtime_unordered_output_buffer_size_mb = {
@@ -316,6 +320,7 @@ locals {
     production  = "2148"
   }
 
+  # 0.4 of hive_tez_container_size
   tez_runtime_io_sort_mb = {
     development = "8600"
     qa          = "8600"
@@ -334,42 +339,42 @@ locals {
   }
 
   llap_number_of_instances = {
-    development = "10"
-    qa          = "10"
+    development = "20"
+    qa          = "20"
     integration = "5"
     preprod     = "5"
-    production  = "10"
+    production  = "20"
   }
 
   map_reduce_vcores_per_node = {
-    development = "10"
-    qa          = "10"
+    development = "15"
+    qa          = "15"
     integration = "10"
     preprod     = "10"
-    production  = "10"
+    production  = "15"
   }
 
   map_reduce_vcores_per_task = {
-    development = "2"
-    qa          = "2"
+    development = "5"
+    qa          = "5"
     integration = "2"
     preprod     = "2"
-    production  = "2"
+    production  = "5"
   }
 
   hive_max_reducers = {
-    development = "2000"
-    qa          = "2000"
+    development = "3000"
+    qa          = "3000"
     integration = "1099"
     preprod     = "1099"
-    production  = "2000"
+    production  = "3000"
   }
 
   hive_tez_sessions_per_queue = {
-    development = "10"
-    qa          = "10"
+    development = "35"
+    qa          = "35"
     integration = "10"
     preprod     = "10"
-    production  = "10"
+    production  = "35"
   }
 }
