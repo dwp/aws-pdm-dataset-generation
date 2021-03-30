@@ -355,11 +355,11 @@ locals {
   }
 
   map_reduce_vcores_per_task = {
-    development = "3"
-    qa          = "3"
+    development = "5"
+    qa          = "5"
     integration = "2"
     preprod     = "2"
-    production  = "3"
+    production  = "5"
   }
 
   hive_max_reducers = {
