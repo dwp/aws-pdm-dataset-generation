@@ -37,13 +37,33 @@ variable "emr_ami_id" {
   description = "AMI ID to use for the HBase EMR nodes"
 }
 
-variable "emr_instance_type_master" {
+variable "emr_instance_type_master_one" {
   default = {
     development = "r5a.12xlarge"
     qa          = "r5a.12xlarge"
-    integration = "r5a.large"
-    preprod     = "r5a.large"
+    integration = "r5a.4xlarge"
+    preprod     = "r5a.4xlarge"
     production  = "r5a.12xlarge"
+  }
+}
+
+variable "emr_instance_type_master_two" {
+  default = {
+    development = "m5.24xlarge"
+    qa          = "m5.24xlarge"
+    integration = "m5.2xlarge"
+    preprod     = "m5.2xlarge"
+    production  = "m5.24xlarge"
+  }
+}
+
+variable "emr_instance_type_master_three" {
+  default = {
+    development = "i3en.12xlarge"
+    qa          = "i3en.12xlarge"
+    integration = "i3en.6xlarge"
+    preprod     = "i3en.6xlarge"
+    production  = "i3en.12xlarge"
   }
 }
 
@@ -89,11 +109,11 @@ variable "emr_instance_type_weighting_core_two" {
 
 variable "emr_instance_type_core_three" {
   default = {
-    development = "r5d.12xlarge"
-    qa          = "r5d.12xlarge"
-    integration = "r5d.4xlarge"
-    preprod     = "r5d.4xlarge"
-    production  = "r5d.12xlarge"
+    development = "z1d.12xlarge"
+    qa          = "z1d.12xlarge"
+    integration = "z1d.3xlarge"
+    preprod     = "z1d.3xlarge"
+    production  = "z1d.12xlarge"
   }
 }
 
