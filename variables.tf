@@ -59,11 +59,11 @@ variable "emr_instance_type_core_one" {
 
 variable "emr_instance_type_weighting_core_one" {
   default = {
-    development = "5"
-    qa          = "5"
-    integration = "5"
-    preprod     = "5"
-    production  = "5"
+    development = 5
+    qa          = 5
+    integration = 5
+    preprod     = 5
+    production  = 5
   }
 }
 
@@ -79,11 +79,11 @@ variable "emr_instance_type_core_two" {
 
 variable "emr_instance_type_weighting_core_two" {
   default = {
-    development = "5"
-    qa          = "5"
-    integration = "5"
-    preprod     = "5"
-    production  = "5"
+    development = 5
+    qa          = 5
+    integration = 5
+    preprod     = 5
+    production  = 5
   }
 }
 
@@ -99,11 +99,11 @@ variable "emr_instance_type_core_three" {
 
 variable "emr_instance_type_weighting_core_three" {
   default = {
-    development = "5"
-    qa          = "5"
-    integration = "5"
-    preprod     = "5"
-    production  = "5"
+    development = 5
+    qa          = 5
+    integration = 5
+    preprod     = 5
+    production  = 5
   }
 }
 
@@ -119,11 +119,11 @@ variable "emr_instance_type_core_four" {
 
 variable "emr_instance_type_weighting_core_four" {
   default = {
-    development = "5"
-    qa          = "5"
-    integration = "5"
-    preprod     = "5"
-    production  = "5"
+    development = 5
+    qa          = 5
+    integration = 5
+    preprod     = 5
+    production  = 5
   }
 }
 
@@ -139,11 +139,11 @@ variable "emr_instance_type_core_five" {
 
 variable "emr_instance_type_weighting_core_five" {
   default = {
-    development = "5"
-    qa          = "5"
-    integration = "5"
-    preprod     = "5"
-    production  = "5"
+    development = 5
+    qa          = 5
+    integration = 5
+    preprod     = 5
+    production  = 5
   }
 }
 
