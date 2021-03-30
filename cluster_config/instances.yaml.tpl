@@ -27,7 +27,6 @@ Instances:
     TargetSpotCapacity: ${core_instance_capacity_spot}
     LaunchSpecifications:
       SpotSpecification:
-        AllocationStrategy: "capacity-optimized"
         BlockDurationMinutes: ${spot_block_duration_minutes}
         TimeoutDurationMinutes: ${spot_timeout_duration_minutes}
         TimeoutAction: "SWITCH_TO_ON_DEMAND"
