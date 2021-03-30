@@ -245,29 +245,29 @@ locals {
   }
 
   hive_tez_container_size = {
-    development = "15360"
-    qa          = "15360"
+    development = "4096"
+    qa          = "4096"
     integration = "2688"
     preprod     = "2688"
-    production  = "15360"
+    production  = "4096"
   }
 
   # 0.8 of hive_tez_container_size
   hive_tez_java_opts = {
-    development = "-Xmx12288m"
-    qa          = "-Xmx12288m"
+    development = "-Xmx3276m"
+    qa          = "-Xmx3276m"
     integration = "-Xmx2150m"
     preprod     = "-Xmx2150m"
-    production  = "-Xmx12288m"
+    production  = "-Xmx3276m"
   }
 
   # 0.33 of hive_tez_container_size
   hive_auto_convert_join_noconditionaltask_size = {
-    development = "8168"
-    qa          = "8168"
+    development = "1351"
+    qa          = "1351"
     integration = "896"
     preprod     = "896"
-    production  = "8168"
+    production  = "1351"
   }
 
   tez_am_resource_memory_mb = {
@@ -296,11 +296,11 @@ locals {
 
   # 0.8 of hive_tez_container_size
   tez_task_resource_memory_mb = {
-    development = "8196"
-    qa          = "8196"
+    development = "3276"
+    qa          = "3276"
     integration = "1024"
     preprod     = "1024"
-    production  = "8196"
+    production  = "3276"
   }
 
   # 0.8 of tez_am_resource_memory_mb
@@ -322,11 +322,11 @@ locals {
 
   # 0.4 of hive_tez_container_size
   tez_runtime_io_sort_mb = {
-    development = "8600"
-    qa          = "8600"
+    development = "1638"
+    qa          = "1638"
     integration = "1075"
     preprod     = "1075"
-    production  = "8600"
+    production  = "1638"
   }
 
   // This value should be the same as yarn.scheduler.maximum-allocation-mb
@@ -339,11 +339,11 @@ locals {
   }
 
   llap_number_of_instances = {
-    development = "20"
-    qa          = "20"
+    development = "15"
+    qa          = "15"
     integration = "5"
     preprod     = "5"
-    production  = "20"
+    production  = "15"
   }
 
   map_reduce_vcores_per_node = {
@@ -355,11 +355,11 @@ locals {
   }
 
   map_reduce_vcores_per_task = {
-    development = "5"
-    qa          = "5"
+    development = "3"
+    qa          = "3"
     integration = "2"
     preprod     = "2"
-    production  = "5"
+    production  = "3"
   }
 
   hive_max_reducers = {
