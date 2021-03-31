@@ -39,7 +39,6 @@ Configurations:
     "hive_timeline_logging_enabled": "true"
     "hive.exec.reducers.max": "${hive_max_reducers}"
     "hive.server2.tez.sessions.per.default.queue": "${hive_tez_sessions_per_queue}"
-    "hive.exec.reducers.bytes.per.reducer": "${hive_bytes_per_reducer}"
     "hive.server2.tez.initialize.default.sessions": "true"
     "hive.default.fileformat": "TextFile"
     "hive.default.fileformat.managed": "ORC"
@@ -58,8 +57,6 @@ Configurations:
   Properties:
     "tez.am.resource.memory.mb": "${tez_am_resource_memory_mb}"
     "tez.am.container.reuse.enabled": "true"
-    "tez.grouping.min-size": "${tez_grouping_min_size}"
-    "tez.grouping.max-size": "${tez_grouping_max_size}"
     "tez.am.container.reuse.non-local-fallback.enabled": "true"
 
 - Classification: "emrfs-site"

@@ -85,15 +85,9 @@ resource "aws_s3_bucket_object" "configurations" {
       hive_metastore_database_name                  = data.terraform_remote_state.internal_compute.outputs.hive_metastore_v2.database_name
       hive_compaction_threads                       = local.hive_compaction_threads[local.environment]
       hive_metastore_location                       = local.hive_metastore_location
-      hive_tez_container_size                       = local.hive_tez_container_size[local.environment]
-      hive_tez_java_opts                            = local.hive_tez_java_opts[local.environment]
-      tez_grouping_min_size                         = local.tez_grouping_min_size[local.environment]
-      tez_grouping_max_size                         = local.tez_grouping_max_size[local.environment]
       tez_am_resource_memory_mb                     = local.tez_am_resource_memory_mb[local.environment]
-      tez_am_launch_cmd_opts                        = local.tez_am_launch_cmd_opts[local.environment]
       hive_max_reducers                             = local.hive_max_reducers[local.environment]
       hive_tez_sessions_per_queue                   = local.hive_tez_sessions_per_queue[local.environment]
-      hive_bytes_per_reducer                        = local.hive_bytes_per_reducer[local.environment]
     }
   )
 }
