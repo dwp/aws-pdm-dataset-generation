@@ -79,7 +79,9 @@ views_table_names() {
 }
 
 table_names() {
-    local database="($${1:?})"
+    #shellcheck disable=SC1083
+    #shellcheck disable=SC2125
+    local database=$${1:?}
     hive -S -e "USE $database; SHOW TABLES;" | sort | uniq
 }
 
