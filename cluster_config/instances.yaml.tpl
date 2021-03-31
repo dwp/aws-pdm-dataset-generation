@@ -38,12 +38,6 @@ Instances:
   - InstanceFleetType: "CORE"
     Name: CORE
     TargetOnDemandCapacity: ${core_instance_capacity_on_demand}
-    TargetSpotCapacity: ${core_instance_capacity_spot}
-    LaunchSpecifications:
-      SpotSpecification:
-        BlockDurationMinutes: ${spot_block_duration_minutes}
-        TimeoutDurationMinutes: ${spot_timeout_duration_minutes}
-        TimeoutAction: "SWITCH_TO_ON_DEMAND"
     InstanceTypeConfigs:
     - EbsConfiguration:
         EbsBlockDeviceConfigs:

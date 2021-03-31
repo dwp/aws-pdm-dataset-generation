@@ -175,11 +175,11 @@ variable "metadata_store_pdm_writer_username" {
 # This is weighted not a count of instances
 variable "emr_core_instance_capacity_on_demand" {
   default = {
-    development = "25"
-    qa          = "25"
-    integration = "5"
-    preprod     = "5"
-    production  = "25"
+    development = "175"
+    qa          = "175"
+    integration = "45"
+    preprod     = "45"
+    production  = "175"
   }
 }
 
