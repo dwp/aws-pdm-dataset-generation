@@ -271,11 +271,11 @@ locals {
   }
 
   tez_am_resource_memory_mb = {
-    development = "23622"
-    qa          = "23622"
-    integration = "3840"
-    preprod     = "3840"
-    production  = "23622"
+    development = "1024"
+    qa          = "1024"
+    integration = "1024"
+    preprod     = "1024"
+    production  = "1024"
   }
 
   tez_grouping_min_size = {
@@ -371,11 +371,11 @@ locals {
   }
 
   hive_tez_sessions_per_queue = {
-    development = "50"
-    qa          = "50"
+    development = "20"
+    qa          = "20"
     integration = "10"
     preprod     = "10"
-    production  = "50"
+    production  = "20"
   }
 
   hive_bytes_per_reducer = {
