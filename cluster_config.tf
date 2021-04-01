@@ -24,21 +24,22 @@ resource "aws_s3_bucket_object" "instances" {
   key    = "emr/pdm/instances.yaml"
   content = templatefile("${path.module}/cluster_config/instances.yaml.tpl",
     {
-      keep_cluster_alive               = local.keep_cluster_alive[local.environment]
-      add_master_sg                    = aws_security_group.pdm_common.id
-      add_slave_sg                     = aws_security_group.pdm_common.id
+      keep_cluster_alive = local.keep_cluster_alive[local.environment]
+      add_master_sg      = aws_security_group.pdm_common.id
+      add_slave_sg       = aws_security_group.pdm_common.id
       subnet_id = (
         local.emr_capacity_reservation_preference[local.environment] == "none" ?
         data.terraform_remote_state.internal_compute.outputs.pdm_subnet_new.subnets[index(data.terraform_remote_state.internal_compute.outputs.pdm_subnet_new.subnets.*.availability_zone, local.emr_subnet_non_capacity_reserved_environments)].id :
         data.terraform_remote_state.internal_compute.outputs.pdm_subnet_new.subnets[index(data.terraform_remote_state.internal_compute.outputs.pdm_subnet_new.subnets.*.availability_zone, data.terraform_remote_state.common.outputs.ec2_capacity_reservations.emr_m5_16_x_large_2a.availability_zone)].id
       )
-      master_sg                        = aws_security_group.pdm_master.id
-      slave_sg                         = aws_security_group.pdm_slave.id
-      service_access_sg                = aws_security_group.pdm_emr_service.id
-      instance_type_master_one         = var.emr_instance_type_master_one[local.environment]
-      instance_type_core_one           = var.emr_instance_type_core_one[local.environment]
-      core_instance_capacity_on_demand = var.emr_core_instance_capacity_on_demand[local.environment]
-      capacity_reservation_preference  = local.emr_capacity_reservation_preference[local.environment]
+      master_sg                           = aws_security_group.pdm_master.id
+      slave_sg                            = aws_security_group.pdm_slave.id
+      service_access_sg                   = aws_security_group.pdm_emr_service.id
+      instance_type_master_one            = var.emr_instance_type_master_one[local.environment]
+      instance_type_core_one              = var.emr_instance_type_core_one[local.environment]
+      core_instance_capacity_on_demand    = var.emr_core_instance_capacity_on_demand[local.environment]
+      capacity_reservation_preference     = local.emr_capacity_reservation_preference[local.environment]
+      capacity_reservation_usage_strategy = local.emr_capacity_reservation_usage_strategy[local.environment]
     }
   )
 }
@@ -80,7 +81,6 @@ resource "aws_s3_bucket_object" "configurations" {
       hive_compaction_threads      = local.hive_compaction_threads[local.environment]
       hive_metastore_location      = local.hive_metastore_location
       tez_am_resource_memory_mb    = local.tez_am_resource_memory_mb[local.environment]
-      hive_max_reducers            = local.hive_max_reducers[local.environment]
       hive_tez_sessions_per_queue  = local.hive_tez_sessions_per_queue[local.environment]
     }
   )
