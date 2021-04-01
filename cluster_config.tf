@@ -24,17 +24,18 @@ resource "aws_s3_bucket_object" "instances" {
   key    = "emr/pdm/instances.yaml"
   content = templatefile("${path.module}/cluster_config/instances.yaml.tpl",
     {
-      keep_cluster_alive              = local.keep_cluster_alive[local.environment]
-      add_master_sg                   = aws_security_group.pdm_common.id
-      add_slave_sg                    = aws_security_group.pdm_common.id
-      subnet_id                       = local.emr_subnet_id[local.environment]
-      master_sg                       = aws_security_group.pdm_master.id
-      slave_sg                        = aws_security_group.pdm_slave.id
-      service_access_sg               = aws_security_group.pdm_emr_service.id
-      instance_type_master_one        = var.emr_instance_type_master_one[local.environment]
-      instance_type_core_one          = var.emr_instance_type_core_one[local.environment]
-      capacity_reservation_preference = local.emr_capacity_reservation_preference[local.environment]
-      capacity_reservation_arn        = local.emr_capacity_reservation_id[local.environment]
+      keep_cluster_alive               = local.keep_cluster_alive[local.environment]
+      add_master_sg                    = aws_security_group.pdm_common.id
+      add_slave_sg                     = aws_security_group.pdm_common.id
+      subnet_id                        = local.emr_subnet_id[local.environment]
+      master_sg                        = aws_security_group.pdm_master.id
+      slave_sg                         = aws_security_group.pdm_slave.id
+      service_access_sg                = aws_security_group.pdm_emr_service.id
+      instance_type_master_one         = var.emr_instance_type_master_one[local.environment]
+      instance_type_core_one           = var.emr_instance_type_core_one[local.environment]
+      core_instance_capacity_on_demand = var.emr_core_instance_capacity_on_demand[local.environment]
+      capacity_reservation_preference  = local.emr_capacity_reservation_preference[local.environment]
+      capacity_reservation_arn         = local.emr_capacity_reservation_id[local.environment]
     }
   )
 }
