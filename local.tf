@@ -71,11 +71,11 @@ locals {
   }
 
   pdm_version = {
-    development = "0.0.38"
-    qa          = "0.0.38"
-    integration = "0.0.38"
-    preprod     = "0.0.38"
-    production  = "0.0.38"
+    development = "0.0.39"
+    qa          = "0.0.39"
+    integration = "0.0.39"
+    preprod     = "0.0.39"
+    production  = "0.0.39"
   }
 
   pdm_max_retry_count = {
