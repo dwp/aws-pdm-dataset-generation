@@ -24,27 +24,17 @@ resource "aws_s3_bucket_object" "instances" {
   key    = "emr/pdm/instances.yaml"
   content = templatefile("${path.module}/cluster_config/instances.yaml.tpl",
     {
-      keep_cluster_alive                 = local.keep_cluster_alive[local.environment]
-      add_master_sg                      = aws_security_group.pdm_common.id
-      add_slave_sg                       = aws_security_group.pdm_common.id
-      subnet_ids                         = join(",", data.terraform_remote_state.internal_compute.outputs.pdm_subnet_new.ids)
-      master_sg                          = aws_security_group.pdm_master.id
-      slave_sg                           = aws_security_group.pdm_slave.id
-      service_access_sg                  = aws_security_group.pdm_emr_service.id
-      instance_type_master_one           = var.emr_instance_type_master_one[local.environment]
-      instance_type_master_two           = var.emr_instance_type_master_two[local.environment]
-      instance_type_master_three         = var.emr_instance_type_master_three[local.environment]
-      instance_type_core_one             = var.emr_instance_type_core_one[local.environment]
-      instance_type_weighting_core_one   = var.emr_instance_type_weighting_core_one[local.environment]
-      instance_type_core_two             = var.emr_instance_type_core_two[local.environment]
-      instance_type_weighting_core_two   = var.emr_instance_type_weighting_core_two[local.environment]
-      instance_type_core_three           = var.emr_instance_type_core_three[local.environment]
-      instance_type_weighting_core_three = var.emr_instance_type_weighting_core_three[local.environment]
-      instance_type_core_four            = var.emr_instance_type_core_four[local.environment]
-      instance_type_weighting_core_four  = var.emr_instance_type_weighting_core_four[local.environment]
-      instance_type_core_five            = var.emr_instance_type_core_five[local.environment]
-      instance_type_weighting_core_five  = var.emr_instance_type_weighting_core_five[local.environment]
-      core_instance_capacity_on_demand   = var.emr_core_instance_capacity_on_demand[local.environment]
+      keep_cluster_alive               = local.keep_cluster_alive[local.environment]
+      add_master_sg                    = aws_security_group.pdm_common.id
+      add_slave_sg                     = aws_security_group.pdm_common.id
+      subnet_id                        = local.emr_subnet_id[local.environment]
+      master_sg                        = aws_security_group.pdm_master.id
+      slave_sg                         = aws_security_group.pdm_slave.id
+      service_access_sg                = aws_security_group.pdm_emr_service.id
+      instance_type_master_one         = var.emr_instance_type_master_one[local.environment]
+      instance_type_core_one           = var.emr_instance_type_core_one[local.environment]
+      core_instance_capacity_on_demand = var.emr_core_instance_capacity_on_demand[local.environment]
+      capacity_reservation_preference  = local.emr_capacity_reservation_preference[local.environment]
     }
   )
 }
@@ -71,23 +61,23 @@ resource "aws_s3_bucket_object" "configurations" {
   key    = "emr/pdm/configurations.yaml"
   content = templatefile("${path.module}/cluster_config/configurations.yaml.tpl",
     {
-      s3_log_bucket                                 = data.terraform_remote_state.security-tools.outputs.logstore_bucket.id
-      s3_log_prefix                                 = local.s3_log_prefix
-      s3_published_bucket                           = data.terraform_remote_state.common.outputs.published_bucket.id
-      proxy_no_proxy                                = replace(replace(local.no_proxy, ",", "|"), ".s3", "*.s3")
-      proxy_http_host                               = data.terraform_remote_state.internal_compute.outputs.internet_proxy.host
-      proxy_http_port                               = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
-      proxy_https_host                              = data.terraform_remote_state.internal_compute.outputs.internet_proxy.host
-      proxy_https_port                              = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
-      hive_metastore_username                       = var.metadata_store_pdm_writer_username
-      hive_metastore_pwd                            = data.terraform_remote_state.internal_compute.outputs.metadata_store_users.pdm_writer.secret_name
-      hive_metastore_endpoint                       = data.terraform_remote_state.internal_compute.outputs.hive_metastore_v2.endpoint
-      hive_metastore_database_name                  = data.terraform_remote_state.internal_compute.outputs.hive_metastore_v2.database_name
-      hive_compaction_threads                       = local.hive_compaction_threads[local.environment]
-      hive_metastore_location                       = local.hive_metastore_location
-      tez_am_resource_memory_mb                     = local.tez_am_resource_memory_mb[local.environment]
-      hive_max_reducers                             = local.hive_max_reducers[local.environment]
-      hive_tez_sessions_per_queue                   = local.hive_tez_sessions_per_queue[local.environment]
+      s3_log_bucket                = data.terraform_remote_state.security-tools.outputs.logstore_bucket.id
+      s3_log_prefix                = local.s3_log_prefix
+      s3_published_bucket          = data.terraform_remote_state.common.outputs.published_bucket.id
+      proxy_no_proxy               = replace(replace(local.no_proxy, ",", "|"), ".s3", "*.s3")
+      proxy_http_host              = data.terraform_remote_state.internal_compute.outputs.internet_proxy.host
+      proxy_http_port              = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
+      proxy_https_host             = data.terraform_remote_state.internal_compute.outputs.internet_proxy.host
+      proxy_https_port             = data.terraform_remote_state.internal_compute.outputs.internet_proxy.port
+      hive_metastore_username      = var.metadata_store_pdm_writer_username
+      hive_metastore_pwd           = data.terraform_remote_state.internal_compute.outputs.metadata_store_users.pdm_writer.secret_name
+      hive_metastore_endpoint      = data.terraform_remote_state.internal_compute.outputs.hive_metastore_v2.endpoint
+      hive_metastore_database_name = data.terraform_remote_state.internal_compute.outputs.hive_metastore_v2.database_name
+      hive_compaction_threads      = local.hive_compaction_threads[local.environment]
+      hive_metastore_location      = local.hive_metastore_location
+      tez_am_resource_memory_mb    = local.tez_am_resource_memory_mb[local.environment]
+      hive_max_reducers            = local.hive_max_reducers[local.environment]
+      hive_tez_sessions_per_queue  = local.hive_tez_sessions_per_queue[local.environment]
     }
   )
 }
