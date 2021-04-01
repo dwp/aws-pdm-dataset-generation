@@ -244,32 +244,6 @@ locals {
     production  = true
   }
 
-  hive_tez_container_size = {
-    development = "4096"
-    qa          = "4096"
-    integration = "2688"
-    preprod     = "2688"
-    production  = "4096"
-  }
-
-  # 0.8 of hive_tez_container_size
-  hive_tez_java_opts = {
-    development = "-Xmx3276m"
-    qa          = "-Xmx3276m"
-    integration = "-Xmx2150m"
-    preprod     = "-Xmx2150m"
-    production  = "-Xmx3276m"
-  }
-
-  # 0.33 of hive_tez_container_size
-  hive_auto_convert_join_noconditionaltask_size = {
-    development = "1351"
-    qa          = "1351"
-    integration = "896"
-    preprod     = "896"
-    production  = "1351"
-  }
-
   tez_am_resource_memory_mb = {
     development = "1024"
     qa          = "1024"
@@ -278,112 +252,12 @@ locals {
     production  = "1024"
   }
 
-  tez_grouping_min_size = {
-    development = "52428800"
-    qa          = "52428800"
-    integration = "1342177"
-    preprod     = "1342177"
-    production  = "52428800"
-  }
-
-  tez_grouping_max_size = {
-    development = "1073741824"
-    qa          = "1073741824"
-    integration = "268435456"
-    preprod     = "268435456"
-    production  = "1073741824"
-  }
-
-  # 0.8 of hive_tez_container_size
-  tez_task_resource_memory_mb = {
-    development = "3276"
-    qa          = "3276"
-    integration = "1024"
-    preprod     = "1024"
-    production  = "3276"
-  }
-
-  # 0.8 of tez_am_resource_memory_mb
-  tez_am_launch_cmd_opts = {
-    development = "-Xmx6556m"
-    qa          = "-Xmx6556m"
-    integration = "-Xmx819m"
-    preprod     = "-Xmx819m"
-    production  = "-Xmx6556m"
-  }
-
-  tez_runtime_unordered_output_buffer_size_mb = {
-    development = "2148"
-    qa          = "2148"
-    integration = "268"
-    preprod     = "268"
-    production  = "2148"
-  }
-
-  # 0.4 of hive_tez_container_size
-  tez_runtime_io_sort_mb = {
-    development = "1638"
-    qa          = "1638"
-    integration = "1075"
-    preprod     = "1075"
-    production  = "1638"
-  }
-
-  // This value should be the same as yarn.scheduler.maximum-allocation-mb
-  llap_daemon_yarn_container_mb = {
-    development = "385024"
-    qa          = "385024"
-    integration = "57344"
-    preprod     = "57344"
-    production  = "385024"
-  }
-
-  llap_number_of_instances = {
-    development = "15"
-    qa          = "15"
-    integration = "5"
-    preprod     = "5"
-    production  = "15"
-  }
-
-  map_reduce_vcores_per_node = {
-    development = "15"
-    qa          = "15"
-    integration = "10"
-    preprod     = "10"
-    production  = "15"
-  }
-
-  map_reduce_vcores_per_task = {
+  hive_tez_sessions_per_queue = {
     development = "5"
     qa          = "5"
-    integration = "2"
-    preprod     = "2"
+    integration = "5"
+    preprod     = "5"
     production  = "5"
-  }
-
-  hive_max_reducers = {
-    development = "3000"
-    qa          = "3000"
-    integration = "1099"
-    preprod     = "1099"
-    production  = "3000"
-  }
-
-  hive_tez_sessions_per_queue = {
-    development = "20"
-    qa          = "20"
-    integration = "10"
-    preprod     = "10"
-    production  = "20"
-  }
-
-  hive_bytes_per_reducer = {
-    development = "13421728"
-    qa          = "13421728"
-    integration = "13421728"
-    preprod     = "13421728"
-    production  = "13421728"
   }
 
   emr_capacity_reservation_preference = {

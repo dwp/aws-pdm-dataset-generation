@@ -4,8 +4,6 @@ Configurations:
   Properties:
     "yarn.log-aggregation-enable": "true"
     "yarn.nodemanager.remote-app-log-dir": "s3://${s3_log_bucket}/${s3_log_prefix}/yarn"
-    "yarn.nodemanager.vmem-check-enabled": "false"
-    "yarn.nodemanager.pmem-check-enabled": "false"
 
 - Classification: "hive-site"
   Properties:
@@ -37,7 +35,6 @@ Configurations:
     "hive.vectorized.execution.ptf.enabled": "false"
     "hive.vectorized.row.serde.inputformat.excludes": ""
     "hive_timeline_logging_enabled": "true"
-    "hive.exec.reducers.max": "${hive_max_reducers}"
     "hive.server2.tez.sessions.per.default.queue": "${hive_tez_sessions_per_queue}"
     "hive.server2.tez.initialize.default.sessions": "true"
     "hive.default.fileformat": "TextFile"
@@ -45,9 +42,7 @@ Configurations:
     "hive.exec.orc.split.strategy": "HYBRID"
     "hive.merge.orcfile.stripe.level": "true"
     "hive.orc.compute.splits.num.threads": "10"
-    "hive.blobstore.optimizations.enabled": "true"
-    "hive.blobstore.use.blobstore.as.scratchdir": "false"
-    "hive.exec.input.listing.max.threads": "2"
+    "hive.orc.splits.include.file.footer": "true"
 
 - Classification: "mapred-site"
   Properties:
@@ -57,7 +52,6 @@ Configurations:
   Properties:
     "tez.am.resource.memory.mb": "${tez_am_resource_memory_mb}"
     "tez.am.container.reuse.enabled": "true"
-    "tez.am.container.reuse.non-local-fallback.enabled": "true"
 
 - Classification: "emrfs-site"
   Properties:

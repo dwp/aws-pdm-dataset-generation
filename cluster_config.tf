@@ -80,7 +80,6 @@ resource "aws_s3_bucket_object" "configurations" {
       hive_compaction_threads      = local.hive_compaction_threads[local.environment]
       hive_metastore_location      = local.hive_metastore_location
       tez_am_resource_memory_mb    = local.tez_am_resource_memory_mb[local.environment]
-      hive_max_reducers            = local.hive_max_reducers[local.environment]
       hive_tez_sessions_per_queue  = local.hive_tez_sessions_per_queue[local.environment]
     }
   )
