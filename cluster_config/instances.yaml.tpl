@@ -13,6 +13,12 @@ Instances:
   - InstanceFleetType: "MASTER"
     Name: MASTER
     TargetOnDemandCapacity: 1
+    LaunchSpecifications:
+      OnDemandSpecification:
+        CapacityReservationOptions:
+          CapacityReservationPreference: "${capacity_reservation_preference}"
+          CapacityReservationResourceGroupArn: "${capacity_reservation_arn}"
+          UsageStrategy: "use-capacity-reservations-first"
     InstanceTypeConfigs:
     - EbsConfiguration:
         EbsBlockDeviceConfigs:
@@ -24,6 +30,12 @@ Instances:
   - InstanceFleetType: "CORE"
     Name: CORE
     TargetOnDemandCapacity: ${core_instance_capacity_on_demand}
+    LaunchSpecifications:
+      OnDemandSpecification:
+        CapacityReservationOptions:
+          CapacityReservationPreference: "${capacity_reservation_preference}"
+          CapacityReservationResourceGroupArn: "${capacity_reservation_arn}"
+          UsageStrategy: "use-capacity-reservations-first"
     InstanceTypeConfigs:
     - EbsConfiguration:
         EbsBlockDeviceConfigs:
