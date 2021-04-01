@@ -47,7 +47,7 @@ tables_report() {
 }
 
 parallelised_statements() {
-    local input_file="($${1:?})"
+    local input_file=$${1:?}
     #shellcheck disable=SC2001
     xargs -d '\n' -a "$input_file" -r -P"${processes}" -n1 hive -e
 }
