@@ -44,10 +44,6 @@ Configurations:
     "hive.orc.compute.splits.num.threads": "10"
     "hive.orc.splits.include.file.footer": "true"
 
-- Classification: "mapred-site"
-  Properties:
-    "mapred.reduce.tasks": "-1"
-
 - Classification: "tez-site"
   Properties:
     "tez.am.resource.memory.mb": "${tez_am_resource_memory_mb}"
