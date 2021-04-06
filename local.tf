@@ -244,20 +244,146 @@ locals {
     production  = true
   }
 
+  tez_runtime_unordered_output_buffer_size_mb = {
+    development = "268"
+    qa          = "2148"
+    integration = "268"
+    preprod     = "268"
+    production  = "2148"
+  }
+
+  # 0.4 of hive_tez_container_size
+  tez_runtime_io_sort_mb = {
+    development = "1075"
+    qa          = "6144"
+    integration = "1075"
+    preprod     = "1075"
+    production  = "6144"
+  }
+
+  tez_grouping_min_size = {
+    development = "1342177"
+    qa          = "52428800"
+    integration = "1342177"
+    preprod     = "1342177"
+    production  = "52428800"
+  }
+
+  tez_grouping_max_size = {
+    development = "268435456"
+    qa          = "1073741824"
+    integration = "268435456"
+    preprod     = "268435456"
+    production  = "1073741824"
+  }
+
   tez_am_resource_memory_mb = {
     development = "1024"
-    qa          = "1024"
+    qa          = "12288"
     integration = "1024"
     preprod     = "1024"
-    production  = "1024"
+    production  = "12288"
+  }
+
+  # 0.8 of hive_tez_container_size
+  tez_task_resource_memory_mb = {
+    development = "1024"
+    qa          = "8196"
+    integration = "1024"
+    preprod     = "1024"
+    production  = "8196"
+  }
+
+  # 0.8 of tez_am_resource_memory_mb
+  tez_am_launch_cmd_opts = {
+    development = "-Xmx819m"
+    qa          = "-Xmx6556m"
+    integration = "-Xmx819m"
+    preprod     = "-Xmx819m"
+    production  = "-Xmx6556m"
   }
 
   hive_tez_sessions_per_queue = {
+    development = "10"
+    qa          = "50"
+    integration = "10"
+    preprod     = "10"
+    production  = "50"
+  }
+
+  map_reduce_vcores_per_node = {
     development = "5"
-    qa          = "5"
+    qa          = "15"
     integration = "5"
     preprod     = "5"
+    production  = "15"
+  }
+
+  map_reduce_vcores_per_task = {
+    development = "1"
+    qa          = "5"
+    integration = "1"
+    preprod     = "1"
     production  = "5"
+  }
+
+  hive_tez_container_size = {
+    development = "2688"
+    qa          = "15360"
+    integration = "2688"
+    preprod     = "2688"
+    production  = "15360"
+  }
+
+  # 0.8 of hive_tez_container_size
+  hive_tez_java_opts = {
+    development = "-Xmx2150m"
+    qa          = "-Xmx12288m"
+    integration = "-Xmx2150m"
+    preprod     = "-Xmx2150m"
+    production  = "-Xmx12288m"
+  }
+
+  # 0.33 of hive_tez_container_size
+  hive_auto_convert_join_noconditionaltask_size = {
+    development = "896"
+    qa          = "5068"
+    integration = "896"
+    preprod     = "896"
+    production  = "5068"
+  }
+
+  hive_bytes_per_reducer = {
+    development = "52428800"
+    qa          = "52428800"
+    integration = "52428800"
+    preprod     = "52428800"
+    production  = "52428800"
+  }
+
+  // This value should be the same as yarn.scheduler.maximum-allocation-mb
+  llap_daemon_yarn_container_mb = {
+    development = "57344"
+    qa          = "385024"
+    integration = "57344"
+    preprod     = "57344"
+    production  = "385024"
+  }
+
+  llap_number_of_instances = {
+    development = "5"
+    qa          = "20"
+    integration = "5"
+    preprod     = "5"
+    production  = "20"
+  }
+
+  hive_max_reducers = {
+    development = "1099"
+    qa          = "3000"
+    integration = "1099"
+    preprod     = "1099"
+    production  = "3000"
   }
 
   emr_capacity_reservation_preference = {
