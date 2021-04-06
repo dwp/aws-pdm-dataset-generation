@@ -305,10 +305,10 @@ locals {
 
   hive_tez_sessions_per_queue = {
     development = "10"
-    qa          = "50"
+    qa          = "35"
     integration = "10"
     preprod     = "10"
-    production  = "50"
+    production  = "35"
   }
 
   map_reduce_vcores_per_node = {
@@ -354,11 +354,11 @@ locals {
   }
 
   hive_bytes_per_reducer = {
-    development = "52428800"
-    qa          = "52428800"
-    integration = "52428800"
-    preprod     = "52428800"
-    production  = "52428800"
+    development = "13421728"
+    qa          = "13421728"
+    integration = "13421728"
+    preprod     = "13421728"
+    production  = "13421728"
   }
 
   // This value should be the same as yarn.scheduler.maximum-allocation-mb
