@@ -102,6 +102,7 @@ Configurations:
     "hive.tez.min.partition.factor": "0.25"
     "hive.tez.max.partition.factor": "2.0"
     "hive.exec.reducers.max": "${hive_max_reducers}"
+    "hive.convert.join.bucket.mapjoin.tez": "false"
 
 - Classification: "mapred-site"
   Properties:
