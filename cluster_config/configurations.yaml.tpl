@@ -56,6 +56,7 @@ Configurations:
     "hive.blobstore.use.blobstore.as.scratchdir": "false"
     "hive.server2.tez.session.lifetime": "0"
     "hive.exec.reducers.max": "${hive_max_reducers}"
+    "hive.convert.join.bucket.mapjoin.tez": "false"
 
 - Classification: "tez-site"
   Properties:
