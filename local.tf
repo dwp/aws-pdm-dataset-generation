@@ -380,10 +380,10 @@ locals {
 
   hive_max_reducers = {
     development = "1099"
-    qa          = "3000"
+    qa          = "2000"
     integration = "1099"
     preprod     = "1099"
-    production  = "3000"
+    production  = "2000"
   }
 
   emr_capacity_reservation_preference = {
