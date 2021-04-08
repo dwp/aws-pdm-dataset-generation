@@ -66,9 +66,9 @@ variable "metadata_store_pdm_writer_username" {
 variable "emr_core_instance_capacity_on_demand" {
   default = {
     development = "10"
-    qa          = "35"
+    qa          = "39"
     integration = "10"
     preprod     = "10"
-    production  = "35"
+    production  = "39"
   }
 }
