@@ -29,7 +29,7 @@
   IN_PROGRESS_STATUS="IN_PROGRESS"
   CANCELLED_STATUS="CANCELLED"
 
-  FINAL_STEP_NAME="flush-s3"
+  FINAL_STEP_NAME="create-views-tables"
 
   while [[ ! -f "$CORRELATION_ID_FILE" ]] && [[ ! -f "$S3_PREFIX_FILE" ]] && [[ ! -f "$SNAPSHOT_TYPE_FILE" ]] && [[ ! -f "$EXPORT_DATE_FILE" ]]
   do
