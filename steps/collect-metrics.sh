@@ -42,8 +42,9 @@ set -euo pipefail
        state=$((4))
     fi
     gauge_name2=state_step_$step_id$step_name
-    jq --argjson val $completion_min '.gauges += {"'"$gauge_name"'":{"value":$val}}' $METRICS_FILE_PATH > "tmp" && sudo mv -f -b "tmp" $METRICS_FILE_PATH
-    jq --argjson val2 $state '.gauges += {"'"$gauge_name2"'":{"value":$val2}}' $METRICS_FILE_PATH > "tmp" && sudo mv -f -b "tmp" $METRICS_FILE_PATH
+    jq --argjson val $completion_min '.gauges += {"'"$gauge_name"'":{"value":$val}}' $METRICS_FILE_PATH >> "tmp"
+    jq --argjson val2 $state '.gauges += {"'"$gauge_name2"'":{"value":$val2}}' $METRICS_FILE_PATH >> "tmp"
+    sudo mv -f -b "tmp" $METRICS_FILE_PATH
     done
 
     log_wrapper_message "Finished creating metrics file"
