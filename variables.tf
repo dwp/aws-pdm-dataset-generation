@@ -42,7 +42,7 @@ variable "emr_instance_type_master_one" {
     development = "m5.16xlarge"
     qa          = "m5.16xlarge"
     integration = "m5.4xlarge"
-    preprod     = "m5.4xlarge"
+    preprod     = "m5.16xlarge"
     production  = "m5.16xlarge"
   }
 }
@@ -52,7 +52,7 @@ variable "emr_instance_type_core_one" {
     development = "m5.2xlarge"
     qa          = "m5.16xlarge"
     integration = "m5.2xlarge"
-    preprod     = "m5.2xlarge"
+    preprod     = "m5.16xlarge"
     production  = "m5.16xlarge"
   }
 }
@@ -68,7 +68,7 @@ variable "emr_core_instance_capacity_on_demand" {
     development = "10"
     qa          = "39"
     integration = "10"
-    preprod     = "10"
+    preprod     = "39"
     production  = "39"
   }
 }
