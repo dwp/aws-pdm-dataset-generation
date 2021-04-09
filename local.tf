@@ -160,7 +160,7 @@ locals {
     development = "1"
     qa          = "1"
     integration = "1"
-    preprod     = "1"
+    preprod     = "12"
     production  = "12" # vCPU in the instance / 8
   }
 
@@ -168,7 +168,7 @@ locals {
     development = "10"
     qa          = "10"
     integration = "10"
-    preprod     = "10"
+    preprod     = "12"
     production  = "12"
   }
 
@@ -192,7 +192,7 @@ locals {
     development = "20"
     qa          = "20"
     integration = "10"
-    preprod     = "10"
+    preprod     = "20"
     production  = "20"
   }
 
@@ -200,7 +200,7 @@ locals {
     development = "20"
     qa          = "20"
     integration = "10"
-    preprod     = "10"
+    preprod     = "20"
     production  = "20"
   }
 
@@ -208,7 +208,7 @@ locals {
     development = "20"
     qa          = "20"
     integration = "10"
-    preprod     = "10"
+    preprod     = "20"
     production  = "20"
   }
 
@@ -216,7 +216,7 @@ locals {
     development = "20"
     qa          = "20"
     integration = "10"
-    preprod     = "10"
+    preprod     = "20"
     production  = "20"
   }
 
@@ -224,7 +224,7 @@ locals {
     development = "20"
     qa          = "20"
     integration = "10"
-    preprod     = "10"
+    preprod     = "20"
     production  = "20"
   }
 
@@ -232,7 +232,7 @@ locals {
     development = "20"
     qa          = "20"
     integration = "10"
-    preprod     = "10"
+    preprod     = "20"
     production  = "20"
   }
 
@@ -248,7 +248,7 @@ locals {
     development = "268"
     qa          = "2148"
     integration = "268"
-    preprod     = "268"
+    preprod     = "2148"
     production  = "2148"
   }
 
@@ -265,7 +265,7 @@ locals {
     development = "1342177"
     qa          = "52428800"
     integration = "1342177"
-    preprod     = "1342177"
+    preprod     = "52428800"
     production  = "52428800"
   }
 
@@ -273,7 +273,7 @@ locals {
     development = "268435456"
     qa          = "1073741824"
     integration = "268435456"
-    preprod     = "268435456"
+    preprod     = "1073741824"
     production  = "1073741824"
   }
 
@@ -307,7 +307,7 @@ locals {
     development = "10"
     qa          = "35"
     integration = "10"
-    preprod     = "10"
+    preprod     = "35"
     production  = "35"
   }
 
@@ -315,7 +315,7 @@ locals {
     development = "5"
     qa          = "15"
     integration = "5"
-    preprod     = "5"
+    preprod     = "15"
     production  = "15"
   }
 
@@ -323,7 +323,7 @@ locals {
     development = "1"
     qa          = "5"
     integration = "1"
-    preprod     = "1"
+    preprod     = "5"
     production  = "5"
   }
 
@@ -366,7 +366,7 @@ locals {
     development = "57344"
     qa          = "253952"
     integration = "57344"
-    preprod     = "57344"
+    preprod     = "253952"
     production  = "253952"
   }
 
@@ -374,7 +374,7 @@ locals {
     development = "5"
     qa          = "15"
     integration = "5"
-    preprod     = "5"
+    preprod     = "15"
     production  = "15"
   }
 
@@ -382,7 +382,7 @@ locals {
     development = "1099"
     qa          = "2000"
     integration = "1099"
-    preprod     = "1099"
+    preprod     = "2000"
     production  = "2000"
   }
 
