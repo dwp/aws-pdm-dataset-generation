@@ -44,17 +44,13 @@
     EXPORT_DATE="$DATE"
   fi
 
-  if [[ "$SNAPSHOT_TYPE" == "incremental" ]]; then
-    FINAL_STEP_NAME="executeUpdateAll"
-  fi
-
   processed_files=()
 
   push_metric() {
-    log_wrapper_message "Sending to push gateway with value $1"
+    log_wrapper_message "Sending to push gateway with value $1 snapshot type $SNAPLSSHOT_TYPE export date $EXPORT_DATE cluster id $CLUSTER_ID correlation_id $CORRELATION_ID"
 
-    cat << EOF | curl --silent --output /dev/null --show-error --fail --data-binary @- "http://${pdm_pushgateway_hostname}:9091/metrics/job/pdm"
-                pdm_status{snapshot_type="$SNAPSHOT_TYPE", export_date="$EXPORT_DATE", cluster_id="$CLUSTER_ID", component="PDM" correlation_id="$CORRELATION_ID"} $1
+    cat << EOF | curl --data-binary @- "http://${pdm_pushgateway_hostname}:9091/metrics/job/pdm"
+                pdm_status{snapshot_type="$SNAPLSSHOT_TYPE", export_date="$EXPORT_DATE", cluster_id="$CLUSTER_ID", component="PDM" correlation_id="$CORRELATION_ID"} $1
 EOF
 
   }
@@ -104,3 +100,5 @@ EOF
   check_step_dir
 
 ) >> /var/log/pdm/status_metrics_sh.log 2>&1
+
+echo "some_metric 3.14" | curl --data-binary @- http://pdm-pushgateway.development.pdm.services.dataworks.dwp.gov.uk:9091/metrics/job/mark_pdm_test
