@@ -27,7 +27,7 @@ resource "aws_s3_bucket_object" "emr_setup_sh" {
       name                            = local.emr_cluster_name
       update_dynamo_sh                = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.update_dynamo_sh.key)
       dynamo_schema_json              = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.dynamo_json_file.key)
-      status_metrics_sh                = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.status_metrics_sh.key)
+      status_metrics_sh               = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.status_metrics_sh.key)
   })
 }
 
