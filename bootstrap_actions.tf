@@ -52,6 +52,7 @@ resource "aws_s3_bucket_object" "status_metrics_sh" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "component/pdm-dataset-generation/status_metrics.sh"
   content = templatefile("${path.module}/bootstrap_actions/status_metrics.sh",
+  {}
     # {
     #   pdm_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.pdm_pushgateway_hostname
     # }
