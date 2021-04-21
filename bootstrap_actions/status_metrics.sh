@@ -47,10 +47,13 @@
   processed_files=()
 
   push_metric() {
-    log_wrapper_message "Sending to push gateway with value $1 snapshot type $SNAPLSSHOT_TYPE export date $EXPORT_DATE cluster id $CLUSTER_ID correlation_id $CORRELATION_ID"
+    log_wrapper_message "Sending to push gateway with value $1"
+    log_wrapper_message "Export Date $EXPORT_DATE"
+    log_wrapper_message "Cluster Id $CLUSTER_ID"
+    log_wrapper_message "Correlation Id $CORRELATION_ID"
 
     cat << EOF | curl --data-binary @- "http://${pdm_pushgateway_hostname}:9091/metrics/job/pdm"
-                pdm_status{export_date="$EXPORT_DATE", cluster_id="$CLUSTER_ID", component="PDM" correlation_id="$CORRELATION_ID"} $1
+                pdm_status{component="PDM"} $1
 EOF
 
   }
