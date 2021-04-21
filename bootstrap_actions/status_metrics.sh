@@ -100,5 +100,3 @@ EOF
   check_step_dir
 
 ) >> /var/log/pdm/status_metrics_sh.log 2>&1
-
-echo "some_metric 3.14" | curl --data-binary @- http://pdm-pushgateway.development.pdm.services.dataworks.dwp.gov.uk:9091/metrics/job/mark_pdm_test
