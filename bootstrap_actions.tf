@@ -182,7 +182,6 @@ resource "aws_s3_bucket_object" "application_metrics" {
       proxy_url         = data.terraform_remote_state.internal_compute.outputs.internet_proxy.url
       metrics_pom       = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.metrics_pom.key)
       prometheus_config = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.prometheus_config.key)
-      status_metrics_sh = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.status_metrics_sh.key)
     }
   )
 }
