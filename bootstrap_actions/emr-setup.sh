@@ -127,13 +127,6 @@ chmod u+x /opt/emr/update_dynamo.sh
 
 /opt/emr/update_dynamo.sh &
 
-log_wrapper_message "Downloading and running status metrics script"
-$(which aws) s3 cp "${status_metrics_sh}"                    /opt/emr/status_metrics.sh
-
-chmod u+x /opt/emr/status_metrics.sh
-
-/opt/emr/status_metrics.sh &
-
 log_wrapper_message "Completed the emr-setup.sh step of the EMR Cluster"
 
 ) >> /var/log/pdm/emr_setup.log 2>&1
