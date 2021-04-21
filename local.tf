@@ -145,7 +145,7 @@ locals {
     qa          = "true"
     integration = "true"
     preprod     = "false"
-    production  = "true"
+    production  = "false"
   }
 
   step_fail_action = {
