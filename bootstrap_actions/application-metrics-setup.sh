@@ -42,11 +42,5 @@ PROXY_PORT=$(echo "${proxy_url}" | sed 's|.*:||') # SED is fine to use here
 export MAVEN_OPTS="-DproxyHost=$PROXY_HOST -DproxyPort=$PROXY_PORT"
 $METRICS_FILEPATH/$MAVEN/bin/mvn -f $METRICS_FILEPATH/pom.xml dependency:copy-dependencies -DoutputDirectory="$METRICS_FILEPATH/dependencies"
 
-log_wrapper_message "Running status metrics script"
-
-chmod u+x /var/ci/status_metrics.sh
-
-/var/ci/status_metrics.sh &
-
 
 ) >> /var/log/pdm/application_metrics.log 2>&1
