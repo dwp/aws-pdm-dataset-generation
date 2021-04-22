@@ -3,7 +3,6 @@
 # This script deletes PDMs metrics file is s3. The CLI call doesn't
 # error if file file isn't present. 
 
-set -euo pipefail
 (
     # Import the logging functions
     source /opt/emr/logging.sh
