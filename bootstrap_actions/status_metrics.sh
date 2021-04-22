@@ -53,7 +53,7 @@
     log_wrapper_message "Correlation Id $CORRELATION_ID"
 
     cat << EOF | curl --data-binary @- "http://${pdm_pushgateway_hostname}:9091/metrics/job/pdm"
-                pdm_status{component="PDM"} $1
+                pdm_status{component="PDM",snapshot_type="$SNAPSHOT_TYPE", export_date="$EXPORT_DATE", cluster_id="$CLUSTER_ID",correlation_id="$CORRELATION_ID"} $1
 EOF
 
   }
