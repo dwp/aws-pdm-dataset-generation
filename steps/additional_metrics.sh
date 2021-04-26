@@ -14,6 +14,7 @@ set -euo pipefail
     UC_DB="${uc_db}"
     S3_LOCATION="${data_location}"
     HIVE_METASTORE_LOCATION="${hive_metastore_location}"
+    METRICS_FILE_PATH=/var/log/hive/metrics.json
 
     # get the data needed for metrics labels
     CORRELATION_ID_FILE=/opt/emr/correlation_id.txt
