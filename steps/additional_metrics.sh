@@ -42,7 +42,7 @@ EOF
 
 
     # count number of rows in all views dbs
-    
+
     res=$(aws s3 ls "$S3_LOCATION/$HIVE_METASTORE_LOCATION/$VIEWS_TABLES_DB".db/)
 
     query_string1=""
@@ -73,9 +73,9 @@ EOF
     gauge_name="rowcount_""$UC_DB"
     jq --argjson val "$rows_in_db" '.gauges += {"'"$gauge_name"'":{"value":$val}}' $METRICS_FILE_PATH > "tmp_dir" && sudo mv -f "tmp_dir" $METRICS_FILE_PATH
 
+    res=$(echo $(mysql -u hive -h  -p$pasw -e"use hive_metastore_v2; select sum(param.PARAM_VALUE) FROM TABLE_PARAMS param JOIN TBLS tbl on tbl.TBL_ID = param.TBL_ID JOIN DBS db ON db.DB_ID = tbl.DB_ID WHERE db.NAME = 'uc' and param.PARAM_KEY = 'numRows';") | awk '{print $2}')
+
     # query for max date 
     MAX_DATES=$(hive -S -f ./query_max_dates.hql) #this file will be uploaded to s3
-
- 
 
 ) >> /var/log/pdm/additional-metrics.log 2>&1
