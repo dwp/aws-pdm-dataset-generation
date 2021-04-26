@@ -175,3 +175,16 @@ resource "aws_s3_bucket_object" "flush_s3" {
     }
   )
 }
+
+resource "aws_s3_bucket_object" "additional_metrics" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/pdm-dataset-generation/additional_metrics.sh"
+  content = templatefile("${path.module}/steps/additional_metrics.sh",
+    {
+      uc_db                   = local.uc_db
+      data_location           = local.data_location
+      hive_metastore_location = local.hive_metastore_location
+      data_location           = local.data_location
+    }
+  )
+}
