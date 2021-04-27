@@ -2,6 +2,9 @@
 
 set -euo pipefail
 
+  hive_metastore_password=$(aws secretsmanager get-secret-value --secret-id ${metastore_secret_id} --output text --query SecretString | jq -r '.password')
+  mysql_port=3306
+
 (
     # Import the logging functions
     source /opt/emr/logging.sh
@@ -35,47 +38,44 @@ EOF
 
   }
     # count number of tables in views db
-    TABLE_NAMES=$(hive -S -e "USE $UC_DB; SHOW TABLES;") >> tbls.txt
-    WORD_COUNT=($(wc -w tbls.txt))
-    TABLE_COUNT=${WORD_COUNT[0]}
-    push_metric "pdm_views_table_count" $TABLE_COUNT
+    TABLE_COUNT=$(echo $(hive -S -e "USE $UC_DB; SHOW TABLES;") | wc -w )
+    push_metric "pdm_views_table_count" "${TABLE_COUNT}"
 
 
     # count number of rows in all views dbs
+    ROW_COUNT=$(echo $(mysql -u ${hive_metastore_username} -h ${hive_metastore_endpoint} -p$hive_metastore_password -e"use ${hive_metastore_db}; select sum(param.PARAM_VALUE) FROM TABLE_PARAMS param JOIN TBLS tbl on tbl.TBL_ID = param.TBL_ID JOIN DBS db ON db.DB_ID = tbl.DB_ID WHERE db.NAME = 'uc' and param.PARAM_KEY = 'numRows';") | awk '{print $2}')
 
-    res=$(aws s3 ls "$S3_LOCATION/$HIVE_METASTORE_LOCATION/$VIEWS_TABLES_DB".db/)
+    push_metric "pdm_views_row_count" "${ROW_COUNT}"
 
-    query_string1=""
-    query_string2=""
-    new_line=$'\n'
-    tb_names=$(hive -S -e "USE $UC_DB; SHOW TABLES;")
-    for tb_name in "${tb_names[@]}"
-      do
-        if [[ "$tables_string" == *"$tb_name/"* ]]
-        then
-        query_string1="$query_string1" "ANALYZE TABLE ""$UC_DB"".""$tb_name"" COMPUTE STATISTICS;$new_line"
-        query_string2="$query_string2" "SELECT '""$UC_DB"".""$tb_name""'; SHOW TBLPROPERTIES ""$UC_DB"".""$tb_name""('numRows');$new_line"
-        fi
-      done
-    echo "$query_string1" | tee query_cs.hql
-    echo "$query_string2" | tee query_sp.hql
-    hive -S -f ./query_cs.hql
-    outp=$(hive -S -f ./query_sp.hql)
-    query_string1=""
-    query_string2=""
-    rows_in_db=$((0))
-    separated=$(echo "${outp}" | sed -e 's/ /\n/g')
-    rows_in_tables=$(echo "${separated}" | sed -e '/^[0-9]*$/!d')
-    for j in "${rows_in_tables[@]}"
-      do
-        rows_in_db=$((rows_in_db+j))
-      done
-    gauge_name="rowcount_""$UC_DB"
-    jq --argjson val "$rows_in_db" '.gauges += {"'"$gauge_name"'":{"value":$val}}' $METRICS_FILE_PATH > "tmp_dir" && sudo mv -f "tmp_dir" $METRICS_FILE_PATH
+    # query for max date
+    tbls_data=$(mysql -u ${hive_metastore_username} -h ${hive_metastore_endpoint} -p$hive_metastore_password -e \
+      "USE ${hive_metastore_db}; SELECT t.TBL_NAME, c.COLUMN_NAME FROM TBLS t
+       JOIN DBS d
+       ON t.DB_ID = d.DB_ID
+       JOIN SDS s
+       ON t.SD_ID = s.SD_ID
+       JOIN COLUMNS_V2 c
+       ON s.CD_ID = c.CD_ID
+       WHERE d.NAME='${uc_db}'
+       AND COLUMN_NAME in ('created_ts', 'registration_ts');"
+    )
 
-    res=$(echo $(mysql -u hive -h  -p$pasw -e"use hive_metastore_v2; select sum(param.PARAM_VALUE) FROM TABLE_PARAMS param JOIN TBLS tbl on tbl.TBL_ID = param.TBL_ID JOIN DBS db ON db.DB_ID = tbl.DB_ID WHERE db.NAME = 'uc' and param.PARAM_KEY = 'numRows';") | awk '{print $2}')
+    declare -a tbls_array
 
-    # query for max date 
-    MAX_DATES=$(hive -S -f ./query_max_dates.hql) #this file will be uploaded to s3
+    tbls_array=(echo $tbls_data)
+    res_column_name="${tbls_array[4]}"
+
+    query_str=""
+    for ((i=3; i<${#tbls_array[@]}; i=((i+2)))); do
+        table_name="${tbls_array[i]}"
+        column_name="${tbls_array[((i+1))]}"
+        query_str="$query_str SELECT ${array[((i+1))]} FROM uc.${array[i]} UNION ";
+    done
+
+    query_str="${query_str::-7} ORDER By $res_column_name DESC LIMIT 1"
+
+    MAX_DATES=$(hive -S -e "$query_str")
+
+    push_metric "pdm_views_max_date" "${MAX_DATE}"
 
 ) >> /var/log/pdm/additional-metrics.log 2>&1

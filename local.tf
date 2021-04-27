@@ -16,6 +16,7 @@ locals {
   data_pipeline_metadata          = data.terraform_remote_state.internal_compute.outputs.data_pipeline_metadata_dynamo.name
   hive_metastore_location         = "data/uc"
   hive_data_location              = "data"
+  metastore_reader_secret_name    = "metadata-store-v2-adg-reader"
   common_tags = {
     Environment  = local.environment
     Application  = local.emr_cluster_name
