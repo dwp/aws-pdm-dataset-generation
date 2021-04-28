@@ -181,10 +181,11 @@ resource "aws_s3_bucket_object" "additional_metrics" {
   key    = "component/pdm-dataset-generation/additional_metrics.sh"
   content = templatefile("${path.module}/steps/additional_metrics.sh",
     {
-      uc_db                   = local.uc_db
-      data_location           = local.data_location
-      hive_metastore_location = local.hive_metastore_location
-      metastore_secret_id     = data.aws_secretsmanager_secret.metastore_reader_secret.id
+      uc_db                     = local.uc_db
+      data_location             = local.data_location
+      hive_metastore_location   = local.hive_metastore_location
+      metastore_secret_id       = data.aws_secretsmanager_secret.metastore_reader_secret.id
+      pdm_pushgateway_hostname  = data.terraform_remote_state.metrics_infrastructure.outputs.pdm_pushgateway_hostname
     }
   )
 }
