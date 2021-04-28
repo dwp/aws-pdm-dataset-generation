@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-  hive_metastore_password=$(aws secretsmanager get-secret-value --secret-id ${metastore_secret_id} --output text --query SecretString | jq -r '.password')
-  mysql_port=3306
+#  hive_metastore_password=$(aws secretsmanager get-secret-value --secret-id ${metastore_secret_id} --output text --query SecretString | jq -r '.password')
+#  mysql_port=3306
 
 (
     # Import the logging functions
@@ -35,21 +35,28 @@ set -euo pipefail
     cat << EOF | curl --data-binary @- "http://${pdm_pushgateway_hostname}:9091/metrics/job/pdm"
                 $metric_name{component="PDM",snapshot_type="$SNAPSHOT_TYPE", export_date="$EXPORT_DATE", cluster_id="$CLUSTER_ID",correlation_id="$CORRELATION_ID"} metric_value
 EOF
-
   }
+
+    setup_virtual_conf(){
+      aws --profile dataworks-development secretsmanager get-secret-value --secret-id metadata-store-v2-adg-reader --output text --query SecretString | jq -r '"[client]\npassword=" + .password + "\nuser=" + .username + "\nhost=" + .host + "\nport=" + (.port|tostring) + "\ndatabase=" + .dbInstanceIdentifier'
+    }
+
+    execute_metastore_query(){
+        mysql --defaults-file=<(setup_virtual_conf) -e"${1}"
+    }
+
     # count number of tables in views db
     TABLE_COUNT=$(echo $(hive -S -e "USE $UC_DB; SHOW TABLES;") | wc -w )
     push_metric "pdm_views_table_count" "${TABLE_COUNT}"
 
 
     # count number of rows in all views dbs
-    ROW_COUNT=$(echo $(mysql -u ${hive_metastore_username} -h ${hive_metastore_endpoint} -p$hive_metastore_password -e"use ${hive_metastore_db}; select sum(param.PARAM_VALUE) FROM TABLE_PARAMS param JOIN TBLS tbl on tbl.TBL_ID = param.TBL_ID JOIN DBS db ON db.DB_ID = tbl.DB_ID WHERE db.NAME = 'uc' and param.PARAM_KEY = 'numRows';") | awk '{print $2}')
+    ROW_COUNT=$(echo $(execute_metastore_query "select sum(param.PARAM_VALUE) FROM TABLE_PARAMS param JOIN TBLS tbl on tbl.TBL_ID = param.TBL_ID JOIN DBS db ON db.DB_ID = tbl.DB_ID WHERE db.NAME = 'uc' and param.PARAM_KEY = 'numRows';") | awk '{print $2}')
 
     push_metric "pdm_views_row_count" "${ROW_COUNT}"
 
     # query for max date
-    tbls_data=$(mysql -u ${hive_metastore_username} -h ${hive_metastore_endpoint} -p$hive_metastore_password -e \
-      "USE ${hive_metastore_db}; SELECT t.TBL_NAME, c.COLUMN_NAME FROM TBLS t
+    tbls_data=$(execute_metastore_query "SELECT t.TBL_NAME, c.COLUMN_NAME FROM TBLS t
        JOIN DBS d
        ON t.DB_ID = d.DB_ID
        JOIN SDS s

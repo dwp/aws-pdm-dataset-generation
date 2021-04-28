@@ -185,9 +185,6 @@ resource "aws_s3_bucket_object" "additional_metrics" {
       data_location           = local.data_location
       hive_metastore_location = local.hive_metastore_location
       data_location           = local.data_location
-      hive_metastore_endpoint = data.terraform_remote_state.internal_compute.outputs.hive_metastore_v2.rds_cluster.endpoint
-      hive_metastore_username = jsondecode(data.aws_secretsmanager_secret_version.metastore_secret.secret_string)["username"]
-      hive_metastore_db       = data.terraform_remote_state.internal_compute.outputs.hive_metastore_v2.rds_cluster.database_name
       metastore_secret_id     = data.aws_secretsmanager_secret.metastore_reader_secret.id
     }
   )
