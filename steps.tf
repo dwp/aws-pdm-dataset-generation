@@ -184,7 +184,6 @@ resource "aws_s3_bucket_object" "additional_metrics" {
       uc_db                   = local.uc_db
       data_location           = local.data_location
       hive_metastore_location = local.hive_metastore_location
-      data_location           = local.data_location
       metastore_secret_id     = data.aws_secretsmanager_secret.metastore_reader_secret.id
     }
   )
