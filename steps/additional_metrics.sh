@@ -53,6 +53,7 @@ EOF
     push_metric "pdm_views_row_count" "$${ROW_COUNT}"
 
     # query for max date
+    # Get all tables that contain a relevant timestamp column from uc_db
     tbls_data=$(execute_metastore_query "SELECT t.TBL_NAME, c.COLUMN_NAME FROM TBLS t
        JOIN DBS d
        ON t.DB_ID = d.DB_ID
@@ -69,15 +70,17 @@ EOF
     tbls_array=(echo $tbls_data)
     res_column_name="$${tbls_array[4]}"
 
+    # Create a query to union all ts columns into one column, sort in descending order and get first (max date)
     query_str=""
     for ((i=3; i<$${#tbls_array[@]}; i=((i+2)))); do
         table_name="$${tbls_array[i]}"
         column_name="$${tbls_array[((i+1))]}"
-        query_str="$query_str SELECT $${array[((i+1))]} FROM uc.$${array[i]} UNION ";
+        query_str="$query_str SELECT $${tbls_array[((i+1))]} FROM uc.$${tbls_array[i]} UNION ";
     done
 
     query_str="$${query_str::-7} ORDER By $res_column_name DESC LIMIT 1"
 
+    # Run query in Hive
     MAX_DATES=$(hive -S -e "$query_str")
 
     push_metric "pdm_views_max_date" "$${MAX_DATE}"
