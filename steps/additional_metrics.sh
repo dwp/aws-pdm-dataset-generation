@@ -35,7 +35,7 @@ EOF
   }
 
     setup_virtual_conf(){
-      aws --profile dataworks-development secretsmanager get-secret-value --secret-id metadata-store-v2-adg-reader --output text --query SecretString | jq -r '"[client]\npassword=" + .password + "\nuser=" + .username + "\nhost=" + .host + "\nport=" + (.port|tostring) + "\ndatabase=" + .dbInstanceIdentifier'
+      aws secretsmanager get-secret-value --secret-id metadata-store-v2-adg-reader --output text --query SecretString | jq -r '"[client]\npassword=" + .password + "\nuser=" + .username + "\nhost=" + .host + "\nport=" + (.port|tostring) + "\ndatabase=" + .dbInstanceIdentifier'
     }
 
     execute_metastore_query(){

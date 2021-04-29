@@ -102,7 +102,7 @@ Steps:
     Args:
     - "/var/ci/additional-metrics.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
-  ActionOnFailure: "${action_on_failure}"
+  ActionOnFailure: "CONTINUE"
 - Name: "flush-gateway"
   HadoopJarStep:
     Args:
