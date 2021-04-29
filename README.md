@@ -62,6 +62,9 @@ This clusters metrics are exported using Json Exporter. The metrics file is crea
 This file is then uploaded to S3, where the Json Exporter scrapes the metrics and stores them in Prometheus. 
 The S3 file is deleted at the start and end of every run to prevent stale metrics being scraped. 
 
+Additional metrics such as pdm_views_table_count, pdm_views_row_count and pdm_views_max_date are sent to the PDM pushgateway.
+These metrics represent the number of tables in the PDM database, the total number of row in the PDM database and the time at which the latest raw entry was added.
+
 # Upgrading to EMR 6.2.0
 
 There is a requirement for our data products to start using Hive 3 instead of Hive 2. Hive 3 comes bundled with EMR 6.2.0 
