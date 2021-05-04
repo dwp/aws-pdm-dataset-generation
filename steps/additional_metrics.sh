@@ -12,9 +12,6 @@ set -euo pipefail
     log_pdm_message "$1" "additional-metrics.sh" "$$" "Running as: $USER"
     }
     UC_DB="${uc_db}"
-    S3_LOCATION="${data_location}"
-    HIVE_METASTORE_LOCATION="${hive_metastore_location}"
-    METRICS_FILE_PATH=/var/log/hive/metrics.json
 
     # get the data needed for metrics labels
     CORRELATION_ID_FILE=/opt/emr/correlation_id.txt
@@ -30,7 +27,7 @@ set -euo pipefail
           metric_value=$2
 
     cat << EOF | curl --data-binary @- "http://${pdm_pushgateway_hostname}:9091/metrics/job/pdm"
-                $metric_name{component="PDM",snapshot_type="$SNAPSHOT_TYPE", export_date="$EXPORT_DATE", cluster_id="$CLUSTER_ID",correlation_id="$CORRELATION_ID"} metric_value
+                $metric_name{component="PDM",snapshot_type="$SNAPSHOT_TYPE", export_date="$EXPORT_DATE", cluster_id="$CLUSTER_ID",correlation_id="$CORRELATION_ID"} $metric_value
 EOF
   }
 
@@ -43,12 +40,14 @@ EOF
     }
 
     # count number of tables in views db
-    TABLE_COUNT=$(echo $(hive -S -e "USE $UC_DB; SHOW TABLES;") | wc -w )
+    #shellcheck disable=SC2034
+    TABLE_COUNT=$(hive -S -e "USE $UC_DB; SHOW TABLES;" | wc -w)
     push_metric "pdm_views_table_count" "$${TABLE_COUNT}"
 
 
     # count number of rows in all views dbs
-    ROW_COUNT=$(echo $(execute_metastore_query "select sum(param.PARAM_VALUE) FROM TABLE_PARAMS param JOIN TBLS tbl on tbl.TBL_ID = param.TBL_ID JOIN DBS db ON db.DB_ID = tbl.DB_ID WHERE db.NAME = 'uc' and param.PARAM_KEY = 'numRows';") | awk '{print $2}')
+    #shellcheck disable=SC2034
+    ROW_COUNT=$(execute_metastore_query "select sum(param.PARAM_VALUE) FROM TABLE_PARAMS param JOIN TBLS tbl on tbl.TBL_ID = param.TBL_ID JOIN DBS db ON db.DB_ID = tbl.DB_ID WHERE db.NAME = 'uc' and param.PARAM_KEY = 'numRows';" | awk '{print $2}')
 
     push_metric "pdm_views_row_count" "$${ROW_COUNT}"
 
@@ -67,20 +66,22 @@ EOF
 
     declare -a tbls_array
 
+    #shellcheck disable=SC2206
     tbls_array=(echo $tbls_data)
     res_column_name="$${tbls_array[4]}"
 
     # Create a query to union all ts columns into one column, sort in descending order and get first (max date)
     query_str=""
-    for (( i=3; i<${#tbls_array[@]}; i=((i+2)) )); do
+    for (( i=3; i<$${#tbls_array[@]}; i=((i+2)) )); do
         table_name="$${tbls_array[$i]}"
         column_name="$${tbls_array[(($i+1))]}"
-        query_str="$query_str SELECT $column_name FROM uc.$table_name UNION ";
+        query_str="$query_str SELECT $column_name FROM uc.$table_name UNION "
     done
 
     query_str="$${query_str::-7} ORDER By $res_column_name DESC LIMIT 1"
 
     # Run query in Hive
+    #shellcheck disable=SC2034
     MAX_DATE=$(hive -S -e "$query_str")
 
     push_metric "pdm_views_max_date" "$${MAX_DATE}"
