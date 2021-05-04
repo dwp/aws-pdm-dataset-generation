@@ -150,7 +150,7 @@ resource "aws_s3_bucket_object" "courtesy_flush" {
   key    = "component/pdm-dataset-generation/courtesy-flush.sh"
   content = templatefile("${path.module}/steps/courtesy-flush.sh",
     {
-      pdm_metrics_path = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "metrics/pdm-metrics.json")
+      pdm_metrics_path         = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "metrics/pdm-metrics.json")
       pdm_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.pdm_pushgateway_hostname
     }
   )
