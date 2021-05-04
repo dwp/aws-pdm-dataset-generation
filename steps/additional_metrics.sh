@@ -72,16 +72,16 @@ EOF
 
     # Create a query to union all ts columns into one column, sort in descending order and get first (max date)
     query_str=""
-    for ((i=3; i<$${#tbls_array[@]}; i=((i+2)))); do
-        table_name="$${tbls_array[i]}"
-        column_name="$${tbls_array[((i+1))]}"
-        query_str="$query_str SELECT $${tbls_array[((i+1))]} FROM uc.$${tbls_array[i]} UNION ";
+    for (( i=3; i<${#tbls_array[@]}; i=((i+2)) )); do
+        table_name="$${tbls_array[$i]}"
+        column_name="$${tbls_array[(($i+1))]}"
+        query_str="$query_str SELECT $column_name FROM uc.$table_name UNION ";
     done
 
     query_str="$${query_str::-7} ORDER By $res_column_name DESC LIMIT 1"
 
     # Run query in Hive
-    MAX_DATES=$(hive -S -e "$query_str")
+    MAX_DATE=$(hive -S -e "$query_str")
 
     push_metric "pdm_views_max_date" "$${MAX_DATE}"
 
