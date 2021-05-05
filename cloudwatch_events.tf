@@ -203,11 +203,11 @@ resource "aws_cloudwatch_metric_alarm" "pdm_terminated" {
 resource "aws_cloudwatch_event_target" "pdm_success_start_object_tagger" {
   target_id = "pdm_success"
   rule      = aws_cloudwatch_event_rule.pdm_success.name
-  arn       = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_batch.job_queue.arn
+  arn       = data.terraform_remote_state.aws_s3_object_tagger.outputs.s3_object_tagger_batch.pdm_job_queue.arn
   role_arn  = aws_iam_role.allow_batch_job_submission.arn
 
   batch_target {
-    job_definition = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_batch.job_definition.id
+    job_definition = data.terraform_remote_state.aws_s3_object_tagger.outputs.s3_object_tagger_batch.job_definition.id
     job_name       = "pdm-success-cloudwatch-event"
   }
 
