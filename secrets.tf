@@ -2,6 +2,10 @@ data "aws_secretsmanager_secret" "pdm_secret" {
   name = local.secret_name
 }
 
+data "aws_secretsmanager_secret" "metastore_reader_secret" {
+  name = local.metastore_reader_secret_name
+}
+
 data "aws_iam_policy_document" "pdm_dataset_secretsmanager" {
   statement {
     effect = "Allow"
@@ -11,7 +15,8 @@ data "aws_iam_policy_document" "pdm_dataset_secretsmanager" {
     ]
 
     resources = [
-      data.aws_secretsmanager_secret.pdm_secret.arn
+      data.aws_secretsmanager_secret.pdm_secret.arn,
+      data.aws_secretsmanager_secret.metastore_reader_secret.arn
     ]
   }
 }
