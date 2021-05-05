@@ -67,15 +67,21 @@ EOF
     declare -a tbls_array
 
     #shellcheck disable=SC2206
-    tbls_array=(echo $tbls_data)
-    res_column_name="$${tbls_array[4]}"
+    full_array=(echo $tbls_data)
+    #shellcheck disable=SC2206,SC2034
+    tbls_array=("$${full_array[@]:3}")
+    res_column_name="$${tbls_array[1]}"
 
     # Create a query to union all ts columns into one column, sort in descending order and get first (max date)
     query_str=""
-    for (( i=3; i<$${#tbls_array[@]}; i=((i+2)) )); do
+
+    #shellcheck disable=SC2066
+    for i in "$${!tbls_array[@]}"; do
+      if [[ $((i % 2)) -eq 0 ]]; then
         table_name="$${tbls_array[$i]}"
-        column_name="$${tbls_array[(($i+1))]}"
+        column_name="$${tbls_array[$((i+1))]}"
         query_str="$query_str SELECT $column_name FROM uc.$table_name UNION "
+      fi
     done
 
     query_str="$${query_str::-7} ORDER By $res_column_name DESC LIMIT 1"
