@@ -178,8 +178,8 @@ resource "aws_s3_bucket_object" "flush_s3" {
 
 resource "aws_s3_bucket_object" "additional_metrics" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
-  key    = "component/pdm-dataset-generation/additional_metrics.sh"
-  content = templatefile("${path.module}/steps/additional_metrics.sh",
+  key    = "component/pdm-dataset-generation/additional-metrics.sh"
+  content = templatefile("${path.module}/steps/additional-metrics.sh",
     {
       uc_db                     = local.uc_db
       metastore_secret_id       = data.aws_secretsmanager_secret.metastore_reader_secret.id
