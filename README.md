@@ -140,7 +140,7 @@ triggers an event rule named `pdm_success_start_object_tagger`.
 
 Definitions for both of these can be found within `cloudwatch_events.tf`.
 
-The Event rule mentioned above will call the `aws_pdm_emr_launcher` lambda with 2 parameters, which are provided as
+The Event rule will trigger a batch job titled `s3_object_tagger` with 2 parameters, which are provided as
 values on the rule definition using `local.data_classification` which can be found in `local.tf`.
 
 ### Parameters
