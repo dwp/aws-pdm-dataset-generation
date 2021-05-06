@@ -129,4 +129,23 @@ along with other upgrades including Spark. Below is a list of steps taken to upg
 
 6. TODO: still figuring out how to get the speed back to normal. Once done update this with instructions
 
-Make sure that the first time anything uses the metastore it initialises with Hive 3, otherwise it will have to be rebuilt. 
+Make sure that the first time anything uses the metastore it initialises with Hive 3, otherwise it will have to be rebuilt.
+
+
+
+## How the PDM object tagger works
+
+Upon the successful execution of PDM, a `pdm_success` Cloudwatch Event is created. When this event is created it
+triggers an event rule named `pdm_success_start_object_tagger`.
+
+Definitions for both of these can be found within `cloudwatch_events.tf`.
+
+The Event rule mentioned above will call the `aws_pdm_emr_launcher` lambda with 2 parameters, which are provided as
+values on the rule definition using `local.data_classification` which can be found in `local.tf`.
+
+### Parameters
+
+|       Key      |                   Example                    |
+|----------------|----------------------------------------------|
+| data-s3-prefix | analytical-dataset/full/2021-04-01_09-40-02  |
+| csv-location   | s3://bucket/prefix/data.csv                  |
