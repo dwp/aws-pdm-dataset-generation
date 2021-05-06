@@ -49,6 +49,10 @@ EOF
     #shellcheck disable=SC2034
     ROW_COUNT=$(execute_metastore_query "select sum(param.PARAM_VALUE) FROM TABLE_PARAMS param JOIN TBLS tbl on tbl.TBL_ID = param.TBL_ID JOIN DBS db ON db.DB_ID = tbl.DB_ID WHERE db.NAME = 'uc' and param.PARAM_KEY = 'numRows';" | awk '{print $2}')
 
+    if [[ -z $ROW_COUNT ]]; then
+      ROW_COUNT=0
+    fi
+
     push_metric "pdm_views_row_count" "$${ROW_COUNT}"
 
     # query for max date
@@ -64,31 +68,36 @@ EOF
        AND COLUMN_NAME in ('created_ts', 'registration_ts');"
     )
 
-    declare -a tbls_array
+    if [[ -z $tbls_data ]]]; then
+      MAX_DATE=0
+    else
+      declare -a tbls_array
 
-    #shellcheck disable=SC2206
-    full_array=(echo $tbls_data)
-    #shellcheck disable=SC2206,SC2034
-    tbls_array=("$${full_array[@]:3}")
-    res_column_name="$${tbls_array[1]}"
+      #shellcheck disable=SC2206
+      full_array=(echo $tbls_data)
+      #shellcheck disable=SC2206,SC2034
+      tbls_array=("$${full_array[@]:3}")
+      res_column_name="$${tbls_array[1]}"
 
-    # Create a query to union all ts columns into one column, sort in descending order and get first (max date)
-    query_str=""
+      # Create a query to union all ts columns into one column, sort in descending order and get first (max date)
+      query_str=""
 
-    #shellcheck disable=SC2066
-    for i in "$${!tbls_array[@]}"; do
-      if [[ $((i % 2)) -eq 0 ]]; then
-        table_name="$${tbls_array[$i]}"
-        column_name="$${tbls_array[$((i+1))]}"
-        query_str="$query_str SELECT $column_name FROM uc.$table_name UNION "
-      fi
-    done
+      #shellcheck disable=SC2066
+      for i in "$${!tbls_array[@]}"; do
+        if [[ $((i % 2)) -eq 0 ]]; then
+          table_name="$${tbls_array[$i]}"
+          column_name="$${tbls_array[$((i+1))]}"
+          query_str="$query_str SELECT $column_name FROM uc.$table_name UNION "
+        fi
+      done
 
-    query_str="$${query_str::-7} ORDER By $res_column_name DESC LIMIT 1"
+      query_str="$${query_str::-7} ORDER By $res_column_name DESC LIMIT 1"
 
-    # Run query in Hive
-    #shellcheck disable=SC2034
-    MAX_DATE=$(hive -S -e "$query_str")
+      # Run query in Hive
+      #shellcheck disable=SC2034
+      hive_date=$(hive -S -e "$query_str")
+      MAX_DATE=$(date -d $hive_date +%s)
+    fi
 
     push_metric "pdm_views_max_date" "$${MAX_DATE}"
 
