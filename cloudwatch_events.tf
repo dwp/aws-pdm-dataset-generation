@@ -119,7 +119,7 @@ resource "aws_cloudwatch_event_rule" "pdm_success" {
     ],
     "stateChangeReason": [
       "{\"code\":\"ALL_STEPS_COMPLETED\",\"message\":\"Steps completed\"}",
-      "{\"code\":\"ALL_STEPS_COMPLETED\",\"message\":\"Steps completed with errors\"}",
+      "{\"code\":\"ALL_STEPS_COMPLETED\",\"message\":\"Steps completed with errors\"}"
     ]
   }
 }
