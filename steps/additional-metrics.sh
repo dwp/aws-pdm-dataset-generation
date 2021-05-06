@@ -40,16 +40,13 @@ EOF
     }
 
     # count number of tables in views db
-    #shellcheck disable=SC2034
     TABLE_COUNT=$(hive -S -e "USE $UC_DB; SHOW TABLES;" | wc -w)
     push_metric "pdm_views_table_count" "$${TABLE_COUNT}"
 
-
     # count number of rows in all views dbs
-    #shellcheck disable=SC2034
     ROW_COUNT=$(execute_metastore_query "select sum(param.PARAM_VALUE) FROM TABLE_PARAMS param JOIN TBLS tbl on tbl.TBL_ID = param.TBL_ID JOIN DBS db ON db.DB_ID = tbl.DB_ID WHERE db.NAME = 'uc' and param.PARAM_KEY = 'numRows';" | awk '{print $2}')
 
-    if [[ -z $ROW_COUNT ]]; then
+    if [[ -z "$ROW_COUNT" ]]; then
       ROW_COUNT=0
     fi
 
@@ -68,21 +65,19 @@ EOF
        AND COLUMN_NAME in ('created_ts', 'registration_ts');"
     )
 
-    if [[ -z $tbls_data ]]]; then
+    if [[ -z "$tbls_data" ]]; then
       MAX_DATE=0
     else
       declare -a tbls_array
 
-      #shellcheck disable=SC2206
-      full_array=(echo $tbls_data)
-      #shellcheck disable=SC2206,SC2034
+      full_array=(echo "$tbls_data")
       tbls_array=("$${full_array[@]:3}")
       res_column_name="$${tbls_array[1]}"
 
       # Create a query to union all ts columns into one column, sort in descending order and get first (max date)
       query_str=""
 
-      #shellcheck disable=SC2066
+      #shellcheck disable=SC2066 # SC2066 - quoted array loop runs fine but shellcheck has issues with $$
       for i in "$${!tbls_array[@]}"; do
         if [[ $((i % 2)) -eq 0 ]]; then
           table_name="$${tbls_array[$i]}"
@@ -94,9 +89,9 @@ EOF
       query_str="$${query_str::-7} ORDER By $res_column_name DESC LIMIT 1"
 
       # Run query in Hive
-      #shellcheck disable=SC2034
       hive_date=$(hive -S -e "$query_str")
-      MAX_DATE=$(date -d $hive_date +%s)
+
+      MAX_DATE=$(date -d "$hive_date" +%s)
     fi
 
     push_metric "pdm_views_max_date" "$${MAX_DATE}"
