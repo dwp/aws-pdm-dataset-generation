@@ -109,7 +109,7 @@ resource "aws_cloudwatch_event_rule" "pdm_success" {
     "name": [
       "pdm-dataset-generator"
     ],
-    "stateChangeReason": "{\"code\":\"ALL_STEPS_COMPLETED\"}"
+    "stateChangeReason": ["{\"code\":\"ALL_STEPS_COMPLETED\"}"]
   }
 }
 EOF
@@ -133,7 +133,7 @@ resource "aws_cloudwatch_event_rule" "pdm_success_with_errors" {
     "name": [
       "pdm-dataset-generator"
     ],
-    "stateChangeReason": "{\"code\":\"STEP_FAILURE\"}"
+    "stateChangeReason": ["{\"code\":\"STEP_FAILURE\"}"]
   }
 }
 EOF
