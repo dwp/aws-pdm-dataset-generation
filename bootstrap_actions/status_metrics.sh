@@ -65,8 +65,11 @@ EOF
       fi
       state=$(jq -r '.state' "$i")
       while [[ "$state" != "$COMPLETED_STATUS" ]]; do
+        step_script_name=$(jq -r '.args[0]' "$i")
         CURRENT_STEP=$(echo "$step_script_name" | sed 's:.*/::' | cut -f 1 -d '.')
+        log_wrapper_message "Current step $CURRENT_STEP"
         state=$(jq -r '.state' "$i")
+        log_wrapper_message "Current state $state"
         if [[ "$state" == "$FAILED_STATUS" ]] ; then
           log_wrapper_message "Failed step. Step Name: $CURRENT_STEP, Step status: $state"
           push_metric 3
