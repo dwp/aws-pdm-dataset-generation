@@ -109,7 +109,7 @@ resource "aws_cloudwatch_event_rule" "pdm_success" {
     "name": [
       "pdm-dataset-generator"
     ],
-    "stateChangeReason": "{\"code\":\"ALL_STEPS_COMPLETED\",\"message\":\"Steps completed\"}",
+    "stateChangeReason": "{\"code\":\"ALL_STEPS_COMPLETED\",\"message\":\"Steps completed\"}"
   }
 }
 EOF
