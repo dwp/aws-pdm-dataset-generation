@@ -109,7 +109,11 @@ resource "aws_cloudwatch_event_rule" "pdm_success" {
     "name": [
       "pdm-dataset-generator"
     ],
-    "stateChangeReason": ["{\"code\":\"ALL_STEPS_COMPLETED\"}"]
+    "stateChangeReason": {
+        "code": [
+            "ALL_STEPS_COMPLETED"
+        ]
+    }
   }
 }
 EOF
@@ -133,7 +137,11 @@ resource "aws_cloudwatch_event_rule" "pdm_success_with_errors" {
     "name": [
       "pdm-dataset-generator"
     ],
-    "stateChangeReason": ["{\"code\":\"STEP_FAILURE\"}"]
+    "stateChangeReason": {
+        "code": [
+            "STEP_FAILURE"
+        ]
+    }
   }
 }
 EOF
@@ -262,7 +270,7 @@ resource "aws_cloudwatch_event_target" "pdm_success_with_errors_start_object_tag
 
   batch_target {
     job_definition = data.terraform_remote_state.aws_s3_object_tagger.outputs.s3_object_tagger_batch.job_definition.id
-    job_name       = "pdm-success-cloudwatch-event"
+    job_name       = "pdm-success-with-errors-cloudwatch-event"
   }
 
   input = "{\"Parameters\": {\"data-s3-prefix\": \"${local.data_classification.data_s3_prefix}\", \"csv-location\": \"s3://${local.data_classification.config_bucket.id}/${local.data_classification.config_prefix}/data_classification.csv\"}}"
