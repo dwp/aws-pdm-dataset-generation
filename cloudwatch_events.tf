@@ -138,8 +138,8 @@ resource "aws_cloudwatch_event_rule" "pdm_success_with_errors" {
       "pdm-dataset-generator"
     ],
     "stateChangeReason": {
-        "code": [
-            "STEP_FAILURE"
+        "message": [
+            "Steps completed with errors"
         ]
     }
   }
