@@ -76,6 +76,7 @@ jobs:
                 export TF_VAR_pdm_emr_relauncher_zip="{base_path = \"../emr-relauncher-release\", version = \"$(cat ../emr-relauncher-release/version)\"}"
                 terraform init
                 terraform workspace show
+                terraform fmt -recursive -check=true
                 terraform plan
           inputs:
             - name: aws-pdm-dataset-generation
