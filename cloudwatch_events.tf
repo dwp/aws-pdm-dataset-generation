@@ -118,8 +118,8 @@ EOF
 }
 
 resource "aws_cloudwatch_event_rule" "pdm_success_with_errors" {
-  name          = "pdm_success"
-  description   = "checks that all mandatory steps complete but with failures on non mandatory"
+  name          = "pdm_success_with_errors"
+  description   = "checks that all mandatory steps complete but with failures on non mandatory steps"
   event_pattern = <<EOF
 {
   "source": [
