@@ -109,11 +109,9 @@ resource "aws_cloudwatch_event_rule" "pdm_success" {
     "name": [
       "pdm-dataset-generator"
     ],
-    "stateChangeReason": {
-        "code": [
-            "ALL_STEPS_COMPLETED"
-        ]
-    }
+    "stateChangeReason": [
+      "{\"code\":\"ALL_STEPS_COMPLETED\",\"message\":\"Steps completed\"}"
+    ]
   }
 }
 EOF
@@ -121,7 +119,7 @@ EOF
 
 resource "aws_cloudwatch_event_rule" "pdm_success_with_errors" {
   name          = "pdm_success_with_errors"
-  description   = "checks that mandatory steps are complete"
+  description   = "checks that all mandatory steps complete but with failures on non mandatory steps"
   event_pattern = <<EOF
 {
   "source": [
@@ -137,11 +135,9 @@ resource "aws_cloudwatch_event_rule" "pdm_success_with_errors" {
     "name": [
       "pdm-dataset-generator"
     ],
-    "stateChangeReason": {
-        "message": [
-            "Steps completed with errors"
-        ]
-    }
+    "stateChangeReason": [
+      "{\"code\":\"STEP_FAILURE\",\"message\":\"Steps completed with errors\"}"
+    ]
   }
 }
 EOF
@@ -296,7 +292,7 @@ resource "aws_cloudwatch_metric_alarm" "pdm_success_with_errors" {
     local.common_tags,
     {
       Name              = "pdm_success_with_errors",
-      notification_type = "Information",
+      notification_type = "Warning",
       severity          = "Critical"
     },
   )
