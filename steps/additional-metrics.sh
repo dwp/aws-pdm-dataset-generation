@@ -68,10 +68,11 @@ EOF
     if [[ -z "$tbls_data" ]]; then
       MAX_DATE=0
     else
-      read -ar full_array <<< "$${tbls_data}"
-      tbls_array=("$${full_array[@]:2}")
+      #shellcheck disable=SC1083 # SC1083 - shellcheck has issues with $$
+      full_array=( $${tbls_data} )
+      #shellcheck disable=SC1083 # SC1083 - shellcheck has issues with $$
+      tbls_array=( $${full_array[@]:2} )
       res_column_name="$${tbls_array[1]}"
-
       # Create a query to union all ts columns into one column, sort in descending order and get first (max date)
       query_str=""
 
@@ -89,7 +90,11 @@ EOF
       # Run query in Hive
       hive_date=$(hive -S -e "$query_str")
 
-      MAX_DATE=$(date -d "$hive_date" +%s)
+      if [[ "$hive_date" == "NULL" ]]; then
+        MAX_DATE=0
+      else
+        MAX_DATE=$(date -d "$hive_date" +%s)
+      fi
     fi
 
     push_metric "pdm_views_max_date" "$${MAX_DATE}"
