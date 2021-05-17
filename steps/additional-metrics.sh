@@ -68,7 +68,9 @@ EOF
     if [[ -z "$tbls_data" ]]; then
       MAX_DATE=0
     else
+      #shellcheck disable=SC1083 # SC1083 - shellcheck has issues with $$
       full_array=( $${tbls_data} )
+      #shellcheck disable=SC1083 # SC1083 - shellcheck has issues with $$
       tbls_array=( $${full_array[@]:2} )
       res_column_name="$${tbls_array[1]}"
       # Create a query to union all ts columns into one column, sort in descending order and get first (max date)
