@@ -68,10 +68,9 @@ EOF
     if [[ -z "$tbls_data" ]]; then
       MAX_DATE=0
     else
-      full_array=( "$${tbls_data}" )
-      tbls_array=( "$${full_array[@]:2}" )
+      full_array=( $${tbls_data} )
+      tbls_array=( $${full_array[@]:2} )
       res_column_name="$${tbls_array[1]}"
-
       # Create a query to union all ts columns into one column, sort in descending order and get first (max date)
       query_str=""
 
