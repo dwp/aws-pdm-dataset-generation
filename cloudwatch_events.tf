@@ -293,7 +293,7 @@ resource "aws_cloudwatch_metric_alarm" "pdm_success_with_errors" {
     {
       Name              = "pdm_success_with_errors",
       notification_type = "Warning",
-      severity          = "Critical"
+      severity          = "High"
     },
   )
 }
