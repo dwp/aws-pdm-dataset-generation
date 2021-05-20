@@ -247,7 +247,7 @@ locals {
 
   tez_runtime_unordered_output_buffer_size_mb = {
     development = "268"
-    qa          = "2148"
+    qa          = "268"
     integration = "268"
     preprod     = "2148"
     production  = "2148"
@@ -264,7 +264,7 @@ locals {
 
   tez_grouping_min_size = {
     development = "1342177"
-    qa          = "52428800"
+    qa          = "1342177"
     integration = "1342177"
     preprod     = "52428800"
     production  = "52428800"
@@ -272,7 +272,7 @@ locals {
 
   tez_grouping_max_size = {
     development = "268435456"
-    qa          = "1073741824"
+    qa          = "268435456"
     integration = "268435456"
     preprod     = "1073741824"
     production  = "1073741824"
@@ -306,7 +306,7 @@ locals {
 
   hive_tez_sessions_per_queue = {
     development = "10"
-    qa          = "35"
+    qa          = "10"
     integration = "10"
     preprod     = "35"
     production  = "35"
@@ -314,7 +314,7 @@ locals {
 
   map_reduce_vcores_per_node = {
     development = "5"
-    qa          = "15"
+    qa          = "5"
     integration = "5"
     preprod     = "15"
     production  = "15"
@@ -322,7 +322,7 @@ locals {
 
   map_reduce_vcores_per_task = {
     development = "1"
-    qa          = "5"
+    qa          = "1"
     integration = "1"
     preprod     = "5"
     production  = "5"
@@ -365,7 +365,7 @@ locals {
   // This value should be the same as yarn.scheduler.maximum-allocation-mb
   llap_daemon_yarn_container_mb = {
     development = "57344"
-    qa          = "253952"
+    qa          = "57344"
     integration = "57344"
     preprod     = "253952"
     production  = "253952"
@@ -373,7 +373,7 @@ locals {
 
   llap_number_of_instances = {
     development = "5"
-    qa          = "15"
+    qa          = "5"
     integration = "5"
     preprod     = "15"
     production  = "15"
@@ -381,26 +381,22 @@ locals {
 
   hive_max_reducers = {
     development = "1099"
-    qa          = "2000"
+    qa          = "1099"
     integration = "1099"
     preprod     = "2000"
     production  = "2000"
   }
 
-  emr_capacity_reservation_preference = {
-    development = "none"
-    qa          = "open"
-    integration = "none"
-    preprod     = "open"
-    production  = "open"
-  }
+  emr_capacity_reservation_preference = local.use_capacity_reservation[local.environment] == true ? "open" : "none"
 
-  emr_capacity_reservation_usage_strategy = {
-    development = ""
-    qa          = "use-capacity-reservations-first"
-    integration = ""
-    preprod     = "use-capacity-reservations-first"
-    production  = "use-capacity-reservations-first"
+  emr_capacity_reservation_usage_strategy = local.use_capacity_reservation[local.environment] == true ? "use-capacity-reservations-first" : ""
+
+  use_capacity_reservation = {
+    development = false
+    qa          = false
+    integration = false
+    preprod     = true
+    production  = true
   }
 
   emr_subnet_non_capacity_reserved_environments = "eu-west-2c"
