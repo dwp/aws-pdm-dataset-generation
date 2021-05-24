@@ -47,7 +47,7 @@ resource "aws_iam_role" "pdm_emr_service" {
   name               = "pdm_emr_service"
   assume_role_policy = data.aws_iam_policy_document.emr_assume_role.json
   tags = {
-    Name = "emr_capacity_reservations"
+    Name = "pdm_emr_service"
   }
 }
 
