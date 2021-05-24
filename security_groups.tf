@@ -3,6 +3,9 @@ resource "aws_security_group" "pdm_master" {
   description            = "Contains rules for PDM master nodes; most rules are injected by EMR, not managed by TF"
   revoke_rules_on_delete = true
   vpc_id                 = data.terraform_remote_state.internal_compute.outputs.vpc.vpc.vpc.id
+  tags = {
+    Name = "pdm_master"
+  }
 }
 
 resource "aws_security_group" "pdm_slave" {
@@ -10,6 +13,9 @@ resource "aws_security_group" "pdm_slave" {
   description            = "Contains rules for PDM slave nodes; most rules are injected by EMR, not managed by TF"
   revoke_rules_on_delete = true
   vpc_id                 = data.terraform_remote_state.internal_compute.outputs.vpc.vpc.vpc.id
+  tags = {
+    Name = "pdm_slave"
+  }
 }
 
 resource "aws_security_group" "pdm_common" {
@@ -17,6 +23,9 @@ resource "aws_security_group" "pdm_common" {
   description            = "Contains rules for both PDM master and PDM slave nodes"
   revoke_rules_on_delete = true
   vpc_id                 = data.terraform_remote_state.internal_compute.outputs.vpc.vpc.vpc.id
+  tags = {
+    Name = "pdm_common"
+  }
 }
 
 resource "aws_security_group" "pdm_emr_service" {
@@ -24,6 +33,9 @@ resource "aws_security_group" "pdm_emr_service" {
   description            = "Contains rules for EMR service when managing the PDM cluster; rules are injected by EMR, not managed by TF"
   revoke_rules_on_delete = true
   vpc_id                 = data.terraform_remote_state.internal_compute.outputs.vpc.vpc.vpc.id
+  tags = {
+    Name = "pdm_emr_service"
+  }
 }
 
 resource "aws_security_group_rule" "egress_https_to_vpc_endpoints" {

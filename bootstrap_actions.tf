@@ -93,37 +93,49 @@ resource "aws_s3_bucket_object" "resume_step_script" {
 resource "aws_cloudwatch_log_group" "pdm_dataset_generator" {
   name              = local.cw_agent_log_group_name
   retention_in_days = 180
-  tags              = local.common_tags
+  tags = {
+    Name = "pdm_dataset_generator"
+  }
 }
 
 resource "aws_cloudwatch_log_group" "pdm_cw_bootstrap_loggroup" {
   name              = local.cw_agent_bootstrap_loggrp_name
   retention_in_days = 180
-  tags              = local.common_tags
+  tags = {
+    Name = "pdm_cw_bootstrap_loggroup"
+  }
 }
 
 resource "aws_cloudwatch_log_group" "pdm_cw_steps_loggroup" {
   name              = local.cw_agent_steps_loggrp_name
   retention_in_days = 180
-  tags              = local.common_tags
+  tags = {
+    Name = "pdm_cw_steps_loggroup"
+  }
 }
 
 resource "aws_cloudwatch_log_group" "pdm_cw_yarnspark_loggroup" {
   name              = local.cw_agent_yarnspark_loggrp_name
   retention_in_days = 180
-  tags              = local.common_tags
+  tags = {
+    Name = "pdm_cw_yarnspark_loggroup"
+  }
 }
 
 resource "aws_cloudwatch_log_group" "pdm_cw_hive_loggroup" {
   name              = local.cw_agent_hive_loggrp_name
   retention_in_days = 180
-  tags              = local.common_tags
+  tags = {
+    Name = "pdm_cw_hive_loggroup"
+  }
 }
 
 resource "aws_cloudwatch_log_group" "pdm_cw_tests_loggroup" {
   name              = local.cw_agent_tests_loggrp_name
   retention_in_days = 180
-  tags              = local.common_tags
+  tags = {
+    Name = "pdm_cw_tests_loggroup"
+  }
 }
 
 resource "aws_s3_bucket_object" "cloudwatch_sh" {

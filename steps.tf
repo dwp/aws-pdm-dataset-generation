@@ -6,6 +6,9 @@ resource "aws_s3_bucket_object" "metrics_setup_sh" {
       metrics_export_to_s3 = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.export_to_s3_sh.key)
     }
   )
+  tags = {
+    Name = "metrics_setup_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "export_to_s3_sh" {
@@ -16,6 +19,9 @@ resource "aws_s3_bucket_object" "export_to_s3_sh" {
       pdm_metrics_path = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "metrics/pdm-metrics.json")
     }
   )
+  tags = {
+    Name = "export_to_s3_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "source_sh" {
@@ -30,6 +36,9 @@ resource "aws_s3_bucket_object" "source_sh" {
       processes           = local.source_processes[local.environment]
     }
   )
+  tags = {
+    Name = "source_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "transform_sh" {
@@ -43,6 +52,9 @@ resource "aws_s3_bucket_object" "transform_sh" {
       processes           = local.transform_processes[local.environment]
     }
   )
+  tags = {
+    Name = "transform_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "model_sh" {
@@ -56,6 +68,9 @@ resource "aws_s3_bucket_object" "model_sh" {
       processes        = local.model_processes[local.environment]
     }
   )
+  tags = {
+    Name = "model_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "views_sh" {
@@ -70,6 +85,9 @@ resource "aws_s3_bucket_object" "views_sh" {
       processes        = local.views_processes[local.environment]
     }
   )
+  tags = {
+    Name = "views_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "transactional_sh" {
@@ -81,6 +99,9 @@ resource "aws_s3_bucket_object" "transactional_sh" {
       processes        = local.transactional_processes[local.environment]
     }
   )
+  tags = {
+    Name = "transactional_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "clean_dictionary_data_sh" {
@@ -91,6 +112,9 @@ resource "aws_s3_bucket_object" "clean_dictionary_data_sh" {
       dictionary_location = local.dictionary_location
     }
   )
+  tags = {
+    Name = "clean_dictionary_data_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "create_databases_sh" {
@@ -100,6 +124,9 @@ resource "aws_s3_bucket_object" "create_databases_sh" {
     {
     }
   )
+  tags = {
+    Name = "create_databases_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "create_hive_dynamo_table" {
@@ -110,6 +137,9 @@ resource "aws_s3_bucket_object" "create_hive_dynamo_table" {
       dynamodb_table_name = local.data_pipeline_metadata
     }
   )
+  tags = {
+    Name = "create_hive_dynamo_table"
+  }
 }
 
 resource "aws_s3_bucket_object" "create_views_tables" {
@@ -122,6 +152,9 @@ resource "aws_s3_bucket_object" "create_views_tables" {
       processes       = local.views_tables_processes[local.environment]
     }
   )
+  tags = {
+    Name = "create_views_tables"
+  }
 }
 
 resource "aws_s3_bucket_object" "initial_transactional_load_sh" {
@@ -134,6 +167,9 @@ resource "aws_s3_bucket_object" "initial_transactional_load_sh" {
       initial_transactional_load = local.initial_transactional_load[local.environment]
     }
   )
+  tags = {
+    Name = "initial_transactional_load_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "collect_metrics" {
@@ -143,6 +179,9 @@ resource "aws_s3_bucket_object" "collect_metrics" {
     {
     }
   )
+  tags = {
+    Name = "collect_metrics"
+  }
 }
 
 resource "aws_s3_bucket_object" "courtesy_flush" {
@@ -154,6 +193,9 @@ resource "aws_s3_bucket_object" "courtesy_flush" {
       pdm_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.pdm_pushgateway_hostname
     }
   )
+  tags = {
+    Name = "courtesy_flush"
+  }
 }
 
 resource "aws_s3_bucket_object" "flush_gateway" {
@@ -164,6 +206,9 @@ resource "aws_s3_bucket_object" "flush_gateway" {
       pdm_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.pdm_pushgateway_hostname
     }
   )
+  tags = {
+    Name = "flush_gateway"
+  }
 }
 
 resource "aws_s3_bucket_object" "flush_s3" {
@@ -174,6 +219,9 @@ resource "aws_s3_bucket_object" "flush_s3" {
       pdm_metrics_path = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "metrics/pdm-metrics.json")
     }
   )
+  tags = {
+    Name = "flush_s3"
+  }
 }
 
 resource "aws_s3_bucket_object" "additional_metrics" {
@@ -186,4 +234,7 @@ resource "aws_s3_bucket_object" "additional_metrics" {
       pdm_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.pdm_pushgateway_hostname
     }
   )
+  tags = {
+    Name = "additional_metrics"
+  }
 }

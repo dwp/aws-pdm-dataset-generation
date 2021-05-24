@@ -25,4 +25,7 @@ resource "aws_iam_policy" "pdm_dataset_secretsmanager" {
   name        = "PDMDatasetGeneratorSecretsManager"
   description = "Allow reading of PDM config values"
   policy      = data.aws_iam_policy_document.pdm_dataset_secretsmanager.json
+  tags = {
+    Name = "pdm_dataset_secretsmanager"
+  }
 }

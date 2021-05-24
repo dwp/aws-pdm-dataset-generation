@@ -1,4 +1,29 @@
 locals {
+  persistence_tag_value = {
+    development = "Ignore"
+    qa          = "Ignore"
+    integration = "Ignore"
+    preprod     = "Ignore"
+    production  = "Ignore"
+  }
+
+  auto_shutdown_tag_value = {
+    development = "False"
+    qa          = "False"
+    integration = "False"
+    preprod     = "False"
+    production  = "False"
+  }
+
+  overridden_tags = {
+    Role         = "pdm_dataset_generation"
+    Owner        = "aws-pdm-dataset-generation"
+    Persistence  = local.persistence_tag_value[local.environment]
+    AutoShutdown = local.auto_shutdown_tag_value[local.environment]
+  }
+
+  common_repo_tags = "${merge(module.dataworks_common.common_tags, local.overridden_tags)}"
+
   emr_cluster_name                = "aws-pdm-dataset-generator"
   master_instance_type            = "m5.2xlarge"
   core_instance_type              = "m5.2xlarge"
@@ -17,17 +42,9 @@ locals {
   hive_metastore_location         = "data/uc"
   hive_data_location              = "data"
   metastore_reader_secret_name    = "metadata-store-v2-adg-reader"
-  common_tags = {
-    Environment  = local.environment
-    Application  = local.emr_cluster_name
-    CreatedBy    = "terraform"
-    Owner        = "dataworks platform"
-    Persistence  = "Ignore"
-    AutoShutdown = "False"
-  }
-  env_certificate_bucket = "dw-${local.environment}-public-certificates"
-  mgt_certificate_bucket = "dw-${local.management_account[local.environment]}-public-certificates"
-  dks_endpoint           = data.terraform_remote_state.crypto.outputs.dks_endpoint[local.environment]
+  env_certificate_bucket          = "dw-${local.environment}-public-certificates"
+  mgt_certificate_bucket          = "dw-${local.management_account[local.environment]}-public-certificates"
+  dks_endpoint                    = data.terraform_remote_state.crypto.outputs.dks_endpoint[local.environment]
 
   crypto_workspace = {
     management-dev = "management-dev"
@@ -53,14 +70,6 @@ locals {
     integration = "int.dataworks.dwp.gov.uk"
     preprod     = "pre.dataworks.dwp.gov.uk"
     production  = "dataworks.dwp.gov.uk"
-  }
-
-  pdm_emr_lambda_schedule = {
-    development = "1 0 * * ? 2025"
-    qa          = "1 0 * * ? 2025"
-    integration = "15 17 1 Jul ? 2025" # trigger one off temp increase for DW-4437 testing
-    preprod     = "1 0 * * ? 2025"
-    production  = "1 0 * * ? 2025"
   }
 
   pdm_log_level = {

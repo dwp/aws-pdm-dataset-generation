@@ -32,6 +32,10 @@ resource "aws_lambda_function" "pdm_emr_relauncher" {
       LOG_LEVEL          = "debug"
     }
   }
+
+  tags = {
+    Name = "pdm_emr_relauncher"
+  }
 }
 
 resource "aws_cloudwatch_event_target" "pdm_emr_relauncher_target" {
@@ -43,6 +47,9 @@ resource "aws_cloudwatch_event_target" "pdm_emr_relauncher_target" {
 resource "aws_iam_role" "pdm_emr_relauncher_lambda_role" {
   name               = "pdm_emr_relauncher_lambda_role"
   assume_role_policy = data.aws_iam_policy_document.pdm_emr_relauncher_assume_policy.json
+  tags = {
+    Name = "pdm_emr_relauncher_lambda_role"
+  }
 }
 
 resource "aws_lambda_permission" "pdm_emr_relauncher_invoke_permission" {
@@ -112,18 +119,27 @@ resource "aws_iam_policy" "pdm_emr_relauncher_scan_dynamo_policy" {
   name        = "EmrRelauncherScanDynamoDb"
   description = "Allow Emr relauncher to scan pipeline metadata table"
   policy      = data.aws_iam_policy_document.pdm_emr_relauncher_scan_dynamo_policy.json
+  tags = {
+    Name = "pdm_emr_relauncher_scan_dynamo_policy"
+  }
 }
 
 resource "aws_iam_policy" "pdm_emr_relauncher_sns_policy" {
   name        = "EmrRelauncherSnsPublish"
   description = "Allow PDM to run job flow"
   policy      = data.aws_iam_policy_document.pdm_emr_relauncher_sns_policy.json
+  tags = {
+    Name = "pdm_emr_relauncher_sns_policy"
+  }
 }
 
 resource "aws_iam_policy" "pdm_emr_relauncher_pass_role_policy" {
   name        = "EmrRelauncherPassRole"
   description = "Allow Emr relauncher to publish messages to launcher topic"
   policy      = data.aws_iam_policy_document.pdm_emr_relauncher_pass_role_document.json
+  tags = {
+    Name = "pdm_emr_relauncher_pass_role_policy"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "pdm_emr_relauncher_pass_role_attachment" {

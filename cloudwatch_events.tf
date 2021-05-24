@@ -16,7 +16,9 @@ data "aws_iam_policy_document" "cloudwatch_events_assume_role" {
 resource "aws_iam_role" "allow_batch_job_submission" {
   name               = "AllowBatchJobSubmission"
   assume_role_policy = data.aws_iam_policy_document.cloudwatch_events_assume_role.json
-  tags               = local.common_tags
+  tags = {
+    Name = "allow_batch_job_submission"
+  }
 }
 
 data "aws_iam_policy_document" "allow_batch_job_submission" {
@@ -182,14 +184,11 @@ resource "aws_cloudwatch_metric_alarm" "pdm_failed" {
   dimensions = {
     RuleName = aws_cloudwatch_event_rule.pdm_failed.name
   }
-  tags = merge(
-    local.common_tags,
-    {
-      Name              = "pdm_failed",
-      notification_type = "Error",
-      severity          = "Critical"
-    },
-  )
+  tags = {
+    Name              = "pdm_failed",
+    notification_type = "Error",
+    severity          = "Critical"
+  }
 }
 
 resource "aws_cloudwatch_metric_alarm" "pdm_terminated" {
@@ -208,14 +207,11 @@ resource "aws_cloudwatch_metric_alarm" "pdm_terminated" {
   dimensions = {
     RuleName = aws_cloudwatch_event_rule.pdm_terminated.name
   }
-  tags = merge(
-    local.common_tags,
-    {
-      Name              = "pdm_terminated",
-      notification_type = "Information",
-      severity          = "High"
-    },
-  )
+  tags = {
+    Name              = "pdm_terminated",
+    notification_type = "Information",
+    severity          = "High"
+  }
 }
 
 resource "aws_cloudwatch_event_target" "pdm_success_start_object_tagger" {
@@ -248,14 +244,11 @@ resource "aws_cloudwatch_metric_alarm" "pdm_success" {
   dimensions = {
     RuleName = aws_cloudwatch_event_rule.pdm_success.name
   }
-  tags = merge(
-    local.common_tags,
-    {
-      Name              = "pdm_success",
-      notification_type = "Information",
-      severity          = "Critical"
-    },
-  )
+  tags = {
+    Name              = "pdm_success",
+    notification_type = "Information",
+    severity          = "Critical"
+  }
 }
 
 resource "aws_cloudwatch_event_target" "pdm_success_with_errors_start_object_tagger" {
@@ -288,14 +281,11 @@ resource "aws_cloudwatch_metric_alarm" "pdm_success_with_errors" {
   dimensions = {
     RuleName = aws_cloudwatch_event_rule.pdm_success_with_errors.name
   }
-  tags = merge(
-    local.common_tags,
-    {
-      Name              = "pdm_success_with_errors",
-      notification_type = "Warning",
-      severity          = "High"
-    },
-  )
+  tags = {
+    Name              = "pdm_success_with_errors",
+    notification_type = "Warning",
+    severity          = "High"
+  }
 }
 
 resource "aws_cloudwatch_metric_alarm" "pdm_running" {
@@ -314,12 +304,9 @@ resource "aws_cloudwatch_metric_alarm" "pdm_running" {
   dimensions = {
     RuleName = aws_cloudwatch_event_rule.pdm_running.name
   }
-  tags = merge(
-    local.common_tags,
-    {
-      Name              = "pdm_running",
-      notification_type = "Information",
-      severity          = "Critical"
-    },
-  )
+  tags = {
+    Name              = "pdm_running",
+    notification_type = "Information",
+    severity          = "Critical"
+  }
 }
