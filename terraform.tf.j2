@@ -90,21 +90,29 @@ variable "region" {
 }
 
 provider "aws" {
-  version = "~> 3.13.0"
+  version = "~> 3.42.0"
   region  = var.region
 
   assume_role {
     role_arn = "arn:aws:iam::${lookup(local.account, local.environment)}:role/${var.assume_role}"
   }
+
+  default_tags {
+    tags = local.common_repo_tags
+  }
 }
 
 provider "aws" {
   alias = "crypto"
-  version = "~> 3.13.0"
+  version = "~> 3.42.0"
   region  = var.region
 
   assume_role {
     role_arn = "arn:aws:iam::${local.account[local.management_account[local.environment]]}:role/${var.assume_role}"
+  }
+
+  default_tags {
+    tags = local.common_repo_tags
   }
 }
 
@@ -231,4 +239,10 @@ data "terraform_remote_state" "aws_s3_object_tagger" {
     kms_key_id     = "arn:aws:kms:{{state_file_region}}:{{state_file_account}}:key/{{state_file_kms_key}}"
     dynamodb_table = "remote_state_locks"
   }
+}
+
+module "dataworks_common" {
+  source                = "{{dataworks_common_module_name}}"
+  version               = "{{dataworks_common_module_version}}"
+  tag_value_environment = local.environment
 }

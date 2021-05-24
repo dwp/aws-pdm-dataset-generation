@@ -30,23 +30,18 @@ resource "aws_lambda_function" "pdm_emr_launcher" {
       EMR_LAUNCHER_LOG_LEVEL        = "debug"
     }
   }
-}
 
-resource "aws_cloudwatch_event_rule" "pdm_emr_launcher_schedule" {
-  name                = "pdm_emr_launcher_schedule"
-  description         = "Triggers PDM EMR Launcher"
-  schedule_expression = format("cron(%s)", local.pdm_emr_lambda_schedule[local.environment])
-}
-
-resource "aws_cloudwatch_event_target" "pdm_emr_launcher_target" {
-  rule      = aws_cloudwatch_event_rule.pdm_emr_launcher_schedule.name
-  target_id = "pdm_emr_launcher_target"
-  arn       = aws_lambda_function.pdm_emr_launcher.arn
+  tags = {
+    Name = "pdm_emr_launcher"
+  }
 }
 
 resource "aws_iam_role" "pdm_emr_launcher_lambda_role" {
   name               = "pdm_emr_launcher_lambda_role"
   assume_role_policy = data.aws_iam_policy_document.pdm_emr_launcher_assume_policy.json
+  tags = {
+    Name = "pdm_emr_launcher_lambda_role"
+  }
 }
 
 resource "aws_lambda_permission" "pdm_emr_launcher_invoke_permission" {
@@ -120,18 +115,27 @@ resource "aws_iam_policy" "pdm_emr_launcher_read_s3_policy" {
   name        = "PDMReadS3"
   description = "Allow PDM to read from S3 bucket"
   policy      = data.aws_iam_policy_document.pdm_emr_launcher_read_s3_policy.json
+  tags = {
+    Name = "pdm_emr_launcher_read_s3_policy"
+  }
 }
 
 resource "aws_iam_policy" "pdm_emr_launcher_runjobflow_policy" {
   name        = "PDMRunJobFlow"
   description = "Allow PDM to run job flow"
   policy      = data.aws_iam_policy_document.pdm_emr_launcher_runjobflow_policy.json
+  tags = {
+    Name = "pdm_emr_launcher_runjobflow_policy"
+  }
 }
 
 resource "aws_iam_policy" "pdm_emr_launcher_pass_role_policy" {
   name        = "PDMPassRole"
   description = "Allow PDM to pass role"
   policy      = data.aws_iam_policy_document.pdm_emr_launcher_pass_role_document.json
+  tags = {
+    Name = "pdm_emr_launcher_pass_role_policy"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "pdm_emr_launcher_read_s3_attachment" {
@@ -158,6 +162,9 @@ resource "aws_iam_policy" "pdm_emr_launcher_getsecrets" {
   name        = "PDMGetSecrets"
   description = "Allow PDM Lambda function to get secrets"
   policy      = data.aws_iam_policy_document.pdm_emr_launcher_getsecrets.json
+  tags = {
+    Name = "pdm_emr_launcher_getsecrets"
+  }
 }
 
 data "aws_iam_policy_document" "pdm_emr_launcher_getsecrets" {

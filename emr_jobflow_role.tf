@@ -14,12 +14,17 @@ data "aws_iam_policy_document" "ec2_assume_role" {
 resource "aws_iam_role" "pdm_dataset_generator" {
   name               = "pdm_dataset_generator"
   assume_role_policy = data.aws_iam_policy_document.ec2_assume_role.json
-  tags               = local.tags
+  tags = {
+    Name = "pdm_dataset_generator"
+  }
 }
 
 resource "aws_iam_instance_profile" "pdm_dataset_generator" {
   name = "pdm_dataset_generator"
   role = aws_iam_role.pdm_dataset_generator.id
+  tags = {
+    Name = "pdm_dataset_generator"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "ec2_for_ssm_attachment" {
@@ -90,6 +95,9 @@ resource "aws_iam_policy" "pdm_dataset_generator_write_logs" {
   name        = "PDMDatasetGeneratorWriteLogs"
   description = "Allow writing of PDM Dataset logs"
   policy      = data.aws_iam_policy_document.pdm_dataset_generator_write_logs.json
+  tags = {
+    Name = "pdm_dataset_generator_write_logs"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_write_logs" {
@@ -141,6 +149,9 @@ resource "aws_iam_policy" "pdm_dataset_generator_read_config" {
   name        = "PDMDatasetGeneratorReadConfig"
   description = "Allow reading of PDM Dataset config files"
   policy      = data.aws_iam_policy_document.pdm_dataset_generator_read_config.json
+  tags = {
+    Name = "pdm_dataset_generator_read_config"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_read_config" {
@@ -192,6 +203,9 @@ resource "aws_iam_policy" "pdm_dataset_generator_read_artefacts" {
   name        = "PDMDatasetGeneratorReadArtefacts"
   description = "Allow reading of PDM Dataset software artefacts"
   policy      = data.aws_iam_policy_document.pdm_dataset_generator_read_artefacts.json
+  tags = {
+    Name = "pdm_dataset_generator_read_artefacts"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_read_artefacts" {
@@ -217,6 +231,9 @@ resource "aws_iam_policy" "pdm_dataset_generator_write_dynamodb" {
   name        = "PDMDatasetGeneratorDynamoDB"
   description = "Allows read and write access to PDM's EMRFS DynamoDB table"
   policy      = data.aws_iam_policy_document.pdm_dataset_generator_write_dynamodb.json
+  tags = {
+    Name = "pdm_dataset_generator_write_dynamodb"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_dynamodb" {
@@ -300,6 +317,9 @@ resource "aws_iam_policy" "pdm_dataset_generator_extra_ssm_properties" {
   name        = "PDMDatasetGeneratorExtraSSM"
   description = "Additional properties to allow for SSM and writing logs"
   policy      = data.aws_iam_policy_document.pdm_dataset_generator_extra_ssm_properties.json
+  tags = {
+    Name = "pdm_dataset_generator_extra_ssm_properties"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_extra_ssm_properties" {
@@ -326,6 +346,9 @@ resource "aws_iam_policy" "pdm_dataset_generator_metadata_change" {
   name        = "PDMDatasetGeneratorMetadataOptions"
   description = "Allow editing of Metadata Options"
   policy      = data.aws_iam_policy_document.pdm_dataset_generator_metadata_change.json
+  tags = {
+    Name = "pdm_dataset_generator_metadata_change"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "pdm_dataset_generator_metadata_change" {

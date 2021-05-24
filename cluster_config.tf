@@ -17,6 +17,9 @@ resource "aws_s3_bucket_object" "cluster" {
       emr_release_label      = var.emr_release[local.environment]
     }
   )
+  tags = {
+    Name = "cluster"
+  }
 }
 
 resource "aws_s3_bucket_object" "instances" {
@@ -42,6 +45,9 @@ resource "aws_s3_bucket_object" "instances" {
       capacity_reservation_usage_strategy = local.emr_capacity_reservation_usage_strategy
     }
   )
+  tags = {
+    Name = "instances"
+  }
 }
 
 resource "aws_s3_bucket_object" "steps" {
@@ -54,11 +60,17 @@ resource "aws_s3_bucket_object" "steps" {
       action_on_failure = local.step_fail_action[local.environment]
     }
   )
+  tags = {
+    Name = "steps"
+  }
 }
 
 data "aws_secretsmanager_secret" "rds_aurora_secrets" {
   provider = aws
   name     = "metadata-store-v2-pdm-writer"
+  tags = {
+    Name = "rds_aurora_secrets"
+  }
 }
 
 resource "aws_s3_bucket_object" "configurations" {
@@ -85,5 +97,7 @@ resource "aws_s3_bucket_object" "configurations" {
       hive_max_reducers            = local.hive_max_reducers[local.environment]
     }
   )
+  tags = {
+    Name = "configurations"
+  }
 }
-

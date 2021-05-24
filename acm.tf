@@ -5,6 +5,10 @@ resource "aws_acm_certificate" "pdm-dataset-generator" {
   options {
     certificate_transparency_logging_preference = "DISABLED"
   }
+
+  tags = {
+    Name = "pdm_dataset_generator"
+  }
 }
 
 data "aws_iam_policy_document" "pdm_dataset_acm" {
@@ -25,6 +29,9 @@ resource "aws_iam_policy" "pdm_dataset_acm" {
   name        = "ACMExportPDMDatasetGeneratorCert"
   description = "Allow export of PDM Dataset Generator certificate"
   policy      = data.aws_iam_policy_document.pdm_dataset_acm.json
+  tags = {
+    Name = "pdm_dataset_acm"
+  }
 }
 
 data "aws_iam_policy_document" "pdm_certificates" {
@@ -47,4 +54,7 @@ resource "aws_iam_policy" "pdm_certificates" {
   name        = "PdmGetCertificates"
   description = "Allow read access to the Crown-specific subset of the pdm Dataset"
   policy      = data.aws_iam_policy_document.pdm_certificates.json
+  tags = {
+    Name = "pdm_certificates"
+  }
 }

@@ -118,13 +118,10 @@ resource "aws_kms_key" "pdm_ebs_cmk" {
   # ProtectsSensitiveData = "True" - the PDM cluster decrypts sensitive data
   # that it reads from S3. It can potentially spill this to disk if it can't
   # hold it all in memory, which is likely given the size of the dataset.
-  tags = merge(
-    local.tags,
-    {
-      Name                  = "pdm_ebs_cmk"
-      ProtectsSensitiveData = "True"
-    }
-  )
+  tags = {
+    Name                  = "pdm_dataset_generator_metadata_change",
+    ProtectsSensitiveData = "True"
+  }
 }
 
 resource "aws_kms_alias" "pdm_ebs_cmk" {
@@ -165,4 +162,7 @@ resource "aws_iam_policy" "pdm_dataset_ebs_cmk_encrypt" {
   name        = "PDMDatasetGeneratorEbsCmkEncrypt"
   description = "Allow encryption and decryption using the PDM Dataset Generator EBS CMK"
   policy      = data.aws_iam_policy_document.pdm_dataset_ebs_cmk_encrypt.json
+  tags = {
+    Name = "pdm_dataset_ebs_cmk_encrypt"
+  }
 }
