@@ -28,12 +28,18 @@ resource "aws_s3_bucket_object" "emr_setup_sh" {
       update_dynamo_sh                = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.update_dynamo_sh.key)
       dynamo_schema_json              = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.dynamo_json_file.key)
   })
+  tags = {
+    Name = "emr_setup_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "ssm_script" {
   bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
   key     = "component/pdm-dataset-generation/start_ssm.sh"
   content = file("${path.module}/bootstrap_actions/start_ssm.sh")
+  tags = {
+    Name = "ssm_script"
+  }
 }
 
 resource "aws_s3_bucket_object" "installer_sh" {
@@ -45,6 +51,9 @@ resource "aws_s3_bucket_object" "installer_sh" {
       full_no_proxy = local.no_proxy
     }
   )
+  tags = {
+    Name = "installer_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "status_metrics_sh" {
@@ -55,6 +64,9 @@ resource "aws_s3_bucket_object" "status_metrics_sh" {
       pdm_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.pdm_pushgateway_hostname
     }
   )
+  tags = {
+    Name = "status_metrics_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "retry_utility" {
@@ -67,6 +79,9 @@ resource "aws_s3_bucket_object" "retry_utility" {
       retry_enabled               = local.retry_enabled[local.environment]
     }
   )
+  tags = {
+    Name = "retry_utility"
+  }
 }
 
 resource "aws_s3_bucket_object" "retry_script" {
@@ -76,18 +91,27 @@ resource "aws_s3_bucket_object" "retry_script" {
     {
     }
   )
+  tags = {
+    Name = "retry_script"
+  }
 }
 
 resource "aws_s3_bucket_object" "logging_script" {
   bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
   key     = "component/pdm-dataset-generation/logging.sh"
   content = file("${path.module}/bootstrap_actions/logging.sh")
+  tags = {
+    Name = "logging_script"
+  }
 }
 
 resource "aws_s3_bucket_object" "resume_step_script" {
   bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
   key     = "component/pdm-dataset-generation/resume_step.sh"
   content = file("${path.module}/bootstrap_actions/resume_step.sh")
+  tags = {
+    Name = "resume_step_script"
+  }
 }
 
 resource "aws_cloudwatch_log_group" "pdm_dataset_generator" {
@@ -146,6 +170,9 @@ resource "aws_s3_bucket_object" "cloudwatch_sh" {
       emr_release = var.emr_release[local.environment]
     }
   )
+  tags = {
+    Name = "cloudwatch_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "download_scripts_sh" {
@@ -170,6 +197,9 @@ resource "aws_s3_bucket_object" "download_scripts_sh" {
       S3_COMMON_LOGGING_SHELL = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, data.terraform_remote_state.common.outputs.application_logging_common_file.s3_id)
     }
   )
+  tags = {
+    Name = "download_scripts_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "download_sql_sh" {
@@ -184,6 +214,9 @@ resource "aws_s3_bucket_object" "download_sql_sh" {
       environment_name      = local.environment
     }
   )
+  tags = {
+    Name = "download_sql_sh"
+  }
 }
 
 resource "aws_s3_bucket_object" "application_metrics" {
@@ -196,6 +229,9 @@ resource "aws_s3_bucket_object" "application_metrics" {
       prometheus_config = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.prometheus_config.key)
     }
   )
+  tags = {
+    Name = "application_metrics"
+  }
 }
 
 resource "aws_s3_bucket_object" "metrics_pom" {
@@ -203,6 +239,9 @@ resource "aws_s3_bucket_object" "metrics_pom" {
   kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key        = "component/pdm-dataset-generation/metrics_config/pom.xml"
   content    = file("${path.module}/bootstrap_actions/metrics_config/pom.xml")
+  tags = {
+    Name = "metrics_pom"
+  }
 }
 
 resource "aws_s3_bucket_object" "prometheus_config" {
@@ -210,6 +249,9 @@ resource "aws_s3_bucket_object" "prometheus_config" {
   kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key        = "component/pdm-dataset-generation/metrics_config/prometheus_config.yml"
   content    = file("${path.module}/bootstrap_actions/metrics_config/prometheus_config.yml")
+  tags = {
+    Name = "prometheus_config"
+  }
 }
 
 resource "aws_s3_bucket_object" "dynamo_json_file" {
@@ -217,6 +259,9 @@ resource "aws_s3_bucket_object" "dynamo_json_file" {
   kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key        = "component/pdm-dataset-generation/dynamo_schema.json"
   content    = file("${path.module}/bootstrap_actions/dynamo_schema.json")
+  tags = {
+    Name = "dynamo_json_file"
+  }
 }
 
 resource "aws_s3_bucket_object" "update_dynamo_sh" {
@@ -228,4 +273,7 @@ resource "aws_s3_bucket_object" "update_dynamo_sh" {
       dynamodb_table_name = local.data_pipeline_metadata
     }
   )
+  tags = {
+    Name = "update_dynamo_sh"
+  }
 }
