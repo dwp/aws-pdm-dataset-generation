@@ -67,6 +67,10 @@ resource "aws_iam_policy" "pdm_dataset_generator_write_data" {
   name        = "pdmDatasetGeneratorWriteData"
   description = "Allow writing of pdm Dataset files and metrics"
   policy      = data.aws_iam_policy_document.pdm_dataset_generator_write_data.json
+
+  tags = {
+    Name = "pdm_dataset_generator_write_data"
+  }
 }
 
 # E2E Test directory

@@ -37,6 +37,10 @@ data "aws_iam_policy_document" "allow_batch_job_submission" {
 resource "aws_iam_policy" "allow_batch_job_submission" {
   name   = "AllowBatchJobSubmission"
   policy = data.aws_iam_policy_document.allow_batch_job_submission.json
+
+  tags = {
+    Name = "allow_batch_job_submission"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "allow_batch_job_submission" {
@@ -65,6 +69,10 @@ resource "aws_cloudwatch_event_rule" "pdm_failed" {
   }
 }
 EOF
+
+  tags = {
+    Name = "pdm_failed"
+  }
 }
 
 resource "aws_cloudwatch_event_rule" "pdm_terminated" {
@@ -91,6 +99,10 @@ resource "aws_cloudwatch_event_rule" "pdm_terminated" {
   }
 }
 EOF
+
+  tags = {
+    Name = "pdm_terminated"
+  }
 }
 
 resource "aws_cloudwatch_event_rule" "pdm_success" {
@@ -117,6 +129,10 @@ resource "aws_cloudwatch_event_rule" "pdm_success" {
   }
 }
 EOF
+
+  tags = {
+    Name = "pdm_success"
+  }
 }
 
 resource "aws_cloudwatch_event_rule" "pdm_success_with_errors" {
@@ -143,6 +159,10 @@ resource "aws_cloudwatch_event_rule" "pdm_success_with_errors" {
   }
 }
 EOF
+
+  tags = {
+    Name = "pdm_success_with_errors"
+  }
 }
 
 resource "aws_cloudwatch_event_rule" "pdm_running" {
@@ -166,6 +186,10 @@ resource "aws_cloudwatch_event_rule" "pdm_running" {
   }
 }
 EOF
+
+  tags = {
+    Name = "pdm_running"
+  }
 }
 
 resource "aws_cloudwatch_metric_alarm" "pdm_failed" {
