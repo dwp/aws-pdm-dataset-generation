@@ -44,14 +44,6 @@ resource "aws_iam_role" "pdm_emr_launcher_lambda_role" {
   }
 }
 
-resource "aws_lambda_permission" "pdm_emr_launcher_invoke_permission" {
-  statement_id  = "AllowExecutionFromCloudWatch"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.pdm_emr_launcher.function_name
-  principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.pdm_emr_launcher_schedule.arn
-}
-
 data "aws_iam_policy_document" "pdm_emr_launcher_assume_policy" {
   statement {
     sid     = "PDMEMRLauncherLambdaAssumeRolePolicy"

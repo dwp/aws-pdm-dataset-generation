@@ -68,9 +68,6 @@ resource "aws_s3_bucket_object" "steps" {
 data "aws_secretsmanager_secret" "rds_aurora_secrets" {
   provider = aws
   name     = "metadata-store-v2-pdm-writer"
-  tags = {
-    Name = "rds_aurora_secrets"
-  }
 }
 
 resource "aws_s3_bucket_object" "configurations" {
