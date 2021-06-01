@@ -15,15 +15,15 @@ resource "aws_service_discovery_service" "pdm_services" {
     }
   }
 
-  tags = { 
-      Name = "pdm_services"
+  tags = {
+    Name = "pdm_services"
   }
 }
 
 resource "aws_service_discovery_private_dns_namespace" "pdm_services" {
   name = "${local.environment}.pdm.services.${jsondecode(data.aws_secretsmanager_secret_version.terraform_secrets.secret_binary)["dataworks_domain_name"]}"
   vpc  = data.terraform_remote_state.internal_compute.outputs.vpc.vpc.vpc.id
-  tags = { 
-      Name = "pdm_services"
+  tags = {
+    Name = "pdm_services"
   }
 }
