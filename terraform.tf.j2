@@ -25,20 +25,6 @@ data "terraform_remote_state" "aws_analytical_dataset_generation" {
   }
 }
 
-data "terraform_remote_state" "metrics_infrastructure" {
-  backend   = "s3"
-  workspace = terraform.workspace
-
-  config = {
-    bucket         = "{{terraform.state_file_bucket}}"
-    key            = "terraform/dataworks/dataworks-metrics-infrastructure.tfstate"
-    region         = "{{terraform.state_file_region}}"
-    encrypt        = true
-    kms_key_id     = "arn:aws:kms:{{terraform.state_file_region}}:{{terraform.state_file_account}}:key/{{terraform.state_file_kms_key}}"
-    dynamodb_table = "remote_state_locks"
-  }
-}
-
 data "terraform_remote_state" "common" {
   backend   = "s3"
   workspace = terraform.workspace
@@ -74,6 +60,74 @@ data "terraform_remote_state" "security-tools" {
   config = {
     bucket         = "{{terraform.state_file_bucket}}"
     key            = "terraform/dataworks/aws-security-tools.tfstate"
+    region         = "{{terraform.state_file_region}}"
+    encrypt        = true
+    kms_key_id     = "arn:aws:kms:{{terraform.state_file_region}}:{{terraform.state_file_account}}:key/{{terraform.state_file_kms_key}}"
+    dynamodb_table = "remote_state_locks"
+  }
+}
+
+data "terraform_remote_state" "aws_certificate_authority" {
+  backend = "s3"
+  workspace = terraform.workspace
+  config = {
+    bucket         = "{{terraform.state_file_bucket}}"
+    key            = "terraform/dataworks/aws-certificate-authority.tfstate"
+    region         = "{{terraform.state_file_region}}"
+    encrypt        = true
+    kms_key_id     = "arn:aws:kms:{{terraform.state_file_region}}:{{terraform.state_file_account}}:key/{{terraform.state_file_kms_key}}"
+    dynamodb_table = "remote_state_locks"
+  }
+}
+
+data "terraform_remote_state" "crypto" {
+  backend   = "s3"
+  workspace = local.crypto_workspace[local.management_account[local.environment]]
+  config = {
+    bucket         = "{{terraform.state_file_bucket}}"
+    key            = "terraform/dataworks/aws-crypto.tfstate"
+    region         = "{{terraform.state_file_region}}"
+    encrypt        = true
+    kms_key_id     = "arn:aws:kms:{{terraform.state_file_region}}:{{terraform.state_file_account}}:key/{{terraform.state_file_kms_key}}"
+    dynamodb_table = "remote_state_locks"
+  }
+}
+
+data "terraform_remote_state" "mgmt_ca" {
+  backend   = "s3"
+  workspace = local.management_account[local.environment]
+
+  config = {
+    bucket         = "{{terraform.state_file_bucket}}"
+    key            = "terraform/dataworks/aws-certificate-authority.tfstate"
+    region         = "{{terraform.state_file_region}}"
+    encrypt        = true
+    kms_key_id     = "arn:aws:kms:{{terraform.state_file_region}}:{{terraform.state_file_account}}:key/{{terraform.state_file_kms_key}}"
+    dynamodb_table = "remote_state_locks"
+  }
+}
+
+data "terraform_remote_state" "management_artefact" {
+  backend   = "s3"
+  workspace = "management"
+
+  config = {
+    bucket         = "{{terraform.state_file_bucket}}"
+    key            = "terraform/dataworks/management.tfstate"
+    region         = "{{terraform.state_file_region}}"
+    encrypt        = true
+    kms_key_id     = "arn:aws:kms:{{terraform.state_file_region}}:{{terraform.state_file_account}}:key/{{terraform.state_file_kms_key}}"
+    dynamodb_table = "remote_state_locks"
+  }
+}
+
+data "terraform_remote_state" "aws_s3_object_tagger" {
+  backend   = "s3"
+  workspace = terraform.workspace
+
+  config = {
+    bucket         = "{{terraform.state_file_bucket}}"
+    key            = "terraform/dataworks/dataworks-aws-s3-object-tagger.tfstate"
     region         = "{{terraform.state_file_region}}"
     encrypt        = true
     kms_key_id     = "arn:aws:kms:{{terraform.state_file_region}}:{{terraform.state_file_account}}:key/{{terraform.state_file_kms_key}}"
@@ -148,9 +202,6 @@ locals {
     Environment  = local.environment
     Application  = "aws-pdm-dataset-generation"
   }
-}
-
-locals {
 
   env_prefix = {
     development = "dev."
@@ -161,94 +212,7 @@ locals {
     production  = ""
   }
 
-}
-
-locals {
-
   dataworks_domain_name = "{{dataworks_domain_name}}"
-
-}
-
-data "terraform_remote_state" "aws_certificate_authority" {
-  backend = "s3"
-  workspace = terraform.workspace
-  config = {
-    bucket         = "{{terraform.state_file_bucket}}"
-    key            = "terraform/dataworks/aws-certificate-authority.tfstate"
-    region         = "{{terraform.state_file_region}}"
-    encrypt        = true
-    kms_key_id     = "arn:aws:kms:{{terraform.state_file_region}}:{{terraform.state_file_account}}:key/{{terraform.state_file_kms_key}}"
-    dynamodb_table = "remote_state_locks"
-  }
-}
-
-data "terraform_remote_state" "crypto" {
-  backend   = "s3"
-  workspace = local.crypto_workspace[local.management_account[local.environment]]
-  config = {
-    bucket         = "{{terraform.state_file_bucket}}"
-    key            = "terraform/dataworks/aws-crypto.tfstate"
-    region         = "{{terraform.state_file_region}}"
-    encrypt        = true
-    kms_key_id     = "arn:aws:kms:{{terraform.state_file_region}}:{{terraform.state_file_account}}:key/{{terraform.state_file_kms_key}}"
-    dynamodb_table = "remote_state_locks"
-  }
-}
-
-data "terraform_remote_state" "mgmt_ca" {
-  backend   = "s3"
-  workspace = local.management_account[local.environment]
-
-  config = {
-    bucket         = "{{terraform.state_file_bucket}}"
-    key            = "terraform/dataworks/aws-certificate-authority.tfstate"
-    region         = "{{terraform.state_file_region}}"
-    encrypt        = true
-    kms_key_id     = "arn:aws:kms:{{terraform.state_file_region}}:{{terraform.state_file_account}}:key/{{terraform.state_file_kms_key}}"
-    dynamodb_table = "remote_state_locks"
-  }
-}
-
-data "terraform_remote_state" "management_artefact" {
-  backend   = "s3"
-  workspace = "management"
-
-  config = {
-    bucket         = "{{terraform.state_file_bucket}}"
-    key            = "terraform/dataworks/management.tfstate"
-    region         = "{{terraform.state_file_region}}"
-    encrypt        = true
-    kms_key_id     = "arn:aws:kms:{{terraform.state_file_region}}:{{terraform.state_file_account}}:key/{{terraform.state_file_kms_key}}"
-    dynamodb_table = "remote_state_locks"
-  }
-}
-
-data "terraform_remote_state" "adg" {
-  backend   = "s3"
-  workspace = terraform.workspace
-
-  config = {
-    bucket         = "{{terraform.state_file_bucket}}"
-    key            = "terraform/dataworks/aws-analytical-dataset-generation.tfstate"
-    region         = "{{terraform.state_file_region}}"
-    encrypt        = true
-    kms_key_id     = "arn:aws:kms:{{terraform.state_file_region}}:{{terraform.state_file_account}}:key/{{terraform.state_file_kms_key}}"
-    dynamodb_table = "remote_state_locks"
-  }
-}
-
-data "terraform_remote_state" "aws_s3_object_tagger" {
-  backend   = "s3"
-  workspace = terraform.workspace
-
-  config = {
-    bucket         = "{{terraform.state_file_bucket}}"
-    key            = "terraform/dataworks/dataworks-aws-s3-object-tagger.tfstate"
-    region         = "{{terraform.state_file_region}}"
-    encrypt        = true
-    kms_key_id     = "arn:aws:kms:{{terraform.state_file_region}}:{{terraform.state_file_account}}:key/{{terraform.state_file_kms_key}}"
-    dynamodb_table = "remote_state_locks"
-  }
 }
 
 module "dataworks_common" {
