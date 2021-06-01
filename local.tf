@@ -415,4 +415,6 @@ locals {
     config_prefix  = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_data_classification.config_prefix
     data_s3_prefix = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_data_classification.data_s3_prefix
   }
+
+  pdm_pushgateway_hostname = "${aws_service_discovery_service.pdm_services.name}.${aws_service_discovery_private_dns_namespace.pdm_services.name}"
 }
