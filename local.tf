@@ -98,7 +98,7 @@ locals {
 
   amazon_region_domain = "${data.aws_region.current.name}.amazonaws.com"
   endpoint_services    = ["dynamodb", "ec2", "ec2messages", "glue", "kms", "logs", "monitoring", ".s3", "s3", "secretsmanager", "ssm", "ssmmessages"]
-  no_proxy             = "169.254.169.254,${data.terraform_remote_state.metrics_infrastructure.outputs.pdm_pushgateway_hostname},${join(",", formatlist("%s.%s", local.endpoint_services, local.amazon_region_domain))}"
+  no_proxy             = "169.254.169.254,${local.pdm_pushgateway_hostname},${join(",", formatlist("%s.%s", local.endpoint_services, local.amazon_region_domain))}"
 
   ebs_emrfs_em = {
     EncryptionConfiguration = {
@@ -415,4 +415,6 @@ locals {
     config_prefix  = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_data_classification.config_prefix
     data_s3_prefix = data.terraform_remote_state.aws_s3_object_tagger.outputs.pdm_object_tagger_data_classification.data_s3_prefix
   }
+
+  pdm_pushgateway_hostname = "${aws_service_discovery_service.pdm_services.name}.${aws_service_discovery_private_dns_namespace.pdm_services.name}"
 }

@@ -190,7 +190,7 @@ resource "aws_s3_bucket_object" "courtesy_flush" {
   content = templatefile("${path.module}/steps/courtesy-flush.sh",
     {
       pdm_metrics_path         = format("s3://%s/%s", data.terraform_remote_state.common.outputs.published_bucket.id, "metrics/pdm-metrics.json")
-      pdm_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.pdm_pushgateway_hostname
+      pdm_pushgateway_hostname = local.pdm_pushgateway_hostname
     }
   )
   tags = {
@@ -203,7 +203,7 @@ resource "aws_s3_bucket_object" "flush_gateway" {
   key    = "component/pdm-dataset-generation/flush-gateway.sh"
   content = templatefile("${path.module}/steps/flush-gateway.sh",
     {
-      pdm_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.pdm_pushgateway_hostname
+      pdm_pushgateway_hostname = local.pdm_pushgateway_hostname
     }
   )
   tags = {
@@ -231,7 +231,7 @@ resource "aws_s3_bucket_object" "additional_metrics" {
     {
       uc_db                    = local.uc_db
       metastore_secret_id      = data.aws_secretsmanager_secret.metastore_reader_secret.id
-      pdm_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.pdm_pushgateway_hostname
+      pdm_pushgateway_hostname = local.pdm_pushgateway_hostname
     }
   )
   tags = {
