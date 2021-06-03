@@ -22,7 +22,7 @@ Tags:
 - Key: "SSMEnabled"
   Value: "True"
 - Key: "Environment"
-  Value: "development"
+  Value: "${environment_tag_value}"
 - Key: "Application"
   Value: "aws-pdm-dataset-generator"
 - Key: "Name"
