@@ -9,6 +9,7 @@ retry::with_retries() {
 
     declare -i attempts=0
 
+    #shellcheck disable=SC2288
     until "$${command[@]}"; do
 
         ((attempts++))
