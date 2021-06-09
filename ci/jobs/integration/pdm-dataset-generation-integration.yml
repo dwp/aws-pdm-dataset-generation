@@ -7,6 +7,7 @@ jobs:
       passed:
       - pdm-dataset-generation-qa
     - get: emr-launcher-release
+      version: { tag: ((emr-launcher-version.integration)) }
       trigger: true
       passed:
       - pdm-dataset-generation-qa

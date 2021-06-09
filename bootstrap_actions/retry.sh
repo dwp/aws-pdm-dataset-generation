@@ -9,6 +9,8 @@ retry::with_retries() {
 
     declare -i attempts=0
 
+    #This is valid syntax with tf interpolation
+    #shellcheck disable=SC2288
     until "$${command[@]}"; do
 
         ((attempts++))
