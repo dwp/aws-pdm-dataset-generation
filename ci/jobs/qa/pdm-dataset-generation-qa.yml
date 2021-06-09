@@ -6,6 +6,7 @@ jobs:
     - get: aws-pdm-dataset-generation
       trigger: true
     - get: emr-launcher-release
+      version: { tag: ((emr-launcher-version.qa)) }
       trigger: true
     - get: emr-relauncher-release
       trigger: true
