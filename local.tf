@@ -22,7 +22,7 @@ locals {
     AutoShutdown = local.auto_shutdown_tag_value[local.environment]
   }
 
-  common_repo_tags = "${merge(module.dataworks_common.common_tags, local.overridden_tags)}"
+  common_repo_tags = merge(module.dataworks_common.common_tags, local.overridden_tags)
 
   emr_cluster_name                = "aws-pdm-dataset-generator"
   master_instance_type            = "m5.2xlarge"
