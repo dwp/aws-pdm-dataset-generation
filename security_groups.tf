@@ -294,5 +294,7 @@ resource "aws_security_group_rule" "emr_server_ingress_workspaces_slave_region_s
 }
 
 output "pdm_common_sg" {
-  value = aws_security_group.pdm_common
+  value = {
+    id = aws_security_group.pdm_common.id
+  }
 }
