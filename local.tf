@@ -84,7 +84,7 @@ locals {
     development = "0.0.44"
     qa          = "0.0.40"
     integration = "0.0.40"
-    preprod     = "0.0.40"
+    preprod     = "0.0.44"
     production  = "0.0.40"
   }
 
