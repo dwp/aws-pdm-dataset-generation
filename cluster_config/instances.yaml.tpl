@@ -10,6 +10,7 @@ Instances:
   EmrManagedSlaveSecurityGroup: "${slave_sg}"
   ServiceAccessSecurityGroup: "${service_access_sg}"
   InstanceFleets:
+  ${instance_fleets}
   - InstanceFleetType: "MASTER"
     Name: MASTER
     TargetOnDemandCapacity: 1
