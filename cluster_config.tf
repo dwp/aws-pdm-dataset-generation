@@ -39,7 +39,7 @@ resource "aws_s3_bucket_object" "instances" {
       master_sg         = aws_security_group.pdm_master.id
       slave_sg          = aws_security_group.pdm_slave.id
       service_access_sg = aws_security_group.pdm_emr_service.id
-      instance_fleets   = yamlencode(local.instance_fleets[local.environment])
+      instance_fleets   = local.instance_fleets_encoded
     }
   )
   tags = {
