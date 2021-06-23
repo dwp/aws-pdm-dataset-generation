@@ -21,7 +21,7 @@ locals {
     VolumesPerInstance = 1
   }
 
-  instance_fleets_encoded = replace(yamlencode(local.instance_fleets[local.environment]), "/((? =^|\n)[\\s-]*)\"([\\w-]+)\" =/", "$1$2 =")
+  instance_fleets_encoded = replace(yamlencode(local.instance_fleets[local.environment]), "/((?:^|\n)[\\s-]*)\"([\\w-]+)\":/", "$1$2:")
 
   instance_fleets_lower_environments = [
     {
