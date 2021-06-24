@@ -132,7 +132,6 @@ along with other upgrades including Spark. Below is a list of steps taken to upg
 Make sure that the first time anything uses the metastore it initialises with Hive 3, otherwise it will have to be rebuilt.
 
 
-
 ## How the PDM object tagger works
 
 Upon the successful execution of PDM, a `pdm_success` Cloudwatch Event is created. When this event is created it
@@ -149,3 +148,12 @@ values on the rule definition using `local.data_classification` which can be fou
 |----------------|----------------------------------------------|
 | data-s3-prefix | analytical-dataset/full/2021-04-01_09-40-02  |
 | csv-location   | s3://bucket/prefix/data.csv                  |
+
+
+## Cluster configuration
+
+The cluster configuration files are template files held in `cluster_config` folder. These template files are uploaded to s3 via terraform and placeholders for various environment specific fields are added.
+
+The `instances` configuration file works in the same way, but one of the placeholders is named `instance_fleets` and this placeholders is replaced by terraform local code (held in `cluster_config_locals.tf`) which is converted to YAML format.
+
+This is beneficial because it enables us to easily have different configs between environments without holding multiple configuration files. For instance in some environments we want capacity reservations and in some we don't, whereas in other environments we might use multiple instance types and in others we do not.
