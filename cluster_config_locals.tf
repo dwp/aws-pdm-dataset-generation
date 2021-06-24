@@ -47,6 +47,7 @@ locals {
       ]
     }
   ]
+
   instance_fleets = {
     development = local.instance_fleets_lower_environments
     qa          = local.instance_fleets_lower_environments
