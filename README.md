@@ -1,10 +1,21 @@
 # aws-pdm-dataset-generation
+
 Repo for PDM dataset generation
 
 ## Initial setup:
+
 PDM requires that data from Crown platform (HDFS location) be ingested for 5 tables namely `agent_dim`, `appointment_type_dim`, `site_dim`, `team_dim`, `to_do_type_type_dim`.
 This data is ingested into S3 from Crown through a Concourse job and placed into `common-model-inputs/transactional_data` prefix of the `published_bucket`.
 When `initial_transactional_load` property in `local.tf` is set to `true` for each environment, the `initial_transactional_load` step in the application will create tables for the initial transactional tables.
+
+
+## Cluster configuration
+
+The cluster configuration files are template files held in `cluster_config` folder. These template files are uploaded to s3 via terraform and placeholders for various environment specific fields are added.
+
+The `instances` configuration file works in the same way, but one of the placeholders is named `instance_fleets` and this placeholders is replaced by terraform local code (held in `cluster_config_locals.tf`) which is converted to YAML format.
+
+This is beneficial because it enables us to easily have different configs between environments without holding multiple configuration files. For instance in some environments we want capacity reservations and in some we don't, whereas in other environments we might use multiple instance types and in others we do not.
 
 
 ## Retries on cluster failure
@@ -52,7 +63,6 @@ To do a full cluster restart
 * You can then run `start-cluster` job with the same `Correlation_Id` from fresh.
 
 
-
 ## Metrics
 
 This clusters metrics are exported using Json Exporter. The metrics file is created and written locally to 
@@ -64,6 +74,7 @@ The S3 file is deleted at the start and end of every run to prevent stale metric
 
 Additional metrics such as pdm_views_table_count, pdm_views_row_count and pdm_views_max_date are sent to the PDM pushgateway.
 These metrics represent the number of tables in the PDM database, the total number of row in the PDM database and the time at which the latest raw entry was added.
+
 
 # Upgrading to EMR 6.2.0
 
@@ -130,7 +141,6 @@ along with other upgrades including Spark. Below is a list of steps taken to upg
 6. TODO: still figuring out how to get the speed back to normal. Once done update this with instructions
 
 Make sure that the first time anything uses the metastore it initialises with Hive 3, otherwise it will have to be rebuilt.
-
 
 
 ## How the PDM object tagger works
