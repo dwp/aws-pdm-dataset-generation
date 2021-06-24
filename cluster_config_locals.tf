@@ -16,9 +16,9 @@ locals {
           SizeInGB   = 250
           VolumeType = "gp2"
         }
+        VolumesPerInstance = 1
       }
     ]
-    VolumesPerInstance = 1
   }
 
   instance_fleets_encoded = replace(yamlencode(local.instance_fleets[local.environment]), "/((?:^|\n)[\\s-]*)\"([\\w-]+)\":/", "$1$2:")
