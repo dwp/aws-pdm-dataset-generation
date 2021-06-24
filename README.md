@@ -7,6 +7,15 @@ This data is ingested into S3 from Crown through a Concourse job and placed into
 When `initial_transactional_load` property in `local.tf` is set to `true` for each environment, the `initial_transactional_load` step in the application will create tables for the initial transactional tables.
 
 
+## Cluster configuration
+
+The cluster configuration files are template files held in `cluster_config` folder. These template files are uploaded to s3 via terraform and placeholders for various environment specific fields are added.
+
+The `instances` configuration file works in the same way, but one of the placeholders is named `instance_fleets` and this placeholders is replaced by terraform local code (held in `cluster_config_locals.tf`) which is converted to YAML format.
+
+This is beneficial because it enables us to easily have different configs between environments without holding multiple configuration files. For instance in some environments we want capacity reservations and in some we don't, whereas in other environments we might use multiple instance types and in others we do not.
+
+
 ## Retries on cluster failure
 
 When the PDM cluster fails or succeeds it creates a cloudwatch event. A cluster can fail for a multitude of reasons, therefore 
@@ -52,7 +61,6 @@ To do a full cluster restart
 * You can then run `start-cluster` job with the same `Correlation_Id` from fresh.
 
 
-
 ## Metrics
 
 This clusters metrics are exported using Json Exporter. The metrics file is created and written locally to 
@@ -64,6 +72,7 @@ The S3 file is deleted at the start and end of every run to prevent stale metric
 
 Additional metrics such as pdm_views_table_count, pdm_views_row_count and pdm_views_max_date are sent to the PDM pushgateway.
 These metrics represent the number of tables in the PDM database, the total number of row in the PDM database and the time at which the latest raw entry was added.
+
 
 # Upgrading to EMR 6.2.0
 
@@ -148,12 +157,3 @@ values on the rule definition using `local.data_classification` which can be fou
 |----------------|----------------------------------------------|
 | data-s3-prefix | analytical-dataset/full/2021-04-01_09-40-02  |
 | csv-location   | s3://bucket/prefix/data.csv                  |
-
-
-## Cluster configuration
-
-The cluster configuration files are template files held in `cluster_config` folder. These template files are uploaded to s3 via terraform and placeholders for various environment specific fields are added.
-
-The `instances` configuration file works in the same way, but one of the placeholders is named `instance_fleets` and this placeholders is replaced by terraform local code (held in `cluster_config_locals.tf`) which is converted to YAML format.
-
-This is beneficial because it enables us to easily have different configs between environments without holding multiple configuration files. For instance in some environments we want capacity reservations and in some we don't, whereas in other environments we might use multiple instance types and in others we do not.
