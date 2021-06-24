@@ -21,6 +21,7 @@ locals {
     ]
   }
 
+  # The regex here is used to strip double quotes from the produced YAML keys -> workaround for a tf bug
   instance_fleets_encoded = replace(yamlencode(local.instance_fleets[local.environment]), "/((?:^|\n)[\\s-]*)\"([\\w-]+)\":/", "$1$2:")
 
   instance_fleets_lower_environments = [
