@@ -85,7 +85,7 @@ locals {
     qa          = "0.0.48"
     integration = "0.0.48"
     preprod     = "0.0.48"
-    production  = "0.0.40"
+    production  = "0.0.48"
   }
 
   pdm_max_retry_count = {
@@ -395,6 +395,10 @@ locals {
     preprod     = "2000"
     production  = "2000"
   }
+
+  emr_capacity_reservation_preference = local.use_capacity_reservation[local.environment] == true ? "open" : "none"
+
+  emr_capacity_reservation_usage_strategy = local.use_capacity_reservation[local.environment] == true ? "use-capacity-reservations-first" : ""
 
   use_capacity_reservation = {
     development = false
