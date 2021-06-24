@@ -396,6 +396,10 @@ locals {
     production  = "2000"
   }
 
+  emr_capacity_reservation_preference = local.use_capacity_reservation[local.environment] == true ? "open" : "none"
+
+  emr_capacity_reservation_usage_strategy = local.use_capacity_reservation[local.environment] == true ? "use-capacity-reservations-first" : ""
+
   use_capacity_reservation = {
     development = false
     qa          = false
