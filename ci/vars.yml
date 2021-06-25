@@ -5,7 +5,7 @@ emr-launcher-version:
   preprod:     "1.0.33"
   production:  "1.0.33"
 
- emr-relauncher-version:
+emr-relauncher-version:
   development: "0.0.7"
   qa:          "0.0.7"
   integration: "0.0.7"
