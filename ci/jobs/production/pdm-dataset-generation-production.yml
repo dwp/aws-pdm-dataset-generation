@@ -12,6 +12,7 @@ jobs:
       passed:
       - pdm-dataset-generation-preprod
     - get: emr-relauncher-release
+      version: { tag: ((emr-relauncher-version.production)) }
       trigger: true
       passed:
       - pdm-dataset-generation-preprod

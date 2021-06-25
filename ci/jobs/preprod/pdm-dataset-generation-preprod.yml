@@ -5,20 +5,21 @@ jobs:
     - get: aws-pdm-dataset-generation
       trigger: true
       passed:
-      - pdm-dataset-generation-integration
+      - pdm-dataset-generation-qa
     - get: emr-launcher-release
       version: { tag: ((emr-launcher-version.preprod)) }
       trigger: true
       passed:
-      - pdm-dataset-generation-integration
+      - pdm-dataset-generation-qa
     - get: emr-relauncher-release
+      version: { tag: ((emr-relauncher-version.preprod)) }
       trigger: true
       passed:
-      - pdm-dataset-generation-integration
+      - pdm-dataset-generation-qa
     - get: emr-al2-ami
       trigger: true
       passed:
-      - pdm-dataset-generation-integration
+      - pdm-dataset-generation-qa
   - .: (( inject meta.plan.terraform-bootstrap ))
     config:
       params:
