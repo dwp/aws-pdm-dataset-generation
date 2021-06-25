@@ -9,6 +9,7 @@ jobs:
       version: { tag: ((emr-launcher-version.qa)) }
       trigger: true
     - get: emr-relauncher-release
+      version: { tag: ((emr-relauncher-version.qa)) }
       trigger: true
     - get: emr-al2-ami
       trigger: true
