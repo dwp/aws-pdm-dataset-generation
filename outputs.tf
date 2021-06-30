@@ -4,3 +4,7 @@ output "private_dns" {
     pdm_service_discovery     = aws_service_discovery_service.pdm_services
   }
 }
+
+output "pdm_emr_launcher_lambda" {
+  value = aws_lambda_function.pdm_emr_launcher
+}
