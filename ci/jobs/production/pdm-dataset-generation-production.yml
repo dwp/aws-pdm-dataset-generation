@@ -16,7 +16,7 @@ jobs:
       trigger: true
       passed:
       - pdm-dataset-generation-preprod
-    - get: emr-al2-ami
+    - get: al2-emr-ami
       trigger: true
       passed:
       - pdm-dataset-generation-preprod

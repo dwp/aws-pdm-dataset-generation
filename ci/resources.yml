@@ -44,7 +44,20 @@ resources:
     check_every: 5m
     webhook_token: ((dataworks.concourse_github_webhook_token))
 
-  - name: emr-al2-ami
+  - name: al2-emr-ami
+    type: ami
+    check_every: 1h
+    source:
+      aws_role_arn: arn:aws:iam::((dataworks.aws_management_acc)):role/ci
+      region: ((dataworks.aws_region))
+      filters:
+        owner-id: ((dataworks.aws_management_acc))
+        is-public: false
+        state: available
+        name: dw-al2-emr-ami-*
+        architecture: x86_64
+
+  - name: untested-al2-emr-ami
     type: ami
     check_every: 5m
     source:
@@ -54,7 +67,7 @@ resources:
         owner-id: ((dataworks.aws_management_acc))
         is-public: false
         state: available
-        name: dw-al2-emr-ami-*
+        name: untested-dw-al2-emr-ami-*
         architecture: x86_64
 
   - name: dataworks-mastered-data
