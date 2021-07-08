@@ -148,66 +148,6 @@ meta:
               cd $RESOURCE/$RESOURCE_ROOT
               aws s3 sync . s3://$S3_BUCKET/$S3_ROOT --exclude "*" --include "$RESOURCE_FILES"
 
-    start-cluster:
-      task: start-cluster
-      config:
-        platform: linux
-        image_resource:
-          type: docker-image
-          source:
-            repository: ((dataworks.docker_awscli_repository))
-            version: ((dataworks.docker_awscli_version))
-            tag: ((dataworks.docker_awscli_version))
-        params:
-          AWS_ROLE_ARN: arn:aws:iam::((aws_account.management)):role/ci
-          AWS_DEFAULT_REGION: ((dataworks.aws_region))
-        run:
-          path: sh
-          args:
-            - -exc
-            - |
-              export AWS_DEFAULT_REGION
-              source /assume-role
-              set +x
-              export topic_arn=arn:aws:sns:${AWS_DEFAULT_REGION}:${AWS_ACC}:pdm_cw_trigger_sns
-              export message_json=$(cat <<EOF
-              {
-                "correlation_id": "$CORRELATION_ID",
-                "s3_prefix": "$S3_PREFIX",
-                "snapshot_type": "$SNAPSHOT_TYPE",
-                "export_date": "$EXPORT_DATE"
-              }
-              EOF
-              )
-              echo $message_json
-              aws sns publish --topic-arn "$topic_arn" --message "$message_json"
-
-    stop-cluster:
-      task: stop-cluster
-      config:
-        platform: linux
-        image_resource:
-          type: docker-image
-          source:
-            repository: ((dataworks.docker_awscli_repository))
-            version: ((dataworks.docker_awscli_version))
-            tag: ((dataworks.docker_awscli_version))
-        params:
-          AWS_ROLE_ARN: arn:aws:iam::((aws_account.management)):role/ci
-          AWS_DEFAULT_REGION: ((dataworks.aws_region))
-        run:
-          path: sh
-          args:
-            - -exc
-            - |
-              export AWS_DEFAULT_REGION
-              source /assume-role
-              set +x
-              for CLUSTER_ID in $(aws emr list-clusters --active | jq -r '.Clusters[] | select(.Name | test("pdm-dataset-generator")) | .Id');
-              do
-                aws emr terminate-clusters --cluster-ids $CLUSTER_ID
-              done
-
     terraform-bootstrap-crown:
       task: terraform-bootstrap-crown
       config:
@@ -412,39 +352,6 @@ meta:
         inputs:
           - name: dataworks-behavioural-framework
           - name: meta
-    clear-dynamodb-row:
-      task: clear-dynamodb-row
-      config:
-        platform: linux
-        image_resource:
-          type: docker-image
-          source:
-            repository: ((dataworks.docker_awscli_repository))
-            version: ((dataworks.docker_awscli_version))
-            tag: ((dataworks.docker_awscli_version))
-        params:
-          AWS_DEFAULT_REGION: ((dataworks.aws_region))
-        run:
-          path: sh
-          args:
-            - -exc
-            - |
-              export AWS_DEFAULT_REGION
-              source /assume-role
-              set +x
-
-              export message_json=$(cat <<EOF
-              {
-                "Correlation_Id": {"S": "$CORRELATION_ID"},
-                "DataProduct": {"S": "$DATA_PRODUCT"}
-              }
-              EOF
-              )
-              echo $message_json
-
-              aws dynamodb delete-item \
-              --table-name data_pipeline_metadata \
-              --key "$message_json"
 
     ami-test-results:
       task: ami-test-result
