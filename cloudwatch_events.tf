@@ -245,7 +245,7 @@ resource "aws_cloudwatch_event_target" "pdm_success_start_object_tagger" {
   role_arn  = aws_iam_role.allow_batch_job_submission.arn
 
   batch_target {
-    job_definition = data.terraform_remote_state.aws_s3_object_tagger.outputs.s3_object_tagger_batch.job_definition.id
+    job_definition = data.terraform_remote_state.aws_s3_object_tagger.outputs.s3_object_tagger_batch.job_definition.name
     job_name       = "pdm-success-cloudwatch-event"
   }
 
@@ -282,7 +282,7 @@ resource "aws_cloudwatch_event_target" "pdm_success_with_errors_start_object_tag
   role_arn  = aws_iam_role.allow_batch_job_submission.arn
 
   batch_target {
-    job_definition = data.terraform_remote_state.aws_s3_object_tagger.outputs.s3_object_tagger_batch.job_definition.id
+    job_definition = data.terraform_remote_state.aws_s3_object_tagger.outputs.s3_object_tagger_batch.job_definition.name
     job_name       = "pdm-success-with-errors-cloudwatch-event"
   }
 
