@@ -76,7 +76,7 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
           },
           {
             "file_path": "/var/log/pdm/replace_rpms_hive.log",
-            "log_group_name": "${cwa_bootstrap_loggrp_name}",
+            "log_group_name": "$${cwa_bootstrap_loggrp_name}",
             "log_stream_name": "{instance_id}-replace_rpms_hive.log",
             "timezone": "UTC"
           },
