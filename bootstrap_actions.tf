@@ -277,3 +277,14 @@ resource "aws_s3_bucket_object" "update_dynamo_sh" {
     Name = "update_dynamo_sh"
   }
 }
+
+resource "aws_s3_bucket_object" "replace_rpms_hive_sh" {
+  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
+  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
+  key        = "component/pdm-dataset-generation/replace-rpms-hive.sh"
+  content = templatefile("${path.module}/bootstrap_actions/replace-rpms-hive.sh",
+    {
+      hive_scratch_dir_s3_prefix = "s3://${data.terraform_remote_state.management_artefact.outputs.artefact_bucket.id}/${local.hive_scratch_dir_patch_files_s3_prefix}"
+    }
+  )
+}

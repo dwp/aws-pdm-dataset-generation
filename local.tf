@@ -417,4 +417,6 @@ locals {
   }
 
   pdm_pushgateway_hostname = "${aws_service_discovery_service.pdm_services.name}.${aws_service_discovery_private_dns_namespace.pdm_services.name}"
+
+  hive_scratch_dir_patch_files_s3_prefix = "non_source_control_large_files/emr_patches/hive_scratch_dir/"
 }

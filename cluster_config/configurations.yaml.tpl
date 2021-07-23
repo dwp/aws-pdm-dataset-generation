@@ -57,6 +57,7 @@ Configurations:
     "hive.server2.tez.session.lifetime": "0"
     "hive.exec.reducers.max": "${hive_max_reducers}"
     "hive.convert.join.bucket.mapjoin.tez": "false"
+    "hive.emr.use.hdfs.as.scratch.dir": "true"
 
 - Classification: "tez-site"
   Properties:
