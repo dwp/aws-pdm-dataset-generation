@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 source /opt/emr/logging.sh
 source /opt/emr/resume_step.sh
 

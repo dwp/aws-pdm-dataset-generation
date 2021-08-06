@@ -3,6 +3,7 @@
 # Set Variables
 ###############
 
+set -euo pipefail
 
 TRANSACTIONAL_DB="${transactional_db}"
 DICTIONARY_LOCATION="${dictionary_location}"

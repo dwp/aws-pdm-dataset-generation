@@ -3,6 +3,8 @@
 # Set Variables
 ###############
 
+set -euo pipefail
+
 SOURCE_DB="${source_db}"
 TRANSFORM_DB="${transform_db}"
 DICTIONARY_LOCATION="${dictionary_location}"

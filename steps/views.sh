@@ -3,6 +3,8 @@
 # Set Variables
 ###############
 
+set -euo pipefail
+
 VIEWS_DB="${views_db}"
 MODEL_DB="${model_db}"
 TRANSFORM_DB="${transform_db}"

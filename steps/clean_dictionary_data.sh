@@ -3,6 +3,8 @@
 # Set Variables
 #################
 
+set -euo pipefail
+
 DICTIONARY_LOCATION="${dictionary_location}"
 
 (

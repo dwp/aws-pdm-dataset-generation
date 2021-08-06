@@ -3,6 +3,8 @@
 # Set Variables
 ###############
 
+set -euo pipefail
+
 TRANSACTIONAL_DB="${transactional_db}"
 
 TRANSACTIONAL_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transactional
