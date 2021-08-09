@@ -6,8 +6,8 @@ get_release_information(){
 }
 
 update_tfvars() {
-    tfvars_line=$(echo "$(echo ${REPO} | sed 's/-/_/g')_$extension = { base_path = \"../${REPO}-release\", version = \"${VERSION}\" }")
-    if ! cat terraform.tfvars | grep -q "$tfvars_line"; then
+    tfvars_line=$(echo "$(echo "${REPO}" | sed 's/-/_/g')_$extension = { base_path = \"../${REPO}-release\", version = \"${VERSION}\" }")
+    if ! grep -q "$tfvars_line" terraform.tfvars ; then
         echo "$tfvars_line" >> terraform.tfvars
     fi
 }
@@ -28,7 +28,7 @@ get_release() {
 }
 
 fetch_asset(){
-    EXISTING_VERSION=$(ls ../${REPO}-release/ | grep "${VERSION}")
+    EXISTING_VERSION=$(ls ../"${REPO}"-release/ | grep "${VERSION}")
 
     if [[ -f ../${REPO}-release/$EXISTING_VERSION ]]; then
         echo "${REPO}-release/$EXISTING_VERSION already exists: Skipping download"
