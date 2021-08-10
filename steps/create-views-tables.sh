@@ -1,19 +1,18 @@
 #!/bin/bash
 
-set -euo pipefail
-
 source /opt/emr/logging.sh
 source /opt/emr/resume_step.sh
+source /opt/emr/retry.sh
 
 main() {
     log_wrapper_message "Dropping existing tables"
-    drop_existing_tables
+    retry::with_retries drop_existing_tables
     log_wrapper_message "Creating new tables"
-    create_tables
+    retry::with_retries create_tables
     log_wrapper_message "Generating report"
-    tables_report
+    retry::with_retries tables_report
     log_wrapper_message "Dropping source views"
-    drop_views
+    retry::with_retries drop_views
     log_wrapper_message "Finished"
 }
 
