@@ -15,14 +15,14 @@ retry::with_retries() {
 
         ((attempts++))
 
-        log_pdm_message "Retryable attempt failed" "retry.sh" "$$" \
-                        "command," "$${command[@]}" \
+        log_pdm_message "Retryable attempt failed,retrying" "retry.sh,$$" \
+                        "command,$${command[@]}" \
                         "attempts_made,$attempts" \
                         "max_attempts,$(retry::max_attempts)"
 
         if retry::max_attempts_made "$attempts"; then
-            log_pdm_message "Max retries attempted, exiting" "retry.sh" "$$" \
-                            "command," "$${command[@]}" \
+            log_pdm_message "Max retries attempted,exiting" "retry.sh,$$" \
+                            "command,$${command[@]}" \
                             "attempts,$attempts" \
                             "max_attempts,$(retry::max_attempts)"
             return 10
