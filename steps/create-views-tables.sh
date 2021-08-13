@@ -86,8 +86,6 @@ table_names() {
     #shellcheck disable=SC1083
     #shellcheck disable=SC2125
     printf "%s" "$(<"$TABLES_LIST_DIR")"
-#    local database=$${1:?}
-#    hive -S -e "USE uc; SHOW TABLES;" | sort | uniq
 }
 
 no_table_created() {
