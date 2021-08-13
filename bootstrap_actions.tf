@@ -288,13 +288,3 @@ resource "aws_s3_bucket_object" "replace_rpms_hive_sh" {
     }
   )
 }
-
-resource "aws_s3_bucket_object" "pdm_table_names" {
-  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
-  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
-  key        = "component/pdm-dataset-generation/pdm_table_names.txt"
-  content    = file("${path.module}/bootstrap_actions/pdm_table_names.txt")
-  tags = {
-    Name = "pdm_table_names"
-  }
-}
