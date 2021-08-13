@@ -85,7 +85,7 @@ views_table_names() {
 table_names() {
     #shellcheck disable=SC1083
     #shellcheck disable=SC2125
-    printf "%s" "$(<"$TABLES_LIST_DIR")"
+    cat "$TABLES_LIST_DIR"
 }
 
 no_table_created() {
