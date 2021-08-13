@@ -84,8 +84,9 @@ views_table_names() {
 table_names() {
     #shellcheck disable=SC1083
     #shellcheck disable=SC2125
-    local database=$${1:?}
-    hive -S -e "USE $database; SHOW TABLES;" | sort | uniq
+    cat /var/ci/pdm_table_names.txt
+#    local database=$${1:?}
+#    hive -S -e "USE uc; SHOW TABLES;" | sort | uniq
 }
 
 no_table_created() {
