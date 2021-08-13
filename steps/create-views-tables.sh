@@ -85,7 +85,7 @@ views_table_names() {
 table_names() {
     #shellcheck disable=SC1083
     #shellcheck disable=SC2125
-    cat "$TABLES_LIST_DIR"
+    printf "%s" "$(<"$TABLES_LIST_DIR")"
 #    local database=$${1:?}
 #    hive -S -e "USE uc; SHOW TABLES;" | sort | uniq
 }
