@@ -5,6 +5,7 @@ source /opt/emr/resume_step.sh
 source /opt/emr/retry.sh
 
 main() {
+    TABLES_LIST_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/pdm_tables/pdm_table_names.txt
     log_wrapper_message "Dropping existing tables"
     retry::with_retries drop_existing_tables
     log_wrapper_message "Creating new tables"
@@ -84,7 +85,7 @@ views_table_names() {
 table_names() {
     #shellcheck disable=SC1083
     #shellcheck disable=SC2125
-    cat /var/ci/pdm_table_names.txt
+    cat "$TABLES_LIST_DIR"
 #    local database=$${1:?}
 #    hive -S -e "USE uc; SHOW TABLES;" | sort | uniq
 }
