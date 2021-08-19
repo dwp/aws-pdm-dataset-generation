@@ -5,6 +5,8 @@ jobs:
   - in_parallel:
     - get: aws-pdm-dataset-generation
       trigger: true
+    - get: dataworks-aws-s3-object-tagger-locals
+      trigger: true
     - get: emr-launcher-release
       version: { tag: ((emr-launcher-version.development)) }
       trigger: true
