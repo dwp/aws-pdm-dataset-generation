@@ -20,8 +20,8 @@ resources:
     type: git
     source:
       branch: master
-      repository: dwp/aws-pdm-dataset-generation
-      uri: https://github.com/dwp/aws-pdm-dataset-generation.git
+      repository: dwp/dataworks-aws-s3-object-tagger
+      uri: https://github.com/dwp/dataworks-aws-s3-object-tagger.git
       paths:
         - locals.tf
     check_every: 5m
