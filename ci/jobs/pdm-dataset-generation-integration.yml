@@ -6,6 +6,10 @@ jobs:
       trigger: true
       passed:
       - pdm-dataset-generation-qa
+    - get: dataworks-aws-s3-object-tagger-locals
+      trigger: true
+      passed:
+        - pdm-dataset-generation-qa
     - get: emr-launcher-release
       version: { tag: ((emr-launcher-version.integration)) }
       trigger: true
