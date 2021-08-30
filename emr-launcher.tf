@@ -27,7 +27,7 @@ resource "aws_lambda_function" "pdm_emr_launcher" {
     variables = {
       EMR_LAUNCHER_CONFIG_S3_BUCKET = data.terraform_remote_state.common.outputs.config_bucket.id
       EMR_LAUNCHER_CONFIG_S3_FOLDER = "emr/pdm"
-      EMR_LAUNCHER_LOG_LEVEL        = "debug"
+      EMR_LAUNCHER_LOG_LEVEL        = local.pdm_log_level[local.environment]
     }
   }
 
