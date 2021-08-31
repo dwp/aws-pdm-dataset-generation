@@ -18,7 +18,6 @@
   CORRELATION_ID_FILE=/opt/emr/correlation_id.txt
   S3_PREFIX_FILE=/opt/emr/s3_prefix.txt
   SNAPSHOT_TYPE_FILE=/opt/emr/snapshot_type.txt
-  OUTPUT_LOCATION_FILE=/opt/emr/output_location.txt
   EXPORT_DATE_FILE=/opt/emr/export_date.txt
   DATE=$(date '+%Y-%m-%d')
   DATA_PRODUCT="PDM"
@@ -54,16 +53,6 @@
       echo $((TIME_NOW + 604800000))
   }
 
-  get_output_location() {
-    OUTPUT_LOCATION="NOT_SET"
-
-    if [[ -f "$OUTPUT_LOCATION_FILE" ]]; then
-      OUTPUT_LOCATION=$(cat $OUTPUT_LOCATION_FILE)
-    fi
-
-    echo "$OUTPUT_LOCATION"
-  }
-
   MAX_RETRY=10
   processed_files=()
   dynamo_update_item() {
@@ -72,7 +61,6 @@
     run_id="$3"
 
     ttl_value=$(get_ttl)
-    output_location_value=$(get_output_location)
 
     log_wrapper_message "Updating DynamoDB with Correlation_Id: $CORRELATION_ID, DataProduct: $DATA_PRODUCT, Date: $EXPORT_DATE, Cluster_Id: $CLUSTER_ID, S3_Prefix_Analytical_DataSet: $S3_PREFIX, Snapshot_Type: $SNAPSHOT_TYPE, TimeToExist: $ttl_value, CurrentStep: $current_step, Status: $status, Run_Id: $run_id"
 
@@ -96,10 +84,6 @@
         expression_values="$expression_values, \":t\": {\"N\":\"$run_id\"}"
     fi
 
-    if [[ -n "$output_location_value" ]] && [[ "$output_location_value" != "NOT_SET" ]]; then
-        update_expression="$update_expression, S3_Prefix_Analytical_DataSet = :b"
-        expression_values="$expression_values, \":b\": {\"S\":\"$output_location_value\"}"
-    fi
 
     $(which aws) dynamodb update-item --table-name "${dynamodb_table_name}" \
         --key "{\"Correlation_Id\":{\"S\":\"$CORRELATION_ID\"},\"DataProduct\":{\"S\":\"$DATA_PRODUCT\"}}" \
