@@ -29,7 +29,7 @@ resource "aws_lambda_function" "pdm_emr_relauncher" {
       TABLE_NAME         = local.data_pipeline_metadata
       STEPS_TO_NOT_RETRY = "collect-metrics"
       MAX_RETRY_COUNT    = local.pdm_max_retry_count[local.environment]
-      LOG_LEVEL          = "debug"
+      LOG_LEVEL          = local.pdm_log_level[local.environment]
     }
   }
 
