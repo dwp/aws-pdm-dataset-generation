@@ -39,12 +39,33 @@ resources:
     check_every: 5m
     webhook_token: ((dataworks.concourse_github_webhook_token))
 
+  - name: emr-launcher-release-dev
+    type: github-release
+    source:
+      owner: dwp
+      repository: emr-launcher
+      access_token: ((dataworks-secrets.concourse_github_pat))
+      version: { tag: ((emr-launcher-version.development)) }
+    check_every: 5m
+    webhook_token: ((dataworks.concourse_github_webhook_token))
+
   - name: emr-launcher-release
     type: github-release
     source:
       owner: dwp
       repository: emr-launcher
       access_token: ((dataworks-secrets.concourse_github_pat))
+      version: { tag: ((emr-launcher-version.production)) }
+    check_every: 5m
+    webhook_token: ((dataworks.concourse_github_webhook_token))
+
+  - name: emr-relauncher-release-dev
+    type: github-release
+    source:
+      owner: dwp
+      repository: dataworks-emr-relauncher
+      access_token: ((dataworks-secrets.concourse_github_pat))
+      version: { tag: ((emr-relauncher-version.development)) }
     check_every: 5m
     webhook_token: ((dataworks.concourse_github_webhook_token))
 
@@ -54,6 +75,7 @@ resources:
       owner: dwp
       repository: dataworks-emr-relauncher
       access_token: ((dataworks-secrets.concourse_github_pat))
+      version: { tag: ((emr-relauncher-version.production)) }
     check_every: 5m
     webhook_token: ((dataworks.concourse_github_webhook_token))
 
@@ -124,4 +146,3 @@ resources:
 
   - name: meta-qa
     type: meta
-
