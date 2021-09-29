@@ -408,7 +408,7 @@ locals {
     production  = true
   }
 
-  emr_subnet_non_capacity_reserved_environments = "eu-west-2a"
+  emr_subnet_non_capacity_reserved_environments = data.terraform_remote_state.common.outputs.aws_ec2_non_capacity_reservation_region
 
   data_classification = {
     config_bucket  = data.terraform_remote_state.common.outputs.config_bucket
