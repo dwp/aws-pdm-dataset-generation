@@ -203,7 +203,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   source_processes = {
@@ -211,7 +211,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   transactional_processes = {
@@ -227,7 +227,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   views_processes = {
@@ -235,7 +235,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   views_tables_processes = {
@@ -243,7 +243,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   pdm_alerts = {
