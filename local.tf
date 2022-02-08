@@ -371,6 +371,14 @@ locals {
     production  = "13421728"
   }
 
+  yarn_mapreduce_am_resourcemb = {
+    development = "6144"
+    qa          = "6144"
+    integration = "6144"
+    preprod     = "23808"
+    production  = "23808"
+  }
+
   // This value should be the same as yarn.scheduler.maximum-allocation-mb
   llap_daemon_yarn_container_mb = {
     development = "57344"

@@ -86,7 +86,7 @@ Configurations:
 
 - Classification: "mapred-site"
   Properties:
-    "yarn.app.mapreduce.am.resource.mb": "${yarn_mapreduce_am_resource_mb}"
+    "yarn.app.mapreduce.am.resource.mb": "${yarn_mapreduce_am_resourcemb}"
 
 - Classification: "emrfs-site"
   Properties:
