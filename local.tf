@@ -291,8 +291,8 @@ locals {
     development = "1024"
     qa          = "1024"
     integration = "1024"
-    preprod     = "1024"
-    production  = "1024"
+    preprod     = "12288"
+    production  = "12288"
   }
 
   # 0.8 of hive_tez_container_size
@@ -309,8 +309,8 @@ locals {
     development = "-Xmx819m"
     qa          = "-Xmx819m"
     integration = "-Xmx819m"
-    preprod     = "-Xmx819m"
-    production  = "-Xmx819m"
+    preprod     = "-Xmx12288m "
+    production  = "-Xmx12288m"
   }
 
   hive_tez_sessions_per_queue = {
@@ -341,8 +341,8 @@ locals {
     development = "2688"
     qa          = "2688"
     integration = "2688"
-    preprod     = "2688"
-    production  = "2688"
+    preprod     = "15360"
+    production  = "15360"
   }
 
   # 0.8 of hive_tez_container_size
@@ -350,8 +350,8 @@ locals {
     development = "-Xmx2150m"
     qa          = "-Xmx2150m"
     integration = "-Xmx2150m"
-    preprod     = "-Xmx2150m"
-    production  = "-Xmx2150m"
+    preprod     = "-Xmx12288m"
+    production  = "-Xmx12288m"
   }
 
   # 0.33 of hive_tez_container_size
