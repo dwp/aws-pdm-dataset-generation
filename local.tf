@@ -81,11 +81,11 @@ locals {
   }
 
   pdm_version = {
-    development = "0.0.57"
-    qa          = "0.0.57"
-    integration = "0.0.57"
-    preprod     = "0.0.57"
-    production  = "0.0.57"
+    development = "0.0.68"
+    qa          = "0.0.68"
+    integration = "0.0.68"
+    preprod     = "0.0.68"
+    production  = "0.0.68"
   }
 
   pdm_max_retry_count = {
@@ -203,7 +203,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   source_processes = {
@@ -211,7 +211,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   transactional_processes = {
@@ -227,7 +227,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   views_processes = {
@@ -235,7 +235,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   views_tables_processes = {
@@ -243,7 +243,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   pdm_alerts = {
