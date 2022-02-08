@@ -58,11 +58,35 @@ Configurations:
     "hive.exec.reducers.max": "${hive_max_reducers}"
     "hive.convert.join.bucket.mapjoin.tez": "false"
     "hive.emr.use.hdfs.as.scratch.dir": "true"
+    "hive.exec.orc.compression.strategy": "SPEED"
+    "hive.mv.files.thread": "40"
+    "hive.exec.input.listing.max.threads": "50"
+    "hive.blobstore.use.blobstore.as.scratchdir": "true"
+    "fs.s3a.threads.core": "1000"
+    "fs.s3a.connection.maximum": "1500"
+    "fs.s3a.threads.max": "1000"
+    "fs.s3a.max.total.tasks": "1000"
+    "hive.auto.convert.join": "true"
+    "hive.exec.orc.default.compress": "ZLIB"
+    "hive.exec.orc.default.block.size": "268435456"
+    "hive.exec.orc.encoding.strategy": "SPEED"
+    "hive.exec.orc.default.row.index.stride": "10000"
+    "hive.exec.orc.default.stripe.size": "268435456"
+    "hive.tez.container.size": "${hive_tez_container_size}"
+    "hive.tez.java.opts": "${hive_tez_java_opts}"
 
 - Classification: "tez-site"
   Properties:
     "tez.am.resource.memory.mb": "${tez_am_resource_memory_mb}"
     "tez.am.container.reuse.enabled": "true"
+    "tez.grouping.min-size": "${tez_grouping_min_size}"
+    "tez.grouping.max-size": "${tez_grouping_max_size}"
+    "tez.am.launch.cmd-opts": "${tez_am_launch_cmd_opts}"
+    "tez.am.container.reuse.enabled": "true"
+
+- Classification: "mapred-site"
+  Properties:
+    "yarn.app.mapreduce.am.resource.mb": "${yarn_mapreduce_am_resource_mb}"
 
 - Classification: "emrfs-site"
   Properties:
