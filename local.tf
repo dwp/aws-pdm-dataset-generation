@@ -404,6 +404,13 @@ locals {
     production  = "2000"
   }
 
+  hive_blobstore_opts_enabled = {
+    development = true
+    qa          = true
+    integration = true
+    preprod     = false
+    production  = true
+  }
   emr_capacity_reservation_preference = local.use_capacity_reservation[local.environment] == true ? "open" : "none"
 
   emr_capacity_reservation_usage_strategy = local.use_capacity_reservation[local.environment] == true ? "use-capacity-reservations-first" : ""
