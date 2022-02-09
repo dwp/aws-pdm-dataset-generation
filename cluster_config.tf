@@ -100,6 +100,7 @@ resource "aws_s3_bucket_object" "configurations" {
       tez_am_launch_cmd_opts       = local.tez_am_launch_cmd_opts[local.environment]
       yarn_mapreduce_am_resourcemb = local.yarn_mapreduce_am_resourcemb[local.environment]
       hive_blobstore_opts_enabled  = local.hive_blobstore_opts_enabled[local.environment]
+      hive_blobstore_as_scratchdir = local.hive_blobstore_as_scratchdir[local.environment]
     }
   )
   tags = {
