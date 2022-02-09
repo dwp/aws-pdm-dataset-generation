@@ -81,11 +81,11 @@ locals {
   }
 
   pdm_version = {
-    development = "0.0.57"
-    qa          = "0.0.57"
-    integration = "0.0.57"
-    preprod     = "0.0.57"
-    production  = "0.0.57"
+    development = "0.0.68"
+    qa          = "0.0.68"
+    integration = "0.0.68"
+    preprod     = "0.0.68"
+    production  = "0.0.68"
   }
 
   pdm_max_retry_count = {
@@ -203,7 +203,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   source_processes = {
@@ -211,7 +211,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   transactional_processes = {
@@ -227,7 +227,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   views_processes = {
@@ -235,7 +235,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   views_tables_processes = {
@@ -243,7 +243,7 @@ locals {
     qa          = "20"
     integration = "10"
     preprod     = "20"
-    production  = "20"
+    production  = "30"
   }
 
   pdm_alerts = {
@@ -291,8 +291,8 @@ locals {
     development = "1024"
     qa          = "1024"
     integration = "1024"
-    preprod     = "1024"
-    production  = "1024"
+    preprod     = "12288"
+    production  = "12288"
   }
 
   # 0.8 of hive_tez_container_size
@@ -309,8 +309,8 @@ locals {
     development = "-Xmx819m"
     qa          = "-Xmx819m"
     integration = "-Xmx819m"
-    preprod     = "-Xmx819m"
-    production  = "-Xmx819m"
+    preprod     = "-Xmx12288m "
+    production  = "-Xmx12288m"
   }
 
   hive_tez_sessions_per_queue = {
@@ -341,8 +341,8 @@ locals {
     development = "2688"
     qa          = "2688"
     integration = "2688"
-    preprod     = "2688"
-    production  = "2688"
+    preprod     = "15360"
+    production  = "15360"
   }
 
   # 0.8 of hive_tez_container_size
@@ -350,8 +350,8 @@ locals {
     development = "-Xmx2150m"
     qa          = "-Xmx2150m"
     integration = "-Xmx2150m"
-    preprod     = "-Xmx2150m"
-    production  = "-Xmx2150m"
+    preprod     = "-Xmx12288m"
+    production  = "-Xmx12288m"
   }
 
   # 0.33 of hive_tez_container_size
@@ -369,6 +369,14 @@ locals {
     integration = "13421728"
     preprod     = "13421728"
     production  = "13421728"
+  }
+
+  yarn_mapreduce_am_resourcemb = {
+    development = "6144"
+    qa          = "6144"
+    integration = "6144"
+    preprod     = "23808"
+    production  = "23808"
   }
 
   // This value should be the same as yarn.scheduler.maximum-allocation-mb
