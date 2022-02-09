@@ -52,7 +52,7 @@ Configurations:
     "hive.compactor.initiator.on": "true"
     "hive.compactor.worker.threads": "1"
     "hive.compactor.worker.timeout": "86400"
-    "hive.blobstore.optimizations.enabled": "true"
+    "hive.blobstore.optimizations.enabled": "${hive_blobstore_opts_enabled}"
     "hive.blobstore.use.blobstore.as.scratchdir": "false"
     "hive.server2.tez.session.lifetime": "0"
     "hive.exec.reducers.max": "${hive_max_reducers}"
