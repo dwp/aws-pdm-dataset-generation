@@ -15,9 +15,6 @@ BootstrapActions:
 - Name: "download-pdm-sql"
   ScriptBootstrapAction:
     Path: "file:/var/ci/download_sql.sh"
-- Name: "application-metrics-setup"
-  ScriptBootstrapAction:
-    Path: "file:/var/ci/application-metrics-setup.sh"
 - Name: "replace-rpms-hive"
   ScriptBootstrapAction:
     Path: "file:/var/ci/replace-rpms-hive.sh"
