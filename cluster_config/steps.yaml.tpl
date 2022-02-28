@@ -2,7 +2,27 @@
 BootstrapActions:
 - Name: "download-scripts"
   ScriptBootstrapAction:
-    Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/download_scripts.sh"git 
+    Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/download_scripts.sh"
+- Name: "start_ssm"
+  ScriptBootstrapAction:
+    Path: "file:/var/ci/start_ssm.sh"
+- Name: "get-dks-cert"
+  ScriptBootstrapAction:
+    Path: "file:/var/ci/emr-setup.sh"
+- Name: "installer"
+  ScriptBootstrapAction:
+    Path: "file:/var/ci/installer.sh"
+- Name: "download-pdm-sql"
+  ScriptBootstrapAction:
+    Path: "file:/var/ci/download_sql.sh"
+- Name: "application-metrics-setup"
+  ScriptBootstrapAction:
+    Path: "file:/var/ci/application-metrics-setup.sh"
+- Name: "replace-rpms-hive"
+  ScriptBootstrapAction:
+    Path: "file:/var/ci/replace-rpms-hive.sh"
+    Args:
+    - "hive"
 Steps:
 - Name: "courtesy-flush"
   HadoopJarStep:
