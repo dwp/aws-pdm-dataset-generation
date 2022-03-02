@@ -10,7 +10,7 @@ resources:
   - name: aws-pdm-dataset-generation
     type: git
     source:
-      branch: master
+      branch: dev-emr-6.4.0
       repository: dwp/aws-pdm-dataset-generation
       uri: https://github.com/dwp/aws-pdm-dataset-generation.git
     check_every: 5m
