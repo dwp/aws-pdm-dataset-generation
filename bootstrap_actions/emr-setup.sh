@@ -15,6 +15,7 @@ echo "Changing the Permissions"
 chmod u+x /opt/emr/resume_step.sh
 chmod u+x /opt/emr/cloudwatch.sh
 chmod u+x /opt/emr/with_retry.sh
+mkdir /mnt/var/test
 
 (
 # Import the logging functions
