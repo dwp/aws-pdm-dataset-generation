@@ -20,7 +20,7 @@ main() {
 }
 
 unlock_existing_tables() {
- parallelised_statements <(existing_table_names | unlock_existing_table_statements)
+    parallelised_statements <(existing_table_names | unlock_existing_table_statements)
 }
 
 drop_existing_tables() {
@@ -64,7 +64,7 @@ parallelised_statements() {
 
 unlock_existing_table_statements() {
     while read -r table_name; do
-        hive -e "set hive.txn.manager=org.apache.hadoop.hive.ql.lockmgr.DummyTxnManager\;UNLOCK TABLE "$(views_tables_db)"."$table_name";"
+        echo \"set hive.txn.manager=org.apache.hadoop.hive.ql.lockmgr.DummyTxnManager\;UNLOCK TABLE "$(views_tables_db)"."$table_name"\;\"
     done
 }
 
