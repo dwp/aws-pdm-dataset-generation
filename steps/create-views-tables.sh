@@ -70,20 +70,8 @@ unlock_existing_table_statements() {
 
 drop_existing_table_statements() {
     while read -r table_name; do
-      echo \"use $(views_tables_db); SHOW TABLES\;\" | grep -w $table_name
-      if [ $? -eq 0 ]; then
-        echo \"use $(views_tables_db); set hive.txn.manager=org.apache.hadoop.hive.ql.lockmgr.DummyTxnManager\;\"
-        echo \"UNLOCK TABLE "$(views_tables_db)"."$table_name"\;\"
-        retVal=$?
-        if [ $retVal -ne 0 ]; then
-          echo \"DROP TABLE IF EXISTS "$(views_tables_db)"."$table_name"\;\"
-          continue
-        else
-          echo \"DROP TABLE IF EXISTS "$(views_tables_db)"."$table_name"\;\"
-        fi
-      else
-        continue
-      fi
+      echo \"DROP TABLE IF EXISTS "$(views_tables_db)"."$table_name"\;\":wq
+
     done
 }
 
