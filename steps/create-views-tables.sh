@@ -70,8 +70,7 @@ unlock_existing_table_statements() {
 
 drop_existing_table_statements() {
     while read -r table_name; do
-      echo \"DROP TABLE IF EXISTS "$(views_tables_db)"."$table_name"\;\":wq
-
+      echo \"DROP TABLE IF EXISTS "$(views_tables_db)"."$table_name"\;\"
     done
 }
 
