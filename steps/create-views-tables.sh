@@ -6,6 +6,8 @@ source /opt/emr/retry.sh
 
 main() {
     TABLES_LIST_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/pdm_tables/pdm_table_names.txt
+    log_wrapper_message "Unlocking existing tables"
+    unlock_existing_tables
     log_wrapper_message "Dropping existing tables"
     retry::with_retries drop_existing_tables
     log_wrapper_message "Creating new tables"
@@ -15,6 +17,10 @@ main() {
     log_wrapper_message "Dropping source views"
     retry::with_retries drop_views
     log_wrapper_message "Finished"
+}
+
+unlock_existing_tables() {
+    parallelised_statements <(existing_table_names | unlock_existing_table_statements)
 }
 
 drop_existing_tables() {
@@ -56,9 +62,15 @@ parallelised_statements() {
     xargs -d '\n' -a "$input_file" -r -P"${processes}" -n1 hive -e
 }
 
+unlock_existing_table_statements() {
+    while read -r table_name; do
+        echo \"set hive.txn.manager=org.apache.hadoop.hive.ql.lockmgr.DummyTxnManager\;UNLOCK TABLE "$(views_tables_db)"."$table_name"\;\"
+    done
+}
+
 drop_existing_table_statements() {
     while read -r table_name; do
-        echo \"DROP TABLE IF EXISTS "$(views_tables_db)"."$table_name"\;\"
+      echo \"DROP TABLE IF EXISTS "$(views_tables_db)"."$table_name"\;\"
     done
 }
 
