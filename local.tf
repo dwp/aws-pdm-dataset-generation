@@ -81,10 +81,10 @@ locals {
   }
 
   pdm_version = {
-    development = "0.0.73"
-    qa          = "0.0.73"
-    integration = "0.0.73"
-    preprod     = "0.0.73"
+    development = "0.0.74"
+    qa          = "0.0.74"
+    integration = "0.0.74"
+    preprod     = "0.0.74"
     production  = "0.0.70"
   }
 
