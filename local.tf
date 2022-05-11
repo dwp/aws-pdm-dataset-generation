@@ -85,7 +85,7 @@ locals {
     qa          = "0.0.75"
     integration = "0.0.75"
     preprod     = "0.0.75"
-    production  = "0.0.70"
+    production  = "0.0.75"
   }
 
   pdm_max_retry_count = {
