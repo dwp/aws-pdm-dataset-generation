@@ -253,7 +253,7 @@ locals {
     preprod     = true
     production  = true
   }
-
+# default 100, set to 10% hive.tez.container.size
   tez_runtime_unordered_output_buffer_size_mb = {
     development = "268"
     qa          = "268"
@@ -345,15 +345,6 @@ locals {
     production  = "18560"
   }
 
-  # 0.8 of hive_tez_container_size
-  hive_tez_java_opts = {
-    development = "-Xmx2150m"
-    qa          = "-Xmx2150m"
-    integration = "-Xmx2150m"
-    preprod     = "-Xmx14848m"
-    production  = "-Xmx14848m"
-  }
-
   # 0.33 of hive_tez_container_size
   hive_auto_convert_join_noconditionaltask_size = {
     development = "896"
@@ -377,23 +368,6 @@ locals {
     integration = "6144"
     preprod     = "23808"
     production  = "23808"
-  }
-
-  // This value should be the same as yarn.scheduler.maximum-allocation-mb
-  llap_daemon_yarn_container_mb = {
-    development = "57344"
-    qa          = "57344"
-    integration = "57344"
-    preprod     = "253952"
-    production  = "253952"
-  }
-
-  llap_number_of_instances = {
-    development = "5"
-    qa          = "5"
-    integration = "5"
-    preprod     = "15"
-    production  = "15"
   }
 
   hive_max_reducers = {
