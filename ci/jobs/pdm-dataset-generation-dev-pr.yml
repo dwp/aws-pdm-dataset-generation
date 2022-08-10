@@ -1,10 +1,10 @@
 jobs:
-- name: pdm-dataset-generation-dev
+- name: pdm-dataset-generation-dev-pr
   max_in_flight: 1
   serial_groups: [pdm-dataset-generation-dev-pr]
   plan:
   - in_parallel:
-    - get: aws-pdm-dataset-generation
+    - get: aws-pdm-dataset-generation-pr
       trigger: true
     - get: dataworks-aws-s3-object-tagger-locals
       trigger: true
