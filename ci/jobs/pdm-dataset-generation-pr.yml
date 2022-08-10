@@ -26,7 +26,7 @@ jobs:
             type: docker-image
             source:
               repository: koalaman/shellcheck-alpine
-              tag: latest
+              tag: v0.8.0
           run:
             path: sh
             args:
