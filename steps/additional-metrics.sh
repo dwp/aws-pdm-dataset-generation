@@ -8,9 +8,9 @@ set -euo pipefail
     # Import and execute resume step function
     source /opt/emr/resume_step.sh
 
-    function log_wrapper_message() {
-    log_pdm_message "$1" "additional-metrics.sh" "$$" "Running as: $USER"
-    }
+    # function log_wrapper_message() {
+    # log_pdm_message "$1" "additional-metrics.sh" "$$" "Running as: $USER"
+    # }
     UC_DB="${uc_db}"
 
     # get the data needed for metrics labels
