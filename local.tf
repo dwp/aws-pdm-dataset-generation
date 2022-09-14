@@ -263,6 +263,23 @@ locals {
 #    preprod     = "2148"
 #    production  = "2148"
 #  }
+# default 100, set to 10% hive.tez.container.size
+  tez_runtime_unordered_output_buffer_size_mb = {
+    development = "268"
+    qa          = "268"
+    integration = "268"
+    preprod     = "2148"
+    production  = "2148"
+  }
+
+  # 0.4 of hive_tez_container_size
+  tez_runtime_io_sort_mb = {
+    development = "1075"
+    qa          = "1075"
+    integration = "1075"
+    preprod     = "1075"
+    production  = "1075"
+  }
 
   tez_grouping_min_size = {
     development = "1342177"
