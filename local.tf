@@ -267,7 +267,6 @@ locals {
     preprod     = true
     production  = true
   }
-
 # default 100, set to 10% hive.tez.container.size as recommended at
 # https://community.cloudera.com/t5/Community-Articles/Demystify-Apache-Tez-Memory-Tuning-Step-by-Step/ta-p/245279
 # uncomment this section (pre tuning settings shown as of 20/7/2022). Change setting in local.tf to use this setting
