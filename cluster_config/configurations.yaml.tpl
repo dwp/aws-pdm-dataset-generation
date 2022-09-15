@@ -49,8 +49,6 @@ Configurations:
     "hive.compactor.check.interval": "300"
     "hive.compactor.delta.num.threshold": "10"
     "hive.compactor.delta.pct.threshold": "0.1f"
-    "hive.compactor.initiator.on": "true"
-    "hive.compactor.worker.threads": "1"
     "hive.compactor.worker.timeout": "86400"
     "hive.blobstore.optimizations.enabled": "${hive_blobstore_opts_enabled}"
     "hive.blobstore.use.blobstore.as.scratchdir": "${hive_blobstore_as_scratchdir}"
@@ -80,8 +78,6 @@ Configurations:
     "tez.am.container.reuse.enabled": "true"
     "tez.grouping.min-size": "${tez_grouping_min_size}"
     "tez.grouping.max-size": "${tez_grouping_max_size}"
-    "tez.am.launch.cmd-opts": "${tez_am_launch_cmd_opts}"
-    "tez.am.container.reuse.enabled": "true"
     "tez.runtime.io.sort": "${tez_runtime_io_sort}"
     "tez.runtime.unordered.output.buffer.size-mb": "${tez_runtime_unordered_output_buffer_size_mb}"
 
