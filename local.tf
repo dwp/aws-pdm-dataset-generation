@@ -253,6 +253,7 @@ locals {
     preprod     = true
     production  = true
   }
+
 # default 100, set to 10% hive.tez.container.size as recommended at
 # https://community.cloudera.com/t5/Community-Articles/Demystify-Apache-Tez-Memory-Tuning-Step-by-Step/ta-p/245279
 # uncomment this section (pre tuning settings shown as of 20/7/2022). Change setting in local.tf to use this setting
@@ -263,6 +264,23 @@ locals {
 #    preprod     = "2148"
 #    production  = "2148"
 #  }
+# default 100, set to 10% hive.tez.container.size
+  tez_runtime_unordered_output_buffer_size_mb = {
+    development = "268"
+    qa          = "268"
+    integration = "268"
+    preprod     = "2148"
+    production  = "2148"
+  }
+
+  # 0.4 of hive_tez_container_size
+  tez_runtime_io_sort_mb = {
+    development = "1075"
+    qa          = "1075"
+    integration = "1075"
+    preprod     = "1075"
+    production  = "1075"
+  }
 
   tez_grouping_min_size = {
     development = "1342177"
