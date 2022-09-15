@@ -176,11 +176,15 @@ locals {
     production  = "TERMINATE_CLUSTER"
   }
 
+  # Default is 0 but required for transactional tables
+  # documentation suggests only really needed on one server hosting thriftserver
+  # so will set low (not following calculation below from org config)
+  # due to low number of transactional tables
   hive_compaction_threads = {
     development = "1"
     qa          = "1"
     integration = "1"
-    preprod     = "12"
+    preprod     = "2"
     production  = "12" # vCPU in the instance / 8
   }
 
@@ -279,7 +283,7 @@ locals {
     development = "268"
     qa          = "268"
     integration = "268"
-    preprod     = "2148"
+    preprod     = "3072"
     production  = "2148"
   }
 
@@ -288,7 +292,7 @@ locals {
     development = "1075"
     qa          = "1075"
     integration = "1075"
-    preprod     = "1075"
+    preprod     = "3072"
     production  = "1075"
   }
 
@@ -296,7 +300,7 @@ locals {
     development = "1342177"
     qa          = "1342177"
     integration = "1342177"
-    preprod     = "52428800"
+    preprod     = "16777216"
     production  = "52428800"
   }
 
@@ -312,7 +316,7 @@ locals {
     development = "1024"
     qa          = "1024"
     integration = "1024"
-    preprod     = "18560"
+    preprod     = "7680"
     production  = "18560"
   }
 
@@ -325,15 +329,16 @@ locals {
     production  = "1024"
   }
 
-  # 0.8 of tez_am_resource_memory_mb
-  tez_am_launch_cmd_opts = {
-    development = "-Xmx819m"
-    qa          = "-Xmx819m"
-    integration = "-Xmx819m"
-    preprod     = "-Xmx14848m "
-    production  = "-Xmx14848m"
-  }
+  # 0.8 of tez_am_resource_memory_mb - auto set so commented out here and in config
+  #tez_am_launch_cmd_opts = {
+  #  development = "-Xmx819m"
+  #  qa          = "-Xmx819m"
+  #  integration = "-Xmx819m"
+  #  preprod     = "-Xmx14848m "
+  #  production  = "-Xmx14848m"
+  #}
 
+  # this seems to be a dark art. No real guidance so may need adjusting
   hive_tez_sessions_per_queue = {
     development = "10"
     qa          = "10"
@@ -342,27 +347,29 @@ locals {
     production  = "35"
   }
 
-  map_reduce_vcores_per_node = {
-    development = "5"
-    qa          = "5"
-    integration = "5"
-    preprod     = "15"
-    production  = "15"
-  }
+  # not used so commented out for now
+  #map_reduce_vcores_per_node = {
+  #  development = "5"
+  #  qa          = "5"
+  #  integration = "5"
+  #  preprod     = "15"
+  #  production  = "15"
+  #}
 
-  map_reduce_vcores_per_task = {
-    development = "1"
-    qa          = "1"
-    integration = "1"
-    preprod     = "5"
-    production  = "5"
-  }
+  #map_reduce_vcores_per_task = {
+  #  development = "1"
+  #  qa          = "1"
+  #  integration = "1"
+  #  preprod     = "5"
+  #  production  = "5"
+  #}
 
+  # derived from map.reduce.memory.mb as prescribed by cloudera
   hive_tez_container_size = {
     development = "2688"
     qa          = "2688"
     integration = "2688"
-    preprod     = "18560"
+    preprod     = "7680"
     production  = "18560"
   }
 
@@ -371,23 +378,24 @@ locals {
     development = "896"
     qa          = "896"
     integration = "896"
-    preprod     = "896"
+    preprod     = "2534"
     production  = "896"
   }
 
-  hive_bytes_per_reducer = {
-    development = "13421728"
-    qa          = "13421728"
-    integration = "13421728"
-    preprod     = "13421728"
-    production  = "13421728"
-  }
+  #not used so commented out for now
+  #hive_bytes_per_reducer = {
+  #  development = "13421728"
+  #  qa          = "13421728"
+  #  integration = "13421728"
+  #  preprod     = "13421728"
+  #  production  = "13421728"
+  #}
 
   yarn_mapreduce_am_resourcemb = {
     development = "6144"
     qa          = "6144"
     integration = "6144"
-    preprod     = "23808"
+    preprod     = "7680"
     production  = "23808"
   }
 
@@ -403,7 +411,7 @@ locals {
     development = true
     qa          = true
     integration = true
-    preprod     = false
+    preprod     = true
     production  = true
   }
 
@@ -411,7 +419,7 @@ locals {
     development = true
     qa          = true
     integration = true
-    preprod     = false
+    preprod     = true
     production  = true
   }
 
