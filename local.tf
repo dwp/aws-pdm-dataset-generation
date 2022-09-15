@@ -1,3 +1,13 @@
+# These are the preset defaults by EMR for the EC2 instance type m5.8xlarge
+#
+# mapreduce.map.java.opts	-Xmx3072m
+# mapreduce.reduce.java.opts	-Xmx6144m
+# mapreduce.map.memory.mb	3840
+# mapreduce.reduce.memory.mb	7680
+# yarn.app.mapreduce.am.resource.mb	7680
+# yarn.scheduler.minimum-allocation-mb	32
+# yarn.scheduler.maximum-allocation-mb	122880
+# yarn.nodemanager.resource.memory-mb	122880
 locals {
   persistence_tag_value = {
     development = "Ignore"
