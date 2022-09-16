@@ -101,6 +101,8 @@ resource "aws_s3_bucket_object" "configurations" {
       yarn_mapreduce_am_resourcemb = local.yarn_mapreduce_am_resourcemb[local.environment]
       hive_blobstore_opts_enabled  = local.hive_blobstore_opts_enabled[local.environment]
       hive_blobstore_as_scratchdir = local.hive_blobstore_as_scratchdir[local.environment]
+      tez_runtime_io_sort                         = format("%.0f", local.hive_tez_container_size[local.environment] * 0.4)
+      tez_runtime_unordered_output_buffer_size_mb = format("%.0f", local.hive_tez_container_size[local.environment] * 0.1)
     }
   )
   tags = {
