@@ -278,7 +278,6 @@ locals {
 #    preprod     = "2148"
 #    production  = "2148"
 #  }
-# default 100, set to 10% hive.tez.container.size
   tez_runtime_unordered_output_buffer_size_mb = {
     development = "268"
     qa          = "268"

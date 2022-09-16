@@ -78,6 +78,11 @@ Configurations:
     "tez.am.container.reuse.enabled": "true"
     "tez.grouping.min-size": "${tez_grouping_min_size}"
     "tez.grouping.max-size": "${tez_grouping_max_size}"
+<<<<<<< HEAD
+=======
+    "tez.am.launch.cmd-opts": "${tez_am_launch_cmd_opts}"
+    "tez.am.container.reuse.enabled": "true"
+>>>>>>> 318a3a4 (config changes)
     "tez.runtime.io.sort": "${tez_runtime_io_sort}"
     "tez.runtime.unordered.output.buffer.size-mb": "${tez_runtime_unordered_output_buffer_size_mb}"
 
