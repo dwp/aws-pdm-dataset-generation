@@ -96,7 +96,6 @@ resource "aws_s3_bucket_object" "configurations" {
       hive_tez_container_size                     = local.hive_tez_container_size[local.environment]
       tez_grouping_min_size                       = local.tez_grouping_min_size[local.environment]
       tez_grouping_max_size                       = local.tez_grouping_max_size[local.environment]
-      tez_am_launch_cmd_opts                      = local.tez_am_launch_cmd_opts[local.environment]
       yarn_mapreduce_am_resourcemb                = local.yarn_mapreduce_am_resourcemb[local.environment]
       hive_blobstore_opts_enabled                 = local.hive_blobstore_opts_enabled[local.environment]
       hive_blobstore_as_scratchdir                = local.hive_blobstore_as_scratchdir[local.environment]
