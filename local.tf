@@ -1,3 +1,13 @@
+# These are the preset defaults by EMR for the EC2 instance type m5.8xlarge
+#
+# mapreduce.map.java.opts	-Xmx3072m
+# mapreduce.reduce.java.opts	-Xmx6144m
+# mapreduce.map.memory.mb	3840
+# mapreduce.reduce.memory.mb	7680
+# yarn.app.mapreduce.am.resource.mb	7680
+# yarn.scheduler.minimum-allocation-mb	32
+# yarn.scheduler.maximum-allocation-mb	122880
+# yarn.nodemanager.resource.memory-mb	122880
 locals {
   persistence_tag_value = {
     development = "Ignore"
@@ -166,11 +176,15 @@ locals {
     production  = "TERMINATE_CLUSTER"
   }
 
+  # Default is 0 but required for transactional tables
+  # documentation suggests only really needed on one server hosting thriftserver
+  # so will set low (not following calculation below from org config)
+  # due to low number of transactional tables
   hive_compaction_threads = {
     development = "1"
     qa          = "1"
     integration = "1"
-    preprod     = "12"
+    preprod     = "2"
     production  = "12" # vCPU in the instance / 8
   }
 
@@ -253,12 +267,21 @@ locals {
     preprod     = true
     production  = true
   }
-
+  # default 100, set to 10% hive.tez.container.size as recommended at
+  # https://community.cloudera.com/t5/Community-Articles/Demystify-Apache-Tez-Memory-Tuning-Step-by-Step/ta-p/245279
+  # uncomment this section (pre tuning settings shown as of 20/7/2022). Change setting in local.tf to use this setting
+  #  tez_runtime_unordered_output_buffer_size_mb = {
+  #    development = "268"
+  #    qa          = "268"
+  #    integration = "268"
+  #    preprod     = "2148"
+  #    production  = "2148"
+  #  }
   tez_runtime_unordered_output_buffer_size_mb = {
     development = "268"
     qa          = "268"
     integration = "268"
-    preprod     = "2148"
+    preprod     = "3072"
     production  = "2148"
   }
 
@@ -267,7 +290,7 @@ locals {
     development = "1075"
     qa          = "1075"
     integration = "1075"
-    preprod     = "1075"
+    preprod     = "3072"
     production  = "1075"
   }
 
@@ -275,7 +298,7 @@ locals {
     development = "1342177"
     qa          = "1342177"
     integration = "1342177"
-    preprod     = "52428800"
+    preprod     = "16777216"
     production  = "52428800"
   }
 
@@ -291,7 +314,7 @@ locals {
     development = "1024"
     qa          = "1024"
     integration = "1024"
-    preprod     = "18560"
+    preprod     = "7680"
     production  = "18560"
   }
 
@@ -304,15 +327,16 @@ locals {
     production  = "1024"
   }
 
-  # 0.8 of tez_am_resource_memory_mb
-  tez_am_launch_cmd_opts = {
-    development = "-Xmx819m"
-    qa          = "-Xmx819m"
-    integration = "-Xmx819m"
-    preprod     = "-Xmx14848m "
-    production  = "-Xmx14848m"
-  }
+  # 0.8 of tez_am_resource_memory_mb - auto set so commented out here and in config
+  #tez_am_launch_cmd_opts = {
+  #  development = "-Xmx819m"
+  #  qa          = "-Xmx819m"
+  #  integration = "-Xmx819m"
+  #  preprod     = "-Xmx14848m "
+  #  production  = "-Xmx14848m"
+  #}
 
+  # this seems to be a dark art. No real guidance so may need adjusting
   hive_tez_sessions_per_queue = {
     development = "10"
     qa          = "10"
@@ -321,37 +345,30 @@ locals {
     production  = "35"
   }
 
-  map_reduce_vcores_per_node = {
-    development = "5"
-    qa          = "5"
-    integration = "5"
-    preprod     = "15"
-    production  = "15"
-  }
+  # not used so commented out for now
+  #map_reduce_vcores_per_node = {
+  #  development = "5"
+  #  qa          = "5"
+  #  integration = "5"
+  #  preprod     = "15"
+  #  production  = "15"
+  #}
 
-  map_reduce_vcores_per_task = {
-    development = "1"
-    qa          = "1"
-    integration = "1"
-    preprod     = "5"
-    production  = "5"
-  }
+  #map_reduce_vcores_per_task = {
+  #  development = "1"
+  #  qa          = "1"
+  #  integration = "1"
+  #  preprod     = "5"
+  #  production  = "5"
+  #}
 
+  # derived from map.reduce.memory.mb as prescribed by cloudera
   hive_tez_container_size = {
     development = "2688"
     qa          = "2688"
     integration = "2688"
-    preprod     = "18560"
+    preprod     = "7680"
     production  = "18560"
-  }
-
-  # 0.8 of hive_tez_container_size
-  hive_tez_java_opts = {
-    development = "-Xmx2150m"
-    qa          = "-Xmx2150m"
-    integration = "-Xmx2150m"
-    preprod     = "-Xmx14848m"
-    production  = "-Xmx14848m"
   }
 
   # 0.33 of hive_tez_container_size
@@ -359,41 +376,25 @@ locals {
     development = "896"
     qa          = "896"
     integration = "896"
-    preprod     = "896"
+    preprod     = "2534"
     production  = "896"
   }
 
-  hive_bytes_per_reducer = {
-    development = "13421728"
-    qa          = "13421728"
-    integration = "13421728"
-    preprod     = "13421728"
-    production  = "13421728"
-  }
+  #not used so commented out for now
+  #hive_bytes_per_reducer = {
+  #  development = "13421728"
+  #  qa          = "13421728"
+  #  integration = "13421728"
+  #  preprod     = "13421728"
+  #  production  = "13421728"
+  #}
 
   yarn_mapreduce_am_resourcemb = {
     development = "6144"
     qa          = "6144"
     integration = "6144"
-    preprod     = "23808"
+    preprod     = "7680"
     production  = "23808"
-  }
-
-  // This value should be the same as yarn.scheduler.maximum-allocation-mb
-  llap_daemon_yarn_container_mb = {
-    development = "57344"
-    qa          = "57344"
-    integration = "57344"
-    preprod     = "253952"
-    production  = "253952"
-  }
-
-  llap_number_of_instances = {
-    development = "5"
-    qa          = "5"
-    integration = "5"
-    preprod     = "15"
-    production  = "15"
   }
 
   hive_max_reducers = {
@@ -408,7 +409,7 @@ locals {
     development = true
     qa          = true
     integration = true
-    preprod     = false
+    preprod     = true
     production  = true
   }
 
@@ -416,7 +417,7 @@ locals {
     development = true
     qa          = true
     integration = true
-    preprod     = false
+    preprod     = true
     production  = true
   }
 

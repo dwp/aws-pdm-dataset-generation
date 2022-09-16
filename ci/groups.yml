@@ -10,6 +10,7 @@ groups:
   - name: pull-request
     jobs:
       - pdm-dataset-generation-pr
+      - pdm-dataset-generation-dev-pr
 
   - name: common-model-inputs
     jobs:
