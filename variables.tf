@@ -42,17 +42,17 @@ variable "emr_instance_type_master_one" {
     development = "m5.4xlarge"
     qa          = "m5.4xlarge"
     integration = "m5.4xlarge"
-    preprod     = "m5.8xlarge"
+    preprod     = "m5.16xlarge"
     production  = "m5.16xlarge"
   }
 }
 
 variable "emr_instance_type_core_one" {
   default = {
-    development = "m5.xlarge"
+    development = "m5.2xlarge"
     qa          = "m5.2xlarge"
     integration = "m5.2xlarge"
-    preprod     = "m5.8xlarge"
+    preprod     = "m5.16xlarge"
     production  = "m5.16xlarge"
   }
 }
@@ -65,10 +65,10 @@ variable "metadata_store_pdm_writer_username" {
 # This is weighted not a count of instances
 variable "emr_core_instance_capacity_on_demand" {
   default = {
-    development = "20"
+    development = "10"
     qa          = "10"
     integration = "10"
-    preprod     = "120"
+    preprod     = "39"
     production  = "39"
   }
 }
