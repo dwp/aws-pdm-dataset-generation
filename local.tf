@@ -301,7 +301,7 @@ locals {
     development = "1024"
     qa          = "1024"
     integration = "1024"
-    preprod     = "7680"
+    preprod     = "7168"
     production  = "18560"
   }
 
@@ -310,7 +310,7 @@ locals {
     development = "1024"
     qa          = "1024"
     integration = "1024"
-    preprod     = "6144"
+    preprod     = "5734"
     production  = "1024"
   }
 
@@ -319,7 +319,7 @@ locals {
     development = "-Xmx819m"
     qa          = "-Xmx819m"
     integration = "-Xmx819m"
-    preprod     = "-Xmx6144m "
+    preprod     = "-Xmx5734m "
     production  = "-Xmx14848m"
   }
 
@@ -351,7 +351,7 @@ locals {
     development = "2688"
     qa          = "2688"
     integration = "2688"
-    preprod     = "7680"
+    preprod     = "7168"
     production  = "18560"
   }
 
@@ -360,7 +360,7 @@ locals {
     development = "-Xmx2150m"
     qa          = "-Xmx2150m"
     integration = "-Xmx2150m"
-    preprod     = "-Xmx6144m"
+    preprod     = "-Xmx5734m"
     production  = "-Xmx14848m"
   }
 
@@ -369,7 +369,7 @@ locals {
     development = "896"
     qa          = "896"
     integration = "896"
-    preprod     = "2534"
+    preprod     = "2365"
     production  = "896"
   }
 
@@ -385,7 +385,7 @@ locals {
     development = "6144"
     qa          = "6144"
     integration = "6144"
-    preprod     = "7680"
+    preprod     = "7168"
     production  = "23808"
   }
 
