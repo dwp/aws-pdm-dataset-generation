@@ -320,7 +320,7 @@ locals {
     qa          = "-Xmx819m"
     integration = "-Xmx819m"
     preprod     = "-Xmx5734m "
-    production  = "-Xmx14848m"
+    production  = "-Xmx5734m"
   }
 
   hive_tez_sessions_per_queue = {
