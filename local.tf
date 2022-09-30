@@ -181,7 +181,7 @@ locals {
     qa          = "1"
     integration = "1"
     preprod     = "2"
-    production  = "12" # vCPU in the instance / 8
+    production  = "2" # vCPU in the instance / 8
   }
 
   retry_max_attempts = {
@@ -286,7 +286,7 @@ locals {
     qa          = "1342177"
     integration = "1342177"
     preprod     = "16777216"
-    production  = "52428800"
+    production  = "16777216"
   }
 
   tez_grouping_max_size = {
@@ -302,7 +302,7 @@ locals {
     qa          = "1024"
     integration = "1024"
     preprod     = "7168"
-    production  = "18560"
+    production  = "7168"
   }
 
   # 0.8 of hive_tez_container_size
@@ -311,7 +311,7 @@ locals {
     qa          = "1024"
     integration = "1024"
     preprod     = "5734"
-    production  = "1024"
+    production  = "5734"
   }
 
   # 0.8 of tez_am_resource_memory_mb
@@ -320,7 +320,7 @@ locals {
     qa          = "-Xmx819m"
     integration = "-Xmx819m"
     preprod     = "-Xmx5734m "
-    production  = "-Xmx14848m"
+    production  = "-Xmx5734m"
   }
 
   hive_tez_sessions_per_queue = {
@@ -352,7 +352,7 @@ locals {
     qa          = "2688"
     integration = "2688"
     preprod     = "7168"
-    production  = "18560"
+    production  = "7168"
   }
 
   # 0.8 of hive_tez_container_size
@@ -361,7 +361,7 @@ locals {
     qa          = "-Xmx2150m"
     integration = "-Xmx2150m"
     preprod     = "-Xmx5734m"
-    production  = "-Xmx14848m"
+    production  = "-Xmx5734m"
   }
 
   # 0.33 of hive_tez_container_size
@@ -370,7 +370,7 @@ locals {
     qa          = "896"
     integration = "896"
     preprod     = "2365"
-    production  = "896"
+    production  = "2365"
   }
 
   #hive_bytes_per_reducer = {
@@ -386,7 +386,7 @@ locals {
     qa          = "6144"
     integration = "6144"
     preprod     = "7168"
-    production  = "23808"
+    production  = "7168"
   }
 
   // This value should be the same as yarn.scheduler.maximum-allocation-mb
@@ -439,7 +439,7 @@ locals {
     qa          = false
     integration = false
     preprod     = false
-    production  = true
+    production  = false
   }
 
   emr_subnet_non_capacity_reserved_environments = data.terraform_remote_state.common.outputs.aws_ec2_non_capacity_reservation_region
