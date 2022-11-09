@@ -96,12 +96,6 @@ Steps:
     - "/var/ci/create-views-tables.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
-- Name: "collect-metrics"
-  HadoopJarStep:
-    Args:
-    - "/var/ci/collect-metrics.sh"
-    Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
-  ActionOnFailure: "CONTINUE"
 - Name: "additional-metrics"
   HadoopJarStep:
     Args:
