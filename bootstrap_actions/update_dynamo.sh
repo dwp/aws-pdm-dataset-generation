@@ -183,15 +183,13 @@
     CURRENT_STEP_COUNT=1
     while [[ "$CURRENT_STEP_COUNT" -le "$STEP_COUNT" ]]; do
 
-        JSON_STRING='{\n  "id": %s,\n  "args": [\n    "%s"\n  ],\n  "state": "%s"\n}\n'
-        printf "$JSON_STRING" "$(sed "$CURRENT_STEP_COUNT!d" < "$TMP_STEP_JSON_OUTPUT_LOCATION/seq.txt")" "$(sed "$CURRENT_STEP_COUNT!d" < "$TMP_STEP_JSON_OUTPUT_LOCATION/args.txt")" "$(sed "$CURRENT_STEP_COUNT!d" < "$TMP_STEP_JSON_OUTPUT_LOCATION/state.txt")" > "$TMP_STEP_JSON_OUTPUT_LOCATION/$CURRENT_STEP_COUNT.json"
+        printf '{\n  "id": %s,\n  "args": [\n    "%s"\n  ],\n  "state": "%s"\n}\n' "$(sed "$CURRENT_STEP_COUNT!d" < "$TMP_STEP_JSON_OUTPUT_LOCATION/seq.txt")" "$(sed "$CURRENT_STEP_COUNT!d" < "$TMP_STEP_JSON_OUTPUT_LOCATION/args.txt")" "$(sed "$CURRENT_STEP_COUNT!d" < "$TMP_STEP_JSON_OUTPUT_LOCATION/state.txt")" > "$TMP_STEP_JSON_OUTPUT_LOCATION/$CURRENT_STEP_COUNT.json"
 
         # move json that has completed & running state to step watch dir
         if grep -q "$COMPLETED_STATUS" "$TMP_STEP_JSON_OUTPUT_LOCATION/$CURRENT_STEP_COUNT.json" || grep -q "$RUNNING_STATUS" "$TMP_STEP_JSON_OUTPUT_LOCATION/$CURRENT_STEP_COUNT.json"; then
             mv "$TMP_STEP_JSON_OUTPUT_LOCATION/$CURRENT_STEP_COUNT.json" "$STEP_JSON_OUTPUT_LOCATION/$CURRENT_STEP_COUNT.json"
         fi
-
-        let CURRENT_STEP_COUNT=CURRENT_STEP_COUNT+1
+          CURRENT_STEP_COUNT=$((CURRENT_STEP_COUNT+1))
         sleep 0.5
     done
   }
