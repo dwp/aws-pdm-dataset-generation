@@ -153,7 +153,7 @@
     grep -A 1 -E '^\s*stepEntities {' job-flow-state.txt | grep sequence: | sed 's/^[ \t]*//g' > $TMP_STEP_JSON_OUTPUT_LOCATION/seq.txt
 
     # step argument to a flat file (this always aligns/matches with step sequence)
-    grep -A 2 -E ': "s-' job-flow-state.txt | grep 'arg: ' | sed 's/^[ \t]*//g' | tr -d '"' | cut -c 6- > $TMP_STEP_JSON_OUTPUT_LOCATION/args.txt
+    grep -A 2 -E 'id: "s-' job-flow-state.txt | grep 'arg: ' | sed 's/^[ \t]*//g' | tr -d '"' | cut -c 6- > $TMP_STEP_JSON_OUTPUT_LOCATION/args.txt
 
     # step-ids to a flat file (required to get step status, no other use)
     while IFS= read -r line;
