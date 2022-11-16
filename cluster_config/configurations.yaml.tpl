@@ -26,7 +26,7 @@ Configurations:
     "javax.jdo.option.ConnectionPassword": ${hive_metastore_pwd}
     "hive.mapred.mode": "nonstrict"
     "hive.strict.checks.cartesian.product": "false"
-    "hive.exec.parallel": "true"
+    "hive.exec.parallel": "false"
     "hive.exec.failure.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"
     "hive.exec.post.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"
     "hive.exec.pre.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"
@@ -54,6 +54,7 @@ Configurations:
     "hive.compactor.worker.timeout": "86400"
     "hive.blobstore.optimizations.enabled": "${hive_blobstore_opts_enabled}"
     "hive.blobstore.use.blobstore.as.scratchdir": "${hive_blobstore_as_scratchdir}"
+    "hive.blobstore.use.output-committer": "${hive_blobstore_use_output-committer}"
     "hive.server2.tez.session.lifetime": "0"
     "hive.exec.reducers.max": "${hive_max_reducers}"
     "hive.convert.join.bucket.mapjoin.tez": "false"
