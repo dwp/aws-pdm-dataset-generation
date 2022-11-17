@@ -438,7 +438,7 @@ locals {
     production  = false
   }
 
-  hive_exec_parallel  = {
+  hive_exec_parallel = {
     development = false
     qa          = false
     integration = false
