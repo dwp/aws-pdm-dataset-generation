@@ -26,7 +26,7 @@ Configurations:
     "javax.jdo.option.ConnectionPassword": ${hive_metastore_pwd}
     "hive.mapred.mode": "nonstrict"
     "hive.strict.checks.cartesian.product": "false"
-    "hive.exec.parallel": "false"
+    "hive.exec.parallel": "${hive_exec_parallel}"
     "hive.exec.failure.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"
     "hive.exec.post.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"
     "hive.exec.pre.hooks": "org.apache.hadoop.hive.ql.hooks.ATSHook"

@@ -438,6 +438,14 @@ locals {
     production  = false
   }
 
+  hive_exec_parallel  = {
+    development = false
+    qa          = false
+    integration = false
+    preprod     = false
+    production  = true
+  }
+
   emr_capacity_reservation_preference = local.use_capacity_reservation[local.environment] == true ? "open" : "none"
 
   emr_capacity_reservation_usage_strategy = local.use_capacity_reservation[local.environment] == true ? "use-capacity-reservations-first" : ""

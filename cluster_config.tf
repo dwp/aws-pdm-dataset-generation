@@ -102,6 +102,7 @@ resource "aws_s3_bucket_object" "configurations" {
       hive_blobstore_opts_enabled                 = local.hive_blobstore_opts_enabled[local.environment]
       hive_blobstore_as_scratchdir                = local.hive_blobstore_as_scratchdir[local.environment]
       hive_blobstore_use_output-committer         = local.hive_blobstore_use_output-committer[local.environment]
+      hive_exec_parallel                          = local.hive_exec_parallel[local.environment]
       tez_runtime_io_sort                         = format("%.0f", local.hive_tez_container_size[local.environment] * 0.4)
       tez_runtime_unordered_output_buffer_size_mb = format("%.0f", local.hive_tez_container_size[local.environment] * 0.1)
     }
