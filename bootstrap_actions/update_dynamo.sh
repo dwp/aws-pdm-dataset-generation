@@ -218,10 +218,10 @@
   READY_TO_BUILD_JSON=0
   while [[ ! "$READY_TO_BUILD_JSON" == 1 ]]; do
       if grep -q 'stepEntities' "$STEP_DETAILS_DIR/job-flow-state.txt" ; then
-          log_wrapper_message "Step metadata are now available ..."
           READY_TO_BUILD_JSON=1
           sleep 5
           build_step_json_file
+          log_wrapper_message "Step metadata are now available ..."
       else
           log_wrapper_message "Waiting for step metadata  ..."
           sleep 10
