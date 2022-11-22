@@ -147,7 +147,7 @@
   }
 
   build_step_json_file() {
-    cd "$STEP_DETAILS_DIR" || ! log_wrapper_message "Issue encountered while changing the working directory to $STEP_DETAILS_DIR"
+    cd "$STEP_DETAILS_DIR" || { log_wrapper_message "Issue encountered while changing the working directory to $STEP_DETAILS_DIR"; exit; }
 
     # step sequence to a flat file
     grep -A 1 -E '^\s*stepEntities {' job-flow-state.txt | grep sequence: | sed 's/^[ \t]*//g' > $TMP_STEP_JSON_OUTPUT_LOCATION/seq.txt
