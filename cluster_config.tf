@@ -15,7 +15,7 @@ resource "aws_s3_object" "cluster" {
       instance_profile       = aws_iam_instance_profile.pdm_dataset_generator.arn
       security_configuration = aws_emr_security_configuration.ebs_emrfs_em.id
       emr_release_label      = var.emr_release[local.environment]
-      environment_tag_value  = local.common_repo_tags.DWX_Environment
+      environment_tag_value  = local.tags.DWX_Environment
     }
   )
   tags = {
