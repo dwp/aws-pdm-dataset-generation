@@ -3,7 +3,7 @@ resource "aws_emr_security_configuration" "ebs_emrfs_em" {
   configuration = jsonencode(local.ebs_emrfs_em)
 }
 
-resource "aws_s3_bucket_object" "cluster" {
+resource "aws_s3_object" "cluster" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "emr/pdm/cluster.yaml"
   content = templatefile("${path.module}/cluster_config/cluster.yaml.tpl",
@@ -15,7 +15,7 @@ resource "aws_s3_bucket_object" "cluster" {
       instance_profile       = aws_iam_instance_profile.pdm_dataset_generator.arn
       security_configuration = aws_emr_security_configuration.ebs_emrfs_em.id
       emr_release_label      = var.emr_release[local.environment]
-      environment_tag_value  = local.common_repo_tags.Environment
+      environment_tag_value  = local.tags.DWX_Environment
     }
   )
   tags = {
@@ -23,7 +23,7 @@ resource "aws_s3_bucket_object" "cluster" {
   }
 }
 
-resource "aws_s3_bucket_object" "instances" {
+resource "aws_s3_object" "instances" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "emr/pdm/instances.yaml"
   content = templatefile("${path.module}/cluster_config/instances.yaml.tpl",
@@ -51,7 +51,7 @@ resource "aws_s3_bucket_object" "instances" {
   }
 }
 
-resource "aws_s3_bucket_object" "steps" {
+resource "aws_s3_object" "steps" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "emr/pdm/steps.yaml"
   content = templatefile("${path.module}/cluster_config/steps.yaml.tpl",
@@ -71,7 +71,7 @@ data "aws_secretsmanager_secret" "rds_aurora_secrets" {
   name     = "metadata-store-v2-pdm-writer"
 }
 
-resource "aws_s3_bucket_object" "configurations" {
+resource "aws_s3_object" "configurations" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "emr/pdm/configurations.yaml"
   content = templatefile("${path.module}/cluster_config/configurations.yaml.tpl",
