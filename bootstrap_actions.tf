@@ -33,6 +33,16 @@ resource "aws_s3_object" "emr_setup_sh" {
   }
 }
 
+resource "aws_s3_object" "config_hcs_script" {
+  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
+  key        = "component/pdm-dataset-generation/config_hcs.sh"
+  content    = file("${path.module}/bootstrap_actions/config_hcs.sh")
+  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
+  tags = {
+    Name = "config_hcs_script"
+  }
+}
+
 resource "aws_s3_object" "ssm_script" {
   bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
   key     = "component/pdm-dataset-generation/start_ssm.sh"
