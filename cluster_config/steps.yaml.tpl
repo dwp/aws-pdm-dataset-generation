@@ -3,6 +3,14 @@ BootstrapActions:
 - Name: "download-scripts"
   ScriptBootstrapAction:
     Path: "s3://${s3_config_bucket}/component/pdm-dataset-generation/download_scripts.sh"
+- Name: "config_hcs"
+  ScriptBootstrapAction:
+    Path: "file:/var/ci/config_hcs.sh"
+    Args: [
+      "${environment}", 
+      "${proxy_http_host}",
+      "${proxy_http_port}"
+    ]
 - Name: "start_ssm"
   ScriptBootstrapAction:
     Path: "file:/var/ci/start_ssm.sh"
