@@ -32,7 +32,8 @@ SOURCE_DIR=/opt/emr/sql/extracted/src/main/resources/scripts/transform
         | xargs -n1 -P"${processes}" /opt/emr/with_retry.sh hive \
                 --hivevar source_database="$SOURCE_DB" \
                 --hivevar transform_database="$TRANSFORM_DB" \
-                --hivevar dictionary_path="$DICTIONARY_LOCATION" -f; then
+                --hivevar dictionary_path="$DICTIONARY_LOCATION" \
+                --hiveconf hive.root.logger=DEBUG,console -f; then
         echo transform stage failed >&2
         exit 1
     fi
