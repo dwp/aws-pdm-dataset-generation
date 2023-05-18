@@ -299,3 +299,9 @@ resource "aws_s3_object" "replace_rpms_hive_sh" {
     }
   )
 }
+
+resource "aws_s3_bucket_object" "patch_log4j_emr_sh" {
+  bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
+  key     = "component/pdm-dataset-generation/patch-log4j-emr-6.3.1-v2.sh"
+  content = file("${path.module}/bootstrap_actions/patch-log4j-emr-6.3.1-v2.sh")
+}
