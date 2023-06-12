@@ -93,3 +93,7 @@ resource "aws_s3_object" "e2e_pdm_test_output" {
     Name = "e2e_pdm_test_output"
   }
 }
+
+data "aws_ec2_managed_prefix_list" "list" {
+  name = "dwp-*-aws-cidrs-*"
+}
