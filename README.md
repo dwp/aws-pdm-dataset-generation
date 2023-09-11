@@ -1,3 +1,6 @@
+# DO NOT USE THIS REPO - MIGRATED TO GITLAB
+
+
 # aws-pdm-dataset-generation
 Repo for PDM dataset generation
 
